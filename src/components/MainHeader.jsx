@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import SunIcon from '../icons/sun.svg';
@@ -10,13 +10,29 @@ import { useDispatch, useSelector } from 'react-redux';
 const MainHeader = () => {
   const dispatch = useDispatch();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const handleToggleWeather = () => {
     dispatch({ type: 'WEATHER_THEME' });
   };
 
+  const handleScroll = () => {
+    if (window.scrollY > 500) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isScrolled]);
+
   return (
-    <Header>
+    <Header isScrolled={isScrolled}>
       <HeaderInner>
         <Link to="/">
           <Logo>RUNTO</Logo>
@@ -35,6 +51,9 @@ const MainHeader = () => {
               </BtnInner>
             )}
           </WeatherBtn>
+          <Link to="/login">
+            <LoginBtn>로그인</LoginBtn>
+          </Link>
           <Link to="/user">
             <UserBtn>
               <UserIcon />
@@ -56,7 +75,7 @@ const Header = styled.header`
   top: 0;
   left: 0;
   z-index: 9999;
-  background-color: ${({ theme }) => theme.bgColor};
+  background-color: ${({ theme, isScrolled }) => (isScrolled ? theme.bgColorDark : theme.bgColor)};
   box-shadow: 0 0 20px 1px #333333;
 `;
 const HeaderInner = styled.div`
@@ -73,6 +92,7 @@ const Logo = styled.h1`
 const BtnBox = styled.div`
   display: flex;
   align-items: center;
+  gap: 1.5rem;
 `;
 
 const WeatherBtn = styled.button`
@@ -96,4 +116,8 @@ const WeatherText = styled.p`
   font-weight: 500;
 `;
 
+const LoginBtn = styled.button`
+  color: ${({ theme }) => theme.textColor};
+  font-weight: 600;
+`;
 const UserBtn = styled.button``;

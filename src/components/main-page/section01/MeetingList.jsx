@@ -20,8 +20,8 @@ const MeetingList = () => {
     <Container>
       <ListUl>
         {meetingList.map((list) => (
-          <Link to="/detail">
-            <ListLi key={list.id}>
+          <Link to="/detail" key={list.id}>
+            <ListLi>
               <NameBox>
                 <Name>{list.name}</Name>
                 <Person>{list.person}</Person>

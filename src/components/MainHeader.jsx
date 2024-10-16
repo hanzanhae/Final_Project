@@ -4,11 +4,13 @@ import styled from 'styled-components';
 import SunIcon from '../icons/sun.svg';
 import MaskIcon from '../icons/mask.svg';
 import UserIcon from '../icons/UserIcon';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { darkTheme, lightTheme } from '../theme';
 
 const MainHeader = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -29,10 +31,23 @@ const MainHeader = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [isScrolled]);
+  }, []);
+
+  // 헤더배경색
+  let headerBgColor;
+
+  if (location.pathname === '/') {
+    if (isScrolled) {
+      headerBgColor = isDarkMode ? darkTheme.bgColorDark : lightTheme.bgColorDark;
+    } else {
+      headerBgColor = isDarkMode ? darkTheme.bgColor : lightTheme.bgColor;
+    }
+  } else {
+    headerBgColor = isDarkMode ? darkTheme.bgColorDark : lightTheme.bgColorDark;
+  }
 
   return (
-    <Header isScrolled={isScrolled}>
+    <Header $bgcolor={headerBgColor}>
       <HeaderInner>
         <Link to="/">
           <Logo>RUNTO</Logo>
@@ -75,7 +90,7 @@ const Header = styled.header`
   top: 0;
   left: 0;
   z-index: 9999;
-  background-color: ${({ theme, isScrolled }) => (isScrolled ? theme.bgColorDark : theme.bgColor)};
+  background-color: ${({ $bgcolor }) => $bgcolor};
   box-shadow: 0 0 20px 1px #333333;
 `;
 const HeaderInner = styled.div`

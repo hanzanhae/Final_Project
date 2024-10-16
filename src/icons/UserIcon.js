@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyledIcon } from '../styles/main-style';
+import { StyledIcon } from '../styles/MainStyle';
 
 const UserIcon = () => {
   return (

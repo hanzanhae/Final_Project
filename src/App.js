@@ -1,8 +1,8 @@
 import Router from './shared/Router';
-import './App.css';
 import { ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { darkTheme, lightTheme } from './theme';
+import { GlobalStyles } from './styles/GlobalStyles';
 
 function App() {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
@@ -10,6 +10,7 @@ function App() {
 
   return (
     <ThemeProvider theme={currentTheme}>
+      <GlobalStyles />
       <Router />
     </ThemeProvider>
   );

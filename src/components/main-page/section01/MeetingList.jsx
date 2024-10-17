@@ -1,17 +1,47 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+
+import ThumbNailImg from '../../../images/thumbnail.jpg';
+import PinIcon from '../../../icons/map-pin.svg';
+import UsersIcon from '../../../icons/users.svg';
+
+import {
+  Capacity,
+  Container,
+  Icon,
+  ImgBox,
+  InfoBox,
+  InnerDot,
+  InnerText,
+  Keyword,
+  KeywordBox,
+  KeywordDate,
+  KeywordText,
+  ListLi,
+  ListUl,
+  Member,
+  MemberBox,
+  Members,
+  MoreBtn,
+  TimeBox,
+  Title
+} from '../../../styles/main-page/MeetingListStyle';
 
 // 임시모임리스트
 const meetingList = [];
-for (let i = 1; i < 8; i++) {
+for (let i = 1; i <= 8; i++) {
   meetingList.push({
     id: i,
-    name: `모임${i}`,
-    place: `장소1${i}`,
+    thumbNail: ThumbNailImg,
+    title: '방이름',
+    distance: '00km',
+    categoty: '키워드',
+    location: '00동',
     date: '24.10.16',
     time: '10:00',
-    person: '3/10'
+    capacity: '3/10',
+    deadlineDate: '10/31',
+    members: ['이름', '이름', '이름', '이름', '이름', '이름']
   });
 }
 
@@ -22,49 +52,44 @@ const MeetingList = () => {
         {meetingList.map((list) => (
           <Link to="/detail" key={list.id}>
             <ListLi>
-              <NameBox>
-                <Name>{list.name}</Name>
-                <Person>{list.person}</Person>
-              </NameBox>
-              <DateBox>
-                <Date>{list.date}</Date>
-                <Time>{list.time}</Time>
-              </DateBox>
+              <ImgBox ThumbNailImg={ThumbNailImg} />
+              <InfoBox>
+                <KeywordBox>
+                  <KeywordText>
+                    <Keyword>{list.categoty}</Keyword>
+                    <Keyword>{list.categoty}</Keyword>
+                  </KeywordText>
+                  <KeywordDate>~{list.deadlineDate}</KeywordDate>
+                </KeywordBox>
+                <Title>{list.title}</Title>
+                <TimeBox>
+                  <Icon src={PinIcon} alt="pin-icon" />
+                  <InnerText>{list.location}</InnerText>
+                  <InnerDot />
+                  <InnerText>{list.date}</InnerText>
+                  <InnerDot />
+                  <InnerText>{list.time}</InnerText>
+                </TimeBox>
+                <MemberBox>
+                  <Members>
+                    {list.members.map((member, idx) => (
+                      <Member key={idx}>{member}</Member>
+                    ))}
+                  </Members>
+                  <Capacity>
+                    <Icon src={UsersIcon} alt="users-icon" />
+                    {list.capacity}
+                  </Capacity>
+                </MemberBox>
+              </InfoBox>
             </ListLi>
           </Link>
         ))}
       </ListUl>
+      {/* 더보기버튼 */}
+      <MoreBtn>더보기</MoreBtn>
     </Container>
   );
 };
 
 export default MeetingList;
-
-// style
-const Container = styled.div``;
-const ListUl = styled.ul`
-  padding: 2rem 5rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-`;
-const ListLi = styled.li`
-  padding: 1rem;
-  background-color: #ccc;
-  border-radius: 0.5rem;
-`;
-const NameBox = styled.div`
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-const DateBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-`;
-const Name = styled.h3``;
-const Date = styled.p``;
-const Time = styled.p``;
-const Person = styled.p``;

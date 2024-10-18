@@ -15,11 +15,11 @@
   },
   "rules": {
     "prettier/prettier": ["error"],
-    "no-var": "error", // var 금지
     "eqeqeq": "error", // 일치 연산자 사용 필수
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "comma-dangle": ["error", "never"],
     "react/jsx-uses-vars": "error",
-    "linebreak-style": ["error", "unix"]
+    "linebreak-style": ["error", "unix"],
+    "react/prop-types": "off"
   }
 }

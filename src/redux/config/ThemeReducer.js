@@ -1,11 +1,11 @@
-import { darkTheme, lightTheme } from '../theme';
+import { darkTheme, lightTheme } from '../../theme';
 
 const initialState = {
   isDarkMode: false,
   theme: lightTheme
 };
 
-const themeReducer = (state = initialState, action) => {
+const ThemeReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'WEATHER_THEME':
       return {
@@ -18,4 +18,4 @@ const themeReducer = (state = initialState, action) => {
   }
 };
 
-export default themeReducer;
+export default ThemeReducer;

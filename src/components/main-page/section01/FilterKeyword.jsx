@@ -16,7 +16,7 @@ import {
   Ul,
   UlContainer,
   UlTitle
-} from '../../../styles/mainPage/FilterMenuStyle';
+} from '../../../styles/main-page/FilterMenuStyle';
 
 const FilterKeyword = ({ distance, category, option }) => {
   const [isFilterShow, setIsFilterShow] = useState(false);

@@ -7,7 +7,6 @@ import AddMeeting from '../pages/AddMeeting';
 import DetailMeeting from '../pages/DetailMeeting';
 import Login from '../pages/Login';
 
-
 const Router = () => {
   return (
     <BrowserRouter>

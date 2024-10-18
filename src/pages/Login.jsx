@@ -3,7 +3,7 @@ import * as S from '../styles/loginStyle/LoginPageStyle';
 import LoginForm from '../components/login/LoginForm';
 import SignUpForm from '../components/signUp/SignUpForm';
 
-const  Login = () => {
+const Login = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
 
   const handleSignInClick = () => {
@@ -41,4 +41,3 @@ const  Login = () => {
 };
 
 export default Login;
-

@@ -1,4 +1,4 @@
-import { darkTheme, lightTheme } from '../../theme';
+import { darkTheme, lightTheme } from '../../styles/theme';
 
 const initialState = {
   isDarkMode: false,

@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { darkTheme, lightTheme } from '../theme';
+import { darkTheme, lightTheme } from '../styles/theme';
 
 import SunIcon from '../icons/sun.svg';
 import MaskIcon from '../icons/mask.svg';
 
 import {
   BtnBox,
-  BtnInner,
   Header,
   HeaderInner,
   LoginBtn,
   Logo,
+  ThemeBtn,
   UserBtn,
-  WeatherBtn,
+  WeatherBox,
+  WeatherCondition,
   WeatherIcon,
   WeatherText
 } from '../styles/mainPage/HeaderStyle';
 import axios from 'axios';
+import { ThemeIcon } from '../icons/ThemeIcon';
 
 const API_KEY = '947586767a6ce78304ecfd287c3de3ed';
 
@@ -29,7 +31,6 @@ const MainHeader = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
   // 미세먼지 상태관리
-  // const [airPollution, setAirPollution] = useState({});
   const [showText, setShowText] = useState('');
 
   // 현재위치데이터
@@ -55,8 +56,8 @@ const MainHeader = () => {
       );
       // console.log(response.data.list[0].components); // pm10, pm2_5
       const air = response.data.list[0].components;
-      // setAirPollution(air);
       airCondition(air.pm2_5);
+      // airCondition(50);
     } catch (e) {
       console.log(e.message);
     }
@@ -64,21 +65,26 @@ const MainHeader = () => {
 
   // 대기질 표시
   const airCondition = (pm2_5) => {
-    if (pm2_5 === undefined) {
-      setShowText('데이터 없음');
-    } else if (pm2_5 <= 15) {
+    let newTheme;
+    if (pm2_5 <= 15) {
       setShowText('좋음');
+      newTheme = 'light';
     } else if (pm2_5 <= 25) {
       setShowText('보통');
+      newTheme = 'light';
     } else if (pm2_5 <= 50) {
       setShowText('나쁨');
+      newTheme = 'dark';
     } else {
       setShowText('매우나쁨');
+      newTheme = 'dark';
     }
-  };
 
+    dispatch({ type: 'SET_THEME', payload: newTheme });
+  };
+  // 버튼으로 테마변경
   const handleToggleWeather = () => {
-    dispatch({ type: 'WEATHER_THEME' });
+    dispatch({ type: 'TOGGLE_THEME' });
   };
 
   const handleScroll = () => {
@@ -91,7 +97,6 @@ const MainHeader = () => {
 
   useEffect(() => {
     getUserLocation();
-    airCondition();
 
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -101,7 +106,6 @@ const MainHeader = () => {
 
   // 헤더배경색
   let headerBgColor;
-
   if (location.pathname === '/') {
     if (isScrolled) {
       headerBgColor = isDarkMode ? darkTheme.bgColorDark : lightTheme.bgColorDark;
@@ -119,19 +123,18 @@ const MainHeader = () => {
           <Logo>RUNTO</Logo>
         </Link>
         <BtnBox>
-          <WeatherBtn onClick={handleToggleWeather}>
-            {!isDarkMode ? (
-              <BtnInner>
-                <WeatherIcon src={SunIcon} />
-                <WeatherText>현재 대기질은 {showText}, 뛰기 좋은 날입니다</WeatherText>
-              </BtnInner>
-            ) : (
-              <BtnInner>
-                <WeatherIcon src={MaskIcon} />
-                <WeatherText>현재 대기질은 {showText}, 외출을 자제해 주세요</WeatherText>
-              </BtnInner>
-            )}
-          </WeatherBtn>
+          <WeatherCondition>
+            <WeatherBox>
+              <WeatherIcon src={isDarkMode ? MaskIcon : SunIcon} />
+              <WeatherText>
+                현재 대기질은 {showText},{' '}
+                {isDarkMode ? '외출을 자제해 주세요' : '뛰기 좋은 날입니다'}
+              </WeatherText>
+            </WeatherBox>
+            <ThemeBtn onClick={handleToggleWeather}>
+              <ThemeIcon />
+            </ThemeBtn>
+          </WeatherCondition>
           <Link to="/login">
             <LoginBtn>login</LoginBtn>
           </Link>

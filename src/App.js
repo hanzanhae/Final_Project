@@ -4,7 +4,7 @@ import GlobalStyle from './styles/GlobalStyle';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux';
-import { darkTheme, lightTheme } from './theme';
+import { darkTheme, lightTheme } from './styles/theme';
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -1,7 +1,7 @@
 import Router from './shared/Router';
 import { ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux';
-import { darkTheme, lightTheme } from './theme';
+import { darkTheme, lightTheme } from './styles/theme';
 import { GlobalStyles } from './styles/GlobalStyles';
 
 function App() {

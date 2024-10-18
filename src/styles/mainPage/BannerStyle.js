@@ -30,6 +30,8 @@ export const Text = styled.p`
 `;
 
 export const MakeBtn = styled.button`
+  display: flex;
+  align-items: center;
   position: absolute;
   right: 2rem;
   bottom: 2rem;
@@ -41,4 +43,7 @@ export const MakeBtn = styled.button`
   &:hover {
     opacity: 1;
   }
+`;
+export const Icon = styled.img`
+  width: 1.3rem;
 `;

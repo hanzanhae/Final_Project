@@ -27,10 +27,13 @@ export const BtnBox = styled.div`
   gap: 1.5rem;
 `;
 
-export const WeatherBtn = styled.button`
-  margin-right: 2rem;
+export const WeatherCondition = styled.div`
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 `;
-export const BtnInner = styled.div`
+export const WeatherBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,6 +46,12 @@ export const WeatherText = styled.p`
   font-size: 0.8rem;
   font-weight: 600;
   color: ${({ theme }) => theme.textColor};
+`;
+
+export const ThemeBtn = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const LoginBtn = styled.button`

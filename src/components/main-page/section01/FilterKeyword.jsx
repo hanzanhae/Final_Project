@@ -17,10 +17,11 @@ import {
   UlTitle
 } from '../../../styles/main-page/FilterMenuStyle';
 
-const FilterKeyword = ({ distance, category }) => {
+const FilterKeyword = ({ distance, category, option }) => {
   const [isFilterShow, setIsFilterShow] = useState(false);
   const [selectedDistance, setSelectedDistance] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const handleShowFilter = () => {
     setIsFilterShow(!isFilterShow);
@@ -35,16 +36,21 @@ const FilterKeyword = ({ distance, category }) => {
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
   };
+  const handleSelectOption = (option) => {
+    setSelectedOption(option);
+  };
+
   return (
     <FilterBox>
       <FilterTitle onClick={handleShowFilter}>
         원하는 모임을 선택하세요 <BtnIcon src={ArrowDownIcon} />
         {selectedDistance && (
-          <SeletedFilter>{selectedDistance && `${selectedDistance}km`}</SeletedFilter>
+          <SeletedFilter>{selectedDistance && `${selectedDistance}`}</SeletedFilter>
         )}
         {selectedCategory && (
           <SeletedFilter>{selectedCategory && `${selectedCategory}`}</SeletedFilter>
         )}
+        {selectedOption && <SeletedFilter>{selectedOption && `${selectedOption}`}</SeletedFilter>}
       </FilterTitle>
       {isFilterShow && (
         <UlContainer>
@@ -75,6 +81,20 @@ const FilterKeyword = ({ distance, category }) => {
                   isSelected={selectedCategory === category}
                 >
                   {category}
+                </Li>
+              ))}
+            </Ul>
+          </ContainerInner>
+          <ContainerInner>
+            <UlTitle>참가여부</UlTitle>
+            <Ul>
+              {option.map((option) => (
+                <Li
+                  key={option}
+                  onClick={() => handleSelectOption(option)}
+                  isSelected={selectedOption === option}
+                >
+                  {option}
                 </Li>
               ))}
             </Ul>

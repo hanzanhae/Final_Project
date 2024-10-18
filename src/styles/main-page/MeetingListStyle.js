@@ -26,7 +26,7 @@ export const ImgBox = styled.div`
   width: 25%;
   aspect-ratio: 1/1;
   border-radius: 0.5rem;
-  background-image: ${({ ThumbNailImg }) => `url(${ThumbNailImg})`};
+  background-image: url(${(props) => props.$thumbnailimg});
   background-position: center;
 `;
 
@@ -52,6 +52,7 @@ export const Keyword = styled.p`
   background-color: ${({ theme }) => theme.pointColorLight};
   color: ${({ theme }) => theme.pointColor};
   font-size: 0.7rem;
+  font-weight: 600;
   text-align: center;
   border-radius: 1rem;
 `;

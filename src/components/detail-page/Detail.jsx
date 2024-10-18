@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import ChatModal from './ChatModal';
+import { useParams } from 'react-router-dom';
+
+import DetailInfo from './DetailInfo';
+import DetailMember from './DetailMember';
+
+import { ChatBtn, Wrapper } from '../../styles/detail-page/DetailStyle';
+import { meetingList } from '../../meetingList';
 
 const Detail = () => {
+  const { id } = useParams();
   const [isShowChat, setIsShowChat] = useState(false);
+
+  const meet = meetingList.find((m) => m.id === parseInt(id));
 
   const handleShowModal = () => {
     setIsShowChat(!isShowChat);
@@ -11,7 +20,10 @@ const Detail = () => {
 
   return (
     <Wrapper>
-      디테일
+      디테일-{id}
+      <DetailInfo meet={meet} />
+      <DetailMember meet={meet} />
+      {/* 채팅버튼 */}
       <ChatBtn onClick={handleShowModal}>채팅</ChatBtn>
       {/* 모달창 */}
       {isShowChat && <ChatModal />}
@@ -20,21 +32,3 @@ const Detail = () => {
 };
 
 export default Detail;
-
-// style
-const Wrapper = styled.div`
-  margin-top: 10vh;
-`;
-
-// 채팅
-const ChatBtn = styled.button`
-  width: 60px;
-  aspect-ratio: 1/1;
-  border-radius: 100%;
-  background-color: ${({ theme }) => theme.pointColorLight};
-  color: ${({ theme }) => theme.pointColor};
-  font-weight: 600;
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-`;

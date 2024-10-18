@@ -5,8 +5,8 @@ import { darkTheme, lightTheme } from '../theme';
 
 import SunIcon from '../icons/sun.svg';
 import MaskIcon from '../icons/mask.svg';
-import UserIcon from '../icons/UserIcon';
-import LoginIcon from '../icons/LoginIcon';
+// import UserIcon from '../icons/UserIcon';
+// import LoginIcon from '../icons/LoginIcon';
 
 import {
   BtnBox,

@@ -72,10 +72,13 @@ const GlobalStyle = createGlobalStyle`
     }
 
     button {
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
     }
     #root{
-        position: relative;
-        height:100vh;
+      position: relative;
+      height:100vh;
     }
 `;
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import ArrowDownIcon from '../../../icons/arrow-down.svg';
 import CloseIcon from '../../../icons/x-mark.svg';
@@ -104,6 +105,12 @@ const FilterKeyword = ({ distance, category, option }) => {
       )}
     </FilterBox>
   );
+};
+
+FilterKeyword.propTypes = {
+  distance: PropTypes.arrayOf(PropTypes.string).isRequired,
+  category: PropTypes.arrayOf(PropTypes.string).isRequired,
+  option: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default FilterKeyword;

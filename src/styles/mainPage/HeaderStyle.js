@@ -18,7 +18,7 @@ export const HeaderInner = styled.div`
   justify-content: space-between;
 `;
 export const Logo = styled.h1`
-  color: ${({ theme }) => theme.textColor};
+  color: ${({ theme, $isLogin }) => ($isLogin ? '#ffffff' : theme.textColor)};
 `;
 
 export const BtnBox = styled.div`
@@ -45,7 +45,7 @@ export const WeatherIcon = styled.img`
 export const WeatherText = styled.p`
   font-size: 0.8rem;
   font-weight: 600;
-  color: ${({ theme }) => theme.textColor};
+  color: ${({ theme, $isLogin }) => ($isLogin ? '#ffffff' : theme.textColor)};
 `;
 
 export const ThemeBtn = styled.button`
@@ -55,7 +55,7 @@ export const ThemeBtn = styled.button`
 `;
 
 export const LoginBtn = styled.button`
-  color: ${({ theme }) => theme.textColor};
+  color: ${({ theme, $isLogin }) => ($isLogin ? '#ffffff' : theme.textColor)};
   font-weight: 600;
   text-transform: uppercase;
   opacity: 0.8;
@@ -64,7 +64,7 @@ export const LoginBtn = styled.button`
   }
 `;
 export const UserBtn = styled.button`
-  color: ${({ theme }) => theme.textColor};
+  color: ${({ theme, $isLogin }) => ($isLogin ? '#ffffff' : theme.textColor)};
   font-weight: 600;
   text-transform: uppercase;
 

@@ -5,6 +5,7 @@ import { darkTheme, lightTheme } from '../styles/theme';
 
 import SunIcon from '../icons/sun.svg';
 import MaskIcon from '../icons/mask.svg';
+import { ThemeIcon } from '../icons/ThemeIcon';
 
 import {
   BtnBox,
@@ -20,7 +21,6 @@ import {
   WeatherText
 } from '../styles/mainPage/HeaderStyle';
 import axios from 'axios';
-import { ThemeIcon } from '../icons/ThemeIcon';
 
 const API_KEY = '947586767a6ce78304ecfd287c3de3ed';
 
@@ -104,7 +104,8 @@ const MainHeader = () => {
     };
   }, []);
 
-  // 헤더배경색
+  // 페이지별 헤더테마색상
+  let loginPath = location.pathname === '/login';
   let headerBgColor;
   if (location.pathname === '/') {
     if (isScrolled) {
@@ -112,6 +113,8 @@ const MainHeader = () => {
     } else {
       headerBgColor = isDarkMode ? darkTheme.bgColor : lightTheme.bgColor;
     }
+  } else if (location.pathname === '/login') {
+    headerBgColor = darkTheme.bgColor;
   } else {
     headerBgColor = isDarkMode ? darkTheme.bgColorDark : lightTheme.bgColorDark;
   }
@@ -120,13 +123,13 @@ const MainHeader = () => {
     <Header $bgcolor={headerBgColor}>
       <HeaderInner>
         <Link to="/">
-          <Logo>RUNTO</Logo>
+          <Logo $isLogin={loginPath}>RUNTO</Logo>
         </Link>
         <BtnBox>
           <WeatherCondition>
             <WeatherBox>
               <WeatherIcon src={isDarkMode ? MaskIcon : SunIcon} />
-              <WeatherText>
+              <WeatherText $isLogin={loginPath}>
                 현재 대기질은 {showText},{' '}
                 {isDarkMode ? '외출을 자제해 주세요' : '뛰기 좋은 날입니다'}
               </WeatherText>
@@ -136,10 +139,10 @@ const MainHeader = () => {
             </ThemeBtn>
           </WeatherCondition>
           <Link to="/login">
-            <LoginBtn>login</LoginBtn>
+            <LoginBtn $isLogin={loginPath}>login</LoginBtn>
           </Link>
           <Link to="/user">
-            <UserBtn>mypage</UserBtn>
+            <UserBtn $isLogin={loginPath}>mypage</UserBtn>
           </Link>
         </BtnBox>
       </HeaderInner>

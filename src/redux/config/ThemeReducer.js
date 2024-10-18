@@ -7,7 +7,13 @@ const initialState = {
 
 const ThemeReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'WEATHER_THEME':
+    case 'SET_THEME':
+      return {
+        ...state,
+        isDarkMode: action.payload === 'dark',
+        theme: action.payload === 'dark' ? darkTheme : lightTheme
+      };
+    case 'TOGGLE_THEME':
       return {
         ...state,
         isDarkMode: !state.isDarkMode,

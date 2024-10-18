@@ -5,23 +5,17 @@ const initialState = {
   theme: lightTheme
 };
 
-const themeReducer = (state = initialState, action) => {
+const ThemeReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'TOGGLE_THEME':
+    case 'WEATHER_THEME':
       return {
         ...state,
         isDarkMode: !state.isDarkMode,
         theme: state.isDarkMode ? lightTheme : darkTheme
-      };
-    case 'SET_THEME':
-      return {
-        ...state,
-        isDarkMode: action.payload === 'dark',
-        theme: action.payload === 'dark' ? darkTheme : lightTheme
       };
     default:
       return state;
   }
 };
 
-export default themeReducer;
+export default ThemeReducer;

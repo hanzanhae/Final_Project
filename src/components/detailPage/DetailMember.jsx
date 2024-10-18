@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import MemberMenu from './MemberMenu';
-
+import PropTypes from 'prop-types';
 // style
 import {
   Member,
@@ -37,6 +37,13 @@ const DetailMember = ({ meet }) => {
       </MemberBox>
     </MemberContaier>
   );
+};
+
+DetailMember.propTypes = {
+  meet: PropTypes.shape({
+    capacity: PropTypes.string.isRequired,
+    members: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default DetailMember;

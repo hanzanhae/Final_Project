@@ -1,10 +1,7 @@
 import React from 'react';
-
-// icon
+import PropTypes from 'prop-types';
 import CalendarIcon from '../../icons/calendar.svg';
 import PinIcon from '../../icons/map-pin.svg';
-
-// style
 import {
   Date,
   Deadline,
@@ -72,5 +69,16 @@ const DetailInfo = ({ meet }) => {
     </InfoContaier>
   );
 };
-
+DetailInfo.propTypes = {
+  meet: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    deadlineDate: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    time: PropTypes.string.isRequired,
+    detailLocation: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired
+  }).isRequired
+};
 export default DetailInfo;

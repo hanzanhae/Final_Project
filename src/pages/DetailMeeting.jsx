@@ -1,5 +1,5 @@
 import React from 'react';
-import Detail from '../components/detail-page/Detail';
+import Detail from '../components/detailPage/Detail';
 
 const DetailMeeting = () => {
   return <Detail />;

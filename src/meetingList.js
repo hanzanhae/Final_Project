@@ -2,7 +2,7 @@ import thumbnailimg from '../src/images/thumbnail.jpg';
 
 // 임시모임리스트
 export const meetingList = [];
-for (let i = 1; i <= 8; i++) {
+for (let i = 1; i <= 20; i++) {
   meetingList.push({
     id: i,
     thumbNail: thumbnailimg,

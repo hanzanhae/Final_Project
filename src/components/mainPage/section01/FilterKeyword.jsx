@@ -20,44 +20,60 @@ import {
 
 const FilterKeyword = ({ distance, category, option }) => {
   const [isFilterShow, setIsFilterShow] = useState(false);
-  const [selectedDistance, setSelectedDistance] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedDistance, setSelectedDistance] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState([]);
 
+  // 필터메뉴 on/off
   const handleShowFilter = () => {
     setIsFilterShow(!isFilterShow);
   };
   const handleCloseFilter = () => {
     setIsFilterShow(false);
   };
-
+  // 각각 필터선택 >> 카테고리만 다중선택 가능
+  const handleSelectOption = (option) => {
+    setSelectedOption(option);
+  };
   const handleSelectDistance = (distance) => {
     setSelectedDistance(distance);
   };
   const handleSelectCategory = (category) => {
-    setSelectedCategory(category);
-  };
-  const handleSelectOption = (option) => {
-    setSelectedOption(option);
+    setSelectedCategory((prev) =>
+      prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
+    );
   };
 
   return (
     <FilterBox>
       <FilterTitle onClick={handleShowFilter}>
         원하는 모임을 선택하세요 <BtnIcon src={ArrowDownIcon} />
-        {selectedDistance && (
-          <SeletedFilter>{selectedDistance && `${selectedDistance}`}</SeletedFilter>
-        )}
-        {selectedCategory && (
-          <SeletedFilter>{selectedCategory && `${selectedCategory}`}</SeletedFilter>
-        )}
-        {selectedOption && <SeletedFilter>{selectedOption && `${selectedOption}`}</SeletedFilter>}
+        {selectedOption && <SeletedFilter>{selectedOption}</SeletedFilter>}
+        {selectedDistance && <SeletedFilter>{selectedDistance}</SeletedFilter>}
+        {selectedCategory.length > 0 &&
+          selectedCategory.map((category, idx) => (
+            <SeletedFilter key={idx}>{category}</SeletedFilter>
+          ))}
       </FilterTitle>
       {isFilterShow && (
         <UlContainer>
           <CloseBtn onClick={handleCloseFilter}>
             <BtnIcon src={CloseIcon} />
           </CloseBtn>
+          <ContainerInner>
+            <UlTitle>참가</UlTitle>
+            <Ul>
+              {option.map((option) => (
+                <Li
+                  key={option}
+                  onClick={() => handleSelectOption(option)}
+                  isSelected={selectedOption === option}
+                >
+                  {option}
+                </Li>
+              ))}
+            </Ul>
+          </ContainerInner>
           <ContainerInner>
             <UlTitle>키로수</UlTitle>
             <Ul>
@@ -79,23 +95,9 @@ const FilterKeyword = ({ distance, category, option }) => {
                 <Li
                   key={category}
                   onClick={() => handleSelectCategory(category)}
-                  isSelected={selectedCategory === category}
+                  isSelected={selectedCategory.includes(category)}
                 >
                   {category}
-                </Li>
-              ))}
-            </Ul>
-          </ContainerInner>
-          <ContainerInner>
-            <UlTitle>참가여부</UlTitle>
-            <Ul>
-              {option.map((option) => (
-                <Li
-                  key={option}
-                  onClick={() => handleSelectOption(option)}
-                  isSelected={selectedOption === option}
-                >
-                  {option}
                 </Li>
               ))}
             </Ul>

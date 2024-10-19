@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChatModal from './ChatModal';
 import { useParams } from 'react-router-dom';
 
@@ -17,6 +17,10 @@ const Detail = () => {
   const handleShowModal = () => {
     setIsShowChat(!isShowChat);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Wrapper>

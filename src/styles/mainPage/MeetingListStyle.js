@@ -117,8 +117,15 @@ export const MoreBtn = styled.button`
   padding: 1rem 2rem;
   background-color: #f0f0f0;
   border-radius: 2rem;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: #666;
   &:hover {
-    color: #111;
+    color: #000;
   }
+`;
+export const MoreMsg = styled.p`
+  font-size: 0.8rem;
+  color: #666;
+  text-align: center;
 `;

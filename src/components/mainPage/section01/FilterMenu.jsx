@@ -6,7 +6,7 @@ import { FilterMenuWrapper } from '../../../styles/mainPage/FilterMenuStyle';
 
 const distance = ['자유', '3', '5', '15', '21.0975', '42.195'];
 const category = ['런린이', '고인물', '마라톤', '모닝런닝', '퇴근런닝', '건강'];
-const option = ['전체', '참여가능'];
+const option = ['전체', '참여가능', '마감임박'];
 
 const FilterMenu = () => {
   return (

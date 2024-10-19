@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { meetingList } from '../../../meetingList';
 
+// icon
 import PinIcon from '../../../icons/map-pin.svg';
 import UsersIcon from '../../../icons/users.svg';
-import { meetingList } from '../../../meetingList';
 
 import {
   Capacity,
@@ -23,15 +24,27 @@ import {
   MemberBox,
   Members,
   MoreBtn,
+  MoreMsg,
   TimeBox,
   Title
 } from '../../../styles/mainPage/MeetingListStyle';
 
+const LIST_PERPAGE = 8;
+
 const MeetingList = () => {
+  // 페이지네이션 상태관리
+  const [visibleList, setVisibleList] = useState(LIST_PERPAGE);
+  const currentMeetingList = meetingList.slice(0, visibleList);
+
+  // 더보기클릭 함수
+  const handleClickMorePage = () => {
+    setVisibleList((prev) => prev + LIST_PERPAGE);
+  };
+
   return (
     <Container>
       <ListUl>
-        {meetingList.map((list) => (
+        {currentMeetingList.map((list) => (
           <Link to={`/detail/${list.id}`} key={list.id}>
             <ListLi>
               <ImgBox $thumbnailimg={list.thumbNail} />
@@ -68,8 +81,12 @@ const MeetingList = () => {
           </Link>
         ))}
       </ListUl>
-      {/* 페이지네이션 구현예정 */}
-      <MoreBtn>더보기</MoreBtn>
+      {/* 페이지네이션 더보기버튼 */}
+      {visibleList < meetingList.length ? (
+        <MoreBtn onClick={handleClickMorePage}>더보기</MoreBtn>
+      ) : (
+        <MoreMsg>마지막 페이지입니다.</MoreMsg>
+      )}
     </Container>
   );
 };

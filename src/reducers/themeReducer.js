@@ -4,7 +4,6 @@ const initialState = {
   isDarkMode: false,
   theme: lightTheme
 };
-
 const themeReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'WEATHER_THEME':

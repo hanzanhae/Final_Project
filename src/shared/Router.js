@@ -5,13 +5,14 @@ import MainHeader from '../components/MainHeader';
 import User from '../pages/User';
 import AddMeeting from '../pages/AddMeeting';
 import DetailMeeting from '../pages/DetailMeeting';
+import Calendar from '../components/Calendar';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <MainHeader />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Calendar/>} />
         <Route path="/user" element={<User />} />
         <Route path="/addMeet" element={<AddMeeting />} />
         <Route path="/detail" element={<DetailMeeting />} />

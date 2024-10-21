@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BlueBtn } from '../../components/button/UniBtn';
 
 export const FilterMenuWrapper = styled.div`
   width: 100%;
@@ -75,19 +76,10 @@ export const Li = styled.li`
     background-color: ${({ theme }) => theme.pointColorLight};
   }
 `;
-export const FilterBtn = styled.button`
+export const FilterBtn = styled(BlueBtn)`
   float: right;
   margin-top: 1rem;
   padding: 0.25rem 0.5rem;
-  background-color: ${({ theme }) => theme.pointColor};
-  color: #fff;
-  border-radius: 0.25rem;
-  font-size: 0.8rem;
-  font-weight: 500;
-  opacity: 0.8;
-  &:hover {
-    opacity: 1;
-  }
 `;
 
 export const SearchBox = styled.form`

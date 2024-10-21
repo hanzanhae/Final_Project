@@ -6,7 +6,7 @@ const Button = styled.button`
   border: none;
   border-radius: 0.25rem;
   background-color: ${(props) => props.bgColor || 'black'};
-  color: #ffffff;
+  color: ${(props) => props.color || 'white'};
   font-weight: 500;
   padding: 0.4rem 0.8rem;
   opacity: 1;
@@ -15,10 +15,35 @@ const Button = styled.button`
   }
 `;
 
-export const UniBtn = ({ onClick, type = 'button', children, bgColor, btnSize, ...rest }) => {
+export const UniBtn = ({
+  onClick,
+  type = 'button',
+  children,
+  bgColor,
+  color,
+  btnSize,
+  ...rest
+}) => {
   return (
-    <Button onClick={onClick} type={type} bgColor={bgColor} btnSize={btnSize} {...rest}>
+    <Button
+      onClick={onClick}
+      type={type}
+      bgColor={bgColor}
+      color={color}
+      btnSize={btnSize}
+      {...rest}
+    >
       {children}
     </Button>
   );
 };
+
+export const BlueBtn = styled(UniBtn)`
+  background-color: ${({ theme }) => theme.pointColor};
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  opacity: 0.9;
+  &:hover {
+    opacity: 1;
+  }
+`;

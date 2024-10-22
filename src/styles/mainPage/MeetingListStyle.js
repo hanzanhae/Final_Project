@@ -52,7 +52,7 @@ export const Keyword = styled.p`
   background-color: ${({ theme }) => theme.pointColorLight};
   color: ${({ theme }) => theme.pointColor};
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
   border-radius: 1rem;
 `;
@@ -92,16 +92,19 @@ export const MemberBox = styled.div`
 export const Members = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.2rem;
+  position: relative;
 `;
 export const Member = styled.p`
-  width: 2rem;
-  aspect-ratio: 1/1;
-  font-size: 0.7rem;
+  width: 36px;
+  height: 36px;
+  font-size: 0.6rem;
+  border: 3px solid #fff;
   border-radius: 100%;
-  background-color: #ccc;
+  background-color: #ececec;
   text-align: center;
-  line-height: 2rem;
+  line-height: 30px;
+  position: absolute;
+  left: ${(props) => props.index * 30}px;
 `;
 export const Capacity = styled.div`
   font-size: 0.8rem;

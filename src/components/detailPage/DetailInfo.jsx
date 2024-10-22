@@ -45,7 +45,7 @@ const DetailInfo = ({ meet }) => {
           <DescriptionBox>
             <KeywordBox>
               <Keywords>
-                <Keyword>{meet.category}</Keyword>
+                <Keyword>{meet.distance}</Keyword>
                 <Keyword>{meet.category}</Keyword>
               </Keywords>
               <Deadline>모집기한 : ~{meet.deadlineDate}</Deadline>

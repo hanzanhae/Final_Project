@@ -30,7 +30,7 @@ const MainMap = () => {
             const mapContainer = document.getElementById('map');
             const mapOption = {
               center: defaultPosition,
-              level: 4
+              level: 3
             };
             const map = new window.kakao.maps.Map(mapContainer, mapOption);
 
@@ -71,6 +71,7 @@ const MainMap = () => {
 
   return (
     <Container>
+      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>진행중인 모임들</h1>
       <MapContainer id="map"></MapContainer>
     </Container>
   );
@@ -89,7 +90,7 @@ const Container = styled.div`
 `;
 
 const MapContainer = styled.div`
-  width: 92%;
+  width: 142vh;
   height: 90vh;
   border-radius: 15px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);

@@ -95,7 +95,7 @@ const MeetingList = () => {
                   <MemberBox>
                     <Members>
                       {enterMembers.map((member, idx) => (
-                        <Member key={idx} index={idx}>
+                        <Member key={idx} $index={idx}>
                           {member}
                         </Member>
                       ))}

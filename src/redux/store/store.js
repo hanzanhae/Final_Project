@@ -1,9 +1,12 @@
 import { combineReducers, createStore } from 'redux';
-import { ThemeReducer, FilterReducer } from '../config/ThemeReducer';
+import userReducer from '../reducers/userReducer';
+import ThemeReducer from '../reducers/themeReducer';
+import FilterReducer from '../reducers/filterReducer';
 
 const rootReducer = combineReducers({
   theme: ThemeReducer,
-  filter: FilterReducer
+  filter: FilterReducer,
+  user: userReducer
 });
 
 export const store = createStore(rootReducer);

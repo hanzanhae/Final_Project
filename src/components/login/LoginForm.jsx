@@ -4,6 +4,9 @@ import { login } from '../../api/api';
 import { isValidEmail, isValidPassword } from '../../utils/validation.js';
 import * as S from '../../styles/loginStyle/LoginFormStyle.js';
 import KakaoLoginImg from '../../images/카카오로그인.png';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/actions/userActions.js';
+// import axios from 'axios';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -13,6 +16,7 @@ const LoginForm = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // 이메일 입력 핸들러
   const handleEmailChange = (event) => {
@@ -74,12 +78,25 @@ const LoginForm = () => {
     }
   };
 
-  const loginWithKakao = () => {
+  const loginWithKakao = async () => {
     if (window.Kakao) {
       window.Kakao.Auth.authorize({
-        redirectUri: 'http://localhost:3000/' // 카카오 개발자 콘솔에 등록한 리다이렉트 URI로 변경
+        redirectUri: 'hhttps://myspringserver.store/oauth2/authorization/kakao'
       });
     }
+    // try {
+    //   const response = await axios.get('https://myspringserver.store/api/user/token'); // 백엔드가 Access Token을 전달해주는 API
+    //   const { accessToken } = response.data;
+    //   localStorage.setItem('accessToken', accessToken);
+    //   axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    //   navigate('/');
+    // } catch (error) {
+    //   console.error('Access Token 요청 중 오류 발생:', error);
+    // }
+  };
+
+  const handleLoginSuccess = (userData) => {
+    dispatch(setUser(userData));
   };
 
   useEffect(() => {
@@ -136,7 +153,9 @@ const LoginForm = () => {
           {passwordError && <S.ErrorMessage>{passwordError}</S.ErrorMessage>}
         </S.ErrorWrapper>
         <S.ErrorWrapper>{error && <S.ErrorMessage>{error}</S.ErrorMessage>}</S.ErrorWrapper>
-        <S.Btn $isLoading={isLoading}>로그인</S.Btn>
+        <S.Btn $isLoading={isLoading} onClick={handleLoginSuccess}>
+          로그인
+        </S.Btn>
         <S.KakaoLoginBox onClick={loginWithKakao}>
           <img src={KakaoLoginImg} alt="카카오로그인" width="222" />
         </S.KakaoLoginBox>

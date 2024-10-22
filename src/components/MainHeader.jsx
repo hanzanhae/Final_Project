@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { darkTheme, lightTheme } from '../styles/theme';
-
 import SunIcon from '../icons/sun.svg';
 import MaskIcon from '../icons/mask.svg';
 import { ThemeIcon } from '../icons/ThemeIcon';
-
+import { logout } from '../redux/actions/userActions';
 import {
   BtnBox,
   Header,
@@ -119,6 +118,9 @@ const MainHeader = () => {
     headerBgColor = isDarkMode ? darkTheme.bgColorDark : lightTheme.bgColorDark;
   }
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
     <Header $bgcolor={headerBgColor}>
       <HeaderInner>
@@ -144,6 +146,7 @@ const MainHeader = () => {
           <Link to="/user">
             <UserBtn $isLogin={loginPath}>mypage</UserBtn>
           </Link>
+          <button onClick={handleLogout}>로그아웃</button>
         </BtnBox>
       </HeaderInner>
     </Header>

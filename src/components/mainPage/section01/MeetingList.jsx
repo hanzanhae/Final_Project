@@ -1,7 +1,4 @@
-import React, {
-  // useEffect, 자꾸 에러떠서 우선 주석처리 했습니다
-  useState
-} from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { meetingList } from '../../../data/meetingList';
@@ -10,6 +7,7 @@ import { meetingList } from '../../../data/meetingList';
 import PinIcon from '../../../icons/map-pin.svg';
 import UsersIcon from '../../../icons/users.svg';
 
+// style
 import {
   Capacity,
   Container,
@@ -97,7 +95,7 @@ const MeetingList = () => {
                   <MemberBox>
                     <Members>
                       {enterMembers.map((member, idx) => (
-                        <Member key={idx} index={idx}>
+                        <Member key={idx} $index={idx}>
                           {member}
                         </Member>
                       ))}

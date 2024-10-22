@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { meetingList } from '../../data/meetingList';
-
 import DetailInfo from './DetailInfo';
 import DetailMember from './DetailMember';
 
-import ThumbNailImg from '../../images/detailThumbNail.webp';
+import ThumbNailImg from '../../images/detailThumbNail.jpg';
 
+// style
 import {
   DetailContainer,
   ImgBox,

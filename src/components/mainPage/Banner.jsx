@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import BannerBg from '../../images/bannerBg.webp';
-
+// icon
 import ArrowIcon from '../../icons/arrow-double.svg';
+import BannerBg from '../../images/bannerBG.webp';
+
+// style
 import {
   BannerImg,
   BannerText,
@@ -17,7 +19,7 @@ import {
 const Banner = () => {
   return (
     <MainBanner>
-      <BannerImg src={BannerBg} alt="bannerimg" loading="lazy" />
+      <BannerImg src={BannerBg} alt="bannerimg" loading="lazy" decoding="async" />
       <BannerText>
         <Title>런닝으로 만나는 우리</Title>
         <Text>관심사 기반 커뮤니티, 런토</Text>

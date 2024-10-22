@@ -2,6 +2,7 @@ import React from 'react';
 import FilterKeyword from './FilterKeyword';
 import FilterSearch from './FilterSearch';
 
+// style
 import { FilterMenuWrapper } from '../../../styles/mainPage/FilterMenuStyle';
 
 const FilterMenu = () => {

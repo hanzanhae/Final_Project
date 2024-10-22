@@ -104,7 +104,7 @@ export const Member = styled.p`
   text-align: center;
   line-height: 30px;
   position: absolute;
-  left: ${(props) => props.index * 30}px;
+  left: ${(props) => props.$index * 30}px;
 `;
 export const Capacity = styled.div`
   font-size: 0.8rem;

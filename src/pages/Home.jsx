@@ -1,7 +1,7 @@
 import React from 'react';
 import Banner from '../components/mainPage/Banner';
 import Section01 from '../components/mainPage/Section01';
-import Section02 from '../components/mainPage/Section02';
+import MainMap from '../components/mainPage/MainMap';
 import Chat from '../components/chat/Chat';
 
 const Home = () => {
@@ -9,7 +9,7 @@ const Home = () => {
     <>
       <Banner />
       <Section01 />
-      <Section02 />
+      <MainMap />
       <Chat />
     </>
   );

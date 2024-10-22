@@ -18,7 +18,7 @@ export const Container = styled.div`
   box-shadow:
     0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
     0 0.7rem 0.7rem rgba(0, 0, 0, 0.22);
-  height: 500px;
+  height: 80%;
   max-width: 1000px;
   overflow: hidden;
   position: relative;

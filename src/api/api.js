@@ -23,3 +23,21 @@ export const logout = () => {
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
 };
+
+export const checkEmail = async (email) => {
+  const response = await instance.post('/users/check-email', email);
+  return response.data;
+};
+
+export const formSubmit = async (formData) => {
+  try {
+    const response = await instance.post('/users/signup', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('회원가입 중 오류 발생:', error);
+  }
+};

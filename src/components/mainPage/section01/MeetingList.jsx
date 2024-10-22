@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  // useEffect, 자꾸 에러떠서 우선 주석처리 했습니다
+  useState
+} from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { meetingList } from '../../../data/meetingList';

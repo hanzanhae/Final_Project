@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import BannerBg from '../../images/bannerBG.webp';
+import BannerBg from '../../images/bannerBg.webp';
 
 import ArrowIcon from '../../icons/arrow-double.svg';
 import {

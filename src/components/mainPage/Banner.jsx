@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 // icon
 import ArrowIcon from '../../icons/arrow-double.svg';
-import BannerBg from '../../images/bannerBG.webp';
+import BannerBg from '../../images/bannerBg.webp';
 
 // style
 import {

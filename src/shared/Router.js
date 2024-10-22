@@ -11,6 +11,7 @@ import AdminUsers from '../components/admin/AdminUsers';
 import AdminMeeting from '../components/admin/AdminMeetings';
 import AdminEvent from '../components/admin/AdminEvents';
 import AdminReports from '../components/admin/AdminReports';
+import Calendar from '../components/Calendar';
 
 const Router = () => {
   return (
@@ -19,6 +20,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
         <Route path="/user" element={<User />} />
         <Route path="/addMeet" element={<AddMeeting />} />
         <Route path="/detail/:id" element={<DetailMeeting />} />

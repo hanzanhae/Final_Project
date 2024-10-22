@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
+// icon
 import SearchIcon from '../../../icons/search.svg';
 
+// style
 import {
   BtnIcon,
   SearchBox,

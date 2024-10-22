@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { meetingList } from '../../../data/meetingList';
@@ -7,6 +7,7 @@ import { meetingList } from '../../../data/meetingList';
 import PinIcon from '../../../icons/map-pin.svg';
 import UsersIcon from '../../../icons/users.svg';
 
+// style
 import {
   Capacity,
   Container,

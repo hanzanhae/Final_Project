@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 //import axios from 'axios';
 
@@ -20,17 +20,41 @@ const Calendar = () => {
   //setEvent(mockData);
   //}, []);
 
-  // 날짜 배열 생성 함수
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  const createDaysArray = (prevDays, currentDays, nextDays) => {
-    return [...prevDays, ...currentDays, ...nextDays];
+  const getDaysInMonth = (month, year) => {
+    return new Date(year, month + 1, 0).getDate();
   };
 
-  const prevDays = [30]; // 이전 달의 마지막 날짜
-  const currentDays = Array.from({ length: 31 }, (_, i) => i + 1); // 현재 달 날짜
-  const nextDays = [1, 2, 3]; // 다음 달의 날짜
+  const getFirstDayOfMonth = (month, year) => {
+    return new Date(year, month, 1).getDay();
+  };
 
-  const daysArray = createDaysArray(prevDays, currentDays, nextDays);
+  const handlePrevMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+  };
+
+  const daysInMonth = getDaysInMonth(currentMonth.getMonth(), currentMonth.getFullYear());
+  const firstDayOfMonth = getFirstDayOfMonth(currentMonth.getMonth(), currentMonth.getFullYear());
+
+  // 현재 달의 날짜 배열
+  const currentDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+
+  // 이전 달 날짜 계산
+  const prevDaysCount = firstDayOfMonth; // 필요한 이전 달 날짜 수
+  const prevMonthLastDay = getDaysInMonth(currentMonth.getMonth() - 1, currentMonth.getFullYear());
+  const prevDays = Array.from({ length: prevDaysCount }, (_, i) => prevMonthLastDay - i).reverse();
+
+  const totalDays = prevDays.length + currentDays.length;
+  const nextDaysCount = Math.max(0, 35 - totalDays);
+  const nextDays = Array.from({ length: nextDaysCount }, (_, i) => i + 1);
+
+  // 모든 날짜 배열
+  const daysArray = [...prevDays, ...currentDays, ...nextDays];
 
   return (
     <Box>
@@ -38,9 +62,12 @@ const Calendar = () => {
         <Left>
           <CalendarContainer>
             <Month>
-              <PrevButton>◀️</PrevButton>
-              <Date>October 2024</Date>
-              <NextButton>▶️</NextButton>
+              <PrevButton onClick={handlePrevMonth}>◀️</PrevButton>
+              <Year>
+                {currentMonth.toLocaleString('default', { month: 'long' })}
+                {currentMonth.getFullYear()}
+              </Year>
+              <NextButton onClick={handleNextMonth}>▶️</NextButton>
             </Month>
             <Weekdays>
               {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
@@ -49,8 +76,24 @@ const Calendar = () => {
             </Weekdays>
             <Days>
               {daysArray.map((day, index) => {
-                const Component = day === 22 ? Today : day < 1 ? PrevDay : day > 31 ? NextDay : Day;
-                return <Component key={index}>{day}</Component>;
+                const isToday =
+                  day === new Date().getDate() &&
+                  currentMonth.getMonth() === new Date().getMonth() &&
+                  currentMonth.getFullYear() === new Date().getFullYear();
+
+                // 날짜가 현재 달의 날짜인지 확인
+                const isCurrentMonthDate = day > 0 && day <= daysInMonth;
+
+                // 스타일 적용
+                if (isToday) {
+                  return <TodayDate key={index}>{day}</TodayDate>;
+                } else if (isCurrentMonthDate) {
+                  return <DaysDate key={index}>{day}</DaysDate>;
+                } else if (day > daysInMonth) {
+                  return <NextDate key={index}>{day}</NextDate>; // 다음 달 날짜 스타일
+                } else {
+                  return <PrevDate key={index}>{day}</PrevDate>; // 이전 달 날짜 스타일
+                }
               })}
             </Days>
           </CalendarContainer>
@@ -78,7 +121,7 @@ const Box = styled.div`
 
 const Container = styled.div`
   width: 720px;
-  min-height: 550px;
+  height: ${(props) => props.height}px; /* 동적으로 높이 설정 */
   margin: 0 auto;
   padding: 5px;
   color: white;
@@ -114,7 +157,7 @@ const Month = styled.div`
   padding: 0 50px;
   font-size: 1.2rem;
   font-weight: 550;
-  margin-bottom: 70px;
+  margin-bottom: 50px;
 `;
 
 const Weekdays = styled.div`
@@ -143,11 +186,11 @@ const Days = styled.div`
   font-weight: 500;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  justify-content: flex-start;
+  margin-bottom: 5px;
 `;
 
-const Day = styled.div`
+const DaysDate = styled.div`
   width: 14.28%;
   height: 50px;
   cursor: pointer;
@@ -163,17 +206,17 @@ const Day = styled.div`
   color: #c2c2bc;
 `;
 
-const PrevDay = styled(Day)`
+const PrevDate = styled(DaysDate)`
   color: #d8d5db;
   font-weight: 400;
 `;
 
-const NextDay = styled(Day)`
+const NextDate = styled(DaysDate)`
   color: #d8d5db;
   font-weight: 400;
 `;
 
-const Today = styled(Day)`
+const TodayDate = styled(DaysDate)`
   color: white;
   background: #bfd7ea;
   font-size: 1.5rem;
@@ -183,7 +226,7 @@ const Today = styled(Day)`
 const PrevButton = styled.div`
   cursor: pointer;
 `;
-const Date = styled.div``;
+const Year = styled.div``;
 
 const NextButton = styled.div`
   cursor: pointer;

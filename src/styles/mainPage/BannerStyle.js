@@ -1,14 +1,20 @@
 import styled from 'styled-components';
-import BannerBg from '../../images/bannerBG.jpg';
 
 export const MainBanner = styled.div`
   width: 100%;
   height: 100vh;
-  background-image: url(${BannerBg});
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
   position: relative;
+  overflow: hidden;
+`;
+export const BannerImg = styled.img`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  object-position: center;
 `;
 export const BannerText = styled.div`
   width: fit-content;
@@ -18,7 +24,6 @@ export const BannerText = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
-
 export const Title = styled.h2`
   font-size: 4vw;
   color: ${({ theme }) => theme.textColor};

@@ -5,7 +5,14 @@ import { meetingList } from '../../meetingList';
 import DetailInfo from './DetailInfo';
 import DetailMember from './DetailMember';
 
-import { DetailContainer, ThumbNailImage, Wrapper } from '../../styles/detailPage/DetailStyle';
+import ThumbNailImg from '../../images/detailThumbNail.webp';
+
+import {
+  DetailContainer,
+  ImgBox,
+  ThumbNailBox,
+  Wrapper
+} from '../../styles/detailPage/DetailStyle';
 
 const Detail = () => {
   const { id } = useParams();
@@ -18,7 +25,9 @@ const Detail = () => {
 
   return (
     <Wrapper>
-      <ThumbNailImage />
+      <ThumbNailBox>
+        <ImgBox src={ThumbNailImg} alt="thumbNailimg" loading="lazy" />
+      </ThumbNailBox>
       <DetailContainer>
         <DetailInfo meet={meet} />
         <DetailMember meet={meet} />

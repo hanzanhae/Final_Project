@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import ThumbNailImg from '../../images/detailThumbnail.jpg';
 import { BlueBtn } from '../../components/button/UniBtn';
 
 export const Wrapper = styled.div`
@@ -9,14 +8,21 @@ export const Wrapper = styled.div`
   width: 70%;
 `;
 
-export const ThumbNailImage = styled.div`
+export const ThumbNailBox = styled.div`
   width: 100%;
   height: 40vh;
   border-radius: 1rem;
-  background-image: url(${ThumbNailImg});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: top;
+  overflow: hidden;
+  position: relative;
+`;
+export const ImgBox = styled.img`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  object-fit: cover;
+  object-position: bottom;
 `;
 
 export const DetailContainer = styled.div`

@@ -81,7 +81,7 @@ const LoginForm = () => {
   const loginWithKakao = async () => {
     if (window.Kakao) {
       window.Kakao.Auth.authorize({
-        redirectUri: 'hhttps://myspringserver.store/oauth2/authorization/kakao'
+        redirectUri: 'https://myspringserver.store/oauth2/authorization/kakao'
       });
     }
     // try {

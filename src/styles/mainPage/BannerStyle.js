@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import BannerBg from '../../images/bannerBG.jpg';
 
 export const MainBanner = styled.div`
   width: 100%;

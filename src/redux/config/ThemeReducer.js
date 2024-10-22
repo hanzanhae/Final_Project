@@ -1,11 +1,17 @@
 import { darkTheme, lightTheme } from '../../styles/theme';
 
-const initialState = {
+const ThemeInitialState = {
   isDarkMode: false,
   theme: lightTheme
 };
 
-const ThemeReducer = (state = initialState, action) => {
+const FilterInitialState = {
+  selectedOption: null,
+  selectedDistance: null,
+  selectedCategory: []
+};
+
+export const ThemeReducer = (state = ThemeInitialState, action) => {
   switch (action.type) {
     case 'SET_THEME':
       return {
@@ -24,4 +30,15 @@ const ThemeReducer = (state = initialState, action) => {
   }
 };
 
-export default ThemeReducer;
+export const FilterReducer = (state = FilterInitialState, action) => {
+  switch (action.type) {
+    case 'SELECTED_OPTION':
+      return { ...state, selectedOption: action.payload };
+    case 'SELECTED_DISTANCE':
+      return { ...state, selectedDistance: action.payload };
+    case 'SELECTED_CATEGORY':
+      return { ...state, selectedCategory: action.payload };
+    default:
+      return state;
+  }
+};

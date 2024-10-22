@@ -56,18 +56,20 @@ const Calendar = () => {
   // 모든 날짜 배열
   const daysArray = [...prevDays, ...currentDays, ...nextDays];
 
+  const monthYearString = currentMonth.toLocaleString('en-US', {
+    month: 'long',
+    year: 'numeric'
+  });
+
   return (
     <Box>
       <Container>
         <Left>
           <CalendarContainer>
             <Month>
-              <PrevButton onClick={handlePrevMonth}>◀️</PrevButton>
-              <Year>
-                {currentMonth.toLocaleString('default', { month: 'long' })}
-                {currentMonth.getFullYear()}
-              </Year>
-              <NextButton onClick={handleNextMonth}>▶️</NextButton>
+              <PrevButton onClick={handlePrevMonth}>❮</PrevButton>
+              <Year>{monthYearString}</Year>
+              <NextButton onClick={handleNextMonth}>❯</NextButton>
             </Month>
             <Weekdays>
               {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
@@ -100,11 +102,20 @@ const Calendar = () => {
         </Left>
         <Right>
           <JoinCount>
-            <Title>참여횟수👍🏻</Title>
+            <Title>참</Title>
+            <Title>여</Title>
+            <Title>횟</Title>
+            <Title>수</Title>
+            <Title>🏃‍➡️</Title>
             <Number>: 15회</Number>
           </JoinCount>
           <CumulationCount>
-            <Title>총 누적거리</Title>
+            <Title>총</Title>
+            <Title>누</Title>
+            <Title>적</Title>
+            <Title>거</Title>
+            <Title>리</Title>
+            <Title>🎖️</Title>
             <Number>: 40km</Number>
           </CumulationCount>
         </Right>
@@ -117,18 +128,19 @@ export default Calendar;
 
 const Box = styled.div`
   margin-top: 150px;
+  font-family: 'Poppins', sans-serif;
 `;
 
 const Container = styled.div`
-  width: 720px;
-  height: ${(props) => props.height}px; /* 동적으로 높이 설정 */
+  width: 730px;
+  height: 620px;
   margin: 0 auto;
   padding: 5px;
   color: white;
   display: flex;
   border-radius: 10px;
   background-color: #bde0fe;
-  transition: width 0.3s ease; // 너비 애니메이션
+  box-shadow: 0 0 10px 2px #bfd7ea;
 `;
 
 const Left = styled.div`
@@ -154,10 +166,10 @@ const Month = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 50px;
+  padding: 0 40px;
   font-size: 1.2rem;
   font-weight: 550;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 `;
 
 const Weekdays = styled.div`
@@ -182,7 +194,7 @@ const WeekdaysBox = styled.div`
 const Days = styled.div`
   width: 100%;
   padding: 0 20px;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 500;
   display: flex;
   flex-wrap: wrap;
@@ -207,6 +219,18 @@ const DaysDate = styled.div`
 `;
 
 const PrevDate = styled(DaysDate)`
+  width: 14.28%;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20%;
+  &:hover {
+    background: #bfd7ea;
+    color: white;
+    transition: 0.3s;
+  }
   color: #d8d5db;
   font-weight: 400;
 `;
@@ -217,10 +241,13 @@ const NextDate = styled(DaysDate)`
 `;
 
 const TodayDate = styled(DaysDate)`
-  color: white;
-  background: #bfd7ea;
   font-size: 1.5rem;
-  box-shadow: 0 0 10px 2px #bfd7ea;
+  &:hover {
+    color: white;
+    background: #bfd7ea;
+    box-shadow: 0 0 10px 2px #bfd7ea;
+    transition: 0.3s;
+  }
 `;
 
 const PrevButton = styled.div`
@@ -238,26 +265,70 @@ const Right = styled.div`
 `;
 
 const JoinCount = styled.div`
-  width: 250px;
+  width: 205px;
   height: 100px;
   margin: 8px;
   margin-bottom: 190px;
-  margin-top: 70px;
+  margin-top: 50px;
 `;
 
 const CumulationCount = styled.div`
-  width: 250px;
+  width: 230px;
   height: 100px;
   margin: 8px;
 `;
 
-const Title = styled.div`
-  font-size: 2.8rem;
-  font-weight: 600;
+const Title = styled.span`
+  font-size: 2.6rem;
+  font-weight: 550;
+  color: #fff;
+  position: relative;
+  top: 20px;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  text-shadow:
+    0 1px 0 #ccc,
+    0 2px 0 #ccc,
+    0 3px 0 #ccc,
+    0 4px 0 #ccc,
+    0 5px 0 #ccc,
+    0 6px 0 transparent,
+    0 7px 0 transparent,
+    0 8px 0 transparent,
+    0 9px 0 transparent,
+    0 10px 10px rgba(0, 0, 0, 0.4);
+  animation: bounce 1.3s ease infinite alternate;
+
+  /* 각 글자에 대한 애니메이션 지연 */
+  &:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  &:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  &:nth-child(3) {
+    animation-delay: 0.1s;
+  }
+  &:nth-child(4) {
+    animation-delay: 0.1s;
+  }
+  &:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+  &:nth-child(6) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes bounce {
+    100% {
+      top: -1px;
+    }
+  }
 `;
 
 const Number = styled.div`
   font-size: 2rem;
   font-weight: 600;
   margin-top: 30px;
+  text-shadow: 3px 4px 5px #669bbc;
 `;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import BannerBg from '../../images/bannerBg.jpg';
+import BannerBg from '../../images/bannerBG.jpg';
 
 import ArrowIcon from '../../icons/arrow-double.svg';
 import {

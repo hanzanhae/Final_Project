@@ -5,7 +5,7 @@ import { meetingList } from '../../meetingList';
 import DetailInfo from './DetailInfo';
 import DetailMember from './DetailMember';
 
-import ThumbNailImg from '../../images/detailThumbNail.webp';
+import ThumbNailImg from '../../images/detailThumbnail.jpg';
 
 import {
   DetailContainer,

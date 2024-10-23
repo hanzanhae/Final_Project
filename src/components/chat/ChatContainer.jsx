@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ChatRoom from './chatRoom/ChatRoom';
+import ChatRoomList from './chatRoom/ChatRoomList';
 import ChatRayout from './chatRayout/ChatRayout';
 
 const ChatContainer = () => {
@@ -11,7 +11,7 @@ const ChatContainer = () => {
 
   return (
     <>
-      <ChatRoom selectedRoom={selectedRoom} />
+      <ChatRoomList selectedRoom={selectedRoom} />
       <ChatRayout onRoomSelect={handleRoomSelect} />
     </>
   );

@@ -109,7 +109,8 @@ export const OverlayPanel = styled.div`
       : css`
           left: 0;
           transform: translateX(
-            ${({ $isRightPanelActive }) => ($isRightPanelActive ? '0' : '-100%')}
+            ${({ $isRightPanelActive }) =>
+              $isRightPanelActive ? '0' : '-100%'}
           );
         `}
 `;
@@ -136,7 +137,8 @@ export const OverlayPanel2 = styled.div`
       : css`
           left: 0;
           transform: translateX(
-            ${({ $isRightPanelActive }) => ($isRightPanelActive ? '0' : '-100%')}
+            ${({ $isRightPanelActive }) =>
+              $isRightPanelActive ? '0' : '-100%'}
           );
         `}
 `;

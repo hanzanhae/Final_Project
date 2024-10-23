@@ -108,7 +108,9 @@ const MainHeader = () => {
   let headerBgColor;
   if (location.pathname === '/') {
     if (isScrolled) {
-      headerBgColor = isDarkMode ? darkTheme.bgColorDark : lightTheme.bgColorDark;
+      headerBgColor = isDarkMode
+        ? darkTheme.bgColorDark
+        : lightTheme.bgColorDark;
     } else {
       headerBgColor = isDarkMode ? darkTheme.bgColor : lightTheme.bgColor;
     }

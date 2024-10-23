@@ -45,7 +45,9 @@ const LoginForm = () => {
 
   const handlePasswordBlur = () => {
     if (!isValidPassword(password)) {
-      setPasswordError('비밀번호는 영문자와 숫자를 포함하여 8자 이상 20자 이하로 입력해야 합니다.');
+      setPasswordError(
+        '비밀번호는 영문자와 숫자를 포함하여 8자 이상 20자 이하로 입력해야 합니다.'
+      );
     } else {
       setPasswordError('');
     }
@@ -81,7 +83,7 @@ const LoginForm = () => {
   const loginWithKakao = async () => {
     if (window.Kakao) {
       window.Kakao.Auth.authorize({
-        redirectUri: 'hhttps://myspringserver.store/oauth2/authorization/kakao'
+        redirectUri: 'https://myspringserver.store/oauth2/authorization/kakao'
       });
     }
     // try {
@@ -135,7 +137,9 @@ const LoginForm = () => {
           <S.CustomIcon2 />
         </S.InputContainer>
         <S.ErrorWrapper>
-          {emailError && <S.ErrorMessage>유효한 이메일 주소를 입력해 주세요.</S.ErrorMessage>}
+          {emailError && (
+            <S.ErrorMessage>유효한 이메일 주소를 입력해 주세요.</S.ErrorMessage>
+          )}
         </S.ErrorWrapper>
         <S.InputContainer>
           <S.Input
@@ -152,7 +156,9 @@ const LoginForm = () => {
         <S.ErrorWrapper>
           {passwordError && <S.ErrorMessage>{passwordError}</S.ErrorMessage>}
         </S.ErrorWrapper>
-        <S.ErrorWrapper>{error && <S.ErrorMessage>{error}</S.ErrorMessage>}</S.ErrorWrapper>
+        <S.ErrorWrapper>
+          {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
+        </S.ErrorWrapper>
         <S.Btn $isLoading={isLoading} onClick={handleLoginSuccess}>
           로그인
         </S.Btn>

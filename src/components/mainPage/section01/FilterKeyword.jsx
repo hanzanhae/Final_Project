@@ -40,7 +40,9 @@ const FilterKeyword = ({ distance, category, option }) => {
   };
   const handleSelectCategory = (category) => {
     setSelectedCategory((prev) =>
-      prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
     );
   };
 

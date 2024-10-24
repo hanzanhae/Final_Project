@@ -8,25 +8,23 @@ const MemberMenu = ({ setActiveMember }) => {
   const handleShowModal = () => {
     setShowModal(true);
   };
-  const stopEventHandler = (e) => {
-    e.stopPropagation();
-  };
+  // const stopEventHandler = (e) => {
+  //   e.stopPropagation();
+  // };
 
   return (
     <>
-      <MenuBox onClick={stopEventHandler}>
+      <MenuBox
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
         <MenuUl>
           <MenuLi>채팅하기</MenuLi>
           <MenuLi onClick={handleShowModal}>신고하기</MenuLi>
         </MenuUl>
       </MenuBox>
-      {showModal && (
-        <ReportModal
-          setShowModal={setShowModal}
-          stopEventHandler={stopEventHandler}
-          setActiveMember={setActiveMember}
-        />
-      )}
+      {showModal && <ReportModal setShowModal={setShowModal} setActiveMember={setActiveMember} />}
     </>
   );
 };

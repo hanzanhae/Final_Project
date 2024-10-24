@@ -14,7 +14,7 @@ export const BannerImg = styled.img`
   left: 50%;
   transform: translate(-50%, -50%);
   object-fit: cover;
-  object-position: top;
+  object-position: bottom;
 `;
 export const BannerText = styled.div`
   width: fit-content;

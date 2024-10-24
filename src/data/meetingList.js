@@ -26,3 +26,34 @@ for (let i = 1; i <= 20; i++) {
     members: ['이름', '이름', '이름', '이름', '이름', '이름']
   });
 }
+
+// 예상 데이터
+// {
+//   "title": "같이 마라톤 하실분?",
+//   "appointed_at": "2024-11-01T10:00:00",
+//   "deadline": "2024-10-30T23:59:59",
+//   "location": {
+//     "address_name": "서울특별시 중구 세종대로",
+//     "coordinates":{
+//         "x": 37.5665,
+//         "y": 126.9780
+//     }
+//   },
+//   "max_number": 10,
+//   "description": "함께 즐거운 달리기를 합시다.",
+//   "goal_distance": "FULL_MARATHON",
+//   "concept": "MARATHON",
+//     "gathering_image_urls": {
+//       "thumbnail_url": "썸네일url",
+//       "content_image_urls":[
+//         {
+//             "image_url": "이미지1 url",
+//             "order": 1
+//         },
+//         {
+//             "image_url": "이미지2 url",
+//             "order": 2
+//         }
+//       ]
+//     }
+//   }

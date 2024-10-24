@@ -13,7 +13,7 @@ import {
   ReportYesBtn
 } from '../../styles/detailPage/DetailStyle';
 
-const ReportModal = ({ setShowModal, stopEventHandler, setActiveMember }) => {
+const ReportModal = ({ setShowModal, setActiveMember }) => {
   const [selectedReport, setSelectedReport] = useState('');
 
   const handleCloseModal = () => {
@@ -31,7 +31,13 @@ const ReportModal = ({ setShowModal, stopEventHandler, setActiveMember }) => {
 
   return (
     <ModalWrapper onClick={handleCloseModal}>
-      <ReportBox as="form" onClick={stopEventHandler} onSubmit={handleReport}>
+      <ReportBox
+        as="form"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        onSubmit={handleReport}
+      >
         <ReportTitle>신고사유를 선택해주세요</ReportTitle>
         <ReportUl>
           {['불법정보게시', '욕설/인신공격', '음란성/선정성', '같은내용 반복게시', '잦은노쇼'].map(

@@ -1,31 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 //import axios from 'axios';
+import { FaCheckCircle, FaTimesCircle, FaBell, FaCalendarAlt } from 'react-icons/fa';
 
 const Calendar = () => {
-  //const [event, setEvent] = useState([]);
-
-  //const mockData = [
-  //{ date: '2024-10-10', status: 'approved' }, // 런닝한 날짜
-  //{ date: '2024-10-11', status: 'canceled' }, // 참여하지 않은 날짜
-  //{ date: '2024-10-14', status: 'approved' }
-  //];
-
-  //useEffect(() => {
-  // 실제 API 호출을 통해 데이터를 가져오는 코드
-  // axios.get('/api/events').then(response => {
-  //   setEvents(response.data);
-  // });
-  // 예시 데이터로 초기화
-  //setEvent(mockData);
-  //}, []);
-
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const getDaysInMonth = (month, year) => {
     return new Date(year, month + 1, 0).getDate();
   };
-
   const getFirstDayOfMonth = (month, year) => {
     return new Date(year, month, 1).getDay();
   };
@@ -33,7 +16,6 @@ const Calendar = () => {
   const handlePrevMonth = () => {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
   };
-
   const handleNextMonth = () => {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
   };
@@ -41,25 +23,28 @@ const Calendar = () => {
   const daysInMonth = getDaysInMonth(currentMonth.getMonth(), currentMonth.getFullYear());
   const firstDayOfMonth = getFirstDayOfMonth(currentMonth.getMonth(), currentMonth.getFullYear());
 
-  // 현재 달의 날짜 배열
   const currentDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-
-  // 이전 달 날짜 계산
-  const prevDaysCount = firstDayOfMonth; // 필요한 이전 달 날짜 수
+  const prevDaysCount = firstDayOfMonth;
   const prevMonthLastDay = getDaysInMonth(currentMonth.getMonth() - 1, currentMonth.getFullYear());
   const prevDays = Array.from({ length: prevDaysCount }, (_, i) => prevMonthLastDay - i).reverse();
-
   const totalDays = prevDays.length + currentDays.length;
   const nextDaysCount = Math.max(0, 35 - totalDays);
   const nextDays = Array.from({ length: nextDaysCount }, (_, i) => i + 1);
 
-  // 모든 날짜 배열
   const daysArray = [...prevDays, ...currentDays, ...nextDays];
 
   const monthYearString = currentMonth.toLocaleString('en-US', {
     month: 'long',
     year: 'numeric'
   });
+
+  const getMeetingTypeForDay = (day) => {
+    if (day === 10) return 'attended';
+    if (day === 12) return 'missed';
+    if (day === 21) return 'upcoming';
+    if (day === 25) return 'event';
+    return null;
+  };
 
   return (
     <Box>
@@ -83,39 +68,67 @@ const Calendar = () => {
                   currentMonth.getMonth() === new Date().getMonth() &&
                   currentMonth.getFullYear() === new Date().getFullYear();
 
-                // 날짜가 현재 달의 날짜인지 확인
                 const isCurrentMonthDate = day > 0 && day <= daysInMonth;
+                const meetingType = getMeetingTypeForDay(day); // 모임 상태 가져오기
 
-                // 스타일 적용
-                if (isToday) {
-                  return <TodayDate key={index}>{day}</TodayDate>;
-                } else if (isCurrentMonthDate) {
-                  return <DaysDate key={index}>{day}</DaysDate>;
+                if (isCurrentMonthDate) {
+                  if (isToday) {
+                    return (
+                      <TodayDate key={index} meetingType={meetingType}>
+                        {meetingType ? (
+                          <div>
+                            {meetingType === 'attended' && <FaCheckCircleIcon />}
+                            {meetingType === 'missed' && <FaTimesCircleIcon />}
+                            {meetingType === 'upcoming' && <FaBellIcon />}
+                            {meetingType === 'event' && <FaCalendarAltIcon />}
+                          </div>
+                        ) : (
+                          day
+                        )}
+                      </TodayDate>
+                    );
+                  }
+
+                  return (
+                    <DaysDate key={index} meetingType={meetingType}>
+                      {meetingType ? (
+                        <div>
+                          {meetingType === 'attended' && <FaCheckCircleIcon />}
+                          {meetingType === 'missed' && <FaTimesCircleIcon />}
+                          {meetingType === 'upcoming' && <FaBellIcon />}
+                          {meetingType === 'event' && <FaCalendarAltIcon />}
+                        </div>
+                      ) : (
+                        day
+                      )}
+                    </DaysDate>
+                  );
                 } else if (day > daysInMonth) {
-                  return <NextDate key={index}>{day}</NextDate>; // 다음 달 날짜 스타일
+                  return <NextDate key={index}>{day}</NextDate>;
                 } else {
-                  return <PrevDate key={index}>{day}</PrevDate>; // 이전 달 날짜 스타일
+                  return <PrevDate key={index}>{day}</PrevDate>;
                 }
               })}
             </Days>
           </CalendarContainer>
         </Left>
         <Right>
+          <Notice>Click Me</Notice>
           <JoinCount>
-            <Title>참</Title>
-            <Title>여</Title>
-            <Title>횟</Title>
-            <Title>수</Title>
-            <Title>🏃‍➡️</Title>
+            <JoinTitle>참</JoinTitle>
+            <JoinTitle>여</JoinTitle>
+            <JoinTitle>횟</JoinTitle>
+            <JoinTitle>수</JoinTitle>
+            <JoinTitle>🏃‍➡️</JoinTitle>
             <Number>: 15회</Number>
           </JoinCount>
           <CumulationCount>
-            <Title>총</Title>
-            <Title>누</Title>
-            <Title>적</Title>
-            <Title>거</Title>
-            <Title>리</Title>
-            <Title>🎖️</Title>
+            <CumulationTitle>총</CumulationTitle>
+            <CumulationTitle>누</CumulationTitle>
+            <CumulationTitle>적</CumulationTitle>
+            <CumulationTitle>거</CumulationTitle>
+            <CumulationTitle>리</CumulationTitle>
+            <CumulationTitle>🎖️</CumulationTitle>
             <Number>: 40km</Number>
           </CumulationCount>
         </Right>
@@ -156,7 +169,7 @@ const CalendarContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   border-radius: 10px;
-  color: #c2c2bc;
+  color: #bfd7ea;
   background-color: white;
 `;
 
@@ -193,32 +206,31 @@ const WeekdaysBox = styled.div`
 
 const Days = styled.div`
   width: 100%;
-  padding: 0 20px;
-  font-size: 0.8rem;
+  padding: 0 18px;
+  font-size: 0.9rem;
   font-weight: 500;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin-bottom: 5px;
+  margin-top: 5px;
 `;
 
 const DaysDate = styled.div`
   width: 14.28%;
-  height: 50px;
+  height: 45px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 20%;
+  border-radius: 100%;
   &:hover {
     background: #bfd7ea;
     color: white;
     transition: 0.3s;
   }
-  color: #c2c2bc;
 `;
 
-const PrevDate = styled(DaysDate)`
+const PrevDate = styled.div`
   width: 14.28%;
   height: 50px;
   cursor: pointer;
@@ -241,14 +253,36 @@ const NextDate = styled(DaysDate)`
 `;
 
 const TodayDate = styled(DaysDate)`
-  font-size: 1.5rem;
-  &:hover {
-    color: white;
-    background: #bfd7ea;
-    box-shadow: 0 0 10px 2px #bfd7ea;
-    transition: 0.3s;
-  }
+  background-color: ${(props) => (props.meetingType ? 'white' : 'transparent')};
+  color: ${(props) => (props.meetingType ? 'white' : 'inherit')};
+  font-size: ${(props) => (props.meetingType ? '0.9rem' : '1.5rem')};
+  box-shadow: ${(props) => (props.meetingType ? '0 0 10px 2px #bfd7ea' : '')};
 `;
+
+const FaCheckCircleIcon = styled(FaCheckCircle)`
+  color: #83c5be;
+  font-size: 20px;
+  margin-top: 5px;
+`;
+
+const FaTimesCircleIcon = styled(FaTimesCircle)`
+  color: #ff0054;
+  font-size: 20px;
+  margin-top: 5px;
+`;
+
+const FaBellIcon = styled(FaBell)`
+  color: #ffbe0b;
+  font-size: 20px;
+  margin-top: 5px;
+`;
+
+const FaCalendarAltIcon = styled(FaCalendarAlt)`
+  color: #83c5;
+  font-size: 20px;
+  margin-top: 5px;
+`;
+//const HolidayDate = styled.div``;
 
 const PrevButton = styled.div`
   cursor: pointer;
@@ -257,6 +291,14 @@ const Year = styled.div``;
 
 const NextButton = styled.div`
   cursor: pointer;
+`;
+
+const Notice = styled.button`
+  width: 300px;
+  font-size: 1rem;
+  color: #fff;
+  cursor: pointer;
+  margin-left: 60px;
 `;
 
 const Right = styled.div`
@@ -268,8 +310,8 @@ const JoinCount = styled.div`
   width: 205px;
   height: 100px;
   margin: 8px;
-  margin-bottom: 190px;
-  margin-top: 50px;
+  margin-bottom: 120px;
+  margin-top: 70px;
 `;
 
 const CumulationCount = styled.div`
@@ -278,7 +320,7 @@ const CumulationCount = styled.div`
   margin: 8px;
 `;
 
-const Title = styled.span`
+const JoinTitle = styled.span`
   font-size: 2.6rem;
   font-weight: 550;
   color: #fff;
@@ -315,8 +357,53 @@ const Title = styled.span`
   &:nth-child(5) {
     animation-delay: 0.5s;
   }
+
+  @keyframes bounce {
+    100% {
+      top: -1px;
+    }
+  }
+`;
+
+const CumulationTitle = styled.span`
+  font-size: 2.6rem;
+  font-weight: 550;
+  color: #fff;
+  position: relative;
+  top: 20px;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  text-shadow:
+    0 1px 0 #ccc,
+    0 2px 0 #ccc,
+    0 3px 0 #ccc,
+    0 4px 0 #ccc,
+    0 5px 0 #ccc,
+    0 6px 0 transparent,
+    0 7px 0 transparent,
+    0 8px 0 transparent,
+    0 9px 0 transparent,
+    0 10px 10px rgba(0, 0, 0, 0.4);
+  animation: bounce 1.3s ease infinite alternate;
+
+  /* 각 글자에 대한 애니메이션 지연 */
+  &:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  &:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  &:nth-child(3) {
+    animation-delay: 0.1s;
+  }
+  &:nth-child(4) {
+    animation-delay: 0.1s;
+  }
+  &:nth-child(5) {
+    animation-delay: 0.1s;
+  }
   &:nth-child(6) {
-    animation-delay: 0.6s;
+    animation-delay: 0.5s;
   }
 
   @keyframes bounce {

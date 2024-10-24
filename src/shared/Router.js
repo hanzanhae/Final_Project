@@ -5,7 +5,7 @@ import MainHeader from '../components/MainHeader';
 import User from '../pages/User';
 import AddMeeting from '../pages/AddMeeting';
 import DetailMeeting from '../pages/DetailMeeting';
-import Login from '../pages/Login';
+//import Login from '../pages/Login';
 import Admin from '../pages/Admin';
 import AdminUsers from '../components/admin/AdminUsers';
 import AdminMeeting from '../components/admin/AdminMeetings';
@@ -19,7 +19,7 @@ const Router = () => {
       <MainHeader />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Calendar />} />
         <Route path="/" element={<Home />} />
         <Route path="/user" element={<User />} />
         <Route path="/addMeet" element={<AddMeeting />} />

@@ -5,6 +5,7 @@ import MainHeader from '../components/MainHeader';
 import User from '../pages/User';
 import AddMeeting from '../pages/AddMeeting';
 import DetailMeeting from '../pages/DetailMeeting';
+import Mypage from '../pages/Mypage';
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
         <Route path="/user" element={<User />} />
         <Route path="/addMeet" element={<AddMeeting />} />
         <Route path="/detail" element={<DetailMeeting />} />
+        <Route path="/mypage" element={<Mypage />} />
       </Routes>
     </BrowserRouter>
   );

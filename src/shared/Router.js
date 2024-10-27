@@ -11,14 +11,14 @@ import AdminUsers from '../components/admin/AdminUsers';
 import AdminMeeting from '../components/admin/AdminMeetings';
 import AdminEvent from '../components/admin/AdminEvents';
 import AdminReports from '../components/admin/AdminReports';
-//import Calendar from '../components/Calendar';
+import Calendar from '../components/calendar/Calendar';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <MainHeader />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Calendar />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
         <Route path="/user" element={<User />} />

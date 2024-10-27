@@ -6,12 +6,11 @@ import {
   ReportInput,
   ReportLabel,
   ReportLi,
-  ReportNoBtn,
   ReportText,
   ReportTitle,
-  ReportUl,
-  ReportYesBtn
+  ReportUl
 } from '../../styles/detailPage/DetailStyle';
+import { UniBtn } from '../button/UniBtn';
 
 const ReportModal = ({ setShowModal, setActiveMember }) => {
   const [selectedReport, setSelectedReport] = useState('');
@@ -58,8 +57,10 @@ const ReportModal = ({ setShowModal, setActiveMember }) => {
         </ReportUl>
         <ReportText>정말로 신고하시겠습니까?</ReportText>
         <ReportBtnBox>
-          <ReportNoBtn onClick={handleCloseModal}>아니요</ReportNoBtn>
-          <ReportYesBtn type="submit">신고하기</ReportYesBtn>
+          <UniBtn onClick={handleCloseModal} bgcolor="#666">
+            아니요
+          </UniBtn>
+          <UniBtn type="submit">신고하기</UniBtn>
         </ReportBtnBox>
       </ReportBox>
     </ModalWrapper>

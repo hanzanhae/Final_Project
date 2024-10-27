@@ -21,6 +21,7 @@ import {
   UlContainer,
   UlTitle
 } from '../../../styles/mainPage/FilterMenuStyle';
+import { UniBtn } from '../../button/UniBtn';
 
 const FilterKeyword = () => {
   const option = optionList;
@@ -135,7 +136,9 @@ const FilterKeyword = () => {
               ))}
             </Ul>
           </ContainerInner>
-          <FilterBtn onClick={handleApplyFilters}>적용</FilterBtn>
+          <UniBtn onClick={handleApplyFilters} margin="1rem 0 0 0">
+            적용
+          </UniBtn>
         </UlContainer>
       )}
     </FilterBox>

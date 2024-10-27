@@ -7,3 +7,4 @@ export const mockMeetings = [
   { date: '2024-11-05', type: 'event' },
   { date: '2024-11-15', type: 'upcoming' }
 ];
+

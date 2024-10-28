@@ -55,7 +55,7 @@ const DetailMember = ({ meet }) => {
 
   return (
     <MemberContaier>
-      <UniBtn onClick={handleEnterMeeting} margin="0 0 2rem 0">
+      <UniBtn onClick={handleEnterMeeting} $margin={'0 0 2rem 0'}>
         모임참가하기
       </UniBtn>
       <MemberTitleBox>

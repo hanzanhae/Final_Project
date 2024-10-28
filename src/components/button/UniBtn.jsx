@@ -6,7 +6,7 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 0.25rem;
-  background-color: ${(props) => props.bgcolor || props.theme.pointColor};
+  background-color: ${(props) => props.$bgcolor || props.theme.pointColor};
   color: ${(props) => props.color || 'white'};
   font-size: 0.8rem;
   font-weight: 500;
@@ -21,7 +21,7 @@ export const UniBtn = ({
   onClick,
   type = 'button',
   children,
-  bgcolor,
+  $bgcolor,
   color,
   btnSize,
   $margin
@@ -30,7 +30,7 @@ export const UniBtn = ({
     <Button
       onClick={onClick}
       type={type}
-      bgcolor={bgcolor}
+      $bgcolor={$bgcolor}
       color={color}
       btnSize={btnSize}
       $margin={$margin}

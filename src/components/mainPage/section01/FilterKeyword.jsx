@@ -101,7 +101,7 @@ const FilterKeyword = () => {
                 <Li
                   key={option}
                   onClick={() => handleSelectOption(option)}
-                  isSelected={tempOption === option}
+                  $isSelected={tempOption === option}
                 >
                   {option}
                 </Li>
@@ -115,7 +115,7 @@ const FilterKeyword = () => {
                 <Li
                   key={distance}
                   onClick={() => handleSelectDistance(distance)}
-                  isSelected={tempDistance === distance}
+                  $isSelected={tempDistance === distance}
                 >
                   {distance}
                 </Li>
@@ -129,14 +129,14 @@ const FilterKeyword = () => {
                 <Li
                   key={category}
                   onClick={() => handleSelectCategory(category)}
-                  isSelected={tempCategory.includes(category)}
+                  $isSelected={tempCategory.includes(category)}
                 >
                   {category}
                 </Li>
               ))}
             </Ul>
           </ContainerInner>
-          <UniBtn onClick={handleApplyFilters} margin="1rem 0 0 0">
+          <UniBtn onClick={handleApplyFilters} $margin="1rem 0 0 0">
             적용
           </UniBtn>
         </UlContainer>

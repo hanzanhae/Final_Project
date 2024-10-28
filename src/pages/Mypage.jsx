@@ -1,45 +1,43 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import MyEvents from '../components/mypage/MyEvents';
+import MyMeetings from '../components/mypage/MyMeetings';
 import MyProfile from '../components/mypage/MyProfile';
-import MyMeetings from '../components/mypage/MyProfile';
-import MyEvents from '../components/mypage/MyProfile';
 
 const Mypage = () => {
-  const [activeMenu, setActiveMenu] = useState('profile'); // 기본값을 'profile'로 설정
+  const [activeMenu, setActiveMenu] = useState('profile');
 
   return (
-    <div style={{ marginTop: '10vh' }}>
-      <Container>
-        {/* 사이드바 */}
-        <Sidebar>
-          <MenuItem active={activeMenu === 'profile'} onClick={() => setActiveMenu('profile')}>
-            내 프로필
-          </MenuItem>
-          <MenuItem active={activeMenu === 'meetings'} onClick={() => setActiveMenu('meetings')}>
-            내 모임
-          </MenuItem>
-          <MenuItem active={activeMenu === 'events'} onClick={() => setActiveMenu('events')}>
-            내 이벤트
-          </MenuItem>
-          <MenuItem active={activeMenu === 'calendar'} onClick={() => setActiveMenu('calendar')}>
-            런닝 달력
-          </MenuItem>
-        </Sidebar>
+    <Container>
+      <Sidebar>
+        <MenuItem active={activeMenu === 'profile'} onClick={() => setActiveMenu('profile')}>
+          내 프로필
+        </MenuItem>
+        <MenuItem active={activeMenu === 'meetings'} onClick={() => setActiveMenu('meetings')}>
+          내 모임
+        </MenuItem>
+        <MenuItem active={activeMenu === 'events'} onClick={() => setActiveMenu('events')}>
+          내 이벤트
+        </MenuItem>
+        <MenuItem active={activeMenu === 'calendar'} onClick={() => setActiveMenu('calendar')}>
+          런닝 달력
+        </MenuItem>
+      </Sidebar>
 
-        <Content>
-          {activeMenu === 'profile' && <MyProfile />}
-          {activeMenu === 'meetings' && <MyMeetings />}
-          {activeMenu === 'events' && <MyEvents />}
-          {/* {activeMenu === 'calendar' && <RunningCalendar />} */}
-        </Content>
-      </Container>
-    </div>
+      <Content>
+        {activeMenu === 'profile' && <MyProfile />}
+        {activeMenu === 'meetings' && <MyMeetings />}
+        {activeMenu === 'events' && <MyEvents />}
+        {/* {activeMenu === 'calendar' && <RunningCalendar />} */}
+      </Content>
+    </Container>
   );
 };
 
 //스타일
 const Container = styled.div`
   display: flex;
+  margin-top: 10vh;
 `;
 
 const Sidebar = styled.div`
@@ -55,10 +53,20 @@ const Content = styled.div`
 `;
 
 const MenuItem = styled.div`
-  margin-bottom: 20px;
-  cursor: pointer;
+  font-size: 1rem;
   font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
-  color: ${(props) => (props.active ? '#007BFF' : '#000')};
+  color: ${(props) => (props.active ? ({ theme }) => theme.pointColor : '#333')};
+  margin-bottom: 25px;
+  cursor: pointer;
+  padding: 15px 20px;
+  width: 100%;
+  border-radius: 8px;
+  background-color: ${(props) => (props.active ? '#e6f0ff' : 'transparent')};
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #f0f2f5;
+  }
 `;
 
 export default Mypage;

@@ -35,7 +35,7 @@ const MainHeader = () => {
               </BtnInner>
             )}
           </WeatherBtn>
-          <Link to="/user">
+          <Link to="/mypage">
             <UserBtn>
               <UserIcon />
             </UserBtn>

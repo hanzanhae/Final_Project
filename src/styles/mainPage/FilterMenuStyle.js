@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { BlueBtn } from '../../components/button/UniBtn';
 
 export const FilterMenuWrapper = styled.div`
   width: 100%;
@@ -55,6 +54,9 @@ export const UlContainer = styled.div`
   top: 1.8rem;
   left: -2rem;
   z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 `;
 export const CloseBtn = styled.button`
   position: absolute;
@@ -65,7 +67,9 @@ export const CloseBtn = styled.button`
     opacity: 1;
   }
 `;
-export const ContainerInner = styled.div``;
+export const ContainerInner = styled.div`
+  width: 100%;
+`;
 
 export const UlTitle = styled.h4`
   font-size: 0.9rem;
@@ -84,15 +88,11 @@ export const Li = styled.li`
   cursor: pointer;
   font-weight: 500;
   font-size: 0.8rem;
-  background-color: ${({ isSelected, theme }) => (isSelected ? theme.pointColorLight : '#efefef')};
+  background-color: ${({ $isSelected, theme }) =>
+    $isSelected ? theme.pointColorLight : '#efefef'};
   &:hover {
     background-color: ${({ theme }) => theme.pointColorLight};
   }
-`;
-export const FilterBtn = styled(BlueBtn)`
-  float: right;
-  margin-top: 1rem;
-  padding: 0.25rem 0.5rem;
 `;
 
 export const SearchBox = styled.form`

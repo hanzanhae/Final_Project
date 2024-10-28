@@ -35,6 +35,10 @@ import { gatheringDetailData } from '../../../api/api';
 const LIST_PERPAGE = 8;
 
 const MeetingList = () => {
+  // 모임데이터상태관리
+  // const [gatheringData, setGetheringData] = useState([]);
+  // const [gatheringMembers, setGetheringMembers] = useState([]);
+
   const { selectedOption, selectedDistance, selectedCategory } = useSelector(
     (state) => state.filter
   );
@@ -66,7 +70,7 @@ const MeetingList = () => {
     setVisibleList((prev) => prev + LIST_PERPAGE);
   };
 
-  // 상세페이지 데이터🚂...
+  // 모임데이터🚂...
   // useEffect(() => {
   //   const fetchGatheringDetail = async () => {
   //     const data = await gatheringDetailData(1);

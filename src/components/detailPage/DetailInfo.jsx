@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import KakaoLocation from './DetailLocation';
 
 // icon
 import CalendarIcon from '../../icons/calendar.svg';
@@ -22,7 +23,6 @@ import {
   Keywords,
   Location,
   LocationBox,
-  LocationMap,
   LocationText,
   Name,
   ProfileBox,
@@ -71,7 +71,8 @@ const DetailInfo = ({ meet }) => {
             <Icon src={PinIcon} alt="pin-icon" />
             <Location>{meet.detailLocation}</Location>
           </LocationText>
-          <LocationMap />
+          {/* 카카오지도연결 */}
+          <KakaoLocation />
         </LocationBox>
       </InfoLocation>
     </InfoContaier>

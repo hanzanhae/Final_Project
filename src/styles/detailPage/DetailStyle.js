@@ -137,11 +137,6 @@ export const LocationText = styled.div`
   gap: 0.5rem;
 `;
 export const Location = styled.p``;
-export const LocationMap = styled.div`
-  width: 100%;
-  height: 200px;
-  background-color: skyblue;
-`;
 
 // member style
 export const MemberContaier = styled.div`

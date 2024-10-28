@@ -1,7 +1,8 @@
 import React from 'react';
+import CreateMeeting from '../components/CreateRoom/CreateMeeting';
 
 const AddMeeting = () => {
-  return <div style={{ marginTop: '10vh' }}>모임개설페이지</div>;
+  return <CreateMeeting />;
 };
 
 export default AddMeeting;

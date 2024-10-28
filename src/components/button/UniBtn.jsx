@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import React from 'react';
 const Button = styled.button`
   margin: ${(props) => props.$margin || '0'};
   width: ${(props) => props.btnSize || 'fit-content'};

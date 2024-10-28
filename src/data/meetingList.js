@@ -18,7 +18,7 @@ for (let i = 1; i <= 20; i++) {
     date: '24.10.16(수)',
     time: '오전 10:00',
     capacity: Math.floor(Math.random() * 10) + 1,
-    deadlineDate: '10/31',
+    deadlineDate: '24.10.31',
     description:
       '안녕하세요. 런닝을 사랑하는 사람들을 위한 모임입니다. 함께 달리실 분들은 모두 환영입니다. 안녕하세요. 런닝을 사랑하는 사람들을 위한 모임입니다. 함께 달리실 분들은 모두 환영입니다. 안녕하세요. 런닝을 사랑하는 사람들을 위한 모임입니다. 함께 달리실 분들은 모두 환영입니다. 안녕하세요. 런닝을 사랑하는 사람들을 위한 모임입니다. 함께 달리실 분들은 모두 환영입니다.',
     profile: '',
@@ -29,31 +29,39 @@ for (let i = 1; i <= 20; i++) {
 
 // 예상 데이터
 // {
-//   "title": "같이 마라톤 하실분?",
-//   "appointed_at": "2024-11-01T10:00:00",
-//   "deadline": "2024-10-30T23:59:59",
-//   "location": {
-//     "address_name": "서울특별시 중구 세종대로",
-//     "coordinates":{
-//         "x": 37.5665,
-//         "y": 126.9780
-//     }
-//   },
-//   "max_number": 10,
-//   "description": "함께 즐거운 달리기를 합시다.",
-//   "goal_distance": "FULL_MARATHON",
-//   "concept": "MARATHON",
-//     "gathering_image_urls": {
-//       "thumbnail_url": "썸네일url",
-//       "content_image_urls":[
+//     "gathering_response": {
+//         "id": 1,
+//         "organizer_id": 1,
+//         "title": "아침 조깅합시다",
+//         "description": "아침에 일찍 일어나서 같이 조깅하실 분 구합니다.",
+//         "appointed_at": "2024-10-30T02:10",
+//         "deadline": "2024-10-29T02:10",
+//         "concept": "HEALTH",
+//         "goal_distance": "FREE",
+//         "hits": 0,
+//         "location": {
+//             "address_name": "우리집 근처",
+//             "coordinates": {
+//                 "x": 0.0,
+//                 "y": 0.0
+//             }
+//         },
+//         "status": "NORMAL",
+//         "max_number": 3,
+//         "current_number": 1
+//     },
+//     "gathering_members": [
 //         {
-//             "image_url": "이미지1 url",
-//             "order": 1
+//             "gathering_member_id": 1,
+//             "nickname": "임시유저",
+//             "profile_image_url": null,
+//             "role": "ORGANIZER"
 //         },
 //         {
-//             "image_url": "이미지2 url",
-//             "order": 2
+//             "gathering_member_id": 2,
+//             "nickname": "임시유저",
+//             "profile_image_url": null,
+//             "role": "PARTICIPANT"
 //         }
-//       ]
-//     }
-//   }
+//     ]
+// }

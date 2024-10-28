@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { meetingList } from '../../../data/meetingList';
@@ -30,6 +30,7 @@ import {
   TimeBox,
   Title
 } from '../../../styles/mainPage/MeetingListStyle';
+import { gatheringDetailData } from '../../../api/api';
 
 const LIST_PERPAGE = 8;
 
@@ -64,6 +65,15 @@ const MeetingList = () => {
   const handleClickMorePage = () => {
     setVisibleList((prev) => prev + LIST_PERPAGE);
   };
+
+  // 상세페이지 데이터🚂...
+  // useEffect(() => {
+  //   const fetchGatheringDetail = async () => {
+  //     const data = await gatheringDetailData(1);
+  //     console.log(data);
+  //   };
+  //   fetchGatheringDetail();
+  // }, []);
 
   return (
     <Container>

@@ -57,7 +57,7 @@ const ReportModal = ({ setShowModal, setActiveMember }) => {
         </ReportUl>
         <ReportText>정말로 신고하시겠습니까?</ReportText>
         <ReportBtnBox>
-          <UniBtn onClick={handleCloseModal} bgcolor="#666">
+          <UniBtn onClick={handleCloseModal} $bgcolor="#666">
             아니요
           </UniBtn>
           <UniBtn type="submit">신고하기</UniBtn>

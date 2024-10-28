@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { darkTheme, lightTheme } from '../styles/theme';
+import { logout } from '../redux/actions/userActions';
+import axios from 'axios';
+
+// icon
 import SunIcon from '../icons/sun.svg';
 import MaskIcon from '../icons/mask.svg';
 import { ThemeIcon } from '../icons/ThemeIcon';
-import { logout } from '../redux/actions/userActions';
+
+// style
 import {
   BtnBox,
   Header,
@@ -19,7 +24,6 @@ import {
   WeatherIcon,
   WeatherText
 } from '../styles/mainPage/HeaderStyle';
-import axios from 'axios';
 
 const API_KEY = '947586767a6ce78304ecfd287c3de3ed';
 

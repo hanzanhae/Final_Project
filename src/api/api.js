@@ -42,11 +42,21 @@ export const formSubmit = async (formData) => {
   }
 };
 
-export const getChatRoomList = async (selectedRoom) => {
+// 모임상세페이지🚂...
+export const gatheringDetailData = async (gathering_id) => {
   try {
-    const response = await instance.get(`/chat/${selectedRoom}/list`);
+    const response = await instance.get(`/gatherings/${gathering_id}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error('상세페이지 데이터를 가져오는 중 오류발생:', error.message);
+  }
+};
+// 모임이미지🚂...
+export const gatheringImagesData = async (gathering_id) => {
+  try {
+    const response = await instance.get(`/images?gathering_id=${gathering_id}`);
+    return response.data;
+  } catch (error) {
+    console.error('모임이미지 데이터를 가져오는 중 오류발생:', error.message);
   }
 };

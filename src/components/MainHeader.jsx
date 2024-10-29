@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { darkTheme, lightTheme } from '../styles/theme';
+import { logout } from '../redux/actions/userActions';
+import axios from 'axios';
+
+// icon
 import SunIcon from '../icons/sun.svg';
 import MaskIcon from '../icons/mask.svg';
 import { ThemeIcon } from '../icons/ThemeIcon';
-import { logout } from '../redux/actions/userActions';
+
+// style
 import {
   BtnBox,
   Header,
@@ -19,7 +24,6 @@ import {
   WeatherIcon,
   WeatherText
 } from '../styles/mainPage/HeaderStyle';
-import axios from 'axios';
 
 const API_KEY = '947586767a6ce78304ecfd287c3de3ed';
 
@@ -29,8 +33,7 @@ const MainHeader = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
   const [isScrolled, setIsScrolled] = useState(false);
-  // 미세먼지 상태관리
-  const [showText, setShowText] = useState('');
+  const [airState, setAirState] = useState('');
 
   // 현재위치데이터
   const getUserLocation = () => {
@@ -66,16 +69,16 @@ const MainHeader = () => {
   const airCondition = (pm2_5) => {
     let newTheme;
     if (pm2_5 <= 15) {
-      setShowText('좋음');
+      setAirState('좋음');
       newTheme = 'light';
     } else if (pm2_5 <= 25) {
-      setShowText('보통');
+      setAirState('보통');
       newTheme = 'light';
     } else if (pm2_5 <= 50) {
-      setShowText('나쁨');
+      setAirState('나쁨');
       newTheme = 'dark';
     } else {
-      setShowText('매우나쁨');
+      setAirState('매우나쁨');
       newTheme = 'dark';
     }
 
@@ -134,7 +137,7 @@ const MainHeader = () => {
             <WeatherBox>
               <WeatherIcon src={isDarkMode ? MaskIcon : SunIcon} />
               <WeatherText $isLogin={loginPath}>
-                현재 대기질은 {showText},{' '}
+                현재 대기질은 {airState},{' '}
                 {isDarkMode ? '외출을 자제해 주세요' : '뛰기 좋은 날입니다'}
               </WeatherText>
             </WeatherBox>

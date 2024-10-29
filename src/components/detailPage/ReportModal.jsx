@@ -6,14 +6,13 @@ import {
   ReportInput,
   ReportLabel,
   ReportLi,
-  ReportNoBtn,
   ReportText,
   ReportTitle,
-  ReportUl,
-  ReportYesBtn
+  ReportUl
 } from '../../styles/detailPage/DetailStyle';
+import { UniBtn } from '../button/UniBtn';
 
-const ReportModal = ({ setShowModal, stopEventHandler, setActiveMember }) => {
+const ReportModal = ({ setShowModal, setActiveMember }) => {
   const [selectedReport, setSelectedReport] = useState('');
 
   const handleCloseModal = () => {
@@ -31,7 +30,13 @@ const ReportModal = ({ setShowModal, stopEventHandler, setActiveMember }) => {
 
   return (
     <ModalWrapper onClick={handleCloseModal}>
-      <ReportBox as="form" onClick={stopEventHandler} onSubmit={handleReport}>
+      <ReportBox
+        as="form"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        onSubmit={handleReport}
+      >
         <ReportTitle>신고사유를 선택해주세요</ReportTitle>
         <ReportUl>
           {[
@@ -56,8 +61,10 @@ const ReportModal = ({ setShowModal, stopEventHandler, setActiveMember }) => {
         </ReportUl>
         <ReportText>정말로 신고하시겠습니까?</ReportText>
         <ReportBtnBox>
-          <ReportNoBtn onClick={handleCloseModal}>아니요</ReportNoBtn>
-          <ReportYesBtn type="submit">신고하기</ReportYesBtn>
+          <UniBtn onClick={handleCloseModal} $bgcolor="#666">
+            아니요
+          </UniBtn>
+          <UniBtn type="submit">신고하기</UniBtn>
         </ReportBtnBox>
       </ReportBox>
     </ModalWrapper>

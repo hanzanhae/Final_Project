@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { meetingList } from '../../../data/meetingList';
@@ -27,13 +27,20 @@ import {
   Members,
   MoreBtn,
   MoreMsg,
+  ThumbNailImg,
   TimeBox,
   Title
 } from '../../../styles/mainPage/MeetingListStyle';
+import { gatheringDetailData, gatheringImagesData } from '../../../api/api';
 
 const LIST_PERPAGE = 8;
 
 const MeetingList = () => {
+  // 모임데이터상태관리
+  const [gatheringData, setGetheringData] = useState([]);
+  const [gatheringMembers, setGetheringMembers] = useState([]);
+  const [gatheringImages, setGetheringImages] = useState([]);
+
   const { selectedOption, selectedDistance, selectedCategory } = useSelector(
     (state) => state.filter
   );
@@ -67,6 +74,23 @@ const MeetingList = () => {
     setVisibleList((prev) => prev + LIST_PERPAGE);
   };
 
+  // 모임데이터🚂...
+  const fetchGatheringDetail = async () => {
+    const data = await gatheringDetailData(1);
+    // console.log(data);
+    // setGetheringData();
+    // setGetheringMembers();
+  };
+  const fetchGatheringImages = async () => {
+    const data = await gatheringImagesData(1);
+    // console.log(data);
+    // setGetheringImages();
+  };
+  // useEffect(() => {
+  //   fetchGatheringDetail();
+  //   fetchGatheringImages();
+  // }, []);
+
   return (
     <Container>
       <ListUl>
@@ -79,7 +103,7 @@ const MeetingList = () => {
           return (
             <Link to={`/detail/${list.id}`} key={list.id}>
               <ListLi>
-                <ImgBox $thumbnailimg={list.thumbNail} />
+                <ThumbNailImg src={list.thumbNail} alt="thumbnail" />
                 <InfoBox>
                   <KeywordBox>
                     <KeywordText>

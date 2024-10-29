@@ -1,11 +1,11 @@
 import { darkTheme, lightTheme } from '../../styles/theme';
 
-const ThemeInitialState = {
+const themeInitialState = {
   isDarkMode: false,
   theme: lightTheme
 };
 
-const ThemeReducer = (state = ThemeInitialState, action) => {
+const ThemeReducer = (state = themeInitialState, action) => {
   switch (action.type) {
     case 'SET_THEME':
       return {

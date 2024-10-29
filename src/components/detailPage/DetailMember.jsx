@@ -10,9 +10,9 @@ import {
   MemberNumber,
   MemberTitleBox,
   Msg,
-  RegisterBtn,
   Title
 } from '../../styles/detailPage/DetailStyle';
+import { UniBtn } from '../button/UniBtn';
 
 const DetailMember = ({ meet }) => {
   const memberRef = useRef(null);
@@ -55,7 +55,9 @@ const DetailMember = ({ meet }) => {
 
   return (
     <MemberContaier>
-      <RegisterBtn onClick={handleEnterMeeting}>모임참가하기</RegisterBtn>
+      <UniBtn onClick={handleEnterMeeting} $margin={'0 0 2rem 0'}>
+        모임참가하기
+      </UniBtn>
       <MemberTitleBox>
         <Title>참여하는 사람들</Title>
         <MemberNumber>{`${enterMembers.length}/10`}</MemberNumber>

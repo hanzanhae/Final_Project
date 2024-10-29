@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { BlueBtn } from '../../components/button/UniBtn';
 
 export const Wrapper = styled.div`
   margin: auto;
@@ -138,20 +137,14 @@ export const LocationText = styled.div`
   gap: 0.5rem;
 `;
 export const Location = styled.p``;
-export const LocationMap = styled.div`
-  width: 100%;
-  height: 200px;
-  background-color: skyblue;
-`;
 
 // member style
 export const MemberContaier = styled.div`
   margin-top: 100px;
   width: 26%;
-`;
-export const RegisterBtn = styled(BlueBtn)`
-  margin-bottom: 2rem;
-  float: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 `;
 
 export const MemberTitleBox = styled.div`
@@ -281,8 +274,3 @@ export const ReportBtnBox = styled.div`
   align-items: center;
   gap: 2rem;
 `;
-
-export const ReportNoBtn = styled(BlueBtn)`
-  background-color: #666;
-`;
-export const ReportYesBtn = styled(BlueBtn)``;

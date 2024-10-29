@@ -11,7 +11,7 @@ const Admin = () => {
     <AdminLayout>
       <AdminSider collapsed={collapsed} setCollapsed={setCollapsed} />
       <ContentLayout collapsed={collapsed}>
-        <Outlet /> {/* 하위 페이지가 이곳에 렌더링됩니다 */}
+        <Outlet />
       </ContentLayout>
     </AdminLayout>
   );

@@ -1,53 +1,104 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Menu } from 'antd';
 import {
   HomeOutlined,
   UserOutlined,
   TeamOutlined,
   CalendarOutlined,
-  WarningOutlined
+  MenuFoldOutlined,
+  MenuUnfoldOutlined
 } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import { Layout } from 'antd'; // Ant Design의 Sider 사용
+import { Sider, CollapseButton } from '../../styles/adminStyle';
 
-const { Sider } = Layout; // Ant Design의 Sider 컴포넌트 사용
-
-const AdminSider = ({ collapsed, setCollapsed }) => {
+const AdminSider = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+  const [selectedKey, setSelectedKey] = useState('');
+  const [collapsed, setCollapsed] = useState(
+    JSON.parse(localStorage.getItem('siderCollapsed')) || false
+  );
 
-  const handleMenuClick = ({ key }) => {
-    navigate(key);
+  useEffect(() => {
+    if (location.pathname.startsWith('/admin/home')) {
+      setSelectedKey('home');
+    } else if (location.pathname.startsWith('/admin/users')) {
+      setSelectedKey('users');
+    } else if (location.pathname.startsWith('/admin/meetings')) {
+      setSelectedKey('meetings');
+    } else if (location.pathname.startsWith('/admin/events')) {
+      setSelectedKey('events');
+    }
+  }, [location.pathname]);
+
+  const handleMenuClick = (key) => {
+    setSelectedKey(key);
+    switch (key) {
+      case 'home':
+        navigate('/admin/home');
+        break;
+      case 'users':
+        navigate('/admin/users');
+        break;
+      case 'meetings':
+        navigate('/admin/meetings');
+        break;
+      case 'events':
+        navigate('/admin/events');
+        break;
+      default:
+        break;
+    }
+  };
+
+  const toggleCollapsed = () => {
+    const newCollapsed = !collapsed;
+    setCollapsed(newCollapsed);
+    localStorage.setItem('siderCollapsed', JSON.stringify(newCollapsed));
   };
 
   return (
-    <Sider
-      collapsible
-      collapsed={collapsed}
-      onCollapse={setCollapsed}
-      style={{ height: '100vh', position: 'fixed', top: '8vh' }}
-    >
+    <Sider collapsed={collapsed}>
       <Menu
-        theme="dark"
-        defaultSelectedKeys={['/admin']}
         mode="inline"
-        onClick={handleMenuClick}
+        selectedKeys={[selectedKey]}
+        onClick={({ key }) => handleMenuClick(key)}
+        theme="dark"
+        style={{
+          borderRight: 0,
+          backgroundColor: 'inherit',
+          color: '#fff'
+        }}
       >
-        <Menu.Item key="/admin" icon={<HomeOutlined />}>
+        <Menu.Item key="home" icon={<HomeOutlined />}>
           홈
         </Menu.Item>
-        <Menu.Item key="/admin/users" icon={<UserOutlined />}>
+        <Menu.Item key="users" icon={<UserOutlined />}>
           회원 관리
         </Menu.Item>
-        <Menu.Item key="/admin/meetings" icon={<TeamOutlined />}>
+        <Menu.Item key="meetings" icon={<TeamOutlined />}>
           모임 관리
         </Menu.Item>
-        <Menu.Item key="/admin/events" icon={<CalendarOutlined />}>
+        <Menu.Item key="events" icon={<CalendarOutlined />}>
           이벤트 관리
         </Menu.Item>
-        <Menu.Item key="/admin/reports" icon={<WarningOutlined />}>
-          신고 처리
-        </Menu.Item>
       </Menu>
+
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '10px',
+          left: 0,
+          right: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        <CollapseButton onClick={toggleCollapsed}>
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </CollapseButton>
+      </div>
     </Sider>
   );
 };

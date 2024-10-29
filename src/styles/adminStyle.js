@@ -10,7 +10,7 @@ export const Sider = styled.div`
   background-color: #001529;
   transition: width 0.2s;
   position: fixed;
-  top: 8vh; /* MainHeader height 고려 */
+  top: 8vh;
   bottom: 0;
   left: 0;
   z-index: 1000;
@@ -22,7 +22,7 @@ export const ContentLayout = styled.div`
   width: 100%;
   padding: 20px;
   background-color: #f0f2f5;
-  min-height: calc(100vh - 8vh); /* MainHeader height 고려 */
+  min-height: calc(100vh - 8vh);
 `;
 
 export const AdminHeader = styled.header`
@@ -31,7 +31,7 @@ export const AdminHeader = styled.header`
   background: #fff;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   position: fixed;
-  top: 8vh; /* MainHeader height */
+  top: 8vh;
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -46,10 +46,10 @@ export const AdminTitle = styled.h1`
 `;
 
 export const AdminContent = styled.main`
-  margin-top: 80px; /* AdminHeader height */
+  margin-top: 80px;
   padding: 20px;
   background-color: #f9f9f9;
-  min-height: calc(100vh - 8vh - 60px); /* 전체 높이에서 MainHeader와 AdminHeader를 뺀 값 */
+  min-height: calc(100vh - 8vh - 60px);
 `;
 
 export const CollapseButton = styled.button`

@@ -1,4 +1,4 @@
-import thumbnailimg from '../images/listThumbnail.jpg';
+import thumbnailimg from '../images/thumbnail.jpg';
 
 export const optionList = ['전체', '참여가능', '마감임박'];
 export const distanceList = ['자유', '3km', '5km', '15km', '21.0975km', '42.195km'];

@@ -40,9 +40,7 @@ const Calendar = () => {
   }, [currentMonth, API_KEY]);
 
   useEffect(() => {
-    // 모의 데이터를 사용하여 모임 정보를 가져오는 함수
     const fetchMeetings = () => {
-      // 현재 달의 attended 모임 수 계산
       const count = mockMeetings.filter((meeting) => {
         const meetingDate = new Date(meeting.date);
         return (
@@ -52,7 +50,7 @@ const Calendar = () => {
         );
       }).length;
 
-      setAttendedCount(count); // attendedCount 상태 업데이트
+      setAttendedCount(count);
     };
 
     fetchMeetings();
@@ -75,13 +73,30 @@ const Calendar = () => {
   const daysInMonth = getDaysInMonth(currentMonth.getMonth(), currentMonth.getFullYear());
   const firstDayOfMonth = getFirstDayOfMonth(currentMonth.getMonth(), currentMonth.getFullYear());
 
-  const currentDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  const currentDays = Array.from({ length: daysInMonth }, (_, i) => ({
+    day: i + 1,
+    isCurrentMonth: true,
+    isPreviousMonth: false,
+    isNextMonth: false
+  }));
+
   const prevDaysCount = firstDayOfMonth;
   const prevMonthLastDay = getDaysInMonth(currentMonth.getMonth() - 1, currentMonth.getFullYear());
-  const prevDays = Array.from({ length: prevDaysCount }, (_, i) => prevMonthLastDay - i).reverse();
+  const prevDays = Array.from({ length: prevDaysCount }, (_, i) => ({
+    day: prevMonthLastDay - i,
+    isCurrentMonth: false,
+    isPreviousMonth: true,
+    isNextMonth: false
+  })).reverse();
+
   const totalDays = prevDays.length + currentDays.length;
   const nextDaysCount = Math.max(0, 35 - totalDays);
-  const nextDays = Array.from({ length: nextDaysCount }, (_, i) => i + 1);
+  const nextDays = Array.from({ length: nextDaysCount }, (_, i) => ({
+    day: i + 1,
+    isCurrentMonth: false,
+    isPreviousMonth: false,
+    isNextMonth: true
+  }));
 
   const daysArray = [...prevDays, ...currentDays, ...nextDays];
 
@@ -155,7 +170,7 @@ const CalendarContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   border-radius: 10px;
-  color: #bfd7ea;
+  color: #a2d2ff;
   background-color: white;
 `;
 

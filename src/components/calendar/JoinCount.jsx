@@ -8,7 +8,7 @@ const JoinCount = ({ attendedCount }) => (
     <JoinTitle>횟</JoinTitle>
     <JoinTitle>수</JoinTitle>
     <JoinTitle>🏃‍➡️</JoinTitle>
-    <Number>: {attendedCount}회</Number>
+    <Number>: {attendedCount} 회</Number>
   </JoinCountWrapper>
 );
 
@@ -18,7 +18,7 @@ const JoinCountWrapper = styled.div`
   width: 205px;
   height: 100px;
   margin: 8px;
-  margin-bottom: 120px;
+  margin-bottom: 130px;
   margin-top: 70px;
 `;
 
@@ -70,4 +70,5 @@ const Number = styled.div`
   font-size: 2rem;
   font-weight: 600;
   margin-top: 30px;
+  text-shadow: 3px 4px 5px #669bbc;
 `;

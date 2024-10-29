@@ -19,8 +19,6 @@ const CumulationCountWrapper = styled.div`
   width: 250px;
   height: 100px;
   margin: 8px;
-  margin-bottom: 120px;
-  margin-top: 70px;
 `;
 
 const CumulationTitle = styled.span`
@@ -74,4 +72,5 @@ const Number = styled.div`
   font-size: 2rem;
   font-weight: 600;
   margin-top: 30px;
+  text-shadow: 3px 4px 5px #669bbc;
 `;

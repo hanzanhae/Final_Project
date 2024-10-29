@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { BlueBtn } from '../../components/button/UniBtn';
 
 export const Wrapper = styled.div`
   margin: auto;
@@ -81,7 +80,7 @@ export const KeywordBox = styled.div`
 export const Keywords = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 `;
 export const Keyword = styled.p`
   padding: 0.25rem;
@@ -89,7 +88,7 @@ export const Keyword = styled.p`
   background-color: ${({ theme }) => theme.pointColorLight};
   color: ${({ theme }) => theme.pointColor};
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
   border-radius: 1rem;
 `;
@@ -99,7 +98,7 @@ export const Deadline = styled.p`
   color: #666;
 `;
 export const DescriptionBox = styled.div`
-  padding: 0.5rem;
+  padding: 1rem;
   border: 1px solid #f4f4f5;
   border-radius: 0.5rem;
 `;
@@ -138,20 +137,14 @@ export const LocationText = styled.div`
   gap: 0.5rem;
 `;
 export const Location = styled.p``;
-export const LocationMap = styled.div`
-  width: 100%;
-  height: 200px;
-  background-color: skyblue;
-`;
 
 // member style
 export const MemberContaier = styled.div`
   margin-top: 100px;
   width: 26%;
-`;
-export const RegisterBtn = styled(BlueBtn)`
-  margin-bottom: 2rem;
-  float: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 `;
 
 export const MemberTitleBox = styled.div`
@@ -180,13 +173,20 @@ export const Member = styled.button`
   height: 50px;
   border-radius: 100%;
   background-color: #ececec;
-  line-height: 46px;
+  line-height: 44px;
   text-align: center;
   position: relative;
-  border: 2px solid #fff;
+  border: 3px solid #fff;
   &:hover {
     border-color: ${({ theme }) => theme.pointColorLight};
   }
+`;
+export const Msg = styled.div`
+  margin-top: 2rem;
+  padding: 0 0.5rem;
+  color: red;
+  font-size: 0.8rem;
+  font-weight: 600;
 `;
 
 // member modal
@@ -274,8 +274,3 @@ export const ReportBtnBox = styled.div`
   align-items: center;
   gap: 2rem;
 `;
-
-export const ReportNoBtn = styled(BlueBtn)`
-  background-color: #666;
-`;
-export const ReportYesBtn = styled(BlueBtn)``;

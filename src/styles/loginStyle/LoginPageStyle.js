@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const ImageContainer = styled.div`
   background: url('https://images.unsplash.com/photo-1502224562085-639556652f33?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
@@ -97,22 +97,6 @@ export const OverlayPanel = styled.div`
   width: 50%;
   text-align: center;
   transition: transform 0.6s ease-out-in;
-
-  ${({ $isLeft }) =>
-    $isLeft
-      ? css`
-          right: 0;
-          transform: translateX(
-            ${({ $isRightPanelActive }) => ($isRightPanelActive ? '100%' : '0')}
-          );
-        `
-      : css`
-          left: 0;
-          transform: translateX(
-            ${({ $isRightPanelActive }) =>
-              $isRightPanelActive ? '0' : '-100%'}
-          );
-        `}
 `;
 export const OverlayPanel2 = styled.div`
   display: flex;
@@ -125,20 +109,4 @@ export const OverlayPanel2 = styled.div`
   width: 50%;
   text-align: center;
   transition: transform 0.6s ease-out-in;
-
-  ${({ $isLeft }) =>
-    $isLeft
-      ? css`
-          left: 0;
-          transform: translateX(
-            ${({ $isRightPanelActive }) => ($isRightPanelActive ? '100%' : '0')}
-          );
-        `
-      : css`
-          left: 0;
-          transform: translateX(
-            ${({ $isRightPanelActive }) =>
-              $isRightPanelActive ? '0' : '-100%'}
-          );
-        `}
 `;

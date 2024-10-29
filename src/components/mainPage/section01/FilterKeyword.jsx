@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  categoryList,
+  distanceList,
+  optionList
+} from '../../../data/meetingList';
 
+// icon
 import ArrowDownIcon from '../../../icons/arrow-down.svg';
 import CloseIcon from '../../../icons/x-mark.svg';
 
+// style
 import {
   BtnIcon,
   CloseBtn,
   ContainerInner,
   FilterBox,
   FilterBtn,
+  FilterReset,
   FilterTitle,
   Li,
   SeletedFilter,
@@ -18,11 +26,20 @@ import {
   UlTitle
 } from '../../../styles/mainPage/FilterMenuStyle';
 
-const FilterKeyword = ({ distance, category, option }) => {
+const FilterKeyword = () => {
+  const option = optionList;
+  const distance = distanceList;
+  const category = categoryList;
+
+  const dispatch = useDispatch();
+  const { selectedOption, selectedDistance, selectedCategory } = useSelector(
+    (state) => state.filter
+  );
+
   const [isFilterShow, setIsFilterShow] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [selectedDistance, setSelectedDistance] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [tempOption, setTempOption] = useState(selectedOption);
+  const [tempDistance, setTempDistance] = useState(selectedDistance);
+  const [tempCategory, setTempCategory] = useState(selectedCategory);
 
   // 필터메뉴 on/off
   const handleShowFilter = () => {
@@ -31,29 +48,49 @@ const FilterKeyword = ({ distance, category, option }) => {
   const handleCloseFilter = () => {
     setIsFilterShow(false);
   };
+
   // 각각 필터선택 >> 카테고리만 다중선택 가능
   const handleSelectOption = (option) => {
-    setSelectedOption(option);
+    setTempOption(option);
   };
   const handleSelectDistance = (distance) => {
-    setSelectedDistance(distance);
+    setTempDistance(distance);
   };
   const handleSelectCategory = (category) => {
-    setSelectedCategory((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    );
+    const categories = tempCategory.includes(category)
+      ? tempCategory.filter((c) => c !== category)
+      : [...tempCategory, category];
+
+    setTempCategory(categories);
+  };
+
+  // 필터적용
+  const handleApplyFilters = () => {
+    dispatch({ type: 'SELECTED_OPTION', payload: tempOption });
+    dispatch({ type: 'SELECTED_DISTANCE', payload: tempDistance });
+    dispatch({ type: 'SELECTED_CATEGORY', payload: tempCategory });
+    handleCloseFilter();
+  };
+
+  // 필터해제
+  const handleResetFilters = () => {
+    dispatch({ type: 'SELECTED_OPTION', payload: null });
+    dispatch({ type: 'SELECTED_DISTANCE', payload: null });
+    dispatch({ type: 'SELECTED_CATEGORY', payload: [] });
+    setTempOption(null);
+    setTempDistance(null);
+    setTempCategory([]);
   };
 
   return (
     <FilterBox>
+      <FilterReset onClick={handleResetFilters}>필터해제</FilterReset>
       <FilterTitle onClick={handleShowFilter}>
         원하는 모임을 선택하세요 <BtnIcon src={ArrowDownIcon} />
-        {selectedOption && <SeletedFilter>{selectedOption}</SeletedFilter>}
-        {selectedDistance && <SeletedFilter>{selectedDistance}</SeletedFilter>}
-        {selectedCategory.length > 0 &&
-          selectedCategory.map((category, idx) => (
+        {tempOption && <SeletedFilter>{tempOption}</SeletedFilter>}
+        {tempDistance && <SeletedFilter>{tempDistance}</SeletedFilter>}
+        {tempCategory.length > 0 &&
+          tempCategory.map((category, idx) => (
             <SeletedFilter key={idx}>{category}</SeletedFilter>
           ))}
       </FilterTitle>
@@ -69,7 +106,7 @@ const FilterKeyword = ({ distance, category, option }) => {
                 <Li
                   key={option}
                   onClick={() => handleSelectOption(option)}
-                  isSelected={selectedOption === option}
+                  isSelected={tempOption === option}
                 >
                   {option}
                 </Li>
@@ -83,7 +120,7 @@ const FilterKeyword = ({ distance, category, option }) => {
                 <Li
                   key={distance}
                   onClick={() => handleSelectDistance(distance)}
-                  isSelected={selectedDistance === distance}
+                  isSelected={tempDistance === distance}
                 >
                   {distance}
                 </Li>
@@ -97,24 +134,18 @@ const FilterKeyword = ({ distance, category, option }) => {
                 <Li
                   key={category}
                   onClick={() => handleSelectCategory(category)}
-                  isSelected={selectedCategory.includes(category)}
+                  isSelected={tempCategory.includes(category)}
                 >
                   {category}
                 </Li>
               ))}
             </Ul>
           </ContainerInner>
-          <FilterBtn onClick={handleCloseFilter}>적용</FilterBtn>
+          <FilterBtn onClick={handleApplyFilters}>적용</FilterBtn>
         </UlContainer>
       )}
     </FilterBox>
   );
-};
-
-FilterKeyword.propTypes = {
-  distance: PropTypes.arrayOf(PropTypes.string).isRequired,
-  category: PropTypes.arrayOf(PropTypes.string).isRequired,
-  option: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default FilterKeyword;

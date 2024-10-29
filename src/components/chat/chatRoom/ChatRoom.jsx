@@ -1,47 +1,67 @@
-import React, { useEffect, useState } from 'react';
-import * as S from '../../../styles/chatStyle/ChatRoomStyle';
-import socket from '../../../server';
-const ChatRoom = () => {
+import React, { useState, useEffect } from 'react';
+
+const ChatRoom = ({ client, selectedRoom }) => {
   const [message, setMessage] = useState('');
-  const [chatLog, setChatLog] = useState([]);
+  const [receivedMessages, setReceivedMessages] = useState([]);
+
   useEffect(() => {
-    socket.on('message', (messageData) => {
-      console.log('서버로부터 받은 메시지:', messageData);
-      setChatLog((prevLog) => [...prevLog, messageData]); // 채팅 로그 업데이트
+    if (!client || !selectedRoom) return;
+
+    let subscribeDestination;
+
+    if (selectedRoom.type === 'direct') {
+      subscribeDestination = `/topic/direct/${selectedRoom.id}`; // 1:1 채팅방 구독
+    } else if (selectedRoom.type === 'group') {
+      subscribeDestination = `/topic/group/${selectedRoom.id}`; // 그룹 채팅방 구독
+    }
+
+    // WebSocket 구독
+    const subscription = client.subscribe(subscribeDestination, (message) => {
+      setReceivedMessages((prevMessages) => [
+        ...prevMessages,
+        JSON.parse(message.body)
+      ]);
     });
 
     return () => {
-      socket.off('message');
-      socket.close();
+      subscription.unsubscribe(); // 구독 해제
     };
-  }, []);
+  }, [client, selectedRoom]);
 
-  const handleSendMessage = () => {
-    if (message.trim()) {
-      socket.emit('message', { content: message });
+  const sendMessage = () => {
+    if (client && client.connected) {
+      let destination;
+      if (selectedRoom.type === 'direct') {
+        destination = `/app/send/direct`;
+      } else if (selectedRoom.type === 'group') {
+        destination = `/app/send/group`;
+      }
+
+      client.publish({
+        destination: destination,
+        body: JSON.stringify({ roomId: selectedRoom.id, message: message })
+      });
       setMessage('');
     }
   };
+
   return (
-    <S.ChatRoomContainer>
-      <div>
-        <ul>
-          {/* 채팅 로그 표시 */}
-          {chatLog.map((msg, index) => (
-            <li key={index}>{msg.content}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <input
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="메시지를 입력하세요"
-        />
-        <button onClick={handleSendMessage}>전송</button>
-      </div>
-    </S.ChatRoomContainer>
+    <div>
+      <h1>Chat Room: {selectedRoom.name}</h1>
+      <ul>
+        {receivedMessages.map((msg, index) => (
+          <li key={index}>{msg.content}</li>
+        ))}
+      </ul>
+
+      <input
+        type="text"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Send a message"
+      />
+      <button onClick={sendMessage}>Send</button>
+    </div>
   );
 };
 

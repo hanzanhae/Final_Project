@@ -41,3 +41,12 @@ export const formSubmit = async (formData) => {
     console.error('회원가입 중 오류 발생:', error);
   }
 };
+
+export const getChatRoomList = async (selectedRoom) => {
+  try {
+    const response = await instance.get(`/chat/${selectedRoom}/list`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

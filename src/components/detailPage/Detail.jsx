@@ -1,10 +1,18 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { meetingList } from '../../meetingList';
-
+import { meetingList } from '../../data/meetingList';
 import DetailInfo from './DetailInfo';
 import DetailMember from './DetailMember';
 
+import ThumbNailImg from '../../images/detailThumbNail.jpg';
+
+// style
+import {
+  DetailContainer,
+  ImgBox,
+  ThumbNailBox,
+  Wrapper
+} from '../../styles/detailPage/DetailStyle';
 import {
   DetailContainer,
   ThumbNailImage,
@@ -22,7 +30,9 @@ const Detail = () => {
 
   return (
     <Wrapper>
-      <ThumbNailImage />
+      <ThumbNailBox>
+        <ImgBox src={ThumbNailImg} alt="thumbNailimg" loading="lazy" />
+      </ThumbNailBox>
       <DetailContainer>
         <DetailInfo meet={meet} />
         <DetailMember meet={meet} />

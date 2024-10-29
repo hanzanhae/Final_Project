@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
+
 const Button = styled.button`
   width: ${(props) => props.btnSize || 'fit-content'};
   cursor: pointer;

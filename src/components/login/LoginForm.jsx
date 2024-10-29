@@ -86,15 +86,6 @@ const LoginForm = () => {
         redirectUri: 'https://myspringserver.store/oauth2/authorization/kakao'
       });
     }
-    // try {
-    //   const response = await axios.get('https://myspringserver.store/api/user/token'); // 백엔드가 Access Token을 전달해주는 API
-    //   const { accessToken } = response.data;
-    //   localStorage.setItem('accessToken', accessToken);
-    //   axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    //   navigate('/');
-    // } catch (error) {
-    //   console.error('Access Token 요청 중 오류 발생:', error);
-    // }
   };
 
   const handleLoginSuccess = (userData) => {

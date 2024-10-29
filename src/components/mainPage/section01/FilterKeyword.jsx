@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { categoryList, distanceList, optionList } from '../../../data/meetingList';
+import {
+  categoryList,
+  distanceList,
+  optionList
+} from '../../../data/meetingList';
 
 // icon
 import ArrowDownIcon from '../../../icons/arrow-down.svg';
@@ -87,7 +91,9 @@ const FilterKeyword = () => {
         {tempOption && <SeletedFilter>{tempOption}</SeletedFilter>}
         {tempDistance && <SeletedFilter>{tempDistance}</SeletedFilter>}
         {tempCategory.length > 0 &&
-          tempCategory.map((category, idx) => <SeletedFilter key={idx}>{category}</SeletedFilter>)}
+          tempCategory.map((category, idx) => (
+            <SeletedFilter key={idx}>{category}</SeletedFilter>
+          ))}
       </FilterTitle>
       {isFilterShow && (
         <UlContainer>

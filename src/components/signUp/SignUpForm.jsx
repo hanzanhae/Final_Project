@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import * as S from '../../styles/signUpStyle/SignupStyle';
-import { isValidEmail, isValidPassword, containSlang } from '../../utils/validation';
+import {
+  isValidEmail,
+  isValidPassword,
+  containSlang
+} from '../../utils/validation';
 import Dragon from '../../images/dragon.png';
 import Wolf from '../../images/wolf.png';
 import Deer from '../../images/deer.png';
@@ -30,7 +34,9 @@ const SignUpForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const formFieldsFilled = Object.values(formData).every((value) => value !== '');
+    const formFieldsFilled = Object.values(formData).every(
+      (value) => value !== ''
+    );
     const noErrors = Object.keys(errors).length === 0;
     const termsAccepted = terms.service && terms.personalInfo;
 
@@ -96,7 +102,9 @@ const SignUpForm = () => {
         }
 
         if (status === 400 && data.field_errors) {
-          const emailError = data.field_errors.find((error) => error.field === 'email');
+          const emailError = data.field_errors.find(
+            (error) => error.field === 'email'
+          );
 
           if (emailError) {
             setEmailMessage(emailError.message);
@@ -131,7 +139,9 @@ const SignUpForm = () => {
 
       if (
         name !== 'allAgree' &&
-        (!updatedTerms.service || !updatedTerms.personalInfo || !updatedTerms.marketing)
+        (!updatedTerms.service ||
+          !updatedTerms.personalInfo ||
+          !updatedTerms.marketing)
       ) {
         updatedTerms.allAgree = false;
       }
@@ -142,7 +152,11 @@ const SignUpForm = () => {
         updatedTerms.marketing = checked;
       }
 
-      if (updatedTerms.service && updatedTerms.personalInfo && updatedTerms.marketing) {
+      if (
+        updatedTerms.service &&
+        updatedTerms.personalInfo &&
+        updatedTerms.marketing
+      ) {
         updatedTerms.allAgree = true;
       }
 
@@ -197,7 +211,9 @@ const SignUpForm = () => {
       <S.Title>회원가입</S.Title>
       <S.Form onSubmit={handleSubmit}>
         <S.ProfileContainer>
-          <S.AddProfileImg onClick={() => document.getElementById('profileImageInput').click()}>
+          <S.AddProfileImg
+            onClick={() => document.getElementById('profileImageInput').click()}
+          >
             {preview ? (
               <img
                 src={preview}
@@ -269,7 +285,9 @@ const SignUpForm = () => {
         <S.ErrorWrapper>
           {errors.email && <S.ErrorMsg>{errors.email}</S.ErrorMsg>}
           {emailMessage && (
-            <S.EmailStatusMessage success={emailStatus}>{emailMessage}</S.EmailStatusMessage>
+            <S.EmailStatusMessage success={emailStatus}>
+              {emailMessage}
+            </S.EmailStatusMessage>
           )}
         </S.ErrorWrapper>
         <S.InputContainer>
@@ -295,12 +313,14 @@ const SignUpForm = () => {
           />
         </S.InputContainer>
         <S.ErrorWrapper>
-          {errors.confirmPassword && <S.ErrorMsg>{errors.confirmPassword}</S.ErrorMsg>}
+          {errors.confirmPassword && (
+            <S.ErrorMsg>{errors.confirmPassword}</S.ErrorMsg>
+          )}
         </S.ErrorWrapper>
         <S.TermsContainer>
           <S.TermsHeader>
-            서비스 이용 약관과 개인정보 수집 및 이용을 확인하시고, 만 14세 이상임에 동의하신 후 미리
-            보기 화면으로 이동하시기 바랍니다.
+            서비스 이용 약관과 개인정보 수집 및 이용을 확인하시고, 만 14세
+            이상임에 동의하신 후 미리 보기 화면으로 이동하시기 바랍니다.
           </S.TermsHeader>
           <S.TermsWrapper>
             <S.Checkbox

@@ -49,7 +49,9 @@ export const AdminContent = styled.main`
   margin-top: 80px; /* AdminHeader height */
   padding: 20px;
   background-color: #f9f9f9;
-  min-height: calc(100vh - 8vh - 60px); /* 전체 높이에서 MainHeader와 AdminHeader를 뺀 값 */
+  min-height: calc(
+    100vh - 8vh - 60px
+  ); /* 전체 높이에서 MainHeader와 AdminHeader를 뺀 값 */
 `;
 
 export const CollapseButton = styled.button`

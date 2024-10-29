@@ -88,8 +88,8 @@ export const Li = styled.li`
   cursor: pointer;
   font-weight: 500;
   font-size: 0.8rem;
-  background-color: ${({ $isSelected, theme }) =>
-    $isSelected ? theme.pointColorLight : '#efefef'};
+  background-color: ${({ isSelected, theme }) =>
+    isSelected ? theme.pointColorLight : '#efefef'};
   &:hover {
     background-color: ${({ theme }) => theme.pointColorLight};
   }

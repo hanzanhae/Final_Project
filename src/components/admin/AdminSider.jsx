@@ -26,7 +26,12 @@ const AdminSider = ({ collapsed, setCollapsed }) => {
       onCollapse={setCollapsed}
       style={{ height: '100vh', position: 'fixed', top: '8vh' }}
     >
-      <Menu theme="dark" defaultSelectedKeys={['/admin']} mode="inline" onClick={handleMenuClick}>
+      <Menu
+        theme="dark"
+        defaultSelectedKeys={['/admin']}
+        mode="inline"
+        onClick={handleMenuClick}
+      >
         <Menu.Item key="/admin" icon={<HomeOutlined />}>
           홈
         </Menu.Item>

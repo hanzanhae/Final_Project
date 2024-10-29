@@ -59,8 +59,10 @@ const MeetingList = () => {
       optionMatch = true;
     }
 
-    const distanceMatch = !selectedDistance || list.distance === selectedDistance;
-    const categoryMatch = selectedCategory.length === 0 || selectedCategory.includes(list.category);
+    const distanceMatch =
+      !selectedDistance || list.distance === selectedDistance;
+    const categoryMatch =
+      selectedCategory.length === 0 || selectedCategory.includes(list.category);
 
     return optionMatch && distanceMatch && categoryMatch;
   });
@@ -93,7 +95,10 @@ const MeetingList = () => {
     <Container>
       <ListUl>
         {currentMeetingList.map((list) => {
-          const enterMembers = Array.from({ length: list.capacity }, (_, idx) => `이름${idx + 1}`);
+          const enterMembers = Array.from(
+            { length: list.capacity },
+            (_, idx) => `이름${idx + 1}`
+          );
 
           return (
             <Link to={`/detail/${list.id}`} key={list.id}>

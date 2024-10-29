@@ -11,7 +11,7 @@ export const ChatRoomContainer = styled.div`
 
 // chatRayout Style
 
-export const ChatRayoutContainer = styled.div`
+export const ChatLayoutContainer = styled.div`
   width: 100%;
   height: 15%;
   padding: 1rem;

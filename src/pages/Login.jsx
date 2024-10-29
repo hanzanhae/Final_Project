@@ -17,11 +17,17 @@ const Login = () => {
   return (
     <S.ImageContainer>
       <S.Container>
-        <S.FormContainer $isSignUp={!isRightPanelActive} $isRightPanelActive={!isRightPanelActive}>
+        <S.FormContainer
+          $isSignUp={!isRightPanelActive}
+          $isRightPanelActive={!isRightPanelActive}
+        >
           <LoginForm />
         </S.FormContainer>
 
-        <S.FormContainer $isSignUp={isRightPanelActive} $isRightPanelActive={!isRightPanelActive}>
+        <S.FormContainer
+          $isSignUp={isRightPanelActive}
+          $isRightPanelActive={!isRightPanelActive}
+        >
           <SignUpForm />
         </S.FormContainer>
 

@@ -1,8 +1,22 @@
 import thumbnailimg from '../images/thumbnail.jpg';
 
 export const optionList = ['전체', '참여가능', '마감임박'];
-export const distanceList = ['자유', '3km', '5km', '15km', '21.0975km', '42.195km'];
-export const categoryList = ['런린이', '고인물', '마라톤', '모닝런닝', '퇴근런닝', '건강'];
+export const distanceList = [
+  '자유',
+  '3km',
+  '5km',
+  '15km',
+  '21.0975km',
+  '42.195km'
+];
+export const categoryList = [
+  '런린이',
+  '고인물',
+  '마라톤',
+  '모닝런닝',
+  '퇴근런닝',
+  '건강'
+];
 
 // 임시모임리스트
 export const meetingList = [];

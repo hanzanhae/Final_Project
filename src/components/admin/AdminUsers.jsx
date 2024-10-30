@@ -127,7 +127,12 @@ const AdminUsers = () => {
       ]);
 
       setReportedUsers([
-        { id: 3, nickname: 'User3', email: 'user3@example.com', reportCount: 1 },
+        {
+          id: 3,
+          nickname: 'User3',
+          email: 'user3@example.com',
+          reportCount: 1
+        },
         { id: 4, nickname: 'User4', email: 'user4@example.com', reportCount: 3 }
       ]);
       setLoading(false);
@@ -176,7 +181,9 @@ const AdminUsers = () => {
       title: '신고 횟수',
       dataIndex: 'reportCount',
       key: 'reportCount',
-      render: (text) => <span style={{ color: text >= 3 ? 'red' : 'orange' }}>{text}</span>
+      render: (text) => (
+        <span style={{ color: text >= 3 ? 'red' : 'orange' }}>{text}</span>
+      )
     }
   ];
 

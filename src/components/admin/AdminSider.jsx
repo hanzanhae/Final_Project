@@ -5,19 +5,14 @@ import {
   HomeOutlined,
   UserOutlined,
   TeamOutlined,
-  CalendarOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined
+  CalendarOutlined
 } from '@ant-design/icons';
-import { Sider, CollapseButton } from '../../styles/adminStyle';
+import { Sider, MenuWrapper } from '../../styles/adminStyle';
 
 const AdminSider = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [selectedKey, setSelectedKey] = useState('');
-  const [collapsed, setCollapsed] = useState(
-    JSON.parse(localStorage.getItem('siderCollapsed')) || false
-  );
 
   useEffect(() => {
     if (location.pathname.startsWith('/admin/home')) {
@@ -51,54 +46,24 @@ const AdminSider = () => {
     }
   };
 
-  const toggleCollapsed = () => {
-    const newCollapsed = !collapsed;
-    setCollapsed(newCollapsed);
-    localStorage.setItem('siderCollapsed', JSON.stringify(newCollapsed));
-  };
+  const items = [
+    { label: '홈', key: 'home', icon: <HomeOutlined /> },
+    { label: '회원 관리', key: 'users', icon: <UserOutlined /> },
+    { label: '모임 관리', key: 'meetings', icon: <TeamOutlined /> },
+    { label: '이벤트 관리', key: 'events', icon: <CalendarOutlined /> }
+  ];
 
   return (
-    <Sider collapsed={collapsed}>
-      <Menu
-        mode="inline"
-        selectedKeys={[selectedKey]}
-        onClick={({ key }) => handleMenuClick(key)}
-        theme="dark"
-        style={{
-          borderRight: 0,
-          backgroundColor: 'inherit',
-          color: '#fff'
-        }}
-      >
-        <Menu.Item key="home" icon={<HomeOutlined />}>
-          홈
-        </Menu.Item>
-        <Menu.Item key="users" icon={<UserOutlined />}>
-          회원 관리
-        </Menu.Item>
-        <Menu.Item key="meetings" icon={<TeamOutlined />}>
-          모임 관리
-        </Menu.Item>
-        <Menu.Item key="events" icon={<CalendarOutlined />}>
-          이벤트 관리
-        </Menu.Item>
-      </Menu>
-
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '10px',
-          left: 0,
-          right: 0,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        <CollapseButton onClick={toggleCollapsed}>
-          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-        </CollapseButton>
-      </div>
+    <Sider>
+      <MenuWrapper>
+        <Menu
+          mode="inline"
+          selectedKeys={[selectedKey]}
+          onClick={({ key }) => handleMenuClick(key)}
+          theme="dark"
+          items={items}
+        />
+      </MenuWrapper>
     </Sider>
   );
 };

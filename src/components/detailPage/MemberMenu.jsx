@@ -24,7 +24,12 @@ const MemberMenu = ({ setActiveMember }) => {
           <MenuLi onClick={handleShowModal}>신고하기</MenuLi>
         </MenuUl>
       </MenuBox>
-      {showModal && <ReportModal setShowModal={setShowModal} setActiveMember={setActiveMember} />}
+      {showModal && (
+        <ReportModal
+          setShowModal={setShowModal}
+          setActiveMember={setActiveMember}
+        />
+      )}
     </>
   );
 };

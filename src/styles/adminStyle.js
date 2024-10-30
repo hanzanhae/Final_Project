@@ -6,9 +6,8 @@ export const AdminLayout = styled.div`
 `;
 
 export const Sider = styled.div`
-  width: ${(props) => (props.collapsed ? '80px' : '200px')};
+  width: 200px;
   background-color: #001529;
-  transition: width 0.2s;
   position: fixed;
   top: 8vh;
   bottom: 0;
@@ -17,12 +16,17 @@ export const Sider = styled.div`
 `;
 
 export const ContentLayout = styled.div`
-  margin-left: ${(props) => (props.collapsed ? '80px' : '200px')};
-  transition: margin-left 0.2s;
+  margin-left: 200px;
   width: 100%;
   padding: 20px;
   background-color: #f0f2f5;
   min-height: calc(100vh - 8vh);
+`;
+
+export const MenuWrapper = styled.div`
+  border-right: 0;
+  background-color: inherit;
+  color: #fff;
 `;
 
 export const AdminHeader = styled.header`
@@ -50,13 +54,4 @@ export const AdminContent = styled.main`
   padding: 20px;
   background-color: #f9f9f9;
   min-height: calc(100vh - 8vh - 60px);
-`;
-
-export const CollapseButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.2rem;
-  color: #fff;
-  margin-left: 10px;
 `;

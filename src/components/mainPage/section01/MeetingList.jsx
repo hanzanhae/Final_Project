@@ -76,20 +76,31 @@ const MeetingList = () => {
 
   // 모임데이터🚂...
   const fetchGatheringDetail = async () => {
-    const data = await gatheringDetailData(1);
-    // console.log(data);
-    // setGetheringData();
-    // setGetheringMembers();
+    const data = await gatheringDetailData();
+    console.log(data);
+    if (data) {
+      const gatheringResponse = data.gathering_response;
+      const gatheringMembers = data.gathering_members;
+      setGetheringData(gatheringResponse);
+      setGetheringMembers(gatheringMembers);
+    } else {
+      console.log('모임상세데이터를 가져오는 데 실패했습니다.');
+    }
   };
   const fetchGatheringImages = async () => {
-    const data = await gatheringImagesData(1);
-    // console.log(data);
-    // setGetheringImages();
+    const data = await gatheringImagesData();
+    console.log(data);
+    if (data) {
+      const gatheringImgUrl = data.contentImageUrls;
+      setGetheringImages(gatheringImgUrl);
+    } else {
+      console.log('모임이미지데이터를 가져오는 데 실패했습니다.');
+    }
   };
-  // useEffect(() => {
-  //   fetchGatheringDetail();
-  //   fetchGatheringImages();
-  // }, []);
+  useEffect(() => {
+    // fetchGatheringDetail();
+    // fetchGatheringImages();
+  }, []);
 
   return (
     <Container>

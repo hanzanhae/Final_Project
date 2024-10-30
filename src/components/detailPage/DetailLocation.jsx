@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const KakaoUrl = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=6644709f45a5cc88a4139bf30cc32de1&autoload=false`;
+const apiKey = '6644709f45a5cc88a4139bf30cc32de1';
+const KakaoUrl = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false`;
 
 const KakaoLocation = () => {
   const mapContainerRef = useRef(null);
@@ -10,7 +11,7 @@ const KakaoLocation = () => {
 
   // 현재위치데이터
   const getUserLocation = () => {
-    const success = (position) => {
+    const success = async (position) => {
       // console.log('위치정보: ', position);
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
@@ -41,7 +42,10 @@ const KakaoLocation = () => {
           center: new window.kakao.maps.LatLng(33.450701, 126.570667),
           level: 3
         };
-        mapRef.current = new window.kakao.maps.Map(mapContainerRef.current, mapOption);
+        mapRef.current = new window.kakao.maps.Map(
+          mapContainerRef.current,
+          mapOption
+        );
 
         getUserLocation();
       } else {
@@ -55,7 +59,11 @@ const KakaoLocation = () => {
     loadKakaoMap();
   }, []);
 
-  return <MapBox ref={mapContainerRef}>{errorMsg && <ErrorMsg>{errorMsg}</ErrorMsg>}</MapBox>;
+  return (
+    <MapBox ref={mapContainerRef}>
+      {errorMsg && <ErrorMsg>{errorMsg}</ErrorMsg>}
+    </MapBox>
+  );
 };
 
 export default KakaoLocation;

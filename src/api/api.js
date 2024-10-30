@@ -46,6 +46,7 @@ export const formSubmit = async (formData) => {
 export const gatheringDetailData = async (gathering_id) => {
   try {
     const response = await instance.get(`/gatherings/${gathering_id}`);
+    console.log('API 응답:', response);
     return response.data;
   } catch (error) {
     console.error('상세페이지 데이터를 가져오는 중 오류발생:', error.message);

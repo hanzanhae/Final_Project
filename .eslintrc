@@ -1,6 +1,10 @@
 {
-  "extends": ["eslint:recommended", "prettier"],
-  "plugins": ["prettier"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["react", "prettier"],
   "env": {
     "browser": true,
     "node": true,
@@ -14,12 +18,25 @@
     "ecmaVersion": "latest"
   },
   "rules": {
-    "prettier/prettier": ["error"],
-    "no-var": "error", // var 금지
-    "eqeqeq": "error", // 일치 연산자 사용 필수
-    "no-unused-vars": "error", // 사용하지 않는 변수 금지
-    "indent": ["error", 2],
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "printWidth": 80,
+        "tabWidth": 2,
+        "ignoredNodes": ["TemplateLiteral"]
+      }
+    ],
+    "eqeqeq": "error",
+    "indent": ["error", 2, { "SwitchCase": 1 }],
     "comma-dangle": ["error", "never"],
-    "react/jsx-uses-vars": "error"
+    "react/jsx-uses-vars": "error",
+    "linebreak-style": ["error", "unix"],
+    "react/prop-types": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

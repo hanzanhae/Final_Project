@@ -13,11 +13,6 @@ import {
   ThumbNailBox,
   Wrapper
 } from '../../styles/detailPage/DetailStyle';
-// import {
-//   DetailContainer,
-//   ThumbNailImage,
-//   Wrapper
-// } from '../../styles/detailPage/DetailStyle';
 
 const Detail = () => {
   const { id } = useParams();

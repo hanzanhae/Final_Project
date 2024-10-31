@@ -1,4 +1,5 @@
 export const mockMeetings = [
+  { date: '2024-09-01', type: 'attended' },
   { date: '2024-09-05', type: 'attended' },
   { date: '2024-09-11', type: 'attended' },
   { date: '2024-10-10', type: 'attended' },

@@ -19,7 +19,12 @@ import {
 const Banner = () => {
   return (
     <MainBanner>
-      <BannerImg src={BannerBg} alt="bannerimg" loading="lazy" decoding="async" />
+      <BannerImg
+        src={BannerBg}
+        alt="bannerimg"
+        loading="lazy"
+        decoding="async"
+      />
       <BannerText>
         <Title>런닝으로 만나는 우리</Title>
         <Text>관심사 기반 커뮤니티, 런토</Text>

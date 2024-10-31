@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { categoryList, distanceList, optionList } from '../../../data/meetingList';
+import {
+  categoryList,
+  distanceList,
+  optionList
+} from '../../../data/meetingList';
 
 // icon
 import ArrowDownIcon from '../../../icons/arrow-down.svg';
@@ -12,7 +16,7 @@ import {
   CloseBtn,
   ContainerInner,
   FilterBox,
-  FilterBtn,
+  // FilterBtn,
   FilterReset,
   FilterTitle,
   Li,
@@ -21,6 +25,7 @@ import {
   UlContainer,
   UlTitle
 } from '../../../styles/mainPage/FilterMenuStyle';
+import { UniBtn } from '../../button/UniBtn';
 
 const FilterKeyword = () => {
   const option = optionList;
@@ -86,7 +91,9 @@ const FilterKeyword = () => {
         {tempOption && <SeletedFilter>{tempOption}</SeletedFilter>}
         {tempDistance && <SeletedFilter>{tempDistance}</SeletedFilter>}
         {tempCategory.length > 0 &&
-          tempCategory.map((category, idx) => <SeletedFilter key={idx}>{category}</SeletedFilter>)}
+          tempCategory.map((category, idx) => (
+            <SeletedFilter key={idx}>{category}</SeletedFilter>
+          ))}
       </FilterTitle>
       {isFilterShow && (
         <UlContainer>
@@ -100,7 +107,7 @@ const FilterKeyword = () => {
                 <Li
                   key={option}
                   onClick={() => handleSelectOption(option)}
-                  isSelected={tempOption === option}
+                  $isSelected={tempOption === option}
                 >
                   {option}
                 </Li>
@@ -114,7 +121,7 @@ const FilterKeyword = () => {
                 <Li
                   key={distance}
                   onClick={() => handleSelectDistance(distance)}
-                  isSelected={tempDistance === distance}
+                  $isSelected={tempDistance === distance}
                 >
                   {distance}
                 </Li>
@@ -128,14 +135,16 @@ const FilterKeyword = () => {
                 <Li
                   key={category}
                   onClick={() => handleSelectCategory(category)}
-                  isSelected={tempCategory.includes(category)}
+                  $isSelected={tempCategory.includes(category)}
                 >
                   {category}
                 </Li>
               ))}
             </Ul>
           </ContainerInner>
-          <FilterBtn onClick={handleApplyFilters}>적용</FilterBtn>
+          <UniBtn onClick={handleApplyFilters} $margin="1rem 0 0 0">
+            적용
+          </UniBtn>
         </UlContainer>
       )}
     </FilterBox>

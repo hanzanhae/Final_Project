@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaCheckCircle, FaTimesCircle, FaBell, FaCalendarAlt } from 'react-icons/fa';
+import {
+  FaCheckCircle,
+  FaTimesCircle,
+  FaBell,
+  FaCalendarAlt
+} from 'react-icons/fa';
 import { mockMeetings } from '../../data/mockMeetings';
 
 const renderMeetingIcon = (meetingType) => {
@@ -11,7 +16,14 @@ const renderMeetingIcon = (meetingType) => {
   return null;
 };
 
-const Days = ({ day, fullDate, isHoliday, isCurrentMonthDate, isPreviousMonth, isNextMonth }) => {
+const Days = ({
+  day,
+  fullDate,
+  isHoliday,
+  isCurrentMonthDate,
+  isPreviousMonth,
+  isNextMonth
+}) => {
   const getMeetingTypeForDay = (fullDate) => {
     const meeting = mockMeetings.find((meeting) => {
       const meetingDate = new Date(meeting.date);

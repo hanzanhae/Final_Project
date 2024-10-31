@@ -23,7 +23,9 @@ const Calendar = () => {
             params: {
               serviceKey: API_KEY,
               solYear: currentMonth.getFullYear(),
-              solMonth: (currentMonth.getMonth() + 1).toString().padStart(2, '0'),
+              solMonth: (currentMonth.getMonth() + 1)
+                .toString()
+                .padStart(2, '0'),
               _type: 'json'
             }
           }
@@ -64,14 +66,24 @@ const Calendar = () => {
   };
 
   const handlePrevMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+    setCurrentMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
+    );
   };
   const handleNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+    setCurrentMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
+    );
   };
 
-  const daysInMonth = getDaysInMonth(currentMonth.getMonth(), currentMonth.getFullYear());
-  const firstDayOfMonth = getFirstDayOfMonth(currentMonth.getMonth(), currentMonth.getFullYear());
+  const daysInMonth = getDaysInMonth(
+    currentMonth.getMonth(),
+    currentMonth.getFullYear()
+  );
+  const firstDayOfMonth = getFirstDayOfMonth(
+    currentMonth.getMonth(),
+    currentMonth.getFullYear()
+  );
 
   const currentDays = Array.from({ length: daysInMonth }, (_, i) => ({
     day: i + 1,
@@ -81,7 +93,10 @@ const Calendar = () => {
   }));
 
   const prevDaysCount = firstDayOfMonth;
-  const prevMonthLastDay = getDaysInMonth(currentMonth.getMonth() - 1, currentMonth.getFullYear());
+  const prevMonthLastDay = getDaysInMonth(
+    currentMonth.getMonth() - 1,
+    currentMonth.getFullYear()
+  );
   const prevDays = Array.from({ length: prevDaysCount }, (_, i) => ({
     day: prevMonthLastDay - i,
     isCurrentMonth: false,

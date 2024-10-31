@@ -20,7 +20,8 @@ const DaysGrid = ({ daysArray, currentMonth, holidays }) => {
 
         const fullDate = new Date(
           currentMonth.getFullYear(),
-          currentMonth.getMonth() + (dayObj.isNextMonth ? 1 : dayObj.isPreviousMonth ? -1 : 0),
+          currentMonth.getMonth() +
+            (dayObj.isNextMonth ? 1 : dayObj.isPreviousMonth ? -1 : 0),
           dayObj.day
         );
 

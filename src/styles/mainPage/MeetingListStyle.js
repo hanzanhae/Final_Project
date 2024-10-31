@@ -22,12 +22,10 @@ export const ListLi = styled.li`
   }
 `;
 
-export const ImgBox = styled.div`
+export const ThumbNailImg = styled.img`
   width: 25%;
   aspect-ratio: 1/1;
   border-radius: 0.5rem;
-  background-image: url(${(props) => props.$thumbnailimg});
-  background-position: center;
 `;
 
 export const InfoBox = styled.div`

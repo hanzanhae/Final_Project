@@ -26,7 +26,10 @@ const MainMap = () => {
           },
           (error) => {
             console.error('Failed to get user location:', error);
-            const defaultPosition = new window.kakao.maps.LatLng(37.5665, 126.978);
+            const defaultPosition = new window.kakao.maps.LatLng(
+              37.5665,
+              126.978
+            );
             const mapContainer = document.getElementById('map');
             const mapOption = {
               center: defaultPosition,
@@ -48,14 +51,19 @@ const MainMap = () => {
   }, []);
 
   const fetchMeetings = async (map, latitude, longitude) => {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+    const response = await axios.get(
+      'https://jsonplaceholder.typicode.com/posts'
+    );
     const fakeMeetings = response.data.slice(0, 5).map((meeting, index) => ({
       latitude: latitude + index * 0.01,
       longitude: longitude + index * 0.01
     }));
 
     fakeMeetings.forEach((meeting, index) => {
-      const markerPosition = new window.kakao.maps.LatLng(meeting.latitude, meeting.longitude);
+      const markerPosition = new window.kakao.maps.LatLng(
+        meeting.latitude,
+        meeting.longitude
+      );
       const marker = new window.kakao.maps.Marker({ position: markerPosition });
       marker.setMap(map);
 
@@ -71,7 +79,9 @@ const MainMap = () => {
 
   return (
     <Container>
-      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>진행중인 모임들</h1>
+      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>
+        진행중인 모임들
+      </h1>
       <MapContainer id="map"></MapContainer>
     </Container>
   );

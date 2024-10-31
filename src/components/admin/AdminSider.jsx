@@ -1,48 +1,69 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Menu } from 'antd';
 import {
   HomeOutlined,
   UserOutlined,
   TeamOutlined,
-  CalendarOutlined,
-  WarningOutlined
+  CalendarOutlined
 } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import { Layout } from 'antd'; // Ant Design의 Sider 사용
+import { Sider, MenuWrapper } from '../../styles/adminStyle';
 
-const { Sider } = Layout; // Ant Design의 Sider 컴포넌트 사용
-
-const AdminSider = ({ collapsed, setCollapsed }) => {
+const AdminSider = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+  const [selectedKey, setSelectedKey] = useState('');
 
-  const handleMenuClick = ({ key }) => {
-    navigate(key);
+  useEffect(() => {
+    if (location.pathname.startsWith('/admin/home')) {
+      setSelectedKey('home');
+    } else if (location.pathname.startsWith('/admin/users')) {
+      setSelectedKey('users');
+    } else if (location.pathname.startsWith('/admin/meetings')) {
+      setSelectedKey('meetings');
+    } else if (location.pathname.startsWith('/admin/events')) {
+      setSelectedKey('events');
+    }
+  }, [location.pathname]);
+
+  const handleMenuClick = (key) => {
+    setSelectedKey(key);
+    switch (key) {
+      case 'home':
+        navigate('/admin/home');
+        break;
+      case 'users':
+        navigate('/admin/users');
+        break;
+      case 'meetings':
+        navigate('/admin/meetings');
+        break;
+      case 'events':
+        navigate('/admin/events');
+        break;
+      default:
+        break;
+    }
   };
 
+  const items = [
+    { label: '홈', key: 'home', icon: <HomeOutlined /> },
+    { label: '회원 관리', key: 'users', icon: <UserOutlined /> },
+    { label: '모임 관리', key: 'meetings', icon: <TeamOutlined /> },
+    { label: '이벤트 관리', key: 'events', icon: <CalendarOutlined /> }
+  ];
+
   return (
-    <Sider
-      collapsible
-      collapsed={collapsed}
-      onCollapse={setCollapsed}
-      style={{ height: '100vh', position: 'fixed', top: '8vh' }}
-    >
-      <Menu theme="dark" defaultSelectedKeys={['/admin']} mode="inline" onClick={handleMenuClick}>
-        <Menu.Item key="/admin" icon={<HomeOutlined />}>
-          홈
-        </Menu.Item>
-        <Menu.Item key="/admin/users" icon={<UserOutlined />}>
-          회원 관리
-        </Menu.Item>
-        <Menu.Item key="/admin/meetings" icon={<TeamOutlined />}>
-          모임 관리
-        </Menu.Item>
-        <Menu.Item key="/admin/events" icon={<CalendarOutlined />}>
-          이벤트 관리
-        </Menu.Item>
-        <Menu.Item key="/admin/reports" icon={<WarningOutlined />}>
-          신고 처리
-        </Menu.Item>
-      </Menu>
+    <Sider>
+      <MenuWrapper>
+        <Menu
+          mode="inline"
+          selectedKeys={[selectedKey]}
+          onClick={({ key }) => handleMenuClick(key)}
+          theme="dark"
+          items={items}
+        />
+      </MenuWrapper>
     </Sider>
   );
 };

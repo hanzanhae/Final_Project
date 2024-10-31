@@ -20,7 +20,9 @@ const Banner = () => {
       <Link to="/addMeet">
         <MakeBtn>
           런닝모임 개설하기
-          <CaretRightOutlined />
+          <Icon>
+            <CaretRightOutlined />
+          </Icon>
         </MakeBtn>
       </Link>
     </MainBanner>
@@ -36,6 +38,7 @@ const MainBanner = styled.div`
   position: relative;
   overflow: hidden;
   z-index: 1001;
+  filter: ${({ theme }) => theme.filter};
 `;
 const BannerImg = styled.img`
   width: 100%;
@@ -64,19 +67,28 @@ const Text = styled.p`
   font-weight: 600;
   color: ${({ theme }) => theme.textColor};
 `;
-
 const MakeBtn = styled.button`
+  padding: 0.25rem 2rem 0.25rem 1rem;
   display: flex;
   align-items: center;
   position: absolute;
-  right: 2rem;
+  right: 0;
   bottom: 2rem;
-  color: #fff;
+  border-start-start-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  background-color: ${({ theme }) => theme.bgColorBitDark};
+  color: ${({ theme }) => theme.textColor};
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 1px;
-  opacity: 0.7;
-  &:hover {
-    opacity: 1;
+  transition: opacity 0.5s;
+`;
+const Icon = styled.div`
+  display: flex;
+  align-items: center;
+  transition: transform 0.5s;
+
+  ${MakeBtn}:hover & {
+    transform: translateX(1rem);
   }
 `;

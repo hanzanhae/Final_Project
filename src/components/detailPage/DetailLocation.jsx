@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const apiKey = '6644709f45a5cc88a4139bf30cc32de1';
+const apiKey = process.env.REACT_APP_Detail_Kakao_API_KEY;
 const KakaoUrl = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false`;
 
 const KakaoLocation = () => {
@@ -49,7 +49,7 @@ const KakaoLocation = () => {
 
         getUserLocation();
       } else {
-        console.error('Kakao Maps API 로드에 실패했습니다:'); //, error);
+        console.error('Kakao Maps API 로드에 실패했습니다:', error);
       }
     };
     document.head.appendChild(script);

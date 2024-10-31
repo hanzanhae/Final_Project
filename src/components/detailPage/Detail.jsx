@@ -1,18 +1,10 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { meetingList } from '../../data/meetingList';
 import DetailInfo from './DetailInfo';
 import DetailMember from './DetailMember';
-
 import ThumbNailImg from '../../images/detailThumbNail.jpg';
-
-// style
-import {
-  DetailContainer,
-  ImgBox,
-  ThumbNailBox,
-  Wrapper
-} from '../../styles/detailPage/DetailStyle';
 
 const Detail = () => {
   const { id } = useParams();
@@ -37,3 +29,32 @@ const Detail = () => {
 };
 
 export default Detail;
+
+// style
+const Wrapper = styled.div`
+  margin: auto;
+  margin-top: 10vh;
+  padding: 1rem 0 3rem;
+  width: 70%;
+`;
+const ThumbNailBox = styled.div`
+  width: 100%;
+  height: 40vh;
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+`;
+const ImgBox = styled.img`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  object-fit: cover;
+  object-position: bottom;
+`;
+const DetailContainer = styled.div`
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+`;

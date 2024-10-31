@@ -5,6 +5,7 @@ export const MainBanner = styled.div`
   height: 100vh;
   position: relative;
   overflow: hidden;
+  z-index: 1001;
 `;
 export const BannerImg = styled.img`
   width: 100%;
@@ -14,7 +15,7 @@ export const BannerImg = styled.img`
   left: 50%;
   transform: translate(-50%, -50%);
   object-fit: cover;
-  object-position: top;
+  object-position: bottom;
 `;
 export const BannerText = styled.div`
   width: fit-content;

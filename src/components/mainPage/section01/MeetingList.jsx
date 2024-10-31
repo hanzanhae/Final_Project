@@ -1,39 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { meetingList } from '../../../data/meetingList';
-
-// icon
-import PinIcon from '../../../icons/map-pin.svg';
-import UsersIcon from '../../../icons/users.svg';
-
-// style
-import {
-  Capacity,
-  Container,
-  Icon,
-  ImgBox,
-  InfoBox,
-  InnerDot,
-  InnerText,
-  Keyword,
-  KeywordBox,
-  KeywordDate,
-  KeywordText,
-  ListLi,
-  ListUl,
-  Member,
-  MemberBox,
-  Members,
-  MoreBtn,
-  MoreMsg,
-  TimeBox,
-  Title
-} from '../../../styles/mainPage/MeetingListStyle';
+import { gatheringDetailData, gatheringImagesData } from '../../../api/api';
+import MeetingListBox from './MeetingListBox';
 
 const LIST_PERPAGE = 8;
 
 const MeetingList = () => {
+  // 모임데이터상태관리
+  const [gatheringData, setGetheringData] = useState({});
+  const [gatheringMembers, setGetheringMembers] = useState([]);
+  const [gatheringImages, setGetheringImages] = useState([]);
+
   const { selectedOption, selectedDistance, selectedCategory } = useSelector(
     (state) => state.filter
   );
@@ -52,8 +32,10 @@ const MeetingList = () => {
       optionMatch = true;
     }
 
-    const distanceMatch = !selectedDistance || list.distance === selectedDistance;
-    const categoryMatch = selectedCategory.length === 0 || selectedCategory.includes(list.category);
+    const distanceMatch =
+      !selectedDistance || list.distance === selectedDistance;
+    const categoryMatch =
+      selectedCategory.length === 0 || selectedCategory.includes(list.category);
 
     return optionMatch && distanceMatch && categoryMatch;
   });
@@ -65,53 +47,50 @@ const MeetingList = () => {
     setVisibleList((prev) => prev + LIST_PERPAGE);
   };
 
+  // 모임데이터🚂...
+  const fetchGatheringDetail = async () => {
+    const data = await gatheringDetailData();
+    console.log(data);
+    if (data) {
+      const gatheringResponse = data.gathering_response;
+      const gatheringMembers = data.gathering_members;
+      setGetheringData(gatheringResponse);
+      setGetheringMembers(gatheringMembers);
+    } else {
+      console.log('모임상세데이터가 존재하지 않습니다.');
+    }
+  };
+  const fetchGatheringImages = async () => {
+    const data = await gatheringImagesData();
+    console.log(data);
+    if (data) {
+      const gatheringImgUrl = data.contentImageUrls;
+      setGetheringImages(gatheringImgUrl);
+    } else {
+      console.log('모임이미지데이터가 존재하지 않습니다.');
+    }
+  };
+  useEffect(() => {
+    fetchGatheringDetail();
+    fetchGatheringImages();
+  }, []);
+
   return (
     <Container>
       <ListUl>
         {currentMeetingList.map((list) => {
-          const enterMembers = Array.from({ length: list.capacity }, (_, idx) => `이름${idx + 1}`);
-
+          const enterMembers = Array.from(
+            { length: list.capacity },
+            (_, idx) => `이름${idx + 1}`
+          );
           return (
             <Link to={`/detail/${list.id}`} key={list.id}>
-              <ListLi>
-                <ImgBox $thumbnailimg={list.thumbNail} />
-                <InfoBox>
-                  <KeywordBox>
-                    <KeywordText>
-                      <Keyword>{list.distance}</Keyword>
-                      <Keyword>{list.category}</Keyword>
-                    </KeywordText>
-                    <KeywordDate>~{list.deadlineDate}</KeywordDate>
-                  </KeywordBox>
-                  <Title>{list.title}</Title>
-                  <TimeBox>
-                    <Icon src={PinIcon} alt="pin-icon" />
-                    <InnerText>{list.location}</InnerText>
-                    <InnerDot />
-                    <InnerText>{list.date}</InnerText>
-                    <InnerDot />
-                    <InnerText>{list.time}</InnerText>
-                  </TimeBox>
-                  <MemberBox>
-                    <Members>
-                      {enterMembers.map((member, idx) => (
-                        <Member key={idx} $index={idx}>
-                          {member}
-                        </Member>
-                      ))}
-                    </Members>
-                    <Capacity>
-                      <Icon src={UsersIcon} alt="users-icon" />
-                      {`${list.capacity}/10`}
-                    </Capacity>
-                  </MemberBox>
-                </InfoBox>
-              </ListLi>
+              <MeetingListBox list={list} enterMembers={enterMembers} />
             </Link>
           );
         })}
       </ListUl>
-      {/* 페이지네이션 더보기버튼 */}
+      {/* 페이지네이션 */}
       {visibleList < filteredMeetingList.length ? (
         <MoreBtn onClick={handleClickMorePage}>더보기</MoreBtn>
       ) : (
@@ -122,3 +101,33 @@ const MeetingList = () => {
 };
 
 export default MeetingList;
+
+// style
+const Container = styled.div`
+  padding-bottom: 3rem;
+  background-color: #fff;
+`;
+const ListUl = styled.ul`
+  padding: 3rem 5rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+`;
+const MoreBtn = styled.button`
+  display: block;
+  margin: auto;
+  padding: 1rem 2rem;
+  background-color: #f0f0f0;
+  border-radius: 2rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #666;
+  &:hover {
+    color: #000;
+  }
+`;
+const MoreMsg = styled.p`
+  font-size: 0.8rem;
+  color: #666;
+  text-align: center;
+`;

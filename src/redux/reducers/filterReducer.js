@@ -1,10 +1,10 @@
-const FilterInitialState = {
+const filterInitialState = {
   selectedOption: null,
   selectedDistance: null,
   selectedCategory: []
 };
 
-const FilterReducer = (state = FilterInitialState, action) => {
+const FilterReducer = (state = filterInitialState, action) => {
   switch (action.type) {
     case 'SELECTED_OPTION':
       return { ...state, selectedOption: action.payload };

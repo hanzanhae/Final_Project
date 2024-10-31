@@ -148,7 +148,7 @@ const MainHeader = () => {
           <Link to="/login">
             <LoginBtn $isLogin={loginPath}>login</LoginBtn>
           </Link>
-          <Link to="/user">
+          <Link to="/mypage">
             <UserBtn $isLogin={loginPath}>mypage</UserBtn>
           </Link>
           <button onClick={handleLogout}>로그아웃</button>

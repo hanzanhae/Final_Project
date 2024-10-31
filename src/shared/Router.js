@@ -2,9 +2,9 @@ import React from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Home from '../pages/Home';
 import MainHeader from '../components/MainHeader';
-import User from '../pages/User';
 import AddMeeting from '../pages/AddMeeting';
 import DetailMeeting from '../pages/DetailMeeting';
+import Mypage from '../pages/Mypage';
 import Login from '../pages/Login';
 import Admin from '../pages/Admin';
 import AdminHome from '../components/admin/AdminHome';
@@ -19,9 +19,11 @@ const Router = () => {
       <MainHeader />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/addMeet" element={<AddMeeting />} />
+        <Route path="/detail" element={<DetailMeeting />} />
+        <Route path="/mypage" element={<Mypage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
-        <Route path="/user" element={<User />} />
         <Route path="/addMeet" element={<AddMeeting />} />
         <Route path="/detail/:id" element={<DetailMeeting />} />
 

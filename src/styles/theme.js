@@ -3,7 +3,7 @@ export const lightTheme = {
   bgColorBitDark: '#ffffff80',
   bgColorDark: '#ffffff',
   textColor: '#333333',
-  pointColor: '#023EC7',
+  pointColor: '#0056b3',
   pointColorLight: '#e0edff',
   filter: 'none'
 };

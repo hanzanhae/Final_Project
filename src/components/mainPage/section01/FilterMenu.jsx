@@ -1,9 +1,7 @@
 import React from 'react';
 import FilterKeyword from './FilterKeyword';
 import FilterSearch from './FilterSearch';
-
-// style
-import { FilterMenuWrapper } from '../../../styles/mainPage/FilterMenuStyle';
+import styled from 'styled-components';
 
 const FilterMenu = () => {
   return (
@@ -15,3 +13,15 @@ const FilterMenu = () => {
 };
 
 export default FilterMenu;
+
+// style
+const FilterMenuWrapper = styled.div`
+  width: 100%;
+  height: 8vh;
+  padding: 0 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border-bottom: 1px solid #ececec;
+`;

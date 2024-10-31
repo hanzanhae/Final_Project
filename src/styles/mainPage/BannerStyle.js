@@ -5,6 +5,7 @@ export const MainBanner = styled.div`
   height: 100vh;
   position: relative;
   overflow: hidden;
+  z-index: 1001;
 `;
 export const BannerImg = styled.img`
   width: 100%;

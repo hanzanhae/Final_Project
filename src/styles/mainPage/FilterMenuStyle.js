@@ -17,6 +17,7 @@ export const FilterBox = styled.div`
   align-items: center;
   gap: 1rem;
 `;
+
 export const FilterReset = styled.button`
   font-weight: 600;
   color: #555;
@@ -25,7 +26,6 @@ export const FilterReset = styled.button`
     opacity: 0.8;
   }
 `;
-
 export const FilterTitle = styled.h3`
   font-size: 1rem;
   line-height: 28px;

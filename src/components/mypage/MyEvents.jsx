@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import EventRequestForm from './EventRequestForm'; // 이벤트 신청 폼 컴포넌트
-import EventCard from './EventCard'; // 이벤트 카드 컴포넌트
+import EventRequestForm from './EventRequestForm';
+import EventCard from './EventCard';
 import eventData from './mockdata';
 
 const MyEvents = () => (

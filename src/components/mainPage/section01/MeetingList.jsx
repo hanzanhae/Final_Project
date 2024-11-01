@@ -105,7 +105,6 @@ export default MeetingList;
 // style
 const Container = styled.div`
   padding-bottom: 3rem;
-  background-color: #fff;
 `;
 const ListUl = styled.ul`
   padding: 3rem 5rem;

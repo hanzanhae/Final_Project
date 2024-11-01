@@ -36,7 +36,7 @@ const Title = styled.h4`
 `;
 const TimeBox = styled.div`
   padding: 0.5rem;
-  border: 1px solid #f4f4f5;
+  border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: 0.5rem;
   display: flex;
   align-items: center;

@@ -26,8 +26,7 @@ const FilterMenuWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #fff;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
 `;
 const Box = styled.div`
   display: flex;

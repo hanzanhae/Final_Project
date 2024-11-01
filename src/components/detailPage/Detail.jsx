@@ -32,13 +32,17 @@ export default Detail;
 
 // style
 const Wrapper = styled.div`
-  margin: auto;
-  margin-top: 10vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 1rem 0 3rem;
-  width: 70%;
+  background-color: ${({ theme }) => theme.bgColorPage};
 `;
 const ThumbNailBox = styled.div`
-  width: 100%;
+  margin-top: 10vh;
+  width: 70%;
   height: 40vh;
   border-radius: 1rem;
   overflow: hidden;
@@ -54,6 +58,7 @@ const ImgBox = styled.img`
   object-position: bottom;
 `;
 const DetailContainer = styled.div`
+  width: 70%;
   padding: 0 1rem;
   display: flex;
   justify-content: space-between;

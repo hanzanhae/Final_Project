@@ -80,7 +80,7 @@ const DaysContainer = styled.div`
   border-radius: 100%;
   position: relative;
   &:hover {
-    background: #bfd7ea;
+    background: #e0edff;
     color: white;
     transition: 0.3s;
   }

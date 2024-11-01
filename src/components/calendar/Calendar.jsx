@@ -6,11 +6,15 @@ import JoinCount from '../calendar/JoinCount';
 import CumulationCount from '../calendar/CumulationCount';
 import axios from 'axios';
 import { mockMeetings } from '../../data/mockMeetings';
+import peopleImage from '../../images/people.jpg';
+import personImage from '../../images/person.jpg';
 
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [holidays, setHolidays] = useState([]);
   const [attendedCount, setAttendedCount] = useState(0);
+  const [expanded, setExpanded] = useState(false);
+  const [isSidebarMoving, setIsSidebarMoving] = useState(false);
 
   const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -76,6 +80,14 @@ const Calendar = () => {
     );
   };
 
+  const handleClick = () => {
+    setIsSidebarMoving(true); // 사이드바 이동 시작
+    setExpanded((prev) => !prev); // 확장 상태 토글
+    setTimeout(() => {
+      setIsSidebarMoving(false); // 이동 완료 후 초기화
+    }, 500); // 애니메이션 시간과 맞춰서 설정
+  };
+
   const daysInMonth = getDaysInMonth(
     currentMonth.getMonth(),
     currentMonth.getFullYear()
@@ -122,7 +134,7 @@ const Calendar = () => {
 
   return (
     <Box>
-      <Container>
+      <Container expanded={expanded}>
         <Left>
           <CalendarContainer>
             <ControlMonth
@@ -143,8 +155,27 @@ const Calendar = () => {
             />
           </CalendarContainer>
         </Left>
+        <Sidebar expanded={expanded} isSidebarMoving={isSidebarMoving}>
+          <SidebarContent expanded={expanded}>
+            <SidebarImage expanded={expanded} src={personImage} alt="Person" />
+            <SidebarText expanded={expanded}>
+              <SidebarTitle>달리기 주의사항</SidebarTitle>
+              <SidebarComment>⦁ 열 발산 막는 모자는 쓰지 말아라</SidebarComment>
+              <SidebarComment>⦁ 기록·완주에 대한 집착을 버려라</SidebarComment>
+              <SidebarComment>
+                ⦁ 운동 전과 도중에 충분히 물 마셔라
+              </SidebarComment>
+              <SidebarComment>
+                ⦁ 당분 8% 넘는 스포츠음료는 피하라
+              </SidebarComment>
+              <SidebarComment>⦁ 현기증, 구토 난다면 즉시 멈춰라</SidebarComment>
+            </SidebarText>
+          </SidebarContent>
+          <PostThree onClick={handleClick}></PostThree>
+        </Sidebar>
+        <PostOne></PostOne>
+        <PostTwo></PostTwo>
         <Right>
-          <Notice>Click Me</Notice>
           <JoinCount attendedCount={attendedCount} />
           <CumulationCount />
         </Right>
@@ -156,20 +187,119 @@ const Calendar = () => {
 export default Calendar;
 
 const Box = styled.div`
-  margin-top: 150px;
-  font-family: 'Poppins', sans-serif;
+  margin-top: 40px;
 `;
 
 const Container = styled.div`
-  width: 730px;
+  position: relative;
+  width: 770px;
   height: 620px;
   margin: 0 auto;
   padding: 5px;
   color: white;
   display: flex;
+  box-shadow: 0 0 10px 2px #dee2e6;
+  border-radius: 30px;
+  background-image: url(${peopleImage});
+  transform: translateX(${({ expanded }) => (expanded ? '-180px' : '0')});
+  transition: transform 1s ease;
+`;
+
+const Sidebar = styled.div`
+  width: ${({ expanded }) => (expanded ? '300px' : '40px')};
+  height: 580px;
+  box-shadow: 0 0 10px 2px #dee2e6;
+  border-radius: 0 30px 30px 0;
+  background-color: #f6f6f6;
+  transition: width 0.8s ease;
+  position: absolute;
+  margin-left: 3px;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%)
+    translateX(${({ isSidebarMoving }) => (isSidebarMoving ? '5px' : '0')});
+  transition: width 0.8s ease;
+`;
+
+const SidebarContent = styled.div`
+  color: black;
+  padding: 10px;
+  margin-top: 10px;
+`;
+
+const SidebarImage = styled.img`
+  width: 270px;
+  height: 200px;
   border-radius: 10px;
-  background-color: #bde0fe;
-  box-shadow: 0 0 10px 2px #bfd7ea;
+  margin-bottom: 50px;
+  margin-left: 5px;
+  display: ${({ expanded }) => (expanded ? 'block' : 'none')};
+`;
+
+const SidebarText = styled.div`
+  width: ${({ expanded }) => (expanded ? '270px' : '0')};
+  padding: 5px;
+  margin-left: 5px;
+  border-radius: 10px;
+  opacity: ${({ expanded }) => (expanded ? 1 : 0)};
+  transform: ${({ expanded }) =>
+    expanded ? 'translateX(0)' : 'translateX(-100%)'};
+  transition:
+    width 0.2s ease,
+    opacity 0.3s ease,
+    transform 0.8s ease;
+  overflow: hidden;
+`;
+
+const SidebarTitle = styled.h2`
+  margin-top: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+`;
+
+const SidebarComment = styled.div`
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-left: 20px;
+  text-align: left;
+`;
+
+const PostOne = styled.div`
+  position: absolute;
+  top: 10%;
+  left: 100%;
+  width: 100px;
+  height: 40px;
+  border: 1px;
+  background-color: #b3dee2;
+  opacity: 0.5;
+  transform: translateY(-50%) translateX(1px);
+`;
+
+const PostTwo = styled.div`
+  position: absolute;
+  top: 20%;
+  left: 100%;
+  width: 70px;
+  height: 40px;
+  border: 1px;
+  background-color: #eaf2d7;
+  opacity: 0.7;
+  transform: translateY(-50%) translateX(1px);
+`;
+
+const PostThree = styled.div`
+  position: absolute;
+  top: 40%;
+  left: 100%;
+  margin-left: 1.5px;
+  width: 70px;
+  height: 40px;
+  border: 1px;
+  background-color: #efcfe3;
+  opacity: 0.7;
+  transform: translateY(-50%) translateX(1px);
+  transition: trnaslateX 0.5s ease;
 `;
 
 const Left = styled.div`
@@ -178,14 +308,16 @@ const Left = styled.div`
 `;
 
 const CalendarContainer = styled.div`
+  position: relative;
   width: 350px;
   height: 550px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
-  border-radius: 10px;
-  color: #a2d2ff;
+  border: 1px solid #dee2e6;
+  border-radius: 30px;
+  color: #0056b3;
   background-color: white;
 `;
 
@@ -208,15 +340,8 @@ const WeekdaysBox = styled.div`
   align-items: center;
 `;
 
-const Notice = styled.button`
-  width: 300px;
-  font-size: 1rem;
-  color: #fff;
-  cursor: pointer;
-  margin-left: 60px;
-`;
-
 const Right = styled.div`
   width: 60%;
   padding: 30px;
+  margin-left: 80px;
 `;

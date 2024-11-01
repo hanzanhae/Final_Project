@@ -1,21 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import MemberMenu from './MemberMenu';
 import PropTypes from 'prop-types';
-
-// style
-import {
-  Member,
-  MemberBox,
-  MemberContaier,
-  MemberNumber,
-  MemberTitleBox,
-  Msg,
-  Title
-} from '../../styles/detailPage/DetailStyle';
 import { UniBtn } from '../button/UniBtn';
+import styled from 'styled-components';
+import MembersBox from './MembersBox';
 
 const DetailMember = ({ meet }) => {
   const memberRef = useRef(null);
+
   const [activeMember, setActiveMember] = useState(null);
   const [enterMembers, setEnterMembers] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
@@ -55,25 +46,24 @@ const DetailMember = ({ meet }) => {
 
   return (
     <MemberContaier>
-      <UniBtn onClick={handleEnterMeeting} $margin={'0 0 2rem 0'}>
+      <UniBtn
+        onClick={handleEnterMeeting}
+        $margin="0 0 2rem 0"
+        $padding="0.5rem 1rem"
+      >
         모임참가하기
       </UniBtn>
       <MemberTitleBox>
         <Title>참여하는 사람들</Title>
         <MemberNumber>{`${enterMembers.length}/10`}</MemberNumber>
       </MemberTitleBox>
-      <MemberBox>
-        {enterMembers.map((member, idx) => (
-          <Member key={idx} onClick={() => handleShowMemberMenu(idx)}>
-            {member}
-            {activeMember === idx && (
-              <div ref={memberRef}>
-                <MemberMenu setActiveMember={setActiveMember} />
-              </div>
-            )}
-          </Member>
-        ))}
-      </MemberBox>
+      <MembersBox
+        enterMembers={enterMembers}
+        handleShowMemberMenu={handleShowMemberMenu}
+        memberRef={memberRef}
+        activeMember={activeMember}
+        setActiveMember={setActiveMember}
+      />
       <Msg>{errorMsg}</Msg>
     </MemberContaier>
   );
@@ -87,3 +77,36 @@ DetailMember.propTypes = {
 };
 
 export default DetailMember;
+
+// style
+const MemberContaier = styled.div`
+  margin-top: 100px;
+  width: 26%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+const MemberTitleBox = styled.div`
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+const Title = styled.h4`
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: #333;
+`;
+const MemberNumber = styled.p`
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #666;
+`;
+const Msg = styled.div`
+  margin-top: 2rem;
+  padding: 0 0.5rem;
+  color: red;
+  font-size: 0.8rem;
+  font-weight: 600;
+`;

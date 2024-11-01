@@ -4,25 +4,6 @@ import EventRequestForm from './EventRequestForm'; // 이벤트 신청 폼 컴�
 import EventCard from './EventCard'; // 이벤트 카드 컴포넌트
 import eventData from './mockdata';
 
-const PageContainer = styled.div`
-  display: flex;
-  padding: 20px;
-`;
-
-const Header = styled.h3`
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
-  padding-bottom: 8px;
-  letter-spacing: 1px;
-`;
-
-const Content = styled.div`
-  flex: 1;
-  padding: 20px;
-`;
-
 const MyEvents = () => (
   <PageContainer>
     <Content>
@@ -44,5 +25,25 @@ const MyEvents = () => (
     <EventRequestForm />
   </PageContainer>
 );
+
+//스타일
+const PageContainer = styled.div`
+  display: flex;
+  padding: 20px;
+`;
+
+const Header = styled.h3`
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  letter-spacing: 1px;
+`;
+
+const Content = styled.div`
+  flex: 1;
+  padding: 20px;
+`;
 
 export default MyEvents;

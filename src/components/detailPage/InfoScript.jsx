@@ -99,7 +99,7 @@ const Deadline = styled.p`
 `;
 const DescriptionBox = styled.div`
   padding: 1rem;
-  border: 1px solid #f4f4f5;
+  border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: 0.5rem;
 `;
 const Description = styled.p`

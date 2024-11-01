@@ -36,7 +36,7 @@ const Title = styled.h4`
   color: #333;
 `;
 const LocationBox = styled.div`
-  border: 1px solid #f4f4f5;
+  border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: 0.5rem;
   overflow: hidden;
 `;

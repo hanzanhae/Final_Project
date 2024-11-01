@@ -33,7 +33,12 @@ const MainHeader = () => {
   // 페이지별 헤더테마색상
   let loginPath = location.pathname === '/login';
   let headerBgColor;
-  if (location.pathname === '/') {
+  let headerTextColor;
+
+  if (loginPath) {
+    headerBgColor = darkTheme.bgColor;
+    headerTextColor = darkTheme.textColor;
+  } else if (location.pathname === '/') {
     if (isScrolled) {
       headerBgColor = isDarkMode
         ? darkTheme.bgColorDark
@@ -41,8 +46,6 @@ const MainHeader = () => {
     } else {
       headerBgColor = isDarkMode ? darkTheme.bgColor : lightTheme.bgColor;
     }
-  } else if (location.pathname === '/login') {
-    headerBgColor = darkTheme.bgColor;
   } else {
     headerBgColor = isDarkMode ? darkTheme.bgColorDark : lightTheme.bgColorDark;
   }
@@ -54,10 +57,18 @@ const MainHeader = () => {
   return (
     <Header $bgcolor={headerBgColor}>
       <HeaderInner>
-        <HeaderLogo loginPath={loginPath} />
+        <HeaderLogo loginPath={loginPath} $color={headerTextColor} />
         <BtnBox>
-          <HeaderWeather isDarkMode={isDarkMode} loginPath={loginPath} />
-          <HeaderMenu handleLogout={handleLogout} loginPath={loginPath} />
+          <HeaderWeather
+            isDarkMode={isDarkMode}
+            loginPath={loginPath}
+            $color={headerTextColor}
+          />
+          <HeaderMenu
+            handleLogout={handleLogout}
+            loginPath={loginPath}
+            $color={headerTextColor}
+          />
         </BtnBox>
       </HeaderInner>
     </Header>
@@ -74,6 +85,7 @@ const Header = styled.header`
   left: 0;
   z-index: 9999;
   background-color: ${({ $bgcolor }) => $bgcolor};
+  color: ${({ $color }) => $color};
   box-shadow: 0 0 10px 1px #00000050;
 `;
 const HeaderInner = styled.div`

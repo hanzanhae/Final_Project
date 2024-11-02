@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import MyEvents from '../components/mypage/MyEvents';
 import MyMeetings from '../components/mypage/MyMeetings';
 import MyProfile from '../components/mypage/MyProfile';
+import MyEvents from '../components/mypage/MyEvents';
 
 const Mypage = () => {
   const [activeMenu, setActiveMenu] = useState('profile');
@@ -10,28 +10,16 @@ const Mypage = () => {
   return (
     <Container>
       <Sidebar>
-        <MenuItem
-          active={activeMenu === 'profile'}
-          onClick={() => setActiveMenu('profile')}
-        >
+        <MenuItem active={activeMenu === 'profile'} onClick={() => setActiveMenu('profile')}>
           내 프로필
         </MenuItem>
-        <MenuItem
-          active={activeMenu === 'meetings'}
-          onClick={() => setActiveMenu('meetings')}
-        >
+        <MenuItem active={activeMenu === 'meetings'} onClick={() => setActiveMenu('meetings')}>
           내 모임
         </MenuItem>
-        <MenuItem
-          active={activeMenu === 'events'}
-          onClick={() => setActiveMenu('events')}
-        >
+        <MenuItem active={activeMenu === 'events'} onClick={() => setActiveMenu('events')}>
           내 이벤트
         </MenuItem>
-        <MenuItem
-          active={activeMenu === 'calendar'}
-          onClick={() => setActiveMenu('calendar')}
-        >
+        <MenuItem active={activeMenu === 'calendar'} onClick={() => setActiveMenu('calendar')}>
           런닝 달력
         </MenuItem>
       </Sidebar>
@@ -67,8 +55,7 @@ const Content = styled.div`
 const MenuItem = styled.div`
   font-size: 1rem;
   font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
-  color: ${(props) =>
-    props.active ? ({ theme }) => theme.pointColor : '#333'};
+  color: ${(props) => (props.active ? ({ theme }) => theme.pointColor : '#333')};
   margin-bottom: 25px;
   cursor: pointer;
   padding: 15px 20px;

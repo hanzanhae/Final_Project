@@ -99,7 +99,12 @@ const EventRequestForm = () => {
       />
 
       <Label htmlFor="eventImage">이미지 업로드</Label>
-      <FileInput id="eventImage" type="file" accept="image/*" onChange={handleImageUpload} />
+      <FileInput
+        id="eventImage"
+        type="file"
+        accept="image/*"
+        onChange={handleImageUpload}
+      />
 
       {imageFile && (
         <ImagePreviewContainer>

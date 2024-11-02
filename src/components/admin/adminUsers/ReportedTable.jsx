@@ -16,12 +16,16 @@ const ReportedTable = ({ data, loading }) => {
       align: 'center'
     },
     {
-      title: '신고받은 횟수',
-      dataIndex: 'reportCount',
-      key: 'reportCount',
+      title: '신고 받은 횟수',
+      dataIndex: 'penalty',
+      key: 'penalty',
       align: 'center',
-      render: (text) => (
-        <span style={{ color: text >= 3 ? 'red' : 'orange' }}>{text}</span>
+      render: (penalty) => (
+        <span
+          style={{ color: penalty >= 3 ? 'red' : 'orange', fontWeight: 'bold' }}
+        >
+          {penalty}
+        </span>
       )
     }
   ];
@@ -29,8 +33,8 @@ const ReportedTable = ({ data, loading }) => {
   return (
     <Table
       columns={columns}
-      dataSource={data}
-      rowKey="id"
+      dataSource={Array.isArray(data) ? data : []}
+      rowKey="nickname"
       loading={loading}
       pagination={false}
     />

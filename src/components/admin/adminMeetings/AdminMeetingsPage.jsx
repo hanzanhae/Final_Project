@@ -17,10 +17,10 @@ const AdminMeetingsPage = () => {
       try {
         const [monthlyRes, regionalRes, distanceRes, conceptRes] =
           await Promise.all([
-            axios.get('/admin/meeting?meetings=meetings_per_month'),
-            axios.get('/admin/meeting?meeting=meetings_per_region'),
-            axios.get('/admin/meeting?meeting=meetings_by_distance'),
-            axios.get('/admin/meeting?meeting=meetings_by_concept')
+            axios.get('/admin/gatherings/?statsCount=GATHERING_BY_MONTH'),
+            axios.get('/admin/gatherings/?statsCount=GATHERING_BY_REGION'),
+            axios.get('/admin/gatherings/?statsCount=GATHERING_BY_DISTANCE'),
+            axios.get('/admin/gatherings/?statsCount=GATHERING_BY_CONCEPT')
           ]);
 
         setMonthlyMeetings(monthlyRes.data);

@@ -1,21 +1,7 @@
 import React from 'react';
-import { Table, Button, message } from 'antd';
-import axios from '../../../api/instance';
+import { Table, Button } from 'antd';
 
-const BlacklistTable = ({ data, loading, onUserReleased }) => {
-  const handleRelease = async (userId) => {
-    try {
-      // admin/{user_id}/release에서 {user_id} 부분은 동적으로 해당 유저의 ID를 넣어야 함.
-      // JavaScript 코드에서는 템플릿 리터럴을 사용해 /admin/${userId}/release로 작성.
-      await axios.patch(`/admin/${userId}/release`);
-      message.success('블랙리스트 해제 완료');
-      onUserReleased(userId);
-    } catch (error) {
-      console.error('오류: 회원 해제 중', error);
-      message.error('해제 중 오류 발생');
-    }
-  };
-
+const BlacklistTable = ({ data, loading, onRelease }) => {
   const columns = [
     {
       title: '닉네임',
@@ -30,12 +16,25 @@ const BlacklistTable = ({ data, loading, onUserReleased }) => {
       align: 'center'
     },
     {
+      title: '신고 받은 횟수',
+      dataIndex: 'penalty',
+      key: 'penalty',
+      align: 'center',
+      render: (penalty) => (
+        <span
+          style={{ color: penalty >= 3 ? 'red' : 'orange', fontWeight: 'bold' }}
+        >
+          {penalty}
+        </span>
+      )
+    },
+    {
       title: '블랙리스트 해제',
       key: 'action',
       align: 'center',
       render: (_, record) => (
-        <Button type="primary" onClick={() => handleRelease(record.id)}>
-          해제 승인
+        <Button type="primary" onClick={() => onRelease(record.nickname)}>
+          해제
         </Button>
       )
     }
@@ -44,8 +43,8 @@ const BlacklistTable = ({ data, loading, onUserReleased }) => {
   return (
     <Table
       columns={columns}
-      dataSource={data}
-      rowKey="id"
+      dataSource={Array.isArray(data) ? data : []}
+      rowKey="nickname"
       loading={loading}
       pagination={false}
     />

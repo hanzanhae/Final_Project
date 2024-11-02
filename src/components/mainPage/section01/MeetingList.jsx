@@ -10,9 +10,9 @@ const LIST_PERPAGE = 8;
 
 const MeetingList = () => {
   // 모임데이터상태관리
-  const [gatheringData, setGetheringData] = useState({});
-  const [gatheringMembers, setGetheringMembers] = useState([]);
-  const [gatheringImages, setGetheringImages] = useState([]);
+  // const [gatheringData, setGetheringData] = useState({});
+  // const [gatheringMembers, setGetheringMembers] = useState([]);
+  // const [gatheringImages, setGetheringImages] = useState([]);
 
   const { selectedOption, selectedDistance, selectedCategory } = useSelector(
     (state) => state.filter

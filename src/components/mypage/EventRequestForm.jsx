@@ -15,10 +15,6 @@ const EventRequestForm = () => {
     const { id, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
       setImageFile(file);
     }
   };
@@ -111,7 +107,6 @@ const EventRequestForm = () => {
           <RemoveButton onClick={handleImageRemove}>x</RemoveButton>
         </ImagePreviewContainer>
       )}
-
       <Button type="submit">이벤트 신청</Button>
     </FormContainer>
   );

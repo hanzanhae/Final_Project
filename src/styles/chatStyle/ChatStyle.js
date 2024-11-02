@@ -27,8 +27,10 @@ export const ChatIcon = styled.div`
   position: fixed;
   bottom: ${({ $isOpen }) => ($isOpen ? '400px' : '20px')};
   right: ${({ $isOpen }) => ($isOpen ? '400px' : '20px')};
-  width: ${({ $isOpen }) => ($isOpen ? '400px' : '80px')}; /* 채팅방이 열리면 크기 변경 */
-  height: ${({ $isOpen }) => ($isOpen ? '400px' : '80px')}; /* 채팅방이 열리면 크기 변경 */
+  width: ${({ $isOpen }) =>
+    $isOpen ? '400px' : '80px'}; /* 채팅방이 열리면 크기 변경 */
+  height: ${({ $isOpen }) =>
+    $isOpen ? '400px' : '80px'}; /* 채팅방이 열리면 크기 변경 */
   background: url(${Run});
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   box-sizing: border-box;

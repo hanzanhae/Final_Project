@@ -46,11 +46,11 @@ const ConceptChart = ({ data }) => {
       legend: {
         position: 'top',
         labels: {
-          boxWidth: 20, // 레이블 색상 상자의 너비 조정
+          boxWidth: 20,
           padding: 15
         },
-        align: 'start', // 레이블을 왼쪽에 정렬
-        maxWidth: 600 // 최대 너비 설정
+        align: 'start',
+        maxWidth: 600
       },
       datalabels: {
         formatter: (value, context) => {

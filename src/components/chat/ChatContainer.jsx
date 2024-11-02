@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
+import ChatLayout from './chatLayout/ChatLayout';
+import ChatRoomListLayout from './chatLayout/ChatRoomListLayout';
 import ChatRoom from './chatRoom/ChatRoom';
-import ChatRayout from './chatRayout/ChatRayout';
 
-const ChatContainer = () => {
-  const [selectedRoom, setSelectedRoom] = useState(null);
-
-  const handleRoomSelect = (room) => {
-    setSelectedRoom(room); // 선택된 방 정보 업데이트
-  };
-
+const ChatContainer = ({ client, selectedRoom, setSelectedRoom }) => {
   return (
     <>
-      <ChatRoom selectedRoom={selectedRoom} />
-      <ChatRayout onRoomSelect={handleRoomSelect} />
+      <ChatRoomListLayout setSelectedRoom={setSelectedRoom} />
+      <ChatLayout onRoomSelect={setSelectedRoom} />
+      {selectedRoom && <ChatRoom client={client} selectedRoom={selectedRoom} />}
     </>
   );
 };

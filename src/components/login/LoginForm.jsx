@@ -4,6 +4,9 @@ import { login } from '../../api/api';
 import { isValidEmail, isValidPassword } from '../../utils/validation.js';
 import * as S from '../../styles/loginStyle/LoginFormStyle.js';
 import KakaoLoginImg from '../../images/카카오로그인.png';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/actions/userActions.js';
+// import axios from 'axios';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -13,6 +16,7 @@ const LoginForm = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // 이메일 입력 핸들러
   const handleEmailChange = (event) => {
@@ -41,7 +45,9 @@ const LoginForm = () => {
 
   const handlePasswordBlur = () => {
     if (!isValidPassword(password)) {
-      setPasswordError('비밀번호는 영문자와 숫자를 포함하여 8자 이상 20자 이하로 입력해야 합니다.');
+      setPasswordError(
+        '비밀번호는 영문자와 숫자를 포함하여 8자 이상 20자 이하로 입력해야 합니다.'
+      );
     } else {
       setPasswordError('');
     }
@@ -74,12 +80,16 @@ const LoginForm = () => {
     }
   };
 
-  const loginWithKakao = () => {
+  const loginWithKakao = async () => {
     if (window.Kakao) {
       window.Kakao.Auth.authorize({
-        redirectUri: 'http://localhost:3000/' // 카카오 개발자 콘솔에 등록한 리다이렉트 URI로 변경
+        redirectUri: 'https://myspringserver.store/oauth2/authorization/kakao'
       });
     }
+  };
+
+  const handleLoginSuccess = (userData) => {
+    dispatch(setUser(userData));
   };
 
   useEffect(() => {
@@ -118,7 +128,9 @@ const LoginForm = () => {
           <S.CustomIcon2 />
         </S.InputContainer>
         <S.ErrorWrapper>
-          {emailError && <S.ErrorMessage>유효한 이메일 주소를 입력해 주세요.</S.ErrorMessage>}
+          {emailError && (
+            <S.ErrorMessage>유효한 이메일 주소를 입력해 주세요.</S.ErrorMessage>
+          )}
         </S.ErrorWrapper>
         <S.InputContainer>
           <S.Input
@@ -135,8 +147,12 @@ const LoginForm = () => {
         <S.ErrorWrapper>
           {passwordError && <S.ErrorMessage>{passwordError}</S.ErrorMessage>}
         </S.ErrorWrapper>
-        <S.ErrorWrapper>{error && <S.ErrorMessage>{error}</S.ErrorMessage>}</S.ErrorWrapper>
-        <S.Btn $isLoading={isLoading}>로그인</S.Btn>
+        <S.ErrorWrapper>
+          {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
+        </S.ErrorWrapper>
+        <S.Btn $isLoading={isLoading} onClick={handleLoginSuccess}>
+          로그인
+        </S.Btn>
         <S.KakaoLoginBox onClick={loginWithKakao}>
           <img src={KakaoLoginImg} alt="카카오로그인" width="222" />
         </S.KakaoLoginBox>

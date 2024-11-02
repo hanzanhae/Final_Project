@@ -30,7 +30,10 @@ const CreateRoom = ({ onSelectLocation }) => {
               (position) => {
                 const userLat = position.coords.latitude;
                 const userLng = position.coords.longitude;
-                const userLocation = new window.kakao.maps.LatLng(userLat, userLng);
+                const userLocation = new window.kakao.maps.LatLng(
+                  userLat,
+                  userLng
+                );
                 map.setCenter(userLocation);
 
                 const userMarker = new window.kakao.maps.Marker({
@@ -42,27 +45,33 @@ const CreateRoom = ({ onSelectLocation }) => {
               },
               (error) => {
                 console.error('Error getting user location:', error);
-                setError('사용자 위치를 가져오는 데 실패했습니다 위치 정보가 필요합니다');
+                setError(
+                  '사용자 위치를 가져오는 데 실패했습니다 위치 정보가 필요합니다'
+                );
               }
             );
           } else {
             setError('Geolocation is not supported by this browser.');
           }
 
-          window.kakao.maps.event.addListener(map, 'click', async (mouseEvent) => {
-            const latLng = mouseEvent.latLng;
+          window.kakao.maps.event.addListener(
+            map,
+            'click',
+            async (mouseEvent) => {
+              const latLng = mouseEvent.latLng;
 
-            if (markerRef.current) {
-              markerRef.current.setMap(null);
+              if (markerRef.current) {
+                markerRef.current.setMap(null);
+              }
+
+              markerRef.current = new window.kakao.maps.Marker({
+                position: latLng,
+                map: map
+              });
+
+              await getAddressFromCoordinates(latLng.getLat(), latLng.getLng());
             }
-
-            markerRef.current = new window.kakao.maps.Marker({
-              position: latLng,
-              map: map
-            });
-
-            await getAddressFromCoordinates(latLng.getLat(), latLng.getLng());
-          });
+          );
         });
       } else {
         console.error('kakao apu not loaded');
@@ -90,7 +99,9 @@ const CreateRoom = ({ onSelectLocation }) => {
         const address = documents[0].address;
         const fullAddress = `${address.region_1depth_name} ${address.region_2depth_name} ${address.region_3depth_name}`;
 
-        const roadAddress = documents[0].road_address ? documents[0].road_address.address_name : '';
+        const roadAddress = documents[0].road_address
+          ? documents[0].road_address.address_name
+          : '';
         const jibunAddress = address.address_name || '';
 
         setAddressInfo({

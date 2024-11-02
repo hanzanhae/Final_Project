@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Tabs, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Card, Tabs, message } from 'antd';
 import axios from '../../../api/instance';
 import BlacklistTable from './BlacklistTable';
 import ReportedTable from './ReportedTable';
@@ -9,32 +9,32 @@ const AdminUsersPage = () => {
   const [reportedUsers, setReportedUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchData = async (userType, setData) => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`/admin/user?user=${userType}`);
-      setData(response.data);
-    } catch (error) {
-      console.error(`오류: ${userType} 회원 데이터를 가져오는 중`, error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchData('blacklist_user', setBlacklistUsers);
-    fetchData('reported_user', setReportedUsers);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [blacklistRes, reportedRes] = await Promise.all([
+          axios.get('/admin/users?status=BANNED'),
+          axios.get('/admin/users?status=REPORTED')
+        ]);
+
+        setBlacklistUsers(blacklistRes.data);
+        setReportedUsers(reportedRes.data);
+      } catch (error) {
+        console.error('데이터를 가져오는 중 오류 발생:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const handleRelease = async (userId) => {
-    try {
-      await axios.patch(`/admin/${userId}/release`);
-      message.success('블랙리스트 해제');
-      setBlacklistUsers((prev) => prev.filter((user) => user.id !== userId));
-    } catch (error) {
-      console.error('오류: 회원 해제 중', error);
-      message.error('해제 중 오류 발생');
-    }
+  const handleRelease = (nickname) => {
+    setBlacklistUsers((prevUsers) =>
+      prevUsers.filter((user) => user.nickname !== nickname)
+    );
+    message.success(`${nickname}님이 블랙리스트에서 해제되었습니다.`);
   };
 
   const tabItems = [
@@ -59,7 +59,9 @@ const AdminUsersPage = () => {
   return (
     <div style={{ padding: '40px' }}>
       <h1>회원 관리</h1>
-      <Tabs items={tabItems} />
+      <Card>
+        <Tabs defaultActiveKey="1" items={tabItems} />
+      </Card>
     </div>
   );
 };

@@ -27,13 +27,26 @@ const EventRequestForm = () => {
       <Input id="eventLocation" type="text" placeholder="장소를 입력하세요" />
 
       <Label htmlFor="participantCount">인원 수</Label>
-      <Input id="participantCount" type="number" placeholder="인원 수를 입력하세요" />
+      <Input
+        id="participantCount"
+        type="number"
+        placeholder="인원 수를 입력하세요"
+      />
 
       <Label htmlFor="signupDeadline">등록 마감 날짜</Label>
-      <Input id="signupDeadline" type="date" placeholder="등록 마감 날짜를 입력하세요" />
+      <Input
+        id="signupDeadline"
+        type="date"
+        placeholder="등록 마감 날짜를 입력하세요"
+      />
 
       <Label htmlFor="eventImage">이미지 업로드</Label>
-      <FileInput id="eventImage" type="file" accept="image/*" onChange={handleImageUpload} />
+      <FileInput
+        id="eventImage"
+        type="file"
+        accept="image/*"
+        onChange={handleImageUpload}
+      />
 
       {imageFile && (
         <ImagePreviewContainer>

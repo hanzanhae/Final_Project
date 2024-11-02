@@ -17,43 +17,26 @@ const AdminHomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const results = await Promise.allSettled([
-          axios.get('/admin/user/statsCount?statsCount=TOTAL'),
-          axios.get('/admin/user/statsCount?statsCount=REPORTED'),
-          axios.get('/admin/user/statsCount?statsCount=BLACKLIST'),
-          axios.get('/admin/user/monthly-status?status=ACTIVE'),
-          axios.get('/admin/user/monthly-status?status=DISABLED')
-        ]);
-
         const [
           totalRes,
           reportedRes,
           blacklistRes,
           newMembersRes,
-          deactivatedRes
-        ] = results;
+          disabledRes
+        ] = await Promise.all([
+          axios.get('/admin/users/statsCount?statsCount=TOTAL'),
+          axios.get('/admin/users/statsCount?statsCount=REPORTED'),
+          axios.get('/admin/users/statsCount?statsCount=BLACKLIST'),
+          axios.get('/admin/users/monthly-status?status=ACTIVE'),
+          axios.get('/admin/users/monthly-status?status=DISABLED')
+        ]);
 
         setData({
-          totalMembers:
-            totalRes.status === 'fulfilled'
-              ? totalRes.value.data.user_count
-              : 0,
-          reportedMembers:
-            reportedRes.status === 'fulfilled'
-              ? reportedRes.value.data.user_count
-              : 0,
-          blacklistMembers:
-            blacklistRes.status === 'fulfilled'
-              ? blacklistRes.value.data.user_count
-              : 0,
-          newMembers:
-            newMembersRes.status === 'fulfilled'
-              ? processMonthlyData(newMembersRes.value.data)
-              : [],
-          disabledMembers:
-            deactivatedRes.status === 'fulfilled'
-              ? processMonthlyData(deactivatedRes.value.data)
-              : []
+          totalMembers: totalRes.data.user_count || 0,
+          reportedMembers: reportedRes.data.user_count || 0,
+          blacklistMembers: blacklistRes.data.user_count || 0,
+          newMembers: processMonthlyData(newMembersRes.data),
+          disabledMembers: processMonthlyData(disabledRes.data)
         });
       } catch (error) {
         console.error('데이터를 가져오는 중 오류 발생:', error);
@@ -63,23 +46,6 @@ const AdminHomePage = () => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const [
-  //         totalMembersRes,
-  //         reportedMembersRes,
-  //         blacklistMembersRes,
-  //         newMembersRes,
-  //         disabledMembersRes
-  //       ] = await Promise.all([
-  //         axios.get('/admin/user/statsCount?statsCount=TOTAL'),
-  //         axios.get('/admin/user/statsCount?statsCount=REPORTED'),
-  //         axios.get('/admin/user/statsCount?statsCount=BLACKLIST'),
-  //         axios.get('/admin/user/monthly-status?status=ACTIVE'),
-  //         axios.get('/admin/user/monthly-status?status=DISABLED')
-  //       ]);
-
   const processMonthlyData = (responseData) => {
     const monthlyData = Array(12).fill(0);
     responseData.forEach(({ month, user_count }) => {
@@ -88,21 +54,6 @@ const AdminHomePage = () => {
     });
     return monthlyData;
   };
-
-  //       setData({
-  //         totalMembers: totalMembersRes.data.user_count || 0,
-  //         reportedMembers: reportedMembersRes.data.user_count || 0,
-  //         blacklistMembers: blacklistMembersRes.data.user_count || 0,
-  //         newMembers: processMonthlyData(newMembersRes.data),
-  //         disabledMembers: processMonthlyData(disabledMembersRes.data)
-  //       });
-  //     } catch (error) {
-  //       console.error('데이터를 가져오는 중 에러 발생:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   return (
     <Container>

@@ -14,9 +14,8 @@ const EventRequestForm = () => {
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [id]: value }));
-  };
-      setImageFile(file);
-    }
+
+    // setImageFile(file);
   };
 
   const handleImageRemove = () => {
@@ -108,7 +107,10 @@ const EventRequestForm = () => {
 
       {imageFile && (
         <ImagePreviewContainer>
-          <ImagePreview src={URL.createObjectURL(imageFile)} alt="미리 보기 이미지" />
+          <ImagePreview
+            src={URL.createObjectURL(imageFile)}
+            alt="미리 보기 이미지"
+          />
           <RemoveButton onClick={handleImageRemove}>x</RemoveButton>
         </ImagePreviewContainer>
       )}

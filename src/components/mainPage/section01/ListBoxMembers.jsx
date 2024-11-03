@@ -2,10 +2,24 @@ import { TeamOutlined } from '@ant-design/icons';
 import React from 'react';
 import styled from 'styled-components';
 
-const ListBoxMembers = ({ list, enterMembers }) => {
+const ListBoxMembers = ({ list }) => {
+  const members = list.member_profile_urls;
   return (
     <MemberBox>
       <Members>
+        {members.map((member, idx) => (
+          <Member key={idx} $index={idx}>
+            {member.slice(0, 2)}
+          </Member>
+        ))}
+      </Members>
+      <Capacity>
+        <UserIcon>
+          <TeamOutlined />
+        </UserIcon>
+        {`${members.length}/10`}
+      </Capacity>
+      {/* <Members>
         {enterMembers.map((member, idx) => (
           <Member key={idx} $index={idx}>
             {member}
@@ -17,7 +31,7 @@ const ListBoxMembers = ({ list, enterMembers }) => {
           <TeamOutlined />
         </UserIcon>
         {`${list.capacity}/10`}
-      </Capacity>
+      </Capacity> */}
     </MemberBox>
   );
 };

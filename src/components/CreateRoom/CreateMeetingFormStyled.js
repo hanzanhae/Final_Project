@@ -57,10 +57,45 @@ export const Label = styled.label`
   display: block;
 `;
 
-export const StyledInputFile = styled.input.attrs({ type: 'file' })`
-  display: none;
+// export const StyledInputFile = styled.input.attrs({ type: 'file' })`
+//   display: none;
+// `;
+export const StyledInput = styled.input`
+  width: 84%;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 2px 0px;
+  border-radius: 5px;
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
 `;
 
+export const StyledInputDe = styled.input`
+  width: 95%;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 2px 0px;
+  border-radius: 5px;
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+export const StyledInputTt = styled.input`
+  border: 1px solid #ccc;
+  font-size: 13px; 
+  border-radius: 5px;
+  padding: 2px 0px; 
+  text-align: center; 
+  line-height: 1.5; 
+  height: 25px; 
+ &:focus {
+    outline: none; 
+  }
+  }
+`;
 export const CustomFileUpload = styled.label`
   display: inline-block;
   cursor: pointer;
@@ -89,8 +124,15 @@ export const StyledTextarea = styled.textarea`
   resize: vertical;
   width: 90%;
   height: 20vh;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 15px;
+  resize: none;
+  &:focus {
+    outline: none;
+  }
 `;
-
 export const StyledButton = styled.button`
   background-color: #94c0da;
   color: white;

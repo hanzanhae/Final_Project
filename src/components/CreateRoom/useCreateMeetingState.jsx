@@ -9,7 +9,7 @@ export const useCreateMeetingState = () => {
   const [capacity, setCapacity] = useState('2');
   const [distance, setDistance] = useState('free');
   const [showMapModal, setShowMapModal] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const [deadline, setDeadline] = useState(null);
   const [thumbnail, setThumbnail] = useState(
     'https://img.freepik.com/premium-photo/poster-marathon-with-woman-running-background_1130573-186323.jpg?semt=ais_hybrid'

@@ -12,6 +12,7 @@ import AdminUsersPage from '../components/admin/adminUsers/AdminUsersPage';
 import AdminMeetingsPage from '../components/admin/adminMeetings/AdminMeetingsPage';
 import AdminEventsPage from '../components/admin/adminEvents/AdminEventsPage';
 //import Calendar from '../components/calendar/Calendar';
+//import AdminReports from '../components/admin/AdminReports';
 
 const Router = () => {
   return (

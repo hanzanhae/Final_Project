@@ -18,11 +18,6 @@ const ListBoxTime = ({ list }) => {
       <InnerText>{newDate}</InnerText>
       <InnerDot />
       <InnerText>{newTime}</InnerText>
-      {/* <InnerText>{list.location}</InnerText>
-      <InnerDot />
-      <InnerText>{list.date}</InnerText>
-      <InnerDot />
-      <InnerText>{list.time}</InnerText> */}
     </TimeBox>
   );
 };

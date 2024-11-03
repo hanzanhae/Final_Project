@@ -22,7 +22,9 @@ const Days = ({
   isHoliday,
   isCurrentMonthDate,
   isPreviousMonth,
-  isNextMonth
+  isNextMonth,
+  onDayClick,
+  hasEvent
 }) => {
   const getMeetingTypeForDay = (fullDate) => {
     const meeting = mockMeetings.find((meeting) => {
@@ -45,7 +47,7 @@ const Days = ({
   const meetingType = getMeetingTypeForDay(fullDate);
 
   return (
-    <DaysContainer>
+    <DaysContainer onClick={() => onDayClick(fullDate)}>
       {isToday ? (
         meetingType ? (
           <TodayEventDate>{day}</TodayEventDate>
@@ -64,6 +66,7 @@ const Days = ({
         <OtherMonthDate>{day}</OtherMonthDate>
       )}
       <IconContainer>{renderMeetingIcon(meetingType)}</IconContainer>
+      {hasEvent && <EventBar />}
     </DaysContainer>
   );
 };
@@ -98,7 +101,7 @@ const DaysDate = styled.div`
 `;
 
 const TodayDate = styled(DaysDate)`
-  font-size: 1.5rem;
+  font-size: 1.8rem;
 `;
 
 const TodayEventDate = styled.div`
@@ -168,4 +171,17 @@ const FaCalendarAltIcon = styled(FaCalendarAlt)`
   color: #83c5;
   font-size: 20px;
   margin-top: 5px;
+`;
+
+const EventBar = styled.div`
+  position: absolute;
+  margin-left: 13px;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  width: 20px;
+  height: 3px;
+  background-color: #0056b3;
+  border-radius: 20px;
+  box-shadow: 0 0 3px 1px #0056b3;
 `;

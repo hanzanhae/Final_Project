@@ -81,11 +81,11 @@ const Calendar = () => {
   };
 
   const handleClick = () => {
-    setIsSidebarMoving(true); // 사이드바 이동 시작
-    setExpanded((prev) => !prev); // 확장 상태 토글
+    setIsSidebarMoving(true);
+    setExpanded((prev) => !prev);
     setTimeout(() => {
-      setIsSidebarMoving(false); // 이동 완료 후 초기화
-    }, 500); // 애니메이션 시간과 맞춰서 설정
+      setIsSidebarMoving(false);
+    }, 500);
   };
 
   const daysInMonth = getDaysInMonth(
@@ -171,7 +171,7 @@ const Calendar = () => {
               <SidebarComment>⦁ 현기증, 구토 난다면 즉시 멈춰라</SidebarComment>
             </SidebarText>
           </SidebarContent>
-          <PostThree onClick={handleClick}></PostThree>
+          <PostThree onClick={handleClick}>𖤐 ᵕ̈</PostThree>
         </Sidebar>
         <PostOne></PostOne>
         <PostTwo></PostTwo>
@@ -296,6 +296,9 @@ const PostThree = styled.div`
   width: 70px;
   height: 40px;
   border: 1px;
+  font-size: 1.8rem;
+  text-align: center;
+  cursor: pointer;
   background-color: #efcfe3;
   opacity: 0.7;
   transform: translateY(-50%) translateX(1px);

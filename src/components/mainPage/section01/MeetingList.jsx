@@ -3,20 +3,33 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { meetingList } from '../../../data/meetingList';
-import { gatheringDetailData, gatheringImagesData } from '../../../api/api';
+import { gatheringData } from '../../../api/api';
 import MeetingListBox from './MeetingListBox';
 
 const LIST_PERPAGE = 8;
 
 const MeetingList = () => {
-  // 모임데이터상태관리
-  // const [gatheringData, setGetheringData] = useState({});
-  // const [gatheringMembers, setGetheringMembers] = useState([]);
-  // const [gatheringImages, setGetheringImages] = useState([]);
-
   const { selectedOption, selectedDistance, selectedCategory } = useSelector(
     (state) => state.filter
   );
+
+  // 모임데이터상태관리🚂
+  const [gathering, setGethering] = useState([]);
+
+  // 모임목록데이터get🚂...
+  const fetchGathering = async () => {
+    const data = await gatheringData();
+    if (data) {
+      const gatheringResponse = data.content;
+      setGethering(gatheringResponse);
+      // console.log(gatheringResponse);
+    } else {
+      console.log('모임목록데이터가 존재하지 않습니다.');
+    }
+  };
+  useEffect(() => {
+    fetchGathering();
+  }, []);
 
   // 페이지네이션 상태관리
   const [visibleList, setVisibleList] = useState(LIST_PERPAGE);
@@ -47,38 +60,18 @@ const MeetingList = () => {
     setVisibleList((prev) => prev + LIST_PERPAGE);
   };
 
-  // 모임데이터🚂...
-  const fetchGatheringDetail = async () => {
-    const data = await gatheringDetailData();
-    console.log(data);
-    if (data) {
-      const gatheringResponse = data.gathering_response;
-      const gatheringMembers = data.gathering_members;
-      setGetheringData(gatheringResponse);
-      setGetheringMembers(gatheringMembers);
-    } else {
-      console.log('모임상세데이터가 존재하지 않습니다.');
-    }
-  };
-  const fetchGatheringImages = async () => {
-    const data = await gatheringImagesData();
-    console.log(data);
-    if (data) {
-      const gatheringImgUrl = data.contentImageUrls;
-      setGetheringImages(gatheringImgUrl);
-    } else {
-      console.log('모임이미지데이터가 존재하지 않습니다.');
-    }
-  };
-  useEffect(() => {
-    fetchGatheringDetail();
-    fetchGatheringImages();
-  }, []);
-
   return (
     <Container>
       <ListUl>
-        {currentMeetingList.map((list) => {
+        {gathering.map((list) => {
+          // console.log(list);
+          return (
+            <Link to={`/detail/${list.id}`} key={list.id}>
+              <MeetingListBox list={list} />
+            </Link>
+          );
+        })}
+        {/* {currentMeetingList.map((list) => {
           const enterMembers = Array.from(
             { length: list.capacity },
             (_, idx) => `이름${idx + 1}`
@@ -88,7 +81,7 @@ const MeetingList = () => {
               <MeetingListBox list={list} enterMembers={enterMembers} />
             </Link>
           );
-        })}
+        })} */}
       </ListUl>
       {/* 페이지네이션 */}
       {visibleList < filteredMeetingList.length ? (

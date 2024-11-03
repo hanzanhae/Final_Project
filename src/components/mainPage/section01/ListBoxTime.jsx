@@ -1,18 +1,28 @@
 import { PushpinOutlined } from '@ant-design/icons';
+import { format } from 'date-fns';
 import React from 'react';
 import styled from 'styled-components';
 
 const ListBoxTime = ({ list }) => {
+  const location = list.location.address_names.address_name;
+  const newDate = format(list.appointed_at, 'MM/dd');
+  const newTime = format(list.appointed_at, 'HH시 mm분');
+
   return (
     <TimeBox>
       <PinIcon>
         <PushpinOutlined />
       </PinIcon>
-      <InnerText>{list.location}</InnerText>
+      <InnerText>{location}</InnerText>
+      <InnerDot />
+      <InnerText>{newDate}</InnerText>
+      <InnerDot />
+      <InnerText>{newTime}</InnerText>
+      {/* <InnerText>{list.location}</InnerText>
       <InnerDot />
       <InnerText>{list.date}</InnerText>
       <InnerDot />
-      <InnerText>{list.time}</InnerText>
+      <InnerText>{list.time}</InnerText> */}
     </TimeBox>
   );
 };

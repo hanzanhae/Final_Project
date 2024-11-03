@@ -17,5 +17,5 @@ export default Section01;
 // style
 const Warpper = styled.div`
   width: 100%;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.bgColorPage};
 `;

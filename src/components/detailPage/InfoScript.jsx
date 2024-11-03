@@ -1,11 +1,38 @@
+import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
+import { runningConcept, runningDistance } from '../../data/gatheringKeyword';
 
 const InfoScript = ({ meet }) => {
+  const listConcept = meet.concept;
+  const concept = runningConcept(listConcept);
+
+  const listDistance = meet.goal_distance;
+  const distance = runningDistance(listDistance);
+
+  const newDate = format(meet.deadline, 'yyyy/MM/dd');
+
   return (
     <Infomation>
       <ProfileBox>
+        <ProfileImg />
+        <Name>{meet.organizer_id}</Name>
+      </ProfileBox>
+      <InfoTextBox>
+        <Title>{meet.title}</Title>
+        <DescriptionBox>
+          <KeywordBox>
+            <Keywords>
+              <Keyword>{distance}</Keyword>
+              <Keyword>{concept}</Keyword>
+            </Keywords>
+            <Deadline>모집기한 : ~{newDate}</Deadline>
+          </KeywordBox>
+          <Description>{meet.title}</Description>
+        </DescriptionBox>
+      </InfoTextBox>
+      {/* <ProfileBox>
         <ProfileImg />
         <Name>{meet.name}</Name>
       </ProfileBox>
@@ -21,20 +48,20 @@ const InfoScript = ({ meet }) => {
           </KeywordBox>
           <Description>{meet.description}</Description>
         </DescriptionBox>
-      </InfoTextBox>
+      </InfoTextBox> */}
     </Infomation>
   );
 };
-InfoScript.propTypes = {
-  meet: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    distance: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
-    deadlineDate: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired
-  }).isRequired
-};
+// InfoScript.propTypes = {
+//   meet: PropTypes.shape({
+//     name: PropTypes.string.isRequired,
+//     title: PropTypes.string.isRequired,
+//     distance: PropTypes.string.isRequired,
+//     category: PropTypes.string.isRequired,
+//     deadlineDate: PropTypes.string.isRequired,
+//     description: PropTypes.string.isRequired
+//   }).isRequired
+// };
 export default InfoScript;
 
 // style
@@ -99,7 +126,7 @@ const Deadline = styled.p`
 `;
 const DescriptionBox = styled.div`
   padding: 1rem;
-  border: 1px solid #f4f4f5;
+  border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: 0.5rem;
 `;
 const Description = styled.p`

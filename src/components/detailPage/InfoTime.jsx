@@ -1,9 +1,13 @@
 import { CalendarOutlined } from '@ant-design/icons';
+import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 
 const InfoTime = ({ meet }) => {
+  const newDate = format(meet.appointed_at, 'MM월 dd일');
+  const newTime = format(meet.appointed_at, 'HH시 mm분');
+
   return (
     <TimeWrapper>
       <Title>모임시간</Title>
@@ -11,18 +15,18 @@ const InfoTime = ({ meet }) => {
         <Icon>
           <CalendarOutlined />
         </Icon>
-        <Date>{meet.date}</Date>
-        <Time>{meet.time}</Time>
+        <Date>{newDate}</Date>
+        <Time>{newTime}</Time>
       </TimeBox>
     </TimeWrapper>
   );
 };
-InfoTime.propTypes = {
-  meet: PropTypes.shape({
-    date: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired
-  }).isRequired
-};
+// InfoTime.propTypes = {
+//   meet: PropTypes.shape({
+//     date: PropTypes.string.isRequired,
+//     time: PropTypes.string.isRequired
+//   }).isRequired
+// };
 export default InfoTime;
 
 // style
@@ -36,7 +40,7 @@ const Title = styled.h4`
 `;
 const TimeBox = styled.div`
   padding: 0.5rem;
-  border: 1px solid #f4f4f5;
+  border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: 0.5rem;
   display: flex;
   align-items: center;

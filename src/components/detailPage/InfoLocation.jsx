@@ -5,6 +5,10 @@ import { PushpinOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 
 const InfoLocation = ({ meet }) => {
+  const location = meet.location.address_names.address_name;
+  const location2 = meet.location.address_names.region_2depth_name;
+  const location3 = meet.location.address_names.region_3depth_name;
+
   return (
     <LocationWrapper>
       <Title>모임장소</Title>
@@ -13,7 +17,7 @@ const InfoLocation = ({ meet }) => {
           <Icon>
             <PushpinOutlined />
           </Icon>
-          <Location>{meet.detailLocation}</Location>
+          <Location>{`${location}, ${location2}, ${location3}`}</Location>
         </LocationText>
         {/* 카카오지도연결 */}
         <KakaoLocation />
@@ -21,11 +25,11 @@ const InfoLocation = ({ meet }) => {
     </LocationWrapper>
   );
 };
-InfoLocation.propTypes = {
-  meet: PropTypes.shape({
-    detailLocation: PropTypes.string.isRequired
-  }).isRequired
-};
+// InfoLocation.propTypes = {
+//   meet: PropTypes.shape({
+//     detailLocation: PropTypes.string.isRequired
+//   }).isRequired
+// };
 export default InfoLocation;
 
 // style
@@ -36,7 +40,7 @@ const Title = styled.h4`
   color: #333;
 `;
 const LocationBox = styled.div`
-  border: 1px solid #f4f4f5;
+  border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: 0.5rem;
   overflow: hidden;
 `;

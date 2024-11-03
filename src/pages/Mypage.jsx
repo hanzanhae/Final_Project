@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import MyEvents from '../components/mypage/MyEvents';
 import MyMeetings from '../components/mypage/MyMeetings';
 import MyProfile from '../components/mypage/MyProfile';
+import MyEvents from '../components/mypage/MyEvents';
 import Calendar from '../components/calendar/Calendar';
 
 const Mypage = () => {

@@ -4,16 +4,19 @@ import ListBoxKeyword from './ListBoxKeyword';
 import ListBoxTime from './ListBoxTime';
 import ListBoxMembers from './ListBoxMembers';
 
-const MeetingListBox = ({ list, enterMembers }) => {
+// 임시썸네일이미지
+import ThumbImage from '../../../images/thumbnail.jpg';
+
+const MeetingListBox = ({ list }) => {
   return (
     <>
       <ListLi>
-        <ThumbNailImg src={list.thumbNail} alt="thumbnail" />
+        <ThumbNailImg src={ThumbImage} alt="thumbnail" />
         <InfoBox>
           <ListBoxKeyword list={list} />
           <Title>{list.title}</Title>
           <ListBoxTime list={list} />
-          <ListBoxMembers list={list} enterMembers={enterMembers} />
+          <ListBoxMembers list={list} />
         </InfoBox>
       </ListLi>
     </>

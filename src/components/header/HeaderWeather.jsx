@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-const HeaderWeather = ({ isDarkMode, loginPath }) => {
+const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
   const dispatch = useDispatch();
   const [airState, setAirState] = useState('');
 
@@ -64,7 +64,7 @@ const HeaderWeather = ({ isDarkMode, loginPath }) => {
   };
 
   return (
-    <WeatherCondition>
+    <WeatherCondition $color={$color}>
       <WeatherBox>
         <WeatherIcon>
           {isDarkMode ? <CloudFilled /> : <SunFilled />}
@@ -89,6 +89,7 @@ const WeatherCondition = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: ${({ theme, $color }) => $color || theme.textColor};
 `;
 const WeatherBox = styled.div`
   display: flex;
@@ -96,15 +97,11 @@ const WeatherBox = styled.div`
   justify-content: center;
   gap: 0.5rem;
 `;
-const WeatherIcon = styled.div`
-  color: ${({ theme }) => theme.textColor};
-`;
+const WeatherIcon = styled.div``;
 const WeatherText = styled.p`
   font-size: 0.8rem;
   font-weight: 600;
-  color: ${({ theme }) => theme.textColor};
 `;
 const ToggleBtn = styled.div`
-  color: ${({ theme }) => theme.textColor};
   cursor: pointer;
 `;

@@ -1,14 +1,26 @@
+import { format } from 'date-fns';
 import React from 'react';
 import styled from 'styled-components';
+import {
+  runningConcept,
+  runningDistance
+} from '../../../data/gatheringKeyword';
 
 const ListBoxKeyword = ({ list }) => {
+  const listConcept = list.concept;
+  const concept = runningConcept(listConcept);
+
+  const listDistance = list.goal_distance;
+  const distance = runningDistance(listDistance);
+
+  const newDate = format(list.deadline, 'yyyy/MM/dd');
   return (
     <KeywordBox>
       <KeywordText>
-        <Keyword>{list.distance}</Keyword>
-        <Keyword>{list.category}</Keyword>
+        <Keyword>{distance}</Keyword>
+        <Keyword>{concept}</Keyword>
       </KeywordText>
-      <KeywordDate>~{list.deadlineDate}</KeywordDate>
+      <KeywordDate>~{newDate}</KeywordDate>
     </KeywordBox>
   );
 };
@@ -38,4 +50,5 @@ const Keyword = styled.p`
 `;
 const KeywordDate = styled.p`
   color: #666;
+  font-size: 0.8rem;
 `;

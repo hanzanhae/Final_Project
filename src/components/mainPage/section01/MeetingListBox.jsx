@@ -19,15 +19,6 @@ const MeetingListBox = ({ list }) => {
           <ListBoxMembers list={list} />
         </InfoBox>
       </ListLi>
-      {/* <ListLi>
-        <ThumbNailImg src={list.thumbNail} alt="thumbnail" />
-        <InfoBox>
-          <ListBoxKeyword list={list} />
-          <Title>{list.title}</Title>
-          <ListBoxTime list={list} />
-          <ListBoxMembers list={list} enterMembers={enterMembers} />
-        </InfoBox>
-      </ListLi> */}
     </>
   );
 };

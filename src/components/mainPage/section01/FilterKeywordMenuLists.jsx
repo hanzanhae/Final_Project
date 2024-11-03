@@ -4,7 +4,7 @@ import {
   categoryList,
   distanceList,
   optionList
-} from '../../../data/meetingList';
+} from '../../../data/gatheringKeyword';
 
 const FilterKeywordMenuLists = ({
   handleSelectOption,

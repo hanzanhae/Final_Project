@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { meetingList } from '../../../data/meetingList';
 import { gatheringData } from '../../../api/api';
 import MeetingListBox from './MeetingListBox';
+import {
+  runningConcept,
+  runningDistance
+} from '../../../data/gatheringKeyword';
 
-const LIST_PERPAGE = 8;
+const LIST_PERPAGE = 4;
 
 const MeetingList = () => {
   const { selectedOption, selectedDistance, selectedCategory } = useSelector(
@@ -15,6 +18,7 @@ const MeetingList = () => {
 
   // 모임데이터상태관리🚂
   const [gathering, setGethering] = useState([]);
+  // console.log(gathering.length);
 
   // 모임목록데이터get🚂...
   const fetchGathering = async () => {
@@ -35,20 +39,36 @@ const MeetingList = () => {
   const [visibleList, setVisibleList] = useState(LIST_PERPAGE);
 
   // 필터링
-  const filteredMeetingList = meetingList.filter((list) => {
+  const filteredMeetingList = gathering.filter((list) => {
+    const memberNum = list.member_profile_urls.length;
+    const deadlineDate = list.deadline;
+    const currentDate = new Date();
+
     let optionMatch = true;
+
     if (selectedOption === '참여가능') {
-      optionMatch = list.capacity < 10; // 10명 미만
+      optionMatch = memberNum < 10 && deadlineDate > currentDate;
     } else if (selectedOption === '마감임박') {
-      optionMatch = list.capacity >= 8 && list.capacity < 10; // 8명, 9명
+      const oneDayBefore = new Date(currentDate);
+      oneDayBefore.setDate(currentDate.getDate() + 1);
+      optionMatch =
+        memberNum >= 8 &&
+        memberNum < 10 &&
+        deadlineDate > currentDate &&
+        deadlineDate <= oneDayBefore;
+    } else if (selectedOption === '참여불가') {
+      optionMatch = deadlineDate <= currentDate || memberNum === 10;
     } else if (selectedOption === '전체') {
       optionMatch = true;
     }
 
     const distanceMatch =
-      !selectedDistance || list.distance === selectedDistance;
+      !selectedDistance ||
+      runningDistance(list.goal_distance) === selectedDistance;
+
     const categoryMatch =
-      selectedCategory.length === 0 || selectedCategory.includes(list.category);
+      selectedCategory.length === 0 ||
+      selectedCategory.includes(runningConcept(list.concept));
 
     return optionMatch && distanceMatch && categoryMatch;
   });
@@ -63,7 +83,7 @@ const MeetingList = () => {
   return (
     <Container>
       <ListUl>
-        {gathering.map((list) => {
+        {currentMeetingList.map((list) => {
           // console.log(list);
           return (
             <Link to={`/detail/${list.id}`} key={list.id}>
@@ -71,20 +91,9 @@ const MeetingList = () => {
             </Link>
           );
         })}
-        {/* {currentMeetingList.map((list) => {
-          const enterMembers = Array.from(
-            { length: list.capacity },
-            (_, idx) => `이름${idx + 1}`
-          );
-          return (
-            <Link to={`/detail/${list.id}`} key={list.id}>
-              <MeetingListBox list={list} enterMembers={enterMembers} />
-            </Link>
-          );
-        })} */}
       </ListUl>
       {/* 페이지네이션 */}
-      {visibleList < filteredMeetingList.length ? (
+      {visibleList < gathering.length ? (
         <MoreBtn onClick={handleClickMorePage}>더보기</MoreBtn>
       ) : (
         <MoreMsg>마지막 페이지입니다.</MoreMsg>

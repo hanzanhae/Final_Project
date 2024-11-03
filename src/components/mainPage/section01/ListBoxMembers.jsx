@@ -19,19 +19,6 @@ const ListBoxMembers = ({ list }) => {
         </UserIcon>
         {`${members.length}/10`}
       </Capacity>
-      {/* <Members>
-        {enterMembers.map((member, idx) => (
-          <Member key={idx} $index={idx}>
-            {member}
-          </Member>
-        ))}
-      </Members>
-      <Capacity>
-        <UserIcon>
-          <TeamOutlined />
-        </UserIcon>
-        {`${list.capacity}/10`}
-      </Capacity> */}
     </MemberBox>
   );
 };

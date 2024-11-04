@@ -24,10 +24,10 @@ export const logout = () => {
   localStorage.removeItem('refreshToken');
 };
 
-export const checkEmail = async (email) => {
-  const response = await instance.post('/users/check-email', email);
-  return response.data;
-};
+// export const checkEmail = async (email) => {
+//   const response = await instance.post('/users/check-email', email);
+//   return response.data;
+// };
 
 export const formSubmit = async (formData) => {
   try {
@@ -38,7 +38,10 @@ export const formSubmit = async (formData) => {
     });
     return response.data;
   } catch (error) {
-    console.error('회원가입 중 오류 발생:', error);
+    console.error(
+      '회원가입 중 오류 발생@@@@:',
+      error.response || error.message || error
+    );
   }
 };
 

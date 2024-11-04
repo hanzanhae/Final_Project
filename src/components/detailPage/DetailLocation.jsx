@@ -49,7 +49,7 @@ const KakaoLocation = () => {
 
         getUserLocation();
       } else {
-        console.error('Kakao Maps API 로드에 실패했습니다:', error);
+        console.error('Kakao Maps API 로드에 실패했습니다:');
       }
     };
     document.head.appendChild(script);

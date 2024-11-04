@@ -11,6 +11,7 @@ import {
   gatheringDetailImagesData
 } from '../../api/api';
 
+
 const Detail = () => {
   const { id } = useParams();
   // 모임데이터상태관리🚂...임시

@@ -51,19 +51,27 @@ export const formSubmit = async (formData) => {
 //     const response = await instance.get(
 //       '/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC'
 //     );
-//     // const response = await instance.get('/gatherings', {
-//     //   params: {
-//     //     gathering_type: 'GENERAL',
-//     //     order_by: 'CREATED_AT',
-//     //     sort_direction: 'ASC'
-//     //   }
-//     // });
-//     // console.log(response.data);
 //     return response.data.gathering_responses;
 //   } catch (error) {
 //     console.error('일반모임목록 데이터를 가져오는 중 오류발생:', error.message);
 //   }
 // };
+
+// export const gatheringData = async () => {
+//   try {
+//     const response = await instance.get('/gatherings', {
+//       params: {
+//         gathering_type: 'GENERAL',
+//         order_by: 'CREATED_AT',
+//         sort_direction: 'ASC'
+//       }
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error('일반모임목록 데이터를 가져오는 중 오류발생:', error.message);
+//   }
+// };
+
 export const gatheringData = async () => {
   const url =
     'https://myspringserver.store/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC';
@@ -76,7 +84,7 @@ export const gatheringData = async () => {
       }
     });
     const data = await response.json();
-    return data.gathering_responses;
+    return data;
   } catch (error) {
     console.error(
       '일반모임목록 데이터를 가져오는 중 오류 발생:',

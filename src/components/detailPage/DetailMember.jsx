@@ -8,53 +8,60 @@ const DetailMember = ({ meet }) => {
   if (!meet) {
     return <div>모임 정보가 없습니다.</div>;
   }
+
+  const memberRef = useRef(null);
+
   // 🚂...임시
   const members = meet.member_profile_urls;
   const maxMember = meet.max_number;
 
-  // const memberRef = useRef(null);
+  const [enteredMembers, setEnteredMembers] = useState([]);
+  const [activeMember, setActiveMember] = useState(null);
+  const [errorMsg, setErrorMsg] = useState('');
 
-  // const [activeMember, setActiveMember] = useState(null);
-  // const [enterMembers, setEnterMembers] = useState([]);
-  // const [errorMsg, setErrorMsg] = useState('');
+  useEffect(() => {
+    if (members.length > 0) {
+      setEnteredMembers([...members]);
+    }
+  }, [members]);
 
-  // const handleShowMemberMenu = (index) => {
-  //   setActiveMember(activeMember === index ? null : index);
-  // };
+  const handleShowMemberMenu = (index) => {
+    setActiveMember(activeMember === index ? null : index);
+  };
 
-  // const handleClickOutside = (e) => {
-  //   if (memberRef.current && !memberRef.current.contains(e.target)) {
-  //     setActiveMember(null);
-  //   }
-  // };
+  const handleClickOutside = (e) => {
+    if (memberRef.current && !memberRef.current.contains(e.target)) {
+      setActiveMember(null);
+    }
+  };
 
-  // useEffect(() => {
-  //   const enteredMembers = Array.from({ length: meet.capacity }, (_, idx) => {
-  //     return `이름${idx + 1}`;
-  //   });
-  //   setEnterMembers(enteredMembers);
+  useEffect(() => {
+    const enteredMembers = Array.from({ length: meet.capacity }, (_, idx) => {
+      return `이름${idx + 1}`;
+    });
+    setEnteredMembers(enteredMembers);
 
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, [setActiveMember]);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [setActiveMember]);
 
-  // const handleEnterMeeting = () => {
-  //   if (enterMembers.length < 10) {
-  //     const newMember = `이름${enterMembers.length + 1}`;
-  //     setEnterMembers((prev) => [...prev, newMember]);
-  //   } else {
-  //     setErrorMsg(
-  //       '최대인원을 초과하였습니다. 모임에 참가하고 싶은 경우, 모임장에게 직접 연락하시길 바랍니다.'
-  //     );
-  //   }
-  // };
+  const handleEnterMeeting = () => {
+    if (enteredMembers.length < 10) {
+      const newMember = `이름${enteredMembers.length + 1}`;
+      setEnteredMembers((prev) => [...prev, newMember]);
+    } else {
+      setErrorMsg(
+        '최대인원을 초과하였습니다. 모임에 참가하고 싶은 경우, 모임장에게 직접 연락하시길 바랍니다.'
+      );
+    }
+  };
 
   return (
     <MemberContainer>
       <UniBtn
-        // onClick={handleEnterMeeting}
+        onClick={handleEnterMeeting}
         $margin="0 0 2rem 0"
         $padding="0.5rem 1rem"
       >
@@ -65,15 +72,13 @@ const DetailMember = ({ meet }) => {
         <MemberNumber>{`${members.length}/${maxMember}`}</MemberNumber>
       </MemberTitleBox>
       <MembersBox
-        // enterMembers={enterMembers}
-        members={members.slice(0, 2)}
-        //
-        // handleShowMemberMenu={handleShowMemberMenu}
-        // memberRef={memberRef}
-        // activeMember={activeMember}
-        // setActiveMember={setActiveMember}
+        enteredMembers={enteredMembers}
+        handleShowMemberMenu={handleShowMemberMenu}
+        memberRef={memberRef}
+        activeMember={activeMember}
+        setActiveMember={setActiveMember}
       />
-      {/* <Msg>{errorMsg}</Msg> */}
+      <Msg>{errorMsg}</Msg>
     </MemberContainer>
   );
 };

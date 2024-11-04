@@ -11,11 +11,9 @@ import {
   gatheringDetailImagesData
 } from '../../api/api';
 
-
 const Detail = () => {
   const { id } = useParams();
   // 모임데이터상태관리🚂...임시
-  const [gathering, setGethering] = useState([]);
   const [meet, setMeet] = useState(null);
 
   // ...보류
@@ -27,9 +25,7 @@ const Detail = () => {
   const fetchGathering = async () => {
     const data = await gatheringData();
     if (data) {
-      const gatheringResponse = data.content;
-      setGethering(gatheringResponse);
-      // console.log(gatheringResponse);
+      const gatheringResponse = data.gathering_responses.content;
       const foundMeet = gatheringResponse.find((m) => m.id === parseInt(id));
       setMeet(foundMeet);
     } else {

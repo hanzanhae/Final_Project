@@ -1,8 +1,8 @@
 import { CloudFilled, RetweetOutlined, SunFilled } from '@ant-design/icons';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { airConditionData } from '../../api/api';
 
 const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
   const dispatch = useDispatch();
@@ -14,7 +14,6 @@ const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
 
   const getUserLocation = () => {
     const success = (position) => {
-      // console.log("위치정보: ", position);
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
 
@@ -27,16 +26,8 @@ const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
   };
 
   const getAirData = async (lat, lon) => {
-    const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
-    try {
-      const response = await axios.get(
-        `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=kr`
-      );
-      const air = response.data.list[0].components;
-      airCondition(air.pm2_5);
-    } catch (e) {
-      console.log('대기질정보를 가져오는데 실패했습니다: ', e.message);
-    }
+    const data = await airConditionData({ lat, lon });
+    airCondition(data.pm2_5);
   };
 
   // 대기질 표시

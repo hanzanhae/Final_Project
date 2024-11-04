@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const apiKey = process.env.REACT_APP_Detail_Kakao_API_KEY;
+const apiKey = process.env.REACT_APP_DETAIL_KAKAO_API_KEY;
 const KakaoUrl = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false`;
 
 const KakaoLocation = () => {

@@ -1,10 +1,12 @@
 import styled from 'styled-components';
+import BannerBg from '../../images/bannerBG.jpg';
 
 export const MainBanner = styled.div`
   width: 100%;
   height: 100vh;
   position: relative;
   overflow: hidden;
+  z-index: 1001;
 `;
 export const BannerImg = styled.img`
   width: 100%;

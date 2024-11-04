@@ -1,25 +1,73 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Days from '../calendar/Days';
 import styled from 'styled-components';
+import DateModal from '../calendar/DateModal';
 
-const DaysGrid = ({ daysArray, daysInMonth, currentMonth, holidays }) => {
+const DaysGrid = ({ daysArray, currentMonth, holidays }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [eventsByDate, setEventsByDate] = useState({});
+
+  const handleDayClick = (date) => {
+    setSelectedDate(date);
+    setIsModalOpen(true);
+  };
+
+  const handleUpdateEvents = (date, updatedEvents) => {
+    setEventsByDate((prev) => ({
+      ...prev,
+      [date]: updatedEvents
+    }));
+  };
+
   return (
-    <DaysContainer>
-      {daysArray.map((day, index) => {
-        const isCurrentMonthDate = day > 0 && day <= daysInMonth;
-        const isHoliday = holidays.includes(day); // 공휴일 날짜 확인
+    <>
+      <DaysContainer>
+        {daysArray.map((dayObj, index) => {
+          const isHoliday = holidays.includes(dayObj.day);
 
-        if (isCurrentMonthDate) {
-          return (
-            <Days key={index} day={day} currentMonth={currentMonth} isHoliday={isHoliday}/>
+          const dateToCheck = new Date(
+            currentMonth.getFullYear(),
+            currentMonth.getMonth(),
+            dayObj.day
           );
-        } else if (day > daysInMonth) {
-          return <NextDate key={index}>{day}</NextDate>;
-        } else {
-          return <PrevDate key={index}>{day}</PrevDate>;
-        }
-      })}
-    </DaysContainer>
+          const isCurrentMonthDate =
+            dayObj.isCurrentMonth &&
+            dateToCheck.getFullYear() === currentMonth.getFullYear() &&
+            dateToCheck.getMonth() === currentMonth.getMonth();
+
+          const fullDate = new Date(
+            currentMonth.getFullYear(),
+            currentMonth.getMonth() +
+              (dayObj.isNextMonth ? 1 : dayObj.isPreviousMonth ? -1 : 0),
+            dayObj.day
+          );
+
+          const hasEvent = eventsByDate[fullDate.toDateString()]?.length > 0;
+
+          return (
+            <Days
+              key={index}
+              day={dayObj.day}
+              fullDate={fullDate}
+              isHoliday={isHoliday}
+              isCurrentMonthDate={isCurrentMonthDate}
+              isPreviousMonth={dayObj.isPreviousMonth}
+              isNextMonth={dayObj.isNextMonth}
+              onDayClick={handleDayClick}
+              hasEvent={hasEvent}
+            />
+          );
+        })}
+      </DaysContainer>
+      <DateModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        date={selectedDate}
+        onUpdateEvents={handleUpdateEvents}
+        events={eventsByDate[selectedDate?.toDateString()] || []}
+      />
+    </>
   );
 };
 
@@ -35,17 +83,3 @@ const DaysContainer = styled.div`
   justify-content: flex-start;
   margin-top: 5px;
 `;
-
-const PrevDate = styled.div`
-  width: 14.28%;
-  height: 50px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 20%;
-  color: #d8d5db;
-  font-weight: 400;
-`;
-
-const NextDate = styled(PrevDate)``;

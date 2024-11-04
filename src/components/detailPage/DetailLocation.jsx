@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const KakaoUrl = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=6644709f45a5cc88a4139bf30cc32de1&autoload=false`;
+const apiKey = process.env.REACT_APP_Detail_Kakao_API_KEY;
+const KakaoUrl = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&autoload=false`;
 
 const KakaoLocation = () => {
   const mapContainerRef = useRef(null);
@@ -10,12 +11,12 @@ const KakaoLocation = () => {
 
   // 현재위치데이터
   const getUserLocation = () => {
-    const success = (position) => {
+    const success = async (position) => {
       // console.log('위치정보: ', position);
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
-
       const userPosition = new window.kakao.maps.LatLng(latitude, longitude);
+
       mapRef.current.setCenter(userPosition);
 
       const marker = new window.kakao.maps.Marker({

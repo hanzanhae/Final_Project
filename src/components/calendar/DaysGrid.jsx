@@ -2,11 +2,43 @@ import React, { useState } from 'react';
 import Days from '../calendar/Days';
 import styled from 'styled-components';
 import DateModal from '../calendar/DateModal';
+//import axios from 'axios';
 
 const DaysGrid = ({ daysArray, currentMonth, holidays }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [eventsByDate, setEventsByDate] = useState({});
+
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `/users/calender?year=${currentMonth.getFullYear()}&month=${currentMonth.getMonth() + 1}`,
+  //         {
+  //           params: {
+  //             year: currentMonth.getFullYear(),
+  //             month: currentMonth.getMonth() + 1
+  //           }
+  //         }
+  //       );
+
+  //       const gatherings = response.data.gatherings || [];
+
+  //       const eventsByDate = gatherings.reduce((acc, gathering) => {
+  //         const dateKey = new Date(gathering.appointed_at).toDateString();
+  //         acc[dateKey] = acc[dateKey] || [];
+  //         acc[dateKey].push(gathering);
+  //         return acc;
+  //       }, {});
+
+  //       setEventsByDate(eventsByDate);
+  //     } catch (error) {
+  //       console.error('Error fetching events:', error);
+  //     }
+  //   };
+
+  //   fetchEvents();
+  // }, [currentMonth]);
 
   const handleDayClick = (date) => {
     setSelectedDate(date);
@@ -45,6 +77,9 @@ const DaysGrid = ({ daysArray, currentMonth, holidays }) => {
 
           const hasEvent = eventsByDate[fullDate.toDateString()]?.length > 0;
 
+          const dateKey = fullDate.toDateString();
+          const eventsForDay = eventsByDate[dateKey] || [];
+
           return (
             <Days
               key={index}
@@ -56,6 +91,7 @@ const DaysGrid = ({ daysArray, currentMonth, holidays }) => {
               isNextMonth={dayObj.isNextMonth}
               onDayClick={handleDayClick}
               hasEvent={hasEvent}
+              events={eventsForDay}
             />
           );
         })}

@@ -1,20 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  FaCheckCircle,
-  FaTimesCircle,
-  FaBell,
-  FaCalendarAlt
-} from 'react-icons/fa';
-import { mockMeetings } from '../../data/mockMeetings';
-
-const renderMeetingIcon = (meetingType) => {
-  if (meetingType === 'attended') return <FaCheckCircleIcon />;
-  if (meetingType === 'missed') return <FaTimesCircleIcon />;
-  if (meetingType === 'upcoming') return <FaBellIcon />;
-  if (meetingType === 'event') return <FaCalendarAltIcon />;
-  return null;
-};
+import { FaCheckCircle, FaCalendarAlt } from 'react-icons/fa';
 
 const Days = ({
   day,
@@ -24,32 +10,29 @@ const Days = ({
   isPreviousMonth,
   isNextMonth,
   onDayClick,
-  hasEvent
+  hasEvent,
+  events
 }) => {
-  const getMeetingTypeForDay = (fullDate) => {
-    const meeting = mockMeetings.find((meeting) => {
-      const meetingDate = new Date(meeting.date);
-      return (
-        meetingDate.getDate() === fullDate.getDate() &&
-        meetingDate.getMonth() === fullDate.getMonth() &&
-        meetingDate.getFullYear() === fullDate.getFullYear()
-      );
-    });
-    return meeting ? meeting.type : null;
-  };
-
   const today = new Date();
   const isToday =
     fullDate.getDate() === today.getDate() &&
     fullDate.getMonth() === today.getMonth() &&
     fullDate.getFullYear() === today.getFullYear();
 
-  const meetingType = getMeetingTypeForDay(fullDate);
+  const renderEventIcon = () => {
+    if (events.some((event) => event.attendance_status === 'PENDING')) {
+      return <FaCalendarAltIcon />;
+    }
+    if (events.some((event) => event.role === 'PARTICIPANT')) {
+      return <FaCheckCircleIcon />;
+    }
+    return null;
+  };
 
   return (
     <DaysContainer onClick={() => onDayClick(fullDate)}>
       {isToday ? (
-        meetingType ? (
+        events.length > 0 ? (
           <TodayEventDate>{day}</TodayEventDate>
         ) : (
           <TodayDate>{day}</TodayDate>
@@ -65,7 +48,7 @@ const Days = ({
       ) : (
         <OtherMonthDate>{day}</OtherMonthDate>
       )}
-      <IconContainer>{renderMeetingIcon(meetingType)}</IconContainer>
+      <IconContainer>{renderEventIcon()}</IconContainer>
       {hasEvent && <EventBar />}
     </DaysContainer>
   );
@@ -151,18 +134,6 @@ const IconContainer = styled.div`
 
 const FaCheckCircleIcon = styled(FaCheckCircle)`
   color: #83c5be;
-  font-size: 20px;
-  margin-top: 5px;
-`;
-
-const FaTimesCircleIcon = styled(FaTimesCircle)`
-  color: #ff0054;
-  font-size: 20px;
-  margin-top: 5px;
-`;
-
-const FaBellIcon = styled(FaBell)`
-  color: #ffbe0b;
   font-size: 20px;
   margin-top: 5px;
 `;

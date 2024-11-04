@@ -26,7 +26,7 @@ const MeetingList = () => {
     if (data) {
       const gatheringResponse = data.content;
       setGethering(gatheringResponse);
-      // console.log(gatheringResponse);
+      console.log(gatheringResponse);
     } else {
       console.log('모임목록데이터가 존재하지 않습니다.');
     }

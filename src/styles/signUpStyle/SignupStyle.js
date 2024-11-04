@@ -71,10 +71,9 @@ export const ProfileContainer = styled.div`
   justify-content: space-around;
 `;
 export const AddProfileImg = styled.div`
-  border: 2px solid gray;
   width: 60px;
   height: 60px;
-  font-size: 4rem;
+
   display: flex;
   justify-content: center;
   border-radius: 50%;
@@ -83,10 +82,13 @@ export const AddProfileImg = styled.div`
   background-repeat: no-repeat;
   box-sizing: border-box;
   line-height: 0.7;
+  font-size: 4rem;
+  border: ${(props) =>
+    props.$isselected ? '4px solid yellow' : '2px solid gray'};
 `;
 export const ProfileImg1 = styled.div`
-  border: ${(props) => (props.isselected ? '4px' : '2px')} solid
-    ${(props) => (props.isselected ? 'yellow' : 'gray')};
+  border: ${(props) => (props.$isselected ? '4px' : '2px')} solid
+    ${(props) => (props.$isselected ? 'yellow' : 'gray')};
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -95,6 +97,7 @@ export const ProfileImg1 = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   margin: 1rem auto;
+  cursor: pointer;
 `;
 
 export const InputContainer = styled.div`

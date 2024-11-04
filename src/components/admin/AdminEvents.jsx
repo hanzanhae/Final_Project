@@ -170,9 +170,27 @@ const AdminEvents = () => {
       ]);
 
       setEventList([
-        { id: 1, name: 'Spring Marathon', date: '2023-04-05', location: 'Seoul', participants: 50 },
-        { id: 2, name: 'Summer Run', date: '2023-06-15', location: 'Busan', participants: 30 },
-        { id: 3, name: 'Autumn Race', date: '2023-09-20', location: 'Incheon', participants: 45 }
+        {
+          id: 1,
+          name: 'Spring Marathon',
+          date: '2023-04-05',
+          location: 'Seoul',
+          participants: 50
+        },
+        {
+          id: 2,
+          name: 'Summer Run',
+          date: '2023-06-15',
+          location: 'Busan',
+          participants: 30
+        },
+        {
+          id: 3,
+          name: 'Autumn Race',
+          date: '2023-09-20',
+          location: 'Incheon',
+          participants: 45
+        }
       ]);
 
       setLoading(false);
@@ -241,7 +259,10 @@ const AdminEvents = () => {
           >
             승인
           </Button>
-          <Button type="danger" onClick={() => handleAction(record.id, 'reject')}>
+          <Button
+            type="danger"
+            onClick={() => handleAction(record.id, 'reject')}
+          >
             거부
           </Button>
         </span>
@@ -256,12 +277,20 @@ const AdminEvents = () => {
       <Row gutter={[16, 16]} style={{ marginBottom: '20px' }}>
         <Col xs={24} md={12}>
           <Card title="🆕 월별 이벤트 개설 수">
-            <Line data={eventsChartData} options={{ responsive: true }} height={250} />
+            <Line
+              data={eventsChartData}
+              options={{ responsive: true }}
+              height={250}
+            />
           </Card>
         </Col>
         <Col xs={24} md={12}>
           <Card title="👥 월별 이벤트 참가자 수">
-            <Bar data={participantsChartData} options={{ responsive: true }} height={250} />
+            <Bar
+              data={participantsChartData}
+              options={{ responsive: true }}
+              height={250}
+            />
           </Card>
         </Col>
       </Row>

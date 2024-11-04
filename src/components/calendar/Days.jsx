@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaCheckCircle, FaTimesCircle, FaBell, FaCalendarAlt } from 'react-icons/fa';
+import {
+  FaCheckCircle,
+  FaTimesCircle,
+  FaBell,
+  FaCalendarAlt
+} from 'react-icons/fa';
 import { mockMeetings } from '../../data/mockMeetings';
 
 const renderMeetingIcon = (meetingType) => {
@@ -11,38 +16,59 @@ const renderMeetingIcon = (meetingType) => {
   return null;
 };
 
-const Days = ({ day, currentMonth, isHoliday }) => {
-  const getMeetingTypeForDay = (day) => {
-    const dateToCheck = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+
+const Days = ({
+  day,
+  fullDate,
+  isHoliday,
+  isCurrentMonthDate,
+  isPreviousMonth,
+  isNextMonth,
+  onDayClick,
+  hasEvent
+}) => {
+  const getMeetingTypeForDay = (fullDate) => {
+
     const meeting = mockMeetings.find((meeting) => {
       const meetingDate = new Date(meeting.date);
       return (
-        meetingDate.getDate() === dateToCheck.getDate() &&
-        meetingDate.getMonth() === dateToCheck.getMonth() &&
-        meetingDate.getFullYear() === dateToCheck.getFullYear()
+        meetingDate.getDate() === fullDate.getDate() &&
+        meetingDate.getMonth() === fullDate.getMonth() &&
+        meetingDate.getFullYear() === fullDate.getFullYear()
       );
     });
-    return meeting ? meeting.type : null; // meeting이 null이 아닐 경우 type 반환
+    return meeting ? meeting.type : null;
   };
 
+  const today = new Date();
   const isToday =
-    day === new Date().getDate() &&
-    currentMonth.getMonth() === new Date().getMonth() &&
-    currentMonth.getFullYear() === new Date().getFullYear();
+    fullDate.getDate() === today.getDate() &&
+    fullDate.getMonth() === today.getMonth() &&
+    fullDate.getFullYear() === today.getFullYear();
 
-  const meetingType = getMeetingTypeForDay(day); // 모임 상태 가져오기
-  console.log(`Day: ${day}, Meeting Type: ${meetingType}`);
+  const meetingType = getMeetingTypeForDay(fullDate);
 
   return (
-    <DaysContainer>
+    <DaysContainer onClick={() => onDayClick(fullDate)}>
       {isToday ? (
-        <TodayDate>{day}</TodayDate>
+        meetingType ? (
+          <TodayEventDate>{day}</TodayEventDate>
+        ) : (
+          <TodayDate>{day}</TodayDate>
+        )
       ) : isHoliday ? (
         <HolidayDate>{day}</HolidayDate>
+      ) : isPreviousMonth ? (
+        <PreviousMonthDate>{day}</PreviousMonthDate>
+      ) : isNextMonth ? (
+        <NextMonthDate>{day}</NextMonthDate>
+      ) : isCurrentMonthDate ? (
+        <CurrentMonthDate>{day}</CurrentMonthDate>
       ) : (
-        <DaysDate>{day}</DaysDate>
+        <OtherMonthDate>{day}</OtherMonthDate>
       )}
       <IconContainer>{renderMeetingIcon(meetingType)}</IconContainer>
+      {hasEvent && <EventBar />}
     </DaysContainer>
   );
 };
@@ -58,12 +84,53 @@ const DaysContainer = styled.div`
   justify-content: center;
   border-radius: 100%;
   position: relative;
+  &:hover {
+    background: #e0edff;
+    color: white;
+    transition: 0.3s;
+  }
 `;
 
-const DaysDate = styled.div``;
+const DaysDate = styled.div`
+  width: 100%;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  position: relative;
+`;
 
 const TodayDate = styled(DaysDate)`
-  font-size: 1.5rem;
+  font-size: 1.8rem;
+`;
+
+const TodayEventDate = styled.div`
+  width: 100%;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  border: 2px solid;
+  box-shadow: 0 0 10px 1px #bfd7ea;
+`;
+
+const PreviousMonthDate = styled.div`
+  color: lightgrey;
+`;
+
+const NextMonthDate = styled.div`
+  color: lightgrey;
+`;
+
+const CurrentMonthDate = styled.div``;
+
+const OtherMonthDate = styled.div`
+  color: black;
+  font-weight: normal;
 `;
 
 const HolidayDate = styled.div`
@@ -78,10 +145,10 @@ const HolidayDate = styled.div`
 `;
 
 const IconContainer = styled.div`
-  position: absolute; /* 절대 위치 */
-  top: 50%; /* 세로 중앙 */
-  left: 50%; /* 가로 중앙 */
-  transform: translate(-50%, -50%); /* 중앙 정렬 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const FaCheckCircleIcon = styled(FaCheckCircle)`
@@ -106,4 +173,17 @@ const FaCalendarAltIcon = styled(FaCalendarAlt)`
   color: #83c5;
   font-size: 20px;
   margin-top: 5px;
+`;
+
+const EventBar = styled.div`
+  position: absolute;
+  margin-left: 13px;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  width: 20px;
+  height: 3px;
+  background-color: #0056b3;
+  border-radius: 20px;
+  box-shadow: 0 0 3px 1px #0056b3;
 `;

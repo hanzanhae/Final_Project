@@ -1,49 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Menu } from 'antd';
 import {
   HomeOutlined,
   UserOutlined,
   TeamOutlined,
-  CalendarOutlined
+  CalendarOutlined,
+  LeftOutlined,
+  RightOutlined
 } from '@ant-design/icons';
-import { Sider, MenuWrapper } from '../../styles/adminStyle';
+import styled from 'styled-components';
 
-const AdminSider = () => {
+const AdminSider = ({ collapsed, setCollapsed }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [selectedKey, setSelectedKey] = useState('');
-
-  useEffect(() => {
-    if (location.pathname.startsWith('/admin/home')) {
-      setSelectedKey('home');
-    } else if (location.pathname.startsWith('/admin/users')) {
-      setSelectedKey('users');
-    } else if (location.pathname.startsWith('/admin/meetings')) {
-      setSelectedKey('meetings');
-    } else if (location.pathname.startsWith('/admin/events')) {
-      setSelectedKey('events');
-    }
-  }, [location.pathname]);
 
   const handleMenuClick = (key) => {
-    setSelectedKey(key);
-    switch (key) {
-      case 'home':
-        navigate('/admin/home');
-        break;
-      case 'users':
-        navigate('/admin/users');
-        break;
-      case 'meetings':
-        navigate('/admin/meetings');
-        break;
-      case 'events':
-        navigate('/admin/events');
-        break;
-      default:
-        break;
-    }
+    navigate(`/admin/${key}`);
   };
 
   const items = [
@@ -54,18 +27,53 @@ const AdminSider = () => {
   ];
 
   return (
-    <Sider>
+    <SiderWrapper $collapsed={collapsed}>
+      {' '}
       <MenuWrapper>
         <Menu
           mode="inline"
-          selectedKeys={[selectedKey]}
+          selectedKeys={[location.pathname.split('/')[2]]}
           onClick={({ key }) => handleMenuClick(key)}
           theme="dark"
           items={items}
+          inlineCollapsed={collapsed}
         />
       </MenuWrapper>
-    </Sider>
+      <CollapseButton onClick={() => setCollapsed(!collapsed)}>
+        {collapsed ? <RightOutlined /> : <LeftOutlined />}
+      </CollapseButton>
+    </SiderWrapper>
   );
 };
 
 export default AdminSider;
+
+const SiderWrapper = styled.div`
+  width: ${({ $collapsed }) =>
+    $collapsed ? '80px' : '200px'}; /* $collapsed 사용 */
+  position: fixed;
+  top: 8vh;
+  left: 0;
+  bottom: 0;
+  background-color: #001529;
+  transition: width 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1000;
+`;
+
+const MenuWrapper = styled.div`
+  flex-grow: 1;
+`;
+
+const CollapseButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 10px;
+  align-self: center;
+  margin-bottom: 10px;
+`;

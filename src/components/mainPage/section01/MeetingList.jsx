@@ -2,40 +2,73 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { meetingList } from '../../../data/meetingList';
-import { gatheringDetailData, gatheringImagesData } from '../../../api/api';
+import { gatheringData } from '../../../api/api';
 import MeetingListBox from './MeetingListBox';
+import {
+  runningConcept,
+  runningDistance
+} from '../../../data/gatheringKeyword';
 
-const LIST_PERPAGE = 8;
+const LIST_PERPAGE = 4;
 
 const MeetingList = () => {
-  // 모임데이터상태관리
-  const [gatheringData, setGetheringData] = useState({});
-  const [gatheringMembers, setGetheringMembers] = useState([]);
-  const [gatheringImages, setGetheringImages] = useState([]);
-
   const { selectedOption, selectedDistance, selectedCategory } = useSelector(
     (state) => state.filter
   );
+
+  // 모임데이터상태관리🚂
+  const [gathering, setGethering] = useState([]);
+  // console.log(gathering.length);
+
+  // 모임목록데이터get🚂...
+  const fetchGathering = async () => {
+    const data = await gatheringData();
+    if (data) {
+      const gatheringResponse = data.content;
+      setGethering(gatheringResponse);
+      // console.log(gatheringResponse);
+    } else {
+      console.log('모임목록데이터가 존재하지 않습니다.');
+    }
+  };
+  useEffect(() => {
+    fetchGathering();
+  }, []);
 
   // 페이지네이션 상태관리
   const [visibleList, setVisibleList] = useState(LIST_PERPAGE);
 
   // 필터링
-  const filteredMeetingList = meetingList.filter((list) => {
+  const filteredMeetingList = gathering.filter((list) => {
+    const memberNum = list.member_profile_urls.length;
+    const deadlineDate = list.deadline;
+    const currentDate = new Date();
+
     let optionMatch = true;
+
     if (selectedOption === '참여가능') {
-      optionMatch = list.capacity < 10; // 10명 미만
+      optionMatch = memberNum < 10 && deadlineDate > currentDate;
     } else if (selectedOption === '마감임박') {
-      optionMatch = list.capacity >= 8 && list.capacity < 10; // 8명, 9명
+      const oneDayBefore = new Date(currentDate);
+      oneDayBefore.setDate(currentDate.getDate() + 1);
+      optionMatch =
+        memberNum >= 8 &&
+        memberNum < 10 &&
+        deadlineDate > currentDate &&
+        deadlineDate <= oneDayBefore;
+    } else if (selectedOption === '참여불가') {
+      optionMatch = deadlineDate <= currentDate || memberNum === 10;
     } else if (selectedOption === '전체') {
       optionMatch = true;
     }
 
     const distanceMatch =
-      !selectedDistance || list.distance === selectedDistance;
+      !selectedDistance ||
+      runningDistance(list.goal_distance) === selectedDistance;
+
     const categoryMatch =
-      selectedCategory.length === 0 || selectedCategory.includes(list.category);
+      selectedCategory.length === 0 ||
+      selectedCategory.includes(runningConcept(list.concept));
 
     return optionMatch && distanceMatch && categoryMatch;
   });
@@ -47,51 +80,20 @@ const MeetingList = () => {
     setVisibleList((prev) => prev + LIST_PERPAGE);
   };
 
-  // 모임데이터🚂...
-  const fetchGatheringDetail = async () => {
-    const data = await gatheringDetailData();
-    console.log(data);
-    if (data) {
-      const gatheringResponse = data.gathering_response;
-      const gatheringMembers = data.gathering_members;
-      setGetheringData(gatheringResponse);
-      setGetheringMembers(gatheringMembers);
-    } else {
-      console.log('모임상세데이터가 존재하지 않습니다.');
-    }
-  };
-  const fetchGatheringImages = async () => {
-    const data = await gatheringImagesData();
-    console.log(data);
-    if (data) {
-      const gatheringImgUrl = data.contentImageUrls;
-      setGetheringImages(gatheringImgUrl);
-    } else {
-      console.log('모임이미지데이터가 존재하지 않습니다.');
-    }
-  };
-  useEffect(() => {
-    fetchGatheringDetail();
-    fetchGatheringImages();
-  }, []);
-
   return (
     <Container>
       <ListUl>
         {currentMeetingList.map((list) => {
-          const enterMembers = Array.from(
-            { length: list.capacity },
-            (_, idx) => `이름${idx + 1}`
-          );
+          // console.log(list);
           return (
             <Link to={`/detail/${list.id}`} key={list.id}>
-              <MeetingListBox list={list} enterMembers={enterMembers} />
+              <MeetingListBox list={list} />
             </Link>
           );
         })}
       </ListUl>
       {/* 페이지네이션 */}
-      {visibleList < filteredMeetingList.length ? (
+      {visibleList < gathering.length ? (
         <MoreBtn onClick={handleClickMorePage}>더보기</MoreBtn>
       ) : (
         <MoreMsg>마지막 페이지입니다.</MoreMsg>
@@ -105,7 +107,6 @@ export default MeetingList;
 // style
 const Container = styled.div`
   padding-bottom: 3rem;
-  background-color: #fff;
 `;
 const ListUl = styled.ul`
   padding: 3rem 5rem;

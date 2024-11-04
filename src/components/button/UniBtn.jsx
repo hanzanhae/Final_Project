@@ -8,7 +8,9 @@ export const UniBtn = ({
   $bgcolor,
   color,
   btnSize,
-  $margin
+  $margin,
+  $padding,
+  $bordorradius
 }) => {
   return (
     <Button
@@ -18,6 +20,8 @@ export const UniBtn = ({
       color={color}
       btnSize={btnSize}
       $margin={$margin}
+      $padding={$padding}
+      $bordorradius={$bordorradius}
     >
       {children}
     </Button>
@@ -30,14 +34,17 @@ const Button = styled.button`
   width: ${(props) => props.btnSize || 'fit-content'};
   cursor: pointer;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: ${(props) => props.$bordorradius || '0.5rem'};
   background-color: ${(props) => props.$bgcolor || props.theme.pointColor};
   color: ${(props) => props.color || 'white'};
   font-size: 0.8rem;
   font-weight: 500;
-  padding: 0.25rem 0.5rem;
-  opacity: 0.8;
+  padding: ${(props) => props.$padding || '0.25rem 0.5rem'};
+  opacity: 0.9;
+  position: relative;
+  transition: transform 0.3s;
   &:hover {
     opacity: 1;
+    transform: translateY(-2px);
   }
 `;

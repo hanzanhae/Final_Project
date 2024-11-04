@@ -27,7 +27,8 @@ const eventData = [
     location: '서울',
     participantCount: '200명',
     signupDeadline: '2025-09-25',
-    imageUrl: 'https://www.justrunlah.com/wp-content/uploads/2017/05/Running.jpg',
+    imageUrl:
+      'https://www.justrunlah.com/wp-content/uploads/2017/05/Running.jpg',
     status: '승인 완료'
   }
 ];

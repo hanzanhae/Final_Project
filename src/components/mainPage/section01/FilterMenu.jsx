@@ -2,12 +2,16 @@ import React from 'react';
 import FilterKeyword from './FilterKeyword';
 import FilterSearch from './FilterSearch';
 import styled from 'styled-components';
+import FilterMyLocation from './FilterMyLocation';
 
 const FilterMenu = () => {
   return (
     <FilterMenuWrapper>
       <FilterKeyword />
-      <FilterSearch />
+      <Box>
+        <FilterMyLocation />
+        <FilterSearch />
+      </Box>
     </FilterMenuWrapper>
   );
 };
@@ -22,6 +26,10 @@ const FilterMenuWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #fff;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
+`;
+const Box = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 `;

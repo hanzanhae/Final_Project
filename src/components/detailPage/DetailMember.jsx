@@ -5,77 +5,96 @@ import styled from 'styled-components';
 import MembersBox from './MembersBox';
 
 const DetailMember = ({ meet }) => {
-  const memberRef = useRef(null);
+  if (!meet) {
+    return <div>모임 정보가 없습니다.</div>;
+  }
+  // 🚂...임시
+  const members = meet.member_profile_urls;
+  const maxMember = meet.max_number;
 
-  const [activeMember, setActiveMember] = useState(null);
-  const [enterMembers, setEnterMembers] = useState([]);
-  const [errorMsg, setErrorMsg] = useState('');
+  // const memberRef = useRef(null);
 
-  const handleShowMemberMenu = (index) => {
-    setActiveMember(activeMember === index ? null : index);
-  };
+  // const [activeMember, setActiveMember] = useState(null);
+  // const [enterMembers, setEnterMembers] = useState([]);
+  // const [errorMsg, setErrorMsg] = useState('');
 
-  const handleClickOutside = (e) => {
-    if (memberRef.current && !memberRef.current.contains(e.target)) {
-      setActiveMember(null);
-    }
-  };
+  // const handleShowMemberMenu = (index) => {
+  //   setActiveMember(activeMember === index ? null : index);
+  // };
 
-  useEffect(() => {
-    const enteredMembers = Array.from({ length: meet.capacity }, (_, idx) => {
-      return `이름${idx + 1}`;
-    });
-    setEnterMembers(enteredMembers);
+  // const handleClickOutside = (e) => {
+  //   if (memberRef.current && !memberRef.current.contains(e.target)) {
+  //     setActiveMember(null);
+  //   }
+  // };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [setActiveMember]);
+  // useEffect(() => {
+  //   const enteredMembers = Array.from({ length: meet.capacity }, (_, idx) => {
+  //     return `이름${idx + 1}`;
+  //   });
+  //   setEnterMembers(enteredMembers);
 
-  const handleEnterMeeting = () => {
-    if (enterMembers.length < 10) {
-      const newMember = `이름${enterMembers.length + 1}`;
-      setEnterMembers((prev) => [...prev, newMember]);
-    } else {
-      setErrorMsg(
-        '최대인원을 초과하였습니다. 모임에 참가하고 싶은 경우, 모임장에게 직접 연락하시길 바랍니다.'
-      );
-    }
-  };
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, [setActiveMember]);
+
+  // const handleEnterMeeting = () => {
+  //   if (enterMembers.length < 10) {
+  //     const newMember = `이름${enterMembers.length + 1}`;
+  //     setEnterMembers((prev) => [...prev, newMember]);
+  //   } else {
+  //     setErrorMsg(
+  //       '최대인원을 초과하였습니다. 모임에 참가하고 싶은 경우, 모임장에게 직접 연락하시길 바랍니다.'
+  //     );
+  //   }
+  // };
 
   return (
-    <MemberContaier>
-      <UniBtn onClick={handleEnterMeeting} $margin={'0 0 2rem 0'}>
+    <MemberContainer>
+      <UniBtn
+        // onClick={handleEnterMeeting}
+        $margin="0 0 2rem 0"
+        $padding="0.5rem 1rem"
+      >
         모임참가하기
       </UniBtn>
       <MemberTitleBox>
         <Title>참여하는 사람들</Title>
-        <MemberNumber>{`${enterMembers.length}/10`}</MemberNumber>
+        <MemberNumber>{`${members.length}/${maxMember}`}</MemberNumber>
       </MemberTitleBox>
       <MembersBox
-        enterMembers={enterMembers}
-        handleShowMemberMenu={handleShowMemberMenu}
-        memberRef={memberRef}
-        activeMember={activeMember}
-        setActiveMember={setActiveMember}
+        // enterMembers={enterMembers}
+        members={members.slice(0, 2)}
+        //
+        // handleShowMemberMenu={handleShowMemberMenu}
+        // memberRef={memberRef}
+        // activeMember={activeMember}
+        // setActiveMember={setActiveMember}
       />
-      <Msg>{errorMsg}</Msg>
-    </MemberContaier>
+      {/* <Msg>{errorMsg}</Msg> */}
+    </MemberContainer>
   );
 };
 
-DetailMember.propTypes = {
-  meet: PropTypes.shape({
-    capacity: PropTypes.number.isRequired,
-    members: PropTypes.arrayOf(PropTypes.string).isRequired
-  }).isRequired
-};
+// DetailMember.propTypes = {
+//   meet: PropTypes.shape({
+//     member_profile_urls: PropTypes.arrayOf(PropTypes.string).isRequired,
+//     max_number: PropTypes.number.isRequired
+//   })
+// };
+// DetailMember.defaultProps = {
+//   meet: {
+//     member_profile_urls: [],
+//     max_number: 10
+//   }
+// };
 
 export default DetailMember;
 
 // style
-const MemberContaier = styled.div`
+const MemberContainer = styled.div`
   margin-top: 100px;
   width: 26%;
   display: flex;

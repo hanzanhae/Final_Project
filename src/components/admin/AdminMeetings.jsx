@@ -250,7 +250,10 @@ const AdminMeetings = () => {
     plugins: {
       datalabels: {
         formatter: (value, context) => {
-          const total = context.chart.data.datasets[0].data.reduce((acc, cur) => acc + cur, 0);
+          const total = context.chart.data.datasets[0].data.reduce(
+            (acc, cur) => acc + cur,
+            0
+          );
           const percentage = ((value / total) * 100).toFixed(1);
           return `${percentage}%`;
         },
@@ -285,7 +288,12 @@ const AdminMeetings = () => {
       <Row gutter={[16, 16]}>
         <Col xs={24} md={12}>
           <h2>🏃‍♂️ 월별 모임 개설 수</h2>
-          <Line data={monthlyChartData} options={{ responsive: true }} width={300} height={250} />
+          <Line
+            data={monthlyChartData}
+            options={{ responsive: true }}
+            width={300}
+            height={250}
+          />
         </Col>
         <Col xs={24} md={12}>
           <h2>🌍 지역별 모임 분포</h2>

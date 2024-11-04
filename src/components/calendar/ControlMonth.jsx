@@ -1,7 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ControlMonth = ({ monthYearString, handlePrevMonth, handleNextMonth }) => (
+const ControlMonth = ({
+  monthYearString,
+  handlePrevMonth,
+  handleNextMonth
+}) => (
   <Month>
     <PrevButton onClick={handlePrevMonth}>❮</PrevButton>
     <Year>{monthYearString}</Year>

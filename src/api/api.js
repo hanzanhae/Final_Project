@@ -24,10 +24,10 @@ export const logout = () => {
   localStorage.removeItem('refreshToken');
 };
 
-export const checkEmail = async (email) => {
-  const response = await instance.post('/users/check-email', email);
-  return response.data;
-};
+// export const checkEmail = async (email) => {
+//   const response = await instance.post('/users/check-email', email);
+//   return response.data;
+// };
 
 export const formSubmit = async (formData) => {
   try {
@@ -38,22 +38,64 @@ export const formSubmit = async (formData) => {
     });
     return response.data;
   } catch (error) {
-    console.error('회원가입 중 오류 발생:', error);
+    console.error(
+      '회원가입 중 오류 발생@@@@:',
+      error.response || error.message || error
+    );
   }
 };
 
-// 모임상세페이지🚂...
+// 일반모임목록🚂
+// export const gatheringData = async () => {
+//   try {
+//     const response = await instance.get(
+//       'gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC'
+//     );
+//     // const response = await instance.get('/gatherings', {
+//     //   params: {
+//     //     gathering_type: 'GENERAL',
+//     //     order_by: 'CREATED_AT',
+//     //     sort_direction: 'ASC'
+//     //   }
+//     // });
+//     // console.log(response.data);
+//     return response.data.gathering_responses;
+//   } catch (error) {
+//     console.error('일반모임목록 데이터를 가져오는 중 오류발생:', error.message);
+//   }
+// };
+export const gatheringData = async () => {
+  const url =
+    'https://myspringserver.store/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC';
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.gathering_responses;
+  } catch (error) {
+    console.error(
+      '일반모임목록 데이터를 가져오는 중 오류 발생:',
+      error.message
+    );
+  }
+};
+
+// 모임상세페이지🚂...보류
 export const gatheringDetailData = async (gathering_id) => {
   try {
     const response = await instance.get(`/gatherings/${gathering_id}`);
-    console.log('API 응답:', response);
     return response.data;
   } catch (error) {
     console.error('상세페이지 데이터를 가져오는 중 오류발생:', error.message);
   }
 };
-// 모임이미지🚂...
-export const gatheringImagesData = async (gathering_id) => {
+// 모임상세이미지🚂...보류
+export const gatheringDetailImagesData = async (gathering_id) => {
   try {
     const response = await instance.get(`/images?gathering_id=${gathering_id}`);
     return response.data;

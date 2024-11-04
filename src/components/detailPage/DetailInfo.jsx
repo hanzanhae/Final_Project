@@ -5,6 +5,9 @@ import InfoLocation from './InfoLocation';
 import InfoTime from './InfoTime';
 
 const DetailInfo = ({ meet }) => {
+  if (!meet) {
+    return <div>모임 정보가 없습니다.</div>;
+  }
   return (
     <InfoContaier>
       <InfoScript meet={meet} />

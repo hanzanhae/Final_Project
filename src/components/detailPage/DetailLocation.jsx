@@ -15,8 +15,8 @@ const KakaoLocation = () => {
       // console.log('위치정보: ', position);
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
-
       const userPosition = new window.kakao.maps.LatLng(latitude, longitude);
+
       mapRef.current.setCenter(userPosition);
 
       const marker = new window.kakao.maps.Marker({
@@ -49,7 +49,7 @@ const KakaoLocation = () => {
 
         getUserLocation();
       } else {
-        console.error('Kakao Maps API 로드에 실패했습니다:', error);
+        console.error('Kakao Maps API 로드에 실패했습니다:');
       }
     };
     document.head.appendChild(script);

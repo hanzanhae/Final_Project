@@ -41,11 +41,14 @@ const KakaoLocation = () => {
           center: new window.kakao.maps.LatLng(33.450701, 126.570667),
           level: 3
         };
-        mapRef.current = new window.kakao.maps.Map(mapContainerRef.current, mapOption);
+        mapRef.current = new window.kakao.maps.Map(
+          mapContainerRef.current,
+          mapOption
+        );
 
         getUserLocation();
       } else {
-        console.error('Kakao Maps API 로드에 실패했습니다:', error);
+        console.error('Kakao Maps API 로드에 실패했습니다:');
       }
     };
     document.head.appendChild(script);
@@ -55,7 +58,11 @@ const KakaoLocation = () => {
     loadKakaoMap();
   }, []);
 
-  return <MapBox ref={mapContainerRef}>{errorMsg && <ErrorMsg>{errorMsg}</ErrorMsg>}</MapBox>;
+  return (
+    <MapBox ref={mapContainerRef}>
+      {errorMsg && <ErrorMsg>{errorMsg}</ErrorMsg>}
+    </MapBox>
+  );
 };
 
 export default KakaoLocation;

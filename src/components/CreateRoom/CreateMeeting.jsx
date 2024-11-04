@@ -142,7 +142,14 @@ function CreateMeetingForm() {
             <FormRow>
               <Label>카테고리</Label>
               <div>
-                {['런린이', '고인물', '마라톤', '모닝런닝', '퇴근런닝', '건강'].map((cat) => (
+                {[
+                  '런린이',
+                  '고인물',
+                  '마라톤',
+                  '모닝런닝',
+                  '퇴근런닝',
+                  '건강'
+                ].map((cat) => (
                   <label key={cat}>
                     <StyledRadioInput
                       type="radio"
@@ -175,7 +182,9 @@ function CreateMeetingForm() {
         {showMapModal && (
           <Modal>
             <ModalContent>
-              <CloseButton onClick={() => setShowMapModal(false)}>닫기</CloseButton>
+              <CloseButton onClick={() => setShowMapModal(false)}>
+                닫기
+              </CloseButton>
               <CreateRoom
                 onSelectLocation={(location) => {
                   setSelectedLocation(location);

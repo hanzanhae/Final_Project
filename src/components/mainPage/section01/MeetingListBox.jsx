@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import ListBoxKeyword from './ListBoxKeyword';
 import ListBoxTime from './ListBoxTime';
 import ListBoxMembers from './ListBoxMembers';
+import { format } from 'date-fns';
 
 // 임시썸네일이미지
 import ThumbImage from '../../../images/thumbnail.jpg';
-import { format } from 'date-fns';
 
 const MeetingListBox = ({ list }) => {
   const [isNotice, setIsNotice] = useState(false);
@@ -14,12 +14,12 @@ const MeetingListBox = ({ list }) => {
   const handleDeadlineMeeting = () => {
     const deadlineDate = format(new Date(list.deadline), 'yyyy-MM-dd');
     const currentDate = format(new Date(), 'yyyy-MM-dd');
-    if (deadlineDate === currentDate) {
+    if (deadlineDate < currentDate) {
       setIsNotice(true);
     }
   };
   useEffect(() => {
-    // handleDeadlineMeeting();
+    handleDeadlineMeeting();
   }, []);
 
   return (

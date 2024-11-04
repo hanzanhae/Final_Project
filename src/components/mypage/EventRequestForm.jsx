@@ -18,6 +18,13 @@ const EventRequestForm = () => {
     // setImageFile(file);
   };
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+    }
+  };
+
   const handleImageRemove = () => {
     setImageFile(null);
   };

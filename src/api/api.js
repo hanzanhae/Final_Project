@@ -46,7 +46,7 @@ export const formSubmit = async (formData) => {
 // export const gatheringData = async () => {
 //   try {
 //     const response = await instance.get(
-//       'gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC'
+//       '/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC'
 //     );
 //     // const response = await instance.get('/gatherings', {
 //     //   params: {

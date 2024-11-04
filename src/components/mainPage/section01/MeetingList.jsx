@@ -16,6 +16,8 @@ const MeetingList = () => {
     (state) => state.filter
   );
 
+  const [visibleList, setVisibleList] = useState(LIST_PERPAGE);
+
   // 모임데이터상태관리🚂
   const [gathering, setGethering] = useState([]);
   // console.log(gathering.length);
@@ -35,10 +37,6 @@ const MeetingList = () => {
     fetchGathering();
   }, []);
 
-  // 페이지네이션 상태관리
-  const [visibleList, setVisibleList] = useState(LIST_PERPAGE);
-
-  // 필터링
   const filteredMeetingList = gathering.filter((list) => {
     const memberNum = list.member_profile_urls.length;
     const deadlineDate = list.deadline;
@@ -75,7 +73,6 @@ const MeetingList = () => {
 
   const currentMeetingList = filteredMeetingList.slice(0, visibleList);
 
-  // 더보기클릭 함수
   const handleClickMorePage = () => {
     setVisibleList((prev) => prev + LIST_PERPAGE);
   };

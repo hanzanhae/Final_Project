@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ListBoxKeyword from './ListBoxKeyword';
 import ListBoxTime from './ListBoxTime';
@@ -6,11 +6,26 @@ import ListBoxMembers from './ListBoxMembers';
 
 // 임시썸네일이미지
 import ThumbImage from '../../../images/thumbnail.jpg';
+import { format } from 'date-fns';
 
 const MeetingListBox = ({ list }) => {
+  const [isNotice, setIsNotice] = useState(false);
+
+  const handleDeadlineMeeting = () => {
+    const deadlineDate = format(new Date(list.deadline), 'yyyy-MM-dd');
+    const currentDate = format(new Date(), 'yyyy-MM-dd');
+    if (deadlineDate === currentDate) {
+      setIsNotice(true);
+    }
+  };
+  useEffect(() => {
+    // handleDeadlineMeeting();
+  }, []);
+
   return (
     <>
-      <ListLi>
+      <ListLi $isNotice={isNotice}>
+        <DeadlineNotice>마감된 모임입니다.</DeadlineNotice>
         <ThumbNailImg src={ThumbImage} alt="thumbnail" />
         <InfoBox>
           <ListBoxKeyword list={list} />
@@ -26,17 +41,41 @@ const MeetingListBox = ({ list }) => {
 export default MeetingListBox;
 
 // style
+const DeadlineNotice = styled.div`
+  width: 100%;
+  height: 220px;
+  background-color: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  border-radius: 0.5rem;
+  text-align: center;
+  line-height: 220px;
+  letter-spacing: 1px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: red;
+  opacity: 0;
+`;
 const ListLi = styled.li`
+  width: 100%;
+  height: 220px;
   padding: 2rem;
   background-color: #fff;
   border-radius: 0.5rem;
   display: flex;
   justify-content: space-between;
   box-shadow: 0 0 10px 1px #ececec;
+  position: relative;
   &:hover {
     box-shadow: 0 0 10px 1px ${({ theme }) => theme.pointColorLight};
+    ${DeadlineNotice} {
+      opacity: ${({ $isNotice }) => ($isNotice ? '1' : '0')};
+    }
   }
 `;
+
 const ThumbNailImg = styled.img`
   width: 25%;
   aspect-ratio: 1/1;

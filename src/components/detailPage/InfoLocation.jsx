@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import KakaoLocation from './DetailLocation';
 import { PushpinOutlined } from '@ant-design/icons';
-import PropTypes from 'prop-types';
 
 const InfoLocation = ({ meet }) => {
   const location = meet.location.address_names.address_name;
@@ -25,11 +24,7 @@ const InfoLocation = ({ meet }) => {
     </LocationWrapper>
   );
 };
-// InfoLocation.propTypes = {
-//   meet: PropTypes.shape({
-//     detailLocation: PropTypes.string.isRequired
-//   }).isRequired
-// };
+
 export default InfoLocation;
 
 // style

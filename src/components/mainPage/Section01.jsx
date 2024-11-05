@@ -2,11 +2,13 @@ import React from 'react';
 import FilterMenu from './section01/FilterMenu';
 import MeetingList from './section01/MeetingList';
 import styled from 'styled-components';
+import useUserLocation from '../../hooks/useUserLocation';
 
 const Section01 = () => {
+  const { location } = useUserLocation();
   return (
     <Warpper>
-      <FilterMenu />
+      <FilterMenu location={location} />
       <MeetingList />
     </Warpper>
   );

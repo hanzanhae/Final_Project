@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { meetingList } from '../../data/meetingList';
+// import { meetingList } from '../../data/meetingList';
 import DetailInfo from './DetailInfo';
 import DetailMember from './DetailMember';
 import ThumbNailImg from '../../images/detailThumbNail.jpg';
 import {
-  gatheringData,
-  gatheringDetailData,
-  gatheringDetailImagesData
+  gatheringData
+  // gatheringDetailData,
+  // gatheringDetailImagesData
 } from '../../api/api';
 
 const Detail = () => {

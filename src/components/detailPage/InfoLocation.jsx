@@ -4,6 +4,11 @@ import KakaoLocation from './DetailLocation';
 import { PushpinOutlined } from '@ant-design/icons';
 
 const InfoLocation = ({ meet }) => {
+  // const content = meet.content;
+  // const detailAddress = content.address_full_name;
+  // const lon = content.coordinates.x;
+  // const lat = content.coordinates.y;
+  //
   const location = meet.location.address_names.address_name;
   const location2 = meet.location.address_names.region_2depth_name;
   const location3 = meet.location.address_names.region_3depth_name;
@@ -17,6 +22,7 @@ const InfoLocation = ({ meet }) => {
             <PushpinOutlined />
           </Icon>
           <Location>{`${location}, ${location2}, ${location3}`}</Location>
+          {/* <Location>{detailAddress}</Location> */}
         </LocationText>
         {/* 카카오지도연결 */}
         <KakaoLocation />

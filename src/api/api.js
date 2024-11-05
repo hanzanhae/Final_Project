@@ -37,7 +37,7 @@ export const formSubmit = async (formData) => {
   }
 };
 
-// 사용자위치기반 대기질정보
+// 사용자위치기반 대기질정보 ✅완료
 export const airConditionData = async ({ lat, lon }) => {
   const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
   try {
@@ -51,7 +51,7 @@ export const airConditionData = async ({ lat, lon }) => {
   }
 };
 
-// 일반모임목록🚂
+// 일반모임목록 ✅완료
 export const gatheringData = async () => {
   try {
     const response = await instance.get(
@@ -62,47 +62,6 @@ export const gatheringData = async () => {
     console.error('일반모임목록 데이터를 가져오는 중 오류발생:', error);
   }
 };
-// export const gatheringData = async () => {
-//   const url =
-//     'https://myspringserver.store/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC';
-
-//   try {
-//     const response = await fetch(url, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       }
-//     });
-//     const data = await response.json();
-//     return data.gathering_responses;
-//   } catch (error) {
-//     console.error(
-//       '일반모임목록 데이터를 가져오는 중 오류 발생:',
-//       error.message
-//     );
-//   }
-// };
-
-// export const gatheringData = async () => {
-//   const url =
-//     'https://myspringserver.store/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC';
-
-//   try {
-//     const response = await fetch(url, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       }
-//     });
-//     const data = await response.json();
-//     return data;
-//   } catch (error) {
-//     console.error(
-//       '일반모임목록 데이터를 가져오는 중 오류 발생:',
-//       error.message
-//     );
-//   }
-// };
 
 // 모임상세페이지🚂...보류
 export const gatheringDetailData = async (gathering_id) => {
@@ -120,6 +79,18 @@ export const gatheringDetailImagesData = async (gathering_id) => {
     return response.data;
   } catch (error) {
     console.error('모임이미지 데이터를 가져오는 중 오류발생:', error.message);
+  }
+};
+// 모임상세구성원목록🚂...보류
+export const gatheringDetailMembersData = async (gathering_id) => {
+  try {
+    const response = await instance.get(`/gatherings/${gathering_id}/members`);
+    return response.data;
+  } catch (error) {
+    console.error(
+      '모임구성원목록 데이터를 가져오는 중 오류발생:',
+      error.message
+    );
   }
 };
 

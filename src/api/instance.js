@@ -5,8 +5,8 @@ const instance = axios.create({
   baseURL: 'https://myspringserver.store',
   headers: {
     'Content-Type': 'application/json'
-  }
-  // withCredentials: true
+  },
+  withCredentials: true
 });
 
 instance.interceptors.request.use(

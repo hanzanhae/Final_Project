@@ -1,3 +1,4 @@
+import axios from 'axios';
 import instance from './instance';
 
 export const login = async (email, password) => {
@@ -36,15 +37,29 @@ export const formSubmit = async (formData) => {
   }
 };
 
+// 사용자위치기반 대기질정보
+export const airConditionData = async ({ lat, lon }) => {
+  const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+  try {
+    const response = await axios.get(
+      `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=kr`
+    );
+    const air = response.data.list[0].components;
+    return air;
+  } catch (e) {
+    console.log('대기질정보를 가져오는데 실패했습니다: ', e.message);
+  }
+};
+
 // 일반모임목록🚂
 export const gatheringData = async () => {
   try {
     const response = await instance.get(
       '/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC'
     );
-    return response.data.gathering_responses;
+    return response.data;
   } catch (error) {
-    console.error('일반모임목록 데이터를 가져오는 중 오류발생:', error.message);
+    console.error('일반모임목록 데이터를 가져오는 중 오류발생:', error);
   }
 };
 // export const gatheringData = async () => {
@@ -60,6 +75,27 @@ export const gatheringData = async () => {
 //     });
 //     const data = await response.json();
 //     return data.gathering_responses;
+//   } catch (error) {
+//     console.error(
+//       '일반모임목록 데이터를 가져오는 중 오류 발생:',
+//       error.message
+//     );
+//   }
+// };
+
+// export const gatheringData = async () => {
+//   const url =
+//     'https://myspringserver.store/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC';
+
+//   try {
+//     const response = await fetch(url, {
+//       method: 'GET',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       }
+//     });
+//     const data = await response.json();
+//     return data;
 //   } catch (error) {
 //     console.error(
 //       '일반모임목록 데이터를 가져오는 중 오류 발생:',

@@ -21,7 +21,9 @@ const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
       getAirData(latitude, longitude);
     };
     const error = (error) => {
-      console.error('Error getting location:', error);
+      const defaultLat = 37.5665;
+      const defaultLon = 126.978;
+      getAirData(defaultLat, defaultLon);
     };
     navigator.geolocation.getCurrentPosition(success, error);
   };

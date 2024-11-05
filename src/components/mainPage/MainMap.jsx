@@ -25,7 +25,8 @@ const MainMap = () => {
             fetchMeetings(map, userLat, userLng);
           },
           (error) => {
-            console.error('Failed to get user location:', error);
+            console.error('유저가 위치정보 공개를 허락하지 않았습니다');
+
             const defaultPosition = new window.kakao.maps.LatLng(
               37.5665,
               126.978

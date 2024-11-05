@@ -16,7 +16,6 @@ const renderMeetingIcon = (meetingType) => {
   return null;
 };
 
-
 const Days = ({
   day,
   fullDate,
@@ -28,7 +27,6 @@ const Days = ({
   hasEvent
 }) => {
   const getMeetingTypeForDay = (fullDate) => {
-
     const meeting = mockMeetings.find((meeting) => {
       const meetingDate = new Date(meeting.date);
       return (

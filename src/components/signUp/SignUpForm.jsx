@@ -173,85 +173,17 @@ const SignUpForm = () => {
     formDataToSend.append('password', formData.password);
     formDataToSend.append('nickname', formData.nickname);
 
-    if (selectedFile) {
-      formDataToSend.append('file', selectedFile); // 파일이 있으면 선택한 파일을 전송
-    } else {
-      formDataToSend.append('file', selectedProfileImg); // 기본 이미지 전송
-    }
     try {
       const response = await formSubmit(formDataToSend);
-      console.log(response);
     } catch (error) {
       console.error('회원가입 중 오류 발생:', error.message); // 에러 메시지 출력
-      alert(`회원가입 중 오류가 발생했습니다: ${error.message}`);
     }
-  };
-
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const [selectedProfileImg, setSelectedProfileImg] = useState(null);
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setPreview(URL.createObjectURL(file)); // 프리뷰로 표시할 URL 생성
-    }
-  };
-  const handleProfileImgClick = (img) => {
-    setSelectedProfileImg(img);
-    setSelectedFile(null); // 기본 이미지를 선택하면 파일을 초기화
-    setPreview(null); // 프리뷰도 초기화
   };
 
   return (
     <S.FormContainer>
       <S.Title>회원가입</S.Title>
       <S.Form onSubmit={handleSubmit}>
-        <S.ProfileContainer>
-          <S.ProfileImg1
-            $isselected={!!preview}
-            onClick={() => document.getElementById('profileImageInput').click()}
-          >
-            {preview ? (
-              <img
-                src={preview}
-                alt="프리뷰"
-                style={{ width: '60px', height: '60px', borderRadius: '50%' }}
-              />
-            ) : (
-              '+'
-            )}
-          </S.ProfileImg1>
-          <input
-            type="file"
-            id="profileImageInput"
-            style={{ display: 'none' }}
-            accept="image/*"
-            onChange={handleFileChange}
-          />
-          <S.ProfileImg1
-            $isselected={selectedProfileImg === Dragon}
-            backgroundimage={Dragon}
-            onClick={() => handleProfileImgClick(Dragon)}
-          ></S.ProfileImg1>
-          <S.ProfileImg1
-            $isselected={selectedProfileImg === Wolf}
-            backgroundimage={Wolf}
-            onClick={() => handleProfileImgClick(Wolf)}
-          ></S.ProfileImg1>
-          <S.ProfileImg1
-            $isselected={selectedProfileImg === Deer}
-            backgroundimage={Deer}
-            onClick={() => handleProfileImgClick(Deer)}
-          ></S.ProfileImg1>
-          <S.ProfileImg1
-            $isselected={selectedProfileImg === Dog}
-            backgroundimage={Dog}
-            onClick={() => handleProfileImgClick(Dog)}
-          ></S.ProfileImg1>
-        </S.ProfileContainer>
-
         <S.InputContainer>
           <S.Input
             type="text"

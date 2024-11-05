@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -53,7 +52,9 @@ const MyProfile = () => {
       });
 
       if (!response.ok) {
-        throw new Error('프로필 업데이트가 완료되지 않았습니다. 다시 시도해주세요');
+        throw new Error(
+          '프로필 업데이트가 완료되지 않았습니다. 다시 시도해주세요'
+        );
       }
 
       await response.json();
@@ -69,7 +70,12 @@ const MyProfile = () => {
       <Title>내 프로필</Title>
       <ProfileImage src={profile.profileImage}>
         <UploadButton htmlFor="imageUpload">📷</UploadButton>
-        <HiddenInput type="file" id="imageUpload" accept="image/*" onChange={handleImageUpload} />
+        <HiddenInput
+          type="file"
+          id="imageUpload"
+          accept="image/*"
+          onChange={handleImageUpload}
+        />
       </ProfileImage>
       <ProfileForm onSubmit={handleSubmit}>
         <Label>이메일</Label>

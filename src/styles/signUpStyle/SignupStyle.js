@@ -178,15 +178,16 @@ export const GenderLabel = styled.label`
 export const TermsContainer = styled.div`
   margin-top: 10px;
   padding: 2rem;
+  font-size: 16px;
 `;
 
 export const TermsHeader = styled.div`
-  font-size: 15px;
+  font-size: 0.6vw;
   margin-bottom: 10px;
 `;
 
 export const TermsWrapper = styled.div`
-  font-size: 14px;
+  font-size: 1rem;
   margin-bottom: 5px;
 `;
 

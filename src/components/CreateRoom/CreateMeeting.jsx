@@ -69,19 +69,27 @@ function CreateMeetingForm() {
       return;
     }
 
+    const files = fileRef.current.files;
+    const data = {
+      image_order: [0],
+      representative_image_index: 0
+    };
+
     const formData = new FormData();
+    const json = JSON.stringify(data);
+    const blob = new Blob([json], { type: 'application/json' });
 
-    formData.append('representative_image_index', JSON.stringify(0));
-    formData.append('image_order', JSON.stringify([0]));
+    formData.append('data', blob);
 
-    formData.append('images', fileRef.current.files[0]);
+    for (let i = 0; i < files.length; i++) {
+      formData.append('images', files[i]);
+    }
 
     try {
       const response = await axios.post(
         'https://myspringserver.store/images/gatherings',
         formData,
         {
-          withCredentials: true,
           headers: {
             'Content-Type': 'multipart/form-data'
           }

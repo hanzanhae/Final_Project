@@ -26,6 +26,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useCreateMeetingState } from './useCreateMeetingState';
 import instance from '../../api/instance';
+import axios from 'axios';
 
 function CreateMeetingForm() {
   const {
@@ -69,16 +70,23 @@ function CreateMeetingForm() {
     }
 
     const formData = new FormData();
-    formData.append('representative_image_index', '0'); // 일반 텍스트 데이터를 문자열로 추가
-    formData.append('image_order', JSON.stringify([0])); // 배열을 JSON 문자열로 변환해서 추가
+
+    formData.append('representative_image_index', JSON.stringify(0));
+    formData.append('image_order', JSON.stringify([0]));
+
     formData.append('images', fileRef.current.files[0]);
 
     try {
-      const response = await instance.post('/images/gatherings', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      const response = await axios.post(
+        'https://myspringserver.store/images/gatherings',
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         }
-      });
+      );
 
       console.log('업로드 성공:', response.data);
       alert('이미지 업로드 성공!');
@@ -87,6 +95,7 @@ function CreateMeetingForm() {
       alert('이미지 업로드 중 오류가 발생했습니다.');
     }
   };
+
   const handleCapacityChange = (e) => {
     const value = e.target.value;
     setCapacity(value);

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ControlMonth from '../calendar/ControlMonth';
 import DaysGrid from '../calendar/DaysGrid';
-//import JoinCount from '../calendar/JoinCount';
-//import CumulationCount from '../calendar/CumulationCount';
+import JoinCount from '../calendar/JoinCount';
+import CumulationCount from '../calendar/CumulationCount';
 import axios from 'axios';
 import peopleImage from '../../images/people.jpg';
 import personImage from '../../images/person.jpg';
@@ -11,10 +11,15 @@ import personImage from '../../images/person.jpg';
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [holidays, setHolidays] = useState([]);
-  //const [attendedCount, setAttendedCount] = useState(0);
-  //const [cumulatedDistance, setCumulatedDistance] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [isSidebarMoving, setIsSidebarMoving] = useState(false);
+  const [gatheringData, setGatheringData] = useState({
+    monthly_gathering_total_count: 0,
+    attendance_count: 0,
+    event_gathering_count: 0,
+    total_real_distance: 0.0,
+    gatherings: []
+  });
 
   const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -45,26 +50,34 @@ const Calendar = () => {
     fetchHolidays();
   }, [currentMonth, API_KEY]);
 
-  // useEffect(() => {
-  //   const fetchCalendarData = async () => {
-  //     try {
-  //       const response = await axios.get(`/users/calender`, {
-  //         params: {
-  //           year: 2024,
-  //           month: 11
-  //         }
-  //       });
-  //       const data = response.data;
-  //       console.log('Attendance Data:', response.data);
-  //       setAttendedCount(data.attendance_count || 0);
-  //       setCumulatedDistance(data.total_real_distance || 0.0);
-  //     } catch (error) {
-  //       console.error('Error fetching calendar data:', error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchGatheringData = async () => {
+      try {
+        const response = await fetch(
+          `https://myspringserver.store/users/calendar?year=${currentMonth.getFullYear()}&month=${currentMonth.getMonth() + 1}`,
+          {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+          }
+        );
 
-  //   fetchCalendarData();
-  // }, [currentMonth]);
+        const textResponse = await response.text();
+        console.log('서버 응답:', textResponse);
+
+        if (!response.ok) {
+          throw new Error(`네트워크 에러입니다: ${response.status}`);
+        }
+
+        const data = JSON.parse(textResponse);
+        setGatheringData(data);
+      } catch (error) {
+        console.error('모임 데이터를 불러오지 못했습니다.', error);
+      }
+    };
+
+    fetchGatheringData();
+  }, [currentMonth]);
 
   const getDaysInMonth = (month, year) => {
     return new Date(year, month + 1, 0).getDate();
@@ -156,6 +169,7 @@ const Calendar = () => {
               daysInMonth={daysInMonth}
               currentMonth={currentMonth}
               holidays={holidays.map((holiday) => holiday.locdate % 100)}
+              gatherings={gatheringData.gatherings}
             />
           </CalendarContainer>
         </Left>
@@ -180,8 +194,10 @@ const Calendar = () => {
         <PostOne></PostOne>
         <PostTwo></PostTwo>
         <Right>
-          {/* <JoinCount attendedCount={attendedCount} />
-          <CumulationCount cumulatedDistance={cumulatedDistance} /> */}
+          <JoinCount attendedCount={gatheringData.attendance_count} />
+          <CumulationCount
+            cumulatedDistance={gatheringData.total_real_distance}
+          />
         </Right>
       </Container>
     </Box>

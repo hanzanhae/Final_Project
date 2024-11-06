@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaCheckCircle, FaCalendarAlt } from 'react-icons/fa';
+//import { FaCheckCircle, FaCalendarAlt } from 'react-icons/fa';
 
 const Days = ({
   day,
@@ -18,16 +18,6 @@ const Days = ({
     fullDate.getDate() === today.getDate() &&
     fullDate.getMonth() === today.getMonth() &&
     fullDate.getFullYear() === today.getFullYear();
-
-  const renderEventIcon = () => {
-    if (events.some((event) => event.attendance_status === 'PENDING')) {
-      return <FaCalendarAltIcon />;
-    }
-    if (events.some((event) => event.role === 'PARTICIPANT')) {
-      return <FaCheckCircleIcon />;
-    }
-    return null;
-  };
 
   return (
     <DaysContainer onClick={() => onDayClick(fullDate)}>
@@ -48,7 +38,7 @@ const Days = ({
       ) : (
         <OtherMonthDate>{day}</OtherMonthDate>
       )}
-      <IconContainer>{renderEventIcon()}</IconContainer>
+      {/* <IconContainer>{renderEventIcon()}</IconContainer> */}
       {hasEvent && <EventBar />}
     </DaysContainer>
   );
@@ -125,24 +115,30 @@ const HolidayDate = styled.div`
   color: red;
 `;
 
-const IconContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
+// const IconContainer = styled.div`
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+// `;
 
-const FaCheckCircleIcon = styled(FaCheckCircle)`
-  color: #83c5be;
-  font-size: 20px;
-  margin-top: 5px;
-`;
+// const FaCheckCircleIcon = styled(FaCheckCircle)`
+//   color: #83c5be;
+//   font-size: 20px;
+//   margin-top: 5px;
+// `;
 
-const FaCalendarAltIcon = styled(FaCalendarAlt)`
-  color: #83c5;
-  font-size: 20px;
-  margin-top: 5px;
-`;
+// const FaCalendarAltIcon = styled(FaCalendarAlt)`
+//   color: #83c5;
+//   font-size: 20px;
+//   margin-top: 5px;
+// `;
+
+// const FaBellIcon = styled(FaBell)`
+//   color: #ffbe0b;
+//   font-size: 20px;
+//   margin-top: 5px;
+// `;
 
 const EventBar = styled.div`
   position: absolute;

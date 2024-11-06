@@ -9,13 +9,13 @@ import Dragon from '../../images/dragon.png';
 import Wolf from '../../images/wolf.png';
 import Deer from '../../images/deer.png';
 import Dog from '../../images/dog.png';
-import { useNavigate } from 'react-router-dom';
-import { checkEmail, formSubmit } from '../../api/api';
+// import { useNavigate } from 'react-router-dom';
+import { formSubmit } from '../../api/api';
 
 const SignUpForm = () => {
-  const [email, setEmail] = useState('');
-  const [emailMessage, setEmailMessage] = useState('');
-  const [emailStatus, setEmailStatus] = useState(null);
+  // const [email, setEmail] = useState('');
+  // const [emailMessage, setEmailMessage] = useState('');
+  // const [emailStatus, setEmailStatus] = useState(null);
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState({
@@ -31,7 +31,7 @@ const SignUpForm = () => {
     marketing: false
   });
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const formFieldsFilled = Object.values(formData).every(
@@ -84,40 +84,40 @@ const SignUpForm = () => {
   };
 
   // 이메일 중복 체크
-  const handleEmailCheck = async () => {
-    try {
-      const response = await checkEmail(email);
+  // const handleEmailCheck = async () => {
+  //   try {
+  //     const response = await checkEmail(email);
 
-      if (response.status === 200) {
-        setEmailMessage('사용 가능한 이메일입니다.');
-        setEmailStatus(true);
-      }
-    } catch (error) {
-      if (error.response) {
-        const { status, data } = error.response;
+  //     if (response.status === 200) {
+  //       setEmailMessage('사용 가능한 이메일입니다.');
+  //       setEmailStatus(true);
+  //     }
+  //   } catch (error) {
+  //     if (error.response) {
+  //       const { status, data } = error.response;
 
-        if (status === 409) {
-          setEmailMessage(data.message);
-          setEmailStatus(false);
-        }
+  //       if (status === 409) {
+  //         setEmailMessage(data.message);
+  //         setEmailStatus(false);
+  //       }
 
-        if (status === 400 && data.field_errors) {
-          const emailError = data.field_errors.find(
-            (error) => error.field === 'email'
-          );
+  //       if (status === 400 && data.field_errors) {
+  //         const emailError = data.field_errors.find(
+  //           (error) => error.field === 'email'
+  //         );
 
-          if (emailError) {
-            setEmailMessage(emailError.message);
-          }
-          setEmailStatus(false); // 이메일 사용 불가능 상태 설정
-        }
-      } else {
-        console.error('이메일 체크 중 알 수 없는 오류 발생:', error);
-        setEmailMessage('이메일 확인 중 오류가 발생했습니다.');
-        setEmailStatus(false);
-      }
-    }
-  };
+  //         if (emailError) {
+  //           setEmailMessage(emailError.message);
+  //         }
+  //         setEmailStatus(false); // 이메일 사용 불가능 상태 설정
+  //       }
+  //     } else {
+  //       console.error('이메일 체크 중 알 수 없는 오류 발생:', error);
+  //       setEmailMessage('이메일 확인 중 오류가 발생했습니다.');
+  //       setEmailStatus(false);
+  //     }
+  //   }
+  // };
 
   // 입력 필드 변경 처리
   const handleChange = (e) => {
@@ -166,7 +166,7 @@ const SignUpForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log('Submit button clicked');
     // eslint-disable-next-line no-unused-vars
     const formDataToSend = new FormData();
     formDataToSend.append('email', formData.email);
@@ -174,18 +174,16 @@ const SignUpForm = () => {
     formDataToSend.append('nickname', formData.nickname);
 
     if (selectedFile) {
-      formDataToSend.append('profileImage', selectedFile); // 파일이 있으면 선택한 파일을 전송
+      formDataToSend.append('file', selectedFile); // 파일이 있으면 선택한 파일을 전송
     } else {
-      formDataToSend.append('profileImage', selectedProfileImg); // 기본 이미지 전송
+      formDataToSend.append('file', selectedProfileImg); // 기본 이미지 전송
     }
     try {
       const response = await formSubmit(formDataToSend);
-      if (response.message === 'success signup') {
-        navigate('/');
-        alert('회원가입 성공');
-      }
+      console.log(response);
     } catch (error) {
-      console.error('회원가입 중 오류 발생:', error);
+      console.error('회원가입 중 오류 발생:', error.message); // 에러 메시지 출력
+      alert(`회원가입 중 오류가 발생했습니다: ${error.message}`);
     }
   };
 
@@ -211,7 +209,8 @@ const SignUpForm = () => {
       <S.Title>회원가입</S.Title>
       <S.Form onSubmit={handleSubmit}>
         <S.ProfileContainer>
-          <S.AddProfileImg
+          <S.ProfileImg1
+            $isselected={!!preview}
             onClick={() => document.getElementById('profileImageInput').click()}
           >
             {preview ? (
@@ -223,7 +222,7 @@ const SignUpForm = () => {
             ) : (
               '+'
             )}
-          </S.AddProfileImg>
+          </S.ProfileImg1>
           <input
             type="file"
             id="profileImageInput"
@@ -273,23 +272,21 @@ const SignUpForm = () => {
               value={formData.email}
               onChange={(e) => {
                 handleChange(e);
-                setEmail(e.target.value); // 이메일 상태 업데이트
+                // setEmail(e.target.value); // 이메일 상태 업데이트
               }}
               onBlur={handleBlur}
             />
-            <S.SmallButton type="button" onClick={handleEmailCheck}>
-              중복 확인
-            </S.SmallButton>
+            <S.SmallButton type="button">중복 확인</S.SmallButton>
           </S.InputWrapper>
         </S.InputContainer>
-        <S.ErrorWrapper>
+        {/* <S.ErrorWrapper>
           {errors.email && <S.ErrorMsg>{errors.email}</S.ErrorMsg>}
           {emailMessage && (
             <S.EmailStatusMessage success={emailStatus}>
               {emailMessage}
             </S.EmailStatusMessage>
           )}
-        </S.ErrorWrapper>
+        </S.ErrorWrapper> */}
         <S.InputContainer>
           <S.Input
             type="password"

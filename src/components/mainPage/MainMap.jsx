@@ -166,10 +166,10 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px 0;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.bgColorPage};
   min-height: 100vh;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(135deg, #e2e2e2, #ffffff);
+  /* background: linear-gradient(135deg, #e2e2e2, #ffffff); 
 `;
 
 const Controls = styled.div`
@@ -212,7 +212,8 @@ const MapContainer = styled.div`
   width: 150vh;
   height: 70vh;
   border-radius: 15px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 0 10px 1px #ececec;
   overflow: hidden;
 `;
 

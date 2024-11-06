@@ -37,6 +37,7 @@ const CreateRoom = ({ onSelectLocation }) => {
                   userLat,
                   userLng
                 );
+
                 map.setCenter(userLocation);
 
                 const userMarker = new window.kakao.maps.Marker({

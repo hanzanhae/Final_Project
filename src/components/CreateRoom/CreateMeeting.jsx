@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import CreateRoom from './CreateRoom';
 import {
   BodyWrapper,
@@ -25,7 +25,7 @@ import {
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useCreateMeetingState } from './useCreateMeetingState';
-import axios from 'axios';
+import instance from '../../api/instance';
 
 function CreateMeetingForm() {
   const {
@@ -46,11 +46,47 @@ function CreateMeetingForm() {
     selectedLocation,
     setSelectedLocation,
     deadline,
-    setDeadline,
-    thumbnail,
-    handleImageChange
+    setDeadline
   } = useCreateMeetingState();
+  const [thumbnail, setThumbnail] = useState(null);
+  const fileRef = useRef(null);
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setThumbnail(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImageUpload = async () => {
+    if (!fileRef.current || !fileRef.current.files[0]) {
+      alert('이미지를 선택해 주세요.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('representative_image_index', '0'); // 일반 텍스트 데이터를 문자열로 추가
+    formData.append('image_order', JSON.stringify([0])); // 배열을 JSON 문자열로 변환해서 추가
+    formData.append('images', fileRef.current.files[0]);
+
+    try {
+      const response = await instance.post('/images/gatherings', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      console.log('업로드 성공:', response.data);
+      alert('이미지 업로드 성공!');
+    } catch (error) {
+      console.error('업로드 실패:', error);
+      alert('이미지 업로드 중 오류가 발생했습니다.');
+    }
+  };
   const handleCapacityChange = (e) => {
     const value = e.target.value;
     setCapacity(value);
@@ -91,9 +127,6 @@ function CreateMeetingForm() {
         description,
         goal_distance: distance,
         concept: category.toUpperCase(),
-        gathering_type: 'GENERAL',
-        // order_by: 'created_at',
-        // sort_direction: 'ASC',
         image_register_response: {
           representative_image_index: 0,
           content_image_urls: [
@@ -105,22 +138,13 @@ function CreateMeetingForm() {
           representative_image_url: thumbnail
         }
       };
+      console.log('Payload:', payload);
+      const response = await instance.post('/gatherings', payload);
 
-      const response = await axios.post(
-        'https://myspringserver.store/gatherings',
-        payload,
-        {
-          headers: { 'Content-Type': 'application/json' }
-        }
-      );
       console.log('모임 등록 성공:', response.data);
       alert('모임이 성공적으로 등록되었습니다.');
     } catch (error) {
       console.error('모임 등록 실패:', error);
-      const errorMessage =
-        error.response?.data?.message ||
-        '모임 등록에 실패했습니다. 다시 시도해 주세요.';
-      alert(errorMessage);
     }
   };
   return (
@@ -151,10 +175,13 @@ function CreateMeetingForm() {
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
+                ref={fileRef}
                 style={{ display: 'none' }}
               />
+              <StyledButton type="button" onClick={handleImageUpload}>
+                이미지 업로드
+              </StyledButton>
             </FormRow>
-
             <FormRow>
               <Label>모일 시간</Label>
               <DatePicker
@@ -205,7 +232,7 @@ function CreateMeetingForm() {
             <FormRow>
               <Label>목표 키로수</Label>
               <div>
-                {['free', '3', '5', '15', '21.0975', '42.195'].map((val) => (
+                {['FREE', '3', '5', '15', '21.0975', '42.195'].map((val) => (
                   <label key={val}>
                     <StyledRadioInput
                       type="radio"
@@ -224,7 +251,7 @@ function CreateMeetingForm() {
               <Label>카테고리</Label>
               <div>
                 {[
-                  '런린이',
+                  'RUNLINI',
                   '고인물',
                   '마라톤',
                   '모닝런닝',

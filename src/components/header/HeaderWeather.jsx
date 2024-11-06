@@ -3,34 +3,32 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { airConditionData } from '../../api/api';
+import useUserLocation from '../../hooks/useUserLocation';
 
 const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
   const dispatch = useDispatch();
+  const { location, errorMsg } = useUserLocation();
   const [airState, setAirState] = useState('');
 
-  useEffect(() => {
-    getUserLocation();
-  }, []);
-
   const getUserLocation = () => {
-    const success = (position) => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-
-      getAirData(latitude, longitude);
-    };
-    const error = (error) => {
-      const defaultLat = 37.5665;
-      const defaultLon = 126.978;
-      getAirData(defaultLat, defaultLon);
-    };
-    navigator.geolocation.getCurrentPosition(success, error);
+    if (location) {
+      const lat = location.latitude;
+      const lon = location.longitude;
+      getAirData(lat, lon);
+    } else {
+      console.log(errorMsg);
+    }
   };
 
   const getAirData = async (lat, lon) => {
     const data = await airConditionData({ lat, lon });
+    console.log(data);
     airCondition(data.pm2_5);
   };
+
+  useEffect(() => {
+    getUserLocation();
+  }, [location]);
 
   // 대기질 표시
   const airCondition = (pm2_5) => {

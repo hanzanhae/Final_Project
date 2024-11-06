@@ -70,13 +70,13 @@ function CreateMeetingForm() {
     }
 
     const files = fileRef.current.files;
-    const request = {
-      image_order: [0],
+    const data = {
+      image_orders: [0],
       representative_image_index: 0
     };
 
     const formData = new FormData();
-    const json = JSON.stringify(request);
+    const json = JSON.stringify(data);
     const blob = new Blob([json], { type: 'application/json' });
 
     formData.append('request', blob);

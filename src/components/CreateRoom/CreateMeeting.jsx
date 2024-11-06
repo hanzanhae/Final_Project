@@ -51,7 +51,7 @@ function CreateMeetingForm() {
   } = useCreateMeetingState();
   const [thumbnail, setThumbnail] = useState(null);
   const fileRef = useRef(null);
-
+  const [representativeImageUrl, setRepresentativeImageUrl] = useState(null);
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -98,6 +98,9 @@ function CreateMeetingForm() {
 
       console.log('업로드 성공:', response.data);
       alert('이미지 업로드 성공!');
+
+      // 서버에서 받은 representative_image_url을 상태에 저장
+      setRepresentativeImageUrl(response.data.representative_image_url);
     } catch (error) {
       console.error('업로드 실패:', error);
       alert('이미지 업로드 중 오류가 발생했습니다.');
@@ -148,11 +151,11 @@ function CreateMeetingForm() {
           representative_image_index: 0,
           content_image_urls: [
             {
-              image_url: thumbnail,
+              image_url: representativeImageUrl,
               order: 0
             }
           ],
-          representative_image_url: thumbnail
+          representative_image_url: representativeImageUrl
         }
       };
       console.log('Payload:', payload);

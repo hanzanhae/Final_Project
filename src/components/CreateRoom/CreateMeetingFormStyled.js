@@ -98,15 +98,19 @@ export const StyledInputTt = styled.input`
   }
 `;
 export const CustomFileUpload = styled.label`
-  display: inline-block;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 5px;
   border-radius: 5px;
   background-color: #f7f7f7;
   text-align: center;
   transition: background-color 0.3s;
-
+  margin-bottom: 10px;
   &:hover {
     background-color: #eaeaea;
   }
@@ -118,7 +122,6 @@ export const ThumbnailPreview = styled.img`
   object-fit: cover;
   border: 1px solid #ddd;
   border-radius: 5px;
-  margin-top: 10px;
 `;
 
 export const StyledTextarea = styled.textarea`
@@ -200,8 +203,8 @@ export const CapacitySlider = styled.input.attrs({ type: 'range' })`
   height: 8px;
   background: linear-gradient(
     to right,
-    #4caf50 0%,
-    #4caf50 var(--value),
+    #87cefa 0%,
+    #87cefa var(--value),
     #ddd var(--value),
     #ddd 100%
   );
@@ -214,7 +217,7 @@ export const CapacitySlider = styled.input.attrs({ type: 'range' })`
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #4caf50;
+    background: #87cefa;
     cursor: pointer;
   }
 

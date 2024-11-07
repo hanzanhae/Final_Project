@@ -211,7 +211,7 @@ function CreateMeetingForm() {
                 {thumbnail ? (
                   <ThumbnailPreview src={thumbnail} alt="미리보기" />
                 ) : (
-                  <span>이미지 업로드</span>
+                  <span>이미지 선택</span>
                 )}
               </CustomFileUpload>
               <input
@@ -223,7 +223,7 @@ function CreateMeetingForm() {
                 style={{ display: 'none' }}
               />
               <StyledButton type="button" onClick={handleImageUpload}>
-                이미지 업로드
+                이미지 등록
               </StyledButton>
             </FormRow>
             <FormRow>

@@ -135,7 +135,7 @@ export const StyledTextarea = styled.textarea`
   }
 `;
 export const StyledButton = styled.button`
-  background-color: #94c0da;
+  background-color: #87cefa;
   color: white;
   border: none;
   border-radius: 6px;
@@ -237,3 +237,4 @@ export const StyledRadioInput = styled.input.attrs({ type: 'radio' })`
   accent-color: #4e5052;
   margin-left: 6px;
 `;
+//라디오

@@ -27,7 +27,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useCreateMeetingState } from './useCreateMeetingState';
 import instance from '../../api/instance';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 function CreateMeetingForm() {
   const {
     title,
@@ -49,6 +49,7 @@ function CreateMeetingForm() {
     deadline,
     setDeadline
   } = useCreateMeetingState();
+  const navigate = useNavigate();
   const [thumbnail, setThumbnail] = useState(null);
   const fileRef = useRef(null);
   const [representativeImageUrl, setRepresentativeImageUrl] = useState(null);
@@ -99,7 +100,6 @@ function CreateMeetingForm() {
       console.log('업로드 성공:', response.data);
       alert('이미지 업로드 성공!');
 
-      // 서버에서 받은 representative_image_url을 상태에 저장
       setRepresentativeImageUrl(response.data.representative_image_url);
     } catch (error) {
       console.error('업로드 실패:', error);
@@ -111,6 +111,27 @@ function CreateMeetingForm() {
     const value = e.target.value;
     setCapacity(value);
     e.target.style.setProperty('--value', `${((value - 2) / (10 - 2)) * 100}%`);
+  };
+
+  const distanceOptions = {
+    FREE: { label: 'free' },
+    THREE_KM: { label: '3km' },
+    FIVE_KM: { label: '5km' },
+    FIFTEEN_KM: { label: '15km' },
+    HALF_MARATHON: { label: '21.0975km' },
+    FULL_MARATHON: { label: '42.195km' }
+  };
+  const categoryOptions = {
+    RUNLINI: { label: '런린이' },
+    GOINMUL: { label: '고인물' },
+    MARATHON: { label: '마라톤' },
+    MORNING_RUNNING: { label: '모닝런닝' },
+    EVENING_RUNNING: { label: '퇴근런닝' },
+    HEALTH: { label: '건강' }
+  };
+  const handleDistanceChange = (e) => {
+    const selectedKey = e.target.value;
+    setDistance(selectedKey);
   };
 
   const handleSubmit = async () => {
@@ -163,10 +184,13 @@ function CreateMeetingForm() {
 
       console.log('모임 등록 성공:', response.data);
       alert('모임이 성공적으로 등록되었습니다.');
+
+      navigate('/');
     } catch (error) {
       console.error('모임 등록 실패:', error);
     }
   };
+
   return (
     <BodyWrapper>
       <CreateMeetingFormWrapper>
@@ -252,16 +276,16 @@ function CreateMeetingForm() {
             <FormRow>
               <Label>목표 키로수</Label>
               <div>
-                {['FREE', '3', '5', '15', '21.0975', '42.195'].map((val) => (
-                  <label key={val}>
+                {Object.keys(distanceOptions).map((key) => (
+                  <label key={key}>
                     <StyledRadioInput
                       type="radio"
                       name="distance"
-                      value={val}
-                      checked={distance === val}
-                      onChange={(e) => setDistance(e.target.value)}
+                      value={key}
+                      checked={distance === key}
+                      onChange={handleDistanceChange}
                     />
-                    {val}
+                    {distanceOptions[key].label}
                   </label>
                 ))}
               </div>
@@ -270,23 +294,16 @@ function CreateMeetingForm() {
             <FormRow>
               <Label>카테고리</Label>
               <div>
-                {[
-                  'RUNLINI',
-                  '고인물',
-                  '마라톤',
-                  '모닝런닝',
-                  '퇴근런닝',
-                  '건강'
-                ].map((cat) => (
-                  <label key={cat}>
+                {Object.keys(categoryOptions).map((key) => (
+                  <label key={key}>
                     <StyledRadioInput
                       type="radio"
                       name="category"
-                      value={cat}
-                      checked={category === cat}
+                      value={key}
+                      checked={category === key}
                       onChange={(e) => setCategory(e.target.value)}
                     />
-                    {cat}
+                    {categoryOptions[key].label}
                   </label>
                 ))}
               </div>

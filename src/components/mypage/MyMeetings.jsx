@@ -4,7 +4,6 @@ import MeetingCard from './MeetingCard';
 import CompleteModal from './CompleteModal';
 import { createdMeetingsData, participatingMeetingsData } from './meetingData';
 
-
 const MyMeetings = () => {
   const [activeTab, setActiveTab] = useState('created'); // "created" or "participating"
   const [createdMeetings, setCreatedMeetings] = useState([]);

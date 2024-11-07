@@ -13,7 +13,7 @@ const MembersBox = ({
     <MemberBox>
       {enteredMembers.map((member, idx) => (
         <Member key={idx} onClick={() => handleShowMemberMenu(idx)}>
-          {member.slice(0, 2)}
+          {member?.slice(0, 2)}
           {activeMember === idx && (
             <MemberRef ref={memberRef}>
               <MemberMenu setActiveMember={setActiveMember} />

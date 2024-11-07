@@ -2,11 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { UniBtn } from '../button/UniBtn';
 import styled from 'styled-components';
 import MembersBox from './MembersBox';
+import {
+  gatheringParticipation,
+  gatheringParticipationCancle
+} from '../../api/api';
 
 const DetailMember = ({ meet }) => {
   if (!meet) {
     return <div>모임 정보가 없습니다.</div>;
   }
+  // console.log(meet.id);
   // if (!members) {
   //   return <div>모임구성원 정보가 없습니다.</div>;
   // }
@@ -14,13 +19,15 @@ const DetailMember = ({ meet }) => {
   const memberRef = useRef(null);
 
   // 🚂...임시
+  const gatheringId = meet.id;
   const members = meet.member_profile_urls;
   const maxMember = meet.max_number;
 
   const [enteredMembers, setEnteredMembers] = useState([]);
   const [activeMember, setActiveMember] = useState(null);
+  // 참가 및 취소오류 알림메세지
   const [errorMsg, setErrorMsg] = useState('');
-  // 참가여부
+  // 참가여부 알림메세지
   const [isEntered, setIsEntered] = useState(false);
 
   useEffect(() => {
@@ -40,42 +47,77 @@ const DetailMember = ({ meet }) => {
   };
 
   useEffect(() => {
-    const enteredMembers = Array.from({ length: meet.capacity }, (_, idx) => {
-      return `이름${idx + 1}`;
-    });
-    setEnteredMembers(enteredMembers);
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [setActiveMember]);
 
-  const handleEnterMeeting = () => {
-    if (enteredMembers.length < 10) {
-      const newMember = `이름${enteredMembers.length + 1}`;
-      setEnteredMembers((prev) => [...prev, newMember]);
-      setIsEntered(true);
+  // 모임참가 작성중...🚂
+  const handleEnterMeeting = async () => {
+    if (enteredMembers.length < maxMember) {
+      const response = await gatheringParticipation(gatheringId);
+      if (response) {
+        // console.log(response);
+        const newMember = `뉴${enteredMembers.length + 1}`;
+        setEnteredMembers((prev) => [...prev, newMember]);
+        setIsEntered(true);
+        setErrorMsg('모임참가신청이 완료되었습니다.');
+      }
     } else {
       setErrorMsg(
         '최대인원을 초과하였습니다. 모임에 참가하고 싶은 경우, 모임장에게 직접 연락하시길 바랍니다.'
       );
     }
   };
+  // 모임참가취소 작성중...🚂
+  const handleCancleMeeting = async () => {
+    const response = await gatheringParticipationCancle(gatheringId);
+    if (response) {
+      // console.log(response);
+      setEnteredMembers((prev) =>
+        prev.filter((_, idx) => idx !== enteredMembers.length - 1)
+      );
+      setIsEntered(false);
+      setErrorMsg('모임참가신청이 취소되었습니다.');
+    } else {
+      setErrorMsg('모임 참가취소에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
 
   return (
     <MemberContainer>
-      <UniBtn onClick={handleEnterMeeting} $padding="0.5rem 1rem">
+      <UniBtn
+        onClick={handleEnterMeeting}
+        $padding="0.5rem 1rem"
+        $margin="0 0 0.5rem 0"
+      >
         모임참가하기
       </UniBtn>
-      <IsEnteredNotice>
+      <UniBtn
+        onClick={handleCancleMeeting}
+        $padding="0.5rem 1rem"
+        $margin="0 0 2rem 0"
+      >
+        모임참가취소하기
+      </UniBtn>
+      {/* {isEntered ? (
+        <UniBtn onClick={handleCancleMeeting} $padding="0.5rem 1rem">
+          모임참가취소하기
+        </UniBtn>
+      ) : (
+        <UniBtn onClick={handleEnterMeeting} $padding="0.5rem 1rem">
+          모임참가하기
+        </UniBtn>
+      )} */}
+      {/* <IsEnteredNotice>
         {isEntered
           ? '현재 모임에 참가하였습니다.'
           : '현재 모임에 참가하지 않았습니다.'}
-      </IsEnteredNotice>
+      </IsEnteredNotice> */}
       <MemberTitleBox>
         <Title>참여하는 사람들</Title>
-        <MemberNumber>{`${members.length}/${maxMember}`}</MemberNumber>
+        <MemberNumber>{`${enteredMembers.length}/${maxMember}`}</MemberNumber>
       </MemberTitleBox>
       <MembersBox
         enteredMembers={enteredMembers}

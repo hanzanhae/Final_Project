@@ -240,4 +240,4 @@ export const StyledRadioInput = styled.input.attrs({ type: 'radio' })`
   accent-color: #4e5052;
   margin-left: 6px;
 `;
-//라디오
+//라디오 추후

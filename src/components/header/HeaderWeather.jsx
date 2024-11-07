@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { airConditionData } from '../../api/api';
 import useUserLocation from '../../hooks/useUserLocation';
+import { setTheme, toggleTheme } from '../../redux/actions/themeActions';
 
 const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
 
   const getAirData = async (lat, lon) => {
     const data = await airConditionData({ lat, lon });
-    console.log(data);
+    // console.log(data);
     airCondition(data.pm2_5);
   };
 
@@ -47,11 +48,11 @@ const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
       newTheme = 'dark';
     }
 
-    dispatch({ type: 'SET_THEME', payload: newTheme });
+    dispatch(setTheme(newTheme));
   };
 
   const handleToggleWeather = () => {
-    dispatch({ type: 'TOGGLE_THEME' });
+    dispatch(toggleTheme());
   };
 
   return (

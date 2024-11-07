@@ -93,6 +93,40 @@ export const gatheringDetailMembersData = async (gathering_id) => {
     );
   }
 };
+// 모임참가신청 ✅완료
+export const gatheringParticipation = async (gathering_id) => {
+  try {
+    const response = await instance.post(
+      `/gatherings/${gathering_id}/participation`
+    );
+    if (response.status === 200) {
+      console.log('모임참가신청이 완료되었습니다');
+    }
+    // console.log(response); // 200확인
+    return response;
+  } catch (error) {
+    if (error.status === 409) {
+      console.log('이미 참가된 모임입니다:', error.message);
+    } else {
+      console.log('모임참가신청 중 연결오류발생:', error.message);
+    }
+  }
+};
+// 모임참가취소 ✅완료
+export const gatheringParticipationCancle = async (gathering_id) => {
+  try {
+    const response = await instance.delete(
+      `/gatherings/${gathering_id}/participation`
+    );
+    if (response.status === 200) {
+      console.log('모임참가신청이 취소되었습니다');
+    }
+    // console.log(response.status); // 200확인
+    return response;
+  } catch (error) {
+    console.log('모임참가취소신청 중 연결오류발생:', error.message);
+  }
+};
 
 export const getChatRoomList = async () => {
   try {

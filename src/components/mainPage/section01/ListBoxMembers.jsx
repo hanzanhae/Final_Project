@@ -9,7 +9,7 @@ const ListBoxMembers = ({ list }) => {
       <Members>
         {members.map((member, idx) => (
           <Member key={idx} $index={idx}>
-            {member.slice(0, 2)}
+            {member?.slice(0, 2)}
           </Member>
         ))}
       </Members>

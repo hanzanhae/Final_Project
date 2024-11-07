@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { UniBtn } from '../button/UniBtn';
 import styled from 'styled-components';
 import MembersBox from './MembersBox';
+import { gatheringParticipation } from '../../api/api';
 
 const DetailMember = ({ meet }) => {
   if (!meet) {
@@ -14,6 +15,7 @@ const DetailMember = ({ meet }) => {
   const memberRef = useRef(null);
 
   // 🚂...임시
+  const gatheringId = meet.id;
   const members = meet.member_profile_urls;
   const maxMember = meet.max_number;
 
@@ -51,11 +53,18 @@ const DetailMember = ({ meet }) => {
     };
   }, [setActiveMember]);
 
-  const handleEnterMeeting = () => {
+  const handleEnterMeeting = async () => {
     if (enteredMembers.length < 10) {
-      const newMember = `이름${enteredMembers.length + 1}`;
-      setEnteredMembers((prev) => [...prev, newMember]);
-      setIsEntered(true);
+      // 모임참가 작성중...
+      const response = await gatheringParticipation(gatheringId);
+
+      if (response) {
+        const newMember = `이름${enteredMembers.length + 1}`;
+        setEnteredMembers((prev) => [...prev, newMember]);
+        setIsEntered(true);
+      } else {
+        setErrorMsg('모임 참가에 실패했습니다. 다시 시도해주세요.');
+      }
     } else {
       setErrorMsg(
         '최대인원을 초과하였습니다. 모임에 참가하고 싶은 경우, 모임장에게 직접 연락하시길 바랍니다.'

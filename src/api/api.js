@@ -93,6 +93,17 @@ export const gatheringDetailMembersData = async (gathering_id) => {
     );
   }
 };
+// 모임참가신청🚂...구현중
+export const gatheringParticipation = async (gathering_id) => {
+  try {
+    const response = await instance.post(
+      `/gatherings/${gathering_id}/participation`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('모임참가신청 중 연결오류발생:', error.message);
+  }
+};
 
 export const getChatRoomList = async () => {
   try {

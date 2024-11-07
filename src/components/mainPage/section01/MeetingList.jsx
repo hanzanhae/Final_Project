@@ -17,7 +17,6 @@ const MeetingList = () => {
   const [gathering, setGathering] = useState([]);
   const [visibleList, setVisibleList] = useState(0);
 
-  // 모임목록데이터get🚂...
   const fetchGathering = async () => {
     const data = await gatheringData();
     if (data) {

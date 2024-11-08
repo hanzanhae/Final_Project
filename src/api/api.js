@@ -55,7 +55,7 @@ export const airConditionData = async ({ lat, lon }) => {
 export const gatheringData = async (pageNumber, pageSize) => {
   try {
     const response = await instance.get(
-      `/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC&page=${pageNumber}&size=${pageSize}`
+      `/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=DESC&page=${pageNumber}&size=${pageSize}`
     );
     return response.data;
   } catch (error) {
@@ -72,7 +72,7 @@ export const gatheringDetailData = async (gathering_id) => {
     console.error('상세페이지 데이터를 가져오는 중 오류발생:', error.message);
   }
 };
-// 모임상세이미지🚂...보류
+// 모임상세이미지✅성공
 export const gatheringDetailImagesData = async (gathering_id) => {
   try {
     const response = await instance.get(`/images?gathering_id=${gathering_id}`);

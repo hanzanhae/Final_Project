@@ -4,12 +4,12 @@ import FilterSearch from './FilterSearch';
 import styled from 'styled-components';
 import FilterMyLocation from './FilterMyLocation';
 
-const FilterMenu = () => {
+const FilterMenu = ({ location }) => {
   return (
     <FilterMenuWrapper>
       <FilterKeyword />
       <Box>
-        <FilterMyLocation />
+        <FilterMyLocation location={location} />
         <FilterSearch />
       </Box>
     </FilterMenuWrapper>

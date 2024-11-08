@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import CreateRoom from './CreateRoom';
 import {
   BodyWrapper,
@@ -17,15 +17,21 @@ import {
   CapacitySlider,
   CapacityDisplay,
   StyledTextarea,
-  StyledRadioInput
+  StyledRadioInput,
+  StyledInput,
+  StyledInputDe,
+  StyledInputTt
 } from './CreateMeetingFormStyled';
-
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useCreateMeetingState } from './useCreateMeetingState';
-
+import instance from '../../api/instance';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 function CreateMeetingForm() {
   const {
+    title,
+    setTitle,
     selectedDate,
     setSelectedDate,
     description,
@@ -41,15 +47,148 @@ function CreateMeetingForm() {
     selectedLocation,
     setSelectedLocation,
     deadline,
-    setDeadline,
-    thumbnail,
-    handleImageChange
+    setDeadline
   } = useCreateMeetingState();
+  const navigate = useNavigate();
+  const [thumbnail, setThumbnail] = useState(null);
+  const fileRef = useRef(null);
+  const [representativeImageUrl, setRepresentativeImageUrl] = useState(null);
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setThumbnail(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImageUpload = async () => {
+    if (!fileRef.current || !fileRef.current.files[0]) {
+      alert('이미지를 선택해 주세요.');
+      return;
+    }
+
+    const files = fileRef.current.files;
+    const data = {
+      image_orders: [0],
+      representative_image_index: 0
+    };
+
+    const formData = new FormData();
+    const json = JSON.stringify(data);
+    const blob = new Blob([json], { type: 'application/json' });
+
+    formData.append('request', blob);
+
+    for (let i = 0; i < files.length; i++) {
+      formData.append('images', files[i]);
+    }
+
+    try {
+      const response = await axios.post(
+        'https://myspringserver.store/images/gatherings',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
+
+      console.log('업로드 성공:', response.data);
+      alert('이미지 업로드 성공!');
+
+      setRepresentativeImageUrl(response.data.representative_image_url);
+    } catch (error) {
+      console.error('업로드 실패:', error);
+      alert('이미지 업로드 중 오류가 발생했습니다.');
+    }
+  };
 
   const handleCapacityChange = (e) => {
     const value = e.target.value;
     setCapacity(value);
     e.target.style.setProperty('--value', `${((value - 2) / (10 - 2)) * 100}%`);
+  };
+
+  const distanceOptions = {
+    FREE: { label: 'free' },
+    THREE_KM: { label: '3km' },
+    FIVE_KM: { label: '5km' },
+    FIFTEEN_KM: { label: '15km' },
+    HALF_MARATHON: { label: '21.0975km' },
+    FULL_MARATHON: { label: '42.195km' }
+  };
+  const categoryOptions = {
+    RUNLINI: { label: '런린이' },
+    GOINMUL: { label: '고인물' },
+    MARATHON: { label: '마라톤' },
+    MORNING_RUNNING: { label: '모닝런닝' },
+    EVENING_RUNNING: { label: '퇴근런닝' },
+    HEALTH: { label: '건강' }
+  };
+  const handleDistanceChange = (e) => {
+    const selectedKey = e.target.value;
+    setDistance(selectedKey);
+  };
+
+  const handleSubmit = async () => {
+    if (!selectedLocation) {
+      alert('장소를 선택해주세요.');
+      return;
+    }
+
+    try {
+      const payload = {
+        title,
+        appointed_at: selectedDate.toISOString(),
+        deadline: deadline ? deadline.toISOString() : null,
+        location: {
+          address_names: {
+            address_name: selectedLocation.location.address_names.address_name,
+            region_1depth_name:
+              selectedLocation.location.address_names.region_1depth_name,
+            region_2depth_name:
+              selectedLocation.location.address_names.region_2depth_name,
+            region_3depth_name:
+              selectedLocation.location.address_names.region_3depth_name
+          },
+          coordinates: {
+            x: selectedLocation.location.coordinates.x,
+            y: selectedLocation.location.coordinates.y
+          },
+          region_code: {
+            code_h: selectedLocation.location.region_code.code_h,
+            code_b: selectedLocation.location.region_code.code_b
+          }
+        },
+        max_number: parseInt(capacity, 10),
+        description,
+        goal_distance: distance,
+        concept: category.toUpperCase(),
+        image_register_response: {
+          representative_image_index: 0,
+          content_image_urls: [
+            {
+              image_url: representativeImageUrl,
+              order: 0
+            }
+          ],
+          representative_image_url: representativeImageUrl
+        }
+      };
+      console.log('Payload:', payload);
+      const response = await instance.post('/gatherings', payload);
+
+      console.log('모임 등록 성공:', response.data);
+      alert('모임이 성공적으로 등록되었습니다.');
+
+      navigate('/');
+    } catch (error) {
+      console.error('모임 등록 실패:', error);
+    }
   };
 
   return (
@@ -58,12 +197,21 @@ function CreateMeetingForm() {
         <FormContainer>
           <Column>
             <FormRow>
+              <Label>방 이름</Label>
+              <StyledInputTt
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="방 이름을 입력하세요"
+              />
+            </FormRow>
+            <FormRow>
               <Label>모임 사진 추가하기</Label>
               <CustomFileUpload htmlFor="thumbnail-upload">
                 {thumbnail ? (
                   <ThumbnailPreview src={thumbnail} alt="미리보기" />
                 ) : (
-                  <span>이미지 업로드</span>
+                  <span>이미지 선택</span>
                 )}
               </CustomFileUpload>
               <input
@@ -71,10 +219,13 @@ function CreateMeetingForm() {
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
+                ref={fileRef}
                 style={{ display: 'none' }}
               />
+              <StyledButton type="button" onClick={handleImageUpload}>
+                이미지 등록
+              </StyledButton>
             </FormRow>
-
             <FormRow>
               <Label>모일 시간</Label>
               <DatePicker
@@ -82,6 +233,7 @@ function CreateMeetingForm() {
                 onChange={(date) => setSelectedDate(date)}
                 showTimeSelect
                 dateFormat="Pp"
+                customInput={<StyledInput />}
               />
             </FormRow>
 
@@ -91,7 +243,7 @@ function CreateMeetingForm() {
                 장소 선택하기
               </StyledButton>
               {selectedLocation ? (
-                <p>{selectedLocation}</p>
+                <p>{`${selectedLocation.location.address_names.region_2depth_name} ${selectedLocation.location.address_names.region_3depth_name}`}</p>
               ) : (
                 <p className="default-text">장소를 선택하세요</p>
               )}
@@ -108,7 +260,9 @@ function CreateMeetingForm() {
               />
               <CapacityDisplay>{capacity}명</CapacityDisplay>
             </FormRow>
+          </Column>
 
+          <Column className="right">
             <FormRow>
               <Label>마감 기한</Label>
               <DatePicker
@@ -116,24 +270,22 @@ function CreateMeetingForm() {
                 onChange={(date) => setDeadline(date)}
                 dateFormat="yyyy/MM/dd"
                 placeholderText="마감 기한을 선택하세요"
+                customInput={<StyledInputDe />}
               />
             </FormRow>
-          </Column>
-
-          <Column className="right">
             <FormRow>
               <Label>목표 키로수</Label>
               <div>
-                {['free', '3', '5', '15', '21.0975', '42.195'].map((val) => (
-                  <label key={val}>
+                {Object.keys(distanceOptions).map((key) => (
+                  <label key={key}>
                     <StyledRadioInput
                       type="radio"
                       name="distance"
-                      value={val}
-                      checked={distance === val}
-                      onChange={(e) => setDistance(e.target.value)}
+                      value={key}
+                      checked={distance === key}
+                      onChange={handleDistanceChange}
                     />
-                    {val}
+                    {distanceOptions[key].label}
                   </label>
                 ))}
               </div>
@@ -142,23 +294,16 @@ function CreateMeetingForm() {
             <FormRow>
               <Label>카테고리</Label>
               <div>
-                {[
-                  '런린이',
-                  '고인물',
-                  '마라톤',
-                  '모닝런닝',
-                  '퇴근런닝',
-                  '건강'
-                ].map((cat) => (
-                  <label key={cat}>
+                {Object.keys(categoryOptions).map((key) => (
+                  <label key={key}>
                     <StyledRadioInput
                       type="radio"
                       name="category"
-                      value={cat}
-                      checked={category === cat}
+                      value={key}
+                      checked={category === key}
                       onChange={(e) => setCategory(e.target.value)}
                     />
-                    {cat}
+                    {categoryOptions[key].label}
                   </label>
                 ))}
               </div>
@@ -174,7 +319,9 @@ function CreateMeetingForm() {
             </FormRow>
 
             <ButtonContainer>
-              <StyledButton type="button">모임 개설</StyledButton>
+              <StyledButton type="button" onClick={handleSubmit}>
+                모임 개설
+              </StyledButton>
             </ButtonContainer>
           </Column>
         </FormContainer>

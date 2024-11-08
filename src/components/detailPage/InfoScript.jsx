@@ -1,10 +1,23 @@
 import { format } from 'date-fns';
-import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import { runningConcept, runningDistance } from '../../data/gatheringKeyword';
 
+// 임시유저이미지
+import UserImg from '../../images/person.jpg';
+
 const InfoScript = ({ meet }) => {
+  // const content = meet.content;
+
+  // const listConcept = content.concept;
+  // const concept = runningConcept(listConcept);
+
+  // const listDistance = content.goal_distance;
+  // const distance = runningDistance(listDistance);
+
+  // const newDate = format(content.deadline, 'yyyy/MM/dd');
+
+  // 임시
   const listConcept = meet.concept;
   const concept = runningConcept(listConcept);
 
@@ -16,11 +29,18 @@ const InfoScript = ({ meet }) => {
   return (
     <Infomation>
       <ProfileBox>
-        <ProfileImg />
+        <ProfileImg src={UserImg} alt="user-image" />
+        {/* {meet.organizer_profile_url ? (
+          <ProfileImg src={meet.organizer_profile_url}/>
+        ) : (
+          <ProfileImg src={UserImg} alt="user-image" />
+        )} */}
         <Name>{meet.organizer_id}</Name>
+        {/* <Name>{meet.organizer_nicknam}</Name> */}
       </ProfileBox>
       <InfoTextBox>
         <Title>{meet.title}</Title>
+        {/* <Title>{content.title}</Title> */}
         <DescriptionBox>
           <KeywordBox>
             <Keywords>
@@ -30,38 +50,13 @@ const InfoScript = ({ meet }) => {
             <Deadline>모집기한 : ~{newDate}</Deadline>
           </KeywordBox>
           <Description>{meet.title}</Description>
+          {/* <Description>{content.description}</Description> */}
         </DescriptionBox>
       </InfoTextBox>
-      {/* <ProfileBox>
-        <ProfileImg />
-        <Name>{meet.name}</Name>
-      </ProfileBox>
-      <InfoTextBox>
-        <Title>{meet.title}</Title>
-        <DescriptionBox>
-          <KeywordBox>
-            <Keywords>
-              <Keyword>{meet.distance}</Keyword>
-              <Keyword>{meet.category}</Keyword>
-            </Keywords>
-            <Deadline>모집기한 : ~{meet.deadlineDate}</Deadline>
-          </KeywordBox>
-          <Description>{meet.description}</Description>
-        </DescriptionBox>
-      </InfoTextBox> */}
     </Infomation>
   );
 };
-// InfoScript.propTypes = {
-//   meet: PropTypes.shape({
-//     name: PropTypes.string.isRequired,
-//     title: PropTypes.string.isRequired,
-//     distance: PropTypes.string.isRequired,
-//     category: PropTypes.string.isRequired,
-//     deadlineDate: PropTypes.string.isRequired,
-//     description: PropTypes.string.isRequired
-//   }).isRequired
-// };
+
 export default InfoScript;
 
 // style
@@ -75,12 +70,13 @@ const ProfileBox = styled.div`
   align-items: flex-end;
   gap: 0.25rem;
 `;
-const ProfileImg = styled.div`
+const ProfileImg = styled.img`
   width: 100px;
   aspect-ratio: 1/1;
-  background-color: darkblue;
   border-radius: 1.5rem;
+  border: 3px solid ${({ theme }) => theme.pointColorLight};
 `;
+
 const Name = styled.p`
   font-size: 0.8rem;
   font-weight: 600;

@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { meetingList } from '../../data/meetingList';
 import DetailInfo from './DetailInfo';
 import DetailMember from './DetailMember';
 import ThumbNailImg from '../../images/detailThumbNail.jpg';
 import {
   gatheringData,
   gatheringDetailData,
-  gatheringDetailImagesData
+  gatheringDetailImagesData,
+  gatheringDetailMembersData
 } from '../../api/api';
 
 const Detail = () => {
   const { id } = useParams();
   // 모임데이터상태관리🚂...임시
   const [meet, setMeet] = useState(null);
-
-  // ...보류
-  // const [gatheringDetail, setGetheringDetail] = useState({});
-  // const [gatheringDetailMembers, setGetheringDetailMembers] = useState([]);
-  // const [gatheringDetailImages, setGetheringDetailImages] = useState([]);
 
   // 모임목록데이터get🚂...임시
   const fetchGathering = async () => {
@@ -36,17 +31,17 @@ const Detail = () => {
     fetchGathering();
   }, []);
 
-  // const meet = gathering.find((m) => m.id === parseInt(id));
+  // // ...보류
+  // const [gatheringDetail, setGetheringDetail] = useState({});
+  // const [gatheringDetailImages, setGetheringDetailImages] = useState(null);
+  // const [gatheringDetailMembers, setGetheringDetailMembers] = useState([]);
 
-  // 모임데이터🚂...보류
+  // // 모임데이터🚂...보류
   // const fetchGatheringDetail = async () => {
   //   const data = await gatheringDetailData();
   //   console.log(data);
   //   if (data) {
-  //     const gatheringResponse = data.gathering_response;
-  //     const gatheringMembers = data.gathering_members;
-  //     setGetheringDetail(gatheringResponse);
-  //     setGetheringDetailMembers(gatheringMembers);
+  //     setGetheringDetail(data);
   //   } else {
   //     console.log('모임상세데이터가 존재하지 않습니다.');
   //   }
@@ -54,16 +49,28 @@ const Detail = () => {
   // const fetchGatheringImages = async () => {
   //   const data = await gatheringDetailImagesData();
   //   console.log(data);
-  //   if (data) {
-  //     const gatheringImgUrl = data.contentImageUrls;
+  //   if (data && data.contentImageUrls.length > 0) {
+  //     const gatheringImgUrl = data.contentImageUrls[0].image_url;
   //     setGetheringDetailImages(gatheringImgUrl);
   //   } else {
   //     console.log('모임상세이미지데이터가 존재하지 않습니다.');
+  //     setGetheringDetailImages(ThumbNailImg);
+  //   }
+  // };
+  // const fetchGatheringMembers = async () => {
+  //   const data = await gatheringDetailMembersData();
+  //   console.log(data);
+  //   if (data) {
+  //     const gatheringMembers = data.content;
+  //     setGetheringDetailMembers(gatheringMembers);
+  //   } else {
+  //     console.log('모임상세구성원데이터가 존재하지 않습니다.');
   //   }
   // };
   // useEffect(() => {
   //   fetchGatheringDetail();
   //   fetchGatheringImages();
+  //   fetchGatheringMembers();
   // }, []);
 
   useEffect(() => {
@@ -79,6 +86,13 @@ const Detail = () => {
         <DetailInfo meet={meet} />
         <DetailMember meet={meet} />
       </DetailContainer>
+      {/* <ThumbNailBox>
+        <ImgBox src={gatheringDetailImages} alt="thumbNailimg" loading="lazy" />
+      </ThumbNailBox>
+      <DetailContainer>
+        <DetailInfo meet={gatheringDetail} />
+        <DetailMember members={gatheringDetailMembers} />
+      </DetailContainer> */}
     </Wrapper>
   );
 };

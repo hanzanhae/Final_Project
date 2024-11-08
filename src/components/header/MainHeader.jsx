@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { darkTheme, lightTheme } from '../styles/theme';
-import { logout } from '../redux/actions/userActions';
+import { darkTheme, lightTheme } from '../../styles/theme';
+import { logout } from '../../redux/actions/userActions';
 import styled from 'styled-components';
-import HeaderLogo from './header/HeaderLogo';
-import HeaderWeather from './header/HeaderWeather';
-import HeaderMenu from './header/HeaderMenu';
+import HeaderLogo from './HeaderLogo';
+import HeaderWeather from './HeaderWeather';
+import HeaderMenu from './HeaderMenu';
 
 const MainHeader = () => {
-  const dispatch = useDispatch();
   const location = useLocation();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
@@ -50,10 +49,6 @@ const MainHeader = () => {
     headerBgColor = isDarkMode ? darkTheme.bgColorDark : lightTheme.bgColorDark;
   }
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-
   return (
     <Header $bgcolor={headerBgColor}>
       <HeaderInner>
@@ -64,11 +59,7 @@ const MainHeader = () => {
             loginPath={loginPath}
             $color={headerTextColor}
           />
-          <HeaderMenu
-            handleLogout={handleLogout}
-            loginPath={loginPath}
-            $color={headerTextColor}
-          />
+          <HeaderMenu loginPath={loginPath} $color={headerTextColor} />
         </BtnBox>
       </HeaderInner>
     </Header>

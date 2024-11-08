@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -7,12 +7,30 @@ import { Provider } from 'react-redux';
 import { store } from './redux/store/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <Provider store={store}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Provider>
-);
 
+const Root = () => {
+  useEffect(() => {
+    const handleLoad = () => {
+      const loadingElement = document.getElementById('loading');
+      loadingElement.style.zIndex = '-1';
+    };
+    window.addEventListener('load', handleLoad);
+
+    setTimeout(handleLoad, 500);
+
+    return () => {
+      window.removeEventListener('load', handleLoad);
+    };
+  }, []);
+
+  return (
+    <Provider store={store}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </Provider>
+  );
+};
+
+root.render(<Root />);
 reportWebVitals();

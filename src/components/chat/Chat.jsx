@@ -1,40 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import * as S from '../../styles/chatStyle/ChatStyle';
+import React, { useState } from 'react';
 import ChatContainer from './ChatContainer';
-import SockJS from 'sockjs-client';
-import { Client } from '@stomp/stompjs';
-
+import styled from 'styled-components';
+import Run from '../../images/running.png';
+import { CloseOutlined } from '@ant-design/icons';
 const Chat = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [client, setClient] = useState(null);
   const [selectedRoom, setSelectedRoom] = useState(null);
-
-  useEffect(() => {
-    // isOpen이 true일 때만 WebSocket을 연결
-    if (isOpen) {
-      const socket = new SockJS('https://myspringserver.store/ws');
-      const stompClient = new Client({
-        webSocketFactory: () => socket,
-        reconnectDelay: 5000,
-        debug: (str) => console.log('STOMP Debug: ', str),
-        onConnect: () => {
-          console.log('Connected to WebSocket server');
-        },
-        onStompError: (frame) => {
-          console.error('Broker reported error: ' + frame.headers['message']);
-          console.error('Additional details: ' + frame.body);
-        }
-      });
-
-      stompClient.activate();
-      setClient(stompClient);
-
-      return () => {
-        stompClient.deactivate();
-        setClient(null);
-      };
-    }
-  }, [isOpen]);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
@@ -42,17 +13,72 @@ const Chat = () => {
 
   return (
     <>
-      <S.ChatIcon $isOpen={isOpen} onClick={toggleChat} />
-      <S.ChatBox $isOpen={isOpen}>
-        {isOpen && client && (
-          <ChatContainer
-            client={client}
-            selectedRoom={selectedRoom}
-            setSelectedRoom={setSelectedRoom}
-          />
+      {isOpen ? (
+        <StyledCloseIcon onClick={toggleChat} />
+      ) : (
+        <ChatIcon $isOpen={isOpen} onClick={toggleChat} />
+      )}
+      <ChatBox $isOpen={isOpen}>
+        {isOpen && (
+          <>
+            <ChatContainer
+              selectedRoom={selectedRoom}
+              setSelectedRoom={setSelectedRoom}
+            />
+          </>
         )}
-      </S.ChatBox>
+      </ChatBox>
     </>
   );
 };
 export default Chat;
+
+const StyledCloseIcon = styled(CloseOutlined)`
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 4rem;
+  height: 4rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1000000001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const ChatIcon = styled.div`
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 4rem;
+  height: 4rem;
+  background: url(${Run});
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  border-radius: 50%;
+  z-index: 1000;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: all 0.5s ease;
+  cursor: pointer;
+`;
+
+const ChatBox = styled.div`
+  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
+  width: 400px;
+  height: 50rem;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  bottom: 100px;
+  right: 3rem;
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  transition: opacity 0.3s ease-in-out;
+  z-index: 99999999999;
+`;

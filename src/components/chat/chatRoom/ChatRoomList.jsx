@@ -6,8 +6,8 @@ const ChatRoomList = ({ selectedRoom }) => {
   return (
     <S.ChatRoomContainer>
       {selectedRoom === 'Profile' && <ChatRoom />}
-      {selectedRoom === 'Room' && <ChatRoom />}
-      {selectedRoom === 'DieDie' && <ChatRoom />}
+      {selectedRoom === 'group' && <ChatRoom />}
+      {selectedRoom === 'direct' && <ChatRoom />}
     </S.ChatRoomContainer>
   );
 };

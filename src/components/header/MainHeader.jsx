@@ -71,9 +71,9 @@ export default MainHeader;
 const Header = styled.header`
   width: 100%;
   height: 8vh;
-  position: fixed;
+  /* position: fixed;
   top: 0;
-  left: 0;
+  left: 0;  헤더때문에 레이아웃 잠기는 오류로 잠시 주석*/
   z-index: 9999;
   background-color: ${({ $bgcolor }) => $bgcolor};
   color: ${({ $color }) => $color};

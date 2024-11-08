@@ -129,9 +129,11 @@ export const gatheringParticipationCancle = async (gathering_id) => {
   }
 };
 
-export const getChatRoomList = async () => {
+export const getChatRoomList = async (roomType, pageNum = 0) => {
   try {
-    const response = await instance.get('/chat/group/list');
+    const endpoint =
+      roomType === 'group' ? '/chat/group/list' : '/chat/direct/list';
+    const response = await instance.get(`${endpoint}?page_num=${pageNum}`);
     return response.data;
   } catch (error) {
     console.log(error);

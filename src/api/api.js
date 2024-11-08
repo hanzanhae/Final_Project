@@ -64,7 +64,7 @@ export const gatheringData = async (pageNumber, pageSize) => {
   }
 };
 
-// 모임상세페이지🚂...보류
+// 모임상세페이지✅성공
 export const gatheringDetailData = async (gathering_id) => {
   try {
     const response = await instance.get(`/gatherings/${gathering_id}`);
@@ -82,7 +82,7 @@ export const gatheringDetailImagesData = async (gathering_id) => {
     console.error('모임이미지 데이터를 가져오는 중 오류발생:', error.message);
   }
 };
-// 모임상세구성원목록🚂...보류
+// 모임상세구성원목록✅성공
 export const gatheringDetailMembersData = async (gathering_id) => {
   try {
     const response = await instance.get(`/gatherings/${gathering_id}/members`);
@@ -94,7 +94,7 @@ export const gatheringDetailMembersData = async (gathering_id) => {
     );
   }
 };
-// 모임참가신청 ✅완료
+// 모임참가신청 🚂...보류
 export const gatheringParticipation = async (gathering_id) => {
   try {
     const response = await instance.post(
@@ -113,7 +113,7 @@ export const gatheringParticipation = async (gathering_id) => {
     }
   }
 };
-// 모임참가취소 ✅완료
+// 모임참가취소 🚂...보류
 export const gatheringParticipationCancle = async (gathering_id) => {
   try {
     const response = await instance.delete(

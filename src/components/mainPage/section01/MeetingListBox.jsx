@@ -6,7 +6,7 @@ import ListBoxMembers from './ListBoxMembers';
 import { format } from 'date-fns';
 import { gatheringDetailImagesData } from '../../../api/api';
 
-// 임시썸네일이미지
+// 기본썸네일이미지
 import ThumbImage from '../../../images/thumbnail.jpg';
 
 const MeetingListBox = ({ list }) => {
@@ -17,7 +17,6 @@ const MeetingListBox = ({ list }) => {
     const gatheringID = list.id;
     const data = await gatheringDetailImagesData(gatheringID);
     if (data) {
-      // console.log(data);
       setRegisteredImg(data.contentImageUrls[0]?.image_url);
     }
   };

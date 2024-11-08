@@ -7,19 +7,23 @@ const MembersBox = ({
   handleShowMemberMenu,
   memberRef,
   activeMember,
-  setActiveMember
+  setActiveMember,
+  handleOutMeeting
 }) => {
   return (
     <MemberBox>
       {enteredMembers.map((member) => {
         const id = member?.member_id || null;
-        const nickname = member?.nickname || '뉴비';
+        const nickname = member?.nickname || '없음';
         return (
           <Member key={id} onClick={() => handleShowMemberMenu(id)}>
             {nickname.slice(-4)}
             {activeMember === id && (
               <MemberRef ref={memberRef}>
-                <MemberMenu setActiveMember={setActiveMember} />
+                <MemberMenu
+                  setActiveMember={setActiveMember}
+                  handleOutMeeting={() => handleOutMeeting(id)}
+                />
               </MemberRef>
             )}
           </Member>

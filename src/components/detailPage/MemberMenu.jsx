@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReportModal from './ReportModal';
 import styled from 'styled-components';
 
-const MemberMenu = ({ setActiveMember }) => {
+const MemberMenu = ({ setActiveMember, handleOutMeeting }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => {
@@ -13,6 +13,7 @@ const MemberMenu = ({ setActiveMember }) => {
     <>
       <MenuBox onClick={(e) => e.stopPropagation()}>
         <MenuUl>
+          <MenuLi onClick={handleOutMeeting}>모임나가기</MenuLi>
           <MenuLi>채팅하기</MenuLi>
           <MenuLi onClick={handleShowModal}>신고하기</MenuLi>
         </MenuUl>

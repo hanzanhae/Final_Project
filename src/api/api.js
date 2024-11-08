@@ -16,6 +16,7 @@ export const logout = async () => {
   } catch (error) {
     console.error('로그아웃 중 오류 발생:', error);
     return null;
+    // localStorage.removeItem('refreshToken');
   }
 };
 

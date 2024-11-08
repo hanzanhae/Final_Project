@@ -7,17 +7,17 @@ import useUserLocation from '../../hooks/useUserLocation';
 const Section01 = () => {
   const { location } = useUserLocation();
   return (
-    <Warpper>
+    <Wrapper>
       <FilterMenu location={location} />
       <MeetingList />
-    </Warpper>
+    </Wrapper>
   );
 };
 
 export default Section01;
 
 // style
-const Warpper = styled.div`
+const Wrapper = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.bgColorPage};
 `;

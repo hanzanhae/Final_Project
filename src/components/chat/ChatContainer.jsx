@@ -3,12 +3,15 @@ import ChatLayout from './chatLayout/ChatLayout';
 import ChatRoomListLayout from './chatLayout/ChatRoomListLayout';
 import ChatRoom from './chatRoom/ChatRoom';
 
-const ChatContainer = ({ client, selectedRoom, setSelectedRoom }) => {
+const ChatContainer = ({ selectedRoom, setSelectedRoom }) => {
   return (
     <>
-      <ChatRoomListLayout setSelectedRoom={setSelectedRoom} />
+      <ChatRoomListLayout
+        selectedRoom={selectedRoom}
+        setSelectedRoom={setSelectedRoom}
+      />
       <ChatLayout onRoomSelect={setSelectedRoom} />
-      {selectedRoom && <ChatRoom client={client} selectedRoom={selectedRoom} />}
+      {/* {selectedRoom && <ChatRoom selectedRoom={selectedRoom} />} */}
     </>
   );
 };

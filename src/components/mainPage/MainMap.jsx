@@ -169,7 +169,6 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.bgColorPage};
   min-height: 100vh;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
-  /* background: linear-gradient(135deg, #e2e2e2, #ffffff); 
 `;
 
 const Controls = styled.div`

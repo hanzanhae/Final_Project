@@ -7,21 +7,16 @@ import {
   gatheringParticipationCancle
 } from '../../api/api';
 
-const DetailMember = ({ meet }) => {
+const DetailMember = ({ meet, membersList }) => {
   if (!meet) {
     return <div>모임 정보가 없습니다.</div>;
+  } else if (!membersList) {
+    return <div>모임구성원 정보가 없습니다.</div>;
   }
-  // console.log(meet.id);
-  // if (!members) {
-  //   return <div>모임구성원 정보가 없습니다.</div>;
-  // }
 
   const memberRef = useRef(null);
-
-  // 🚂...임시
-  const gatheringId = meet.id;
-  const members = meet.member_profile_urls;
-  const maxMember = meet.max_number;
+  const gatheringId = meet.content.id;
+  const maxMember = meet.content.max_number;
 
   const [enteredMembers, setEnteredMembers] = useState([]);
   const [activeMember, setActiveMember] = useState(null);
@@ -31,10 +26,10 @@ const DetailMember = ({ meet }) => {
   const [isEntered, setIsEntered] = useState(false);
 
   useEffect(() => {
-    if (members.length > 0) {
-      setEnteredMembers([...members]);
+    if (membersList.length > 0) {
+      setEnteredMembers([...membersList]);
     }
-  }, [members]);
+  }, [membersList]);
 
   const handleShowMemberMenu = (index) => {
     setActiveMember(activeMember === index ? null : index);
@@ -101,20 +96,6 @@ const DetailMember = ({ meet }) => {
       >
         모임참가취소하기
       </UniBtn>
-      {/* {isEntered ? (
-        <UniBtn onClick={handleCancleMeeting} $padding="0.5rem 1rem">
-          모임참가취소하기
-        </UniBtn>
-      ) : (
-        <UniBtn onClick={handleEnterMeeting} $padding="0.5rem 1rem">
-          모임참가하기
-        </UniBtn>
-      )} */}
-      {/* <IsEnteredNotice>
-        {isEntered
-          ? '현재 모임에 참가하였습니다.'
-          : '현재 모임에 참가하지 않았습니다.'}
-      </IsEnteredNotice> */}
       <MemberTitleBox>
         <Title>참여하는 사람들</Title>
         <MemberNumber>{`${enteredMembers.length}/${maxMember}`}</MemberNumber>

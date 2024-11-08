@@ -4,12 +4,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const InfoTime = ({ meet }) => {
-  // const content = meet.content;
-  // const newDate = format(content.appointed_at, 'MM월 dd일');
-  // const newTime = format(content.appointed_at, 'HH시 mm분');
-  //
-  const newDate = format(meet.appointed_at, 'MM월 dd일');
-  const newTime = format(meet.appointed_at, 'HH시 mm분');
+  const content = meet.content;
+  const newDate = format(content.appointed_at, 'MM월 dd일');
+  const newTime = format(content.appointed_at, 'HH시 mm분');
 
   return (
     <TimeWrapper>

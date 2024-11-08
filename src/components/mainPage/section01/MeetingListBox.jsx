@@ -10,15 +10,15 @@ import { gatheringDetailImagesData } from '../../../api/api';
 import ThumbImage from '../../../images/thumbnail.jpg';
 
 const MeetingListBox = ({ list }) => {
-  const [isNotice, setIsNotice] = useState(false);
-  const [registeredImg, setRegisteredImg] = useState([]);
+  const [isOver, setIsOver] = useState(false);
+  const [registeredImg, setRegisteredImg] = useState(null);
 
   const fetchRegisteredImg = async () => {
     const gatheringID = list.id;
     const data = await gatheringDetailImagesData(gatheringID);
     if (data) {
       // console.log(data);
-      setRegisteredImg(data.contentImageUrls[0].image_url);
+      setRegisteredImg(data.contentImageUrls[0]?.image_url);
     }
   };
 
@@ -26,7 +26,7 @@ const MeetingListBox = ({ list }) => {
     const deadlineDate = format(new Date(list.deadline), 'yyyy-MM-dd');
     const currentDate = format(new Date(), 'yyyy-MM-dd');
     if (deadlineDate < currentDate) {
-      setIsNotice(true);
+      setIsOver(true);
     }
   };
   useEffect(() => {
@@ -36,9 +36,9 @@ const MeetingListBox = ({ list }) => {
 
   return (
     <>
-      <ListLi $isNotice={isNotice}>
+      <ListLi $isOver={isOver}>
         <DeadlineNotice>마감된 모임입니다.</DeadlineNotice>
-        {registeredImg.length > 0 ? (
+        {registeredImg ? (
           <ThumbNailImg src={registeredImg} alt="registered-thumbnail" />
         ) : (
           <ThumbNailImg src={ThumbImage} alt="thumbnail" />
@@ -87,7 +87,7 @@ const ListLi = styled.li`
   &:hover {
     box-shadow: 0 0 10px 1px ${({ theme }) => theme.pointColorLight};
     ${DeadlineNotice} {
-      opacity: ${({ $isNotice }) => ($isNotice ? '1' : '0')};
+      opacity: ${({ $isOver }) => ($isOver ? '1' : '0')};
     }
   }
 `;

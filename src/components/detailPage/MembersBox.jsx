@@ -11,16 +11,20 @@ const MembersBox = ({
 }) => {
   return (
     <MemberBox>
-      {enteredMembers.map((member, idx) => (
-        <Member key={idx} onClick={() => handleShowMemberMenu(idx)}>
-          {member?.slice(0, 2)}
-          {activeMember === idx && (
-            <MemberRef ref={memberRef}>
-              <MemberMenu setActiveMember={setActiveMember} />
-            </MemberRef>
-          )}
-        </Member>
-      ))}
+      {enteredMembers.map((member) => {
+        const id = member?.member_id || null;
+        const nickname = member?.nickname || '뉴비';
+        return (
+          <Member key={id} onClick={() => handleShowMemberMenu(id)}>
+            {nickname.slice(-4)}
+            {activeMember === id && (
+              <MemberRef ref={memberRef}>
+                <MemberMenu setActiveMember={setActiveMember} />
+              </MemberRef>
+            )}
+          </Member>
+        );
+      })}
     </MemberBox>
   );
 };

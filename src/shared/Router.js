@@ -21,12 +21,9 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/addMeet" element={<AddMeeting />} />
-        <Route path="/detail" element={<DetailMeeting />} />
+        <Route path="/gatherings/:id" element={<DetailMeeting />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/addMeet" element={<AddMeeting />} />
-        <Route path="/detail/:id" element={<DetailMeeting />} />
 
         <Route path="/admin/*" element={<Admin />}>
           <Route index element={<Navigate to="home" />} />

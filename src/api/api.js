@@ -52,10 +52,10 @@ export const airConditionData = async ({ lat, lon }) => {
 };
 
 // 일반모임목록 ✅완료
-export const gatheringData = async () => {
+export const gatheringData = async (pageNumber, pageSize) => {
   try {
     const response = await instance.get(
-      '/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC'
+      `/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC&page=${pageNumber}&size=${pageSize}`
     );
     return response.data;
   } catch (error) {

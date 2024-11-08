@@ -1,3 +1,4 @@
+import axios from 'axios';
 import instance from './instance';
 
 export const login = async (email, password) => {
@@ -37,37 +38,31 @@ export const formSubmit = async (formData) => {
   }
 };
 
-// 일반모임목록🚂
-export const gatheringData = async () => {
+// 사용자위치기반 대기질정보 ✅완료
+export const airConditionData = async ({ lat, lon }) => {
+  const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
   try {
-    const response = await instance.get(
-      '/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC'
+    const response = await axios.get(
+      `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=kr`
     );
-    return response.data.gathering_responses;
-  } catch (error) {
-    console.error('일반모임목록 데이터를 가져오는 중 오류발생:', error.message);
+    const air = response.data.list[0].components;
+    return air;
+  } catch (e) {
+    console.log('대기질정보를 가져오는데 실패했습니다: ', e.message);
   }
 };
-// export const gatheringData = async () => {
-//   const url =
-//     'https://myspringserver.store/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC';
 
-//   try {
-//     const response = await fetch(url, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       }
-//     });
-//     const data = await response.json();
-//     return data.gathering_responses;
-//   } catch (error) {
-//     console.error(
-//       '일반모임목록 데이터를 가져오는 중 오류 발생:',
-//       error.message
-//     );
-//   }
-// };
+// 일반모임목록 ✅완료
+export const gatheringData = async (pageNumber, pageSize) => {
+  try {
+    const response = await instance.get(
+      `/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=DESC&page=${pageNumber}&size=${pageSize}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('일반모임목록 데이터를 가져오는 중 오류발생:', error);
+  }
+};
 
 // 모임상세페이지🚂...보류
 export const gatheringDetailData = async (gathering_id) => {
@@ -78,13 +73,59 @@ export const gatheringDetailData = async (gathering_id) => {
     console.error('상세페이지 데이터를 가져오는 중 오류발생:', error.message);
   }
 };
-// 모임상세이미지🚂...보류
+// 모임상세이미지✅성공
 export const gatheringDetailImagesData = async (gathering_id) => {
   try {
     const response = await instance.get(`/images?gathering_id=${gathering_id}`);
     return response.data;
   } catch (error) {
     console.error('모임이미지 데이터를 가져오는 중 오류발생:', error.message);
+  }
+};
+// 모임상세구성원목록🚂...보류
+export const gatheringDetailMembersData = async (gathering_id) => {
+  try {
+    const response = await instance.get(`/gatherings/${gathering_id}/members`);
+    return response.data;
+  } catch (error) {
+    console.error(
+      '모임구성원목록 데이터를 가져오는 중 오류발생:',
+      error.message
+    );
+  }
+};
+// 모임참가신청 ✅완료
+export const gatheringParticipation = async (gathering_id) => {
+  try {
+    const response = await instance.post(
+      `/gatherings/${gathering_id}/participation`
+    );
+    if (response.status === 200) {
+      console.log('모임참가신청이 완료되었습니다');
+    }
+    // console.log(response); // 200확인
+    return response;
+  } catch (error) {
+    if (error.status === 409) {
+      console.log('이미 참가된 모임입니다:', error.message);
+    } else {
+      console.log('모임참가신청 중 연결오류발생:', error.message);
+    }
+  }
+};
+// 모임참가취소 ✅완료
+export const gatheringParticipationCancle = async (gathering_id) => {
+  try {
+    const response = await instance.delete(
+      `/gatherings/${gathering_id}/participation`
+    );
+    if (response.status === 200) {
+      console.log('모임참가신청이 취소되었습니다');
+    }
+    // console.log(response.status); // 200확인
+    return response;
+  } catch (error) {
+    console.log('모임참가취소신청 중 연결오류발생:', error.message);
   }
 };
 

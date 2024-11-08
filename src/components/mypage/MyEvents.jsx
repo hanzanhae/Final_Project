@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import EventRequestForm from './EventRequestForm';
 import EventCard from './EventCard';
-import eventData from './mockdata';
+import eventData from './eventData';
 
 const MyEvents = () => (
   <PageContainer>

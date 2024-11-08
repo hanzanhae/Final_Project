@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import MemberMenu from './MemberMenu';
 
 const MembersBox = ({
-  // enterMembers,
-  members,
-  //
+  enteredMembers,
   handleShowMemberMenu,
   memberRef,
   activeMember,
@@ -13,9 +11,9 @@ const MembersBox = ({
 }) => {
   return (
     <MemberBox>
-      {members.map((member, idx) => (
+      {enteredMembers.map((member, idx) => (
         <Member key={idx} onClick={() => handleShowMemberMenu(idx)}>
-          {member.slice(0, 2)}
+          {member?.slice(0, 2)}
           {activeMember === idx && (
             <MemberRef ref={memberRef}>
               <MemberMenu setActiveMember={setActiveMember} />
@@ -23,16 +21,6 @@ const MembersBox = ({
           )}
         </Member>
       ))}
-      {/* {enterMembers.map((member, idx) => (
-        <Member key={idx} onClick={() => handleShowMemberMenu(idx)}>
-          {member}
-          {activeMember === idx && (
-            <MemberRef ref={memberRef}>
-              <MemberMenu setActiveMember={setActiveMember} />
-            </MemberRef>
-          )}
-        </Member>
-      ))} */}
     </MemberBox>
   );
 };

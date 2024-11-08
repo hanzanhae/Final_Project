@@ -1,10 +1,13 @@
 import { CalendarOutlined } from '@ant-design/icons';
 import { format } from 'date-fns';
-import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 
 const InfoTime = ({ meet }) => {
+  // const content = meet.content;
+  // const newDate = format(content.appointed_at, 'MM월 dd일');
+  // const newTime = format(content.appointed_at, 'HH시 mm분');
+  //
   const newDate = format(meet.appointed_at, 'MM월 dd일');
   const newTime = format(meet.appointed_at, 'HH시 mm분');
 
@@ -21,12 +24,7 @@ const InfoTime = ({ meet }) => {
     </TimeWrapper>
   );
 };
-// InfoTime.propTypes = {
-//   meet: PropTypes.shape({
-//     date: PropTypes.string.isRequired,
-//     time: PropTypes.string.isRequired
-//   }).isRequired
-// };
+
 export default InfoTime;
 
 // style

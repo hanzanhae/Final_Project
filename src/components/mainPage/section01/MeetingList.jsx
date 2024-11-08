@@ -9,82 +9,95 @@ import {
   runningDistance
 } from '../../../data/gatheringKeyword';
 
-const LIST_PERPAGE = 4;
-
 const MeetingList = () => {
   const { selectedOption, selectedDistance, selectedCategory } = useSelector(
     (state) => state.filter
   );
 
-  // 모임데이터상태관리🚂
-  const [gathering, setGethering] = useState([]);
-  // console.log(gathering.length);
+  const [gathering, setGathering] = useState([]);
+  const [filteredGathering, setFilteredGathering] = useState([]);
+  const [pageNumber, setPageNumber] = useState(0);
+  const [pageSize, setPageSize] = useState(8);
+  const [hasMoreData, setHasMoreData] = useState(true);
+  const [moreLoading, setMoreLoading] = useState(false);
 
-  // 모임목록데이터get🚂...
   const fetchGathering = async () => {
-    const data = await gatheringData();
+    setMoreLoading(true);
+    const data = await gatheringData(pageNumber, pageSize);
     if (data) {
-      const gatheringResponse = data.content;
-      setGethering(gatheringResponse);
-      // console.log(gatheringResponse);
+      const gatheringRes = data.gathering_responses.content;
+      const pageNumberRes = data.gathering_responses.pageable.pageNumber;
+      const pageSizeRes = data.gathering_responses.pageable.pageSize;
+
+      if (pageNumberRes === 0) {
+        setGathering(gatheringRes);
+      } else {
+        setGathering((prev) => [...prev, ...gatheringRes]);
+      }
+
+      setPageNumber(pageNumberRes + 1);
+      setPageSize(pageSizeRes);
+      setHasMoreData(!data.gathering_responses.last);
     } else {
       console.log('모임목록데이터가 존재하지 않습니다.');
     }
+    setMoreLoading(false);
   };
   useEffect(() => {
     fetchGathering();
-  }, []);
+  }, [pageNumber]);
 
-  // 페이지네이션 상태관리
-  const [visibleList, setVisibleList] = useState(LIST_PERPAGE);
+  const handlefilteredGathering = () => {
+    const filteredList = gathering.filter((list) => {
+      const memberNum = list.member_profile_urls.length;
+      const deadlineDate = list.deadline;
+      const currentDate = new Date();
 
-  // 필터링
-  const filteredMeetingList = gathering.filter((list) => {
-    const memberNum = list.member_profile_urls.length;
-    const deadlineDate = list.deadline;
-    const currentDate = new Date();
+      let optionMatch = true;
 
-    let optionMatch = true;
+      if (selectedOption === '참여가능') {
+        optionMatch = memberNum < 10 && deadlineDate > currentDate;
+      } else if (selectedOption === '마감임박') {
+        const oneDayBefore = new Date(currentDate);
+        oneDayBefore.setDate(currentDate.getDate() + 1);
+        optionMatch =
+          memberNum >= 8 &&
+          memberNum < 10 &&
+          deadlineDate > currentDate &&
+          deadlineDate <= oneDayBefore;
+      } else if (selectedOption === '참여불가') {
+        optionMatch = deadlineDate <= currentDate || memberNum === 10;
+      } else if (selectedOption === '전체') {
+        optionMatch = true;
+      }
 
-    if (selectedOption === '참여가능') {
-      optionMatch = memberNum < 10 && deadlineDate > currentDate;
-    } else if (selectedOption === '마감임박') {
-      const oneDayBefore = new Date(currentDate);
-      oneDayBefore.setDate(currentDate.getDate() + 1);
-      optionMatch =
-        memberNum >= 8 &&
-        memberNum < 10 &&
-        deadlineDate > currentDate &&
-        deadlineDate <= oneDayBefore;
-    } else if (selectedOption === '참여불가') {
-      optionMatch = deadlineDate <= currentDate || memberNum === 10;
-    } else if (selectedOption === '전체') {
-      optionMatch = true;
-    }
+      const distanceMatch =
+        !selectedDistance ||
+        runningDistance(list.goal_distance) === selectedDistance;
 
-    const distanceMatch =
-      !selectedDistance ||
-      runningDistance(list.goal_distance) === selectedDistance;
+      const categoryMatch =
+        selectedCategory.length === 0 ||
+        selectedCategory.includes(runningConcept(list.concept));
 
-    const categoryMatch =
-      selectedCategory.length === 0 ||
-      selectedCategory.includes(runningConcept(list.concept));
+      return optionMatch && distanceMatch && categoryMatch;
+    });
+    setFilteredGathering(filteredList);
+  };
 
-    return optionMatch && distanceMatch && categoryMatch;
-  });
+  useEffect(() => {
+    handlefilteredGathering();
+  }, [gathering, selectedOption, selectedDistance, selectedCategory]);
 
-  const currentMeetingList = filteredMeetingList.slice(0, visibleList);
-
-  // 더보기클릭 함수
   const handleClickMorePage = () => {
-    setVisibleList((prev) => prev + LIST_PERPAGE);
+    if (hasMoreData && !moreLoading) {
+      setPageNumber((prev) => prev + 1);
+    }
   };
 
   return (
     <Container>
       <ListUl>
-        {currentMeetingList.map((list) => {
-          // console.log(list);
+        {filteredGathering.map((list) => {
           return (
             <Link to={`/detail/${list.id}`} key={list.id}>
               <MeetingListBox list={list} />
@@ -93,8 +106,10 @@ const MeetingList = () => {
         })}
       </ListUl>
       {/* 페이지네이션 */}
-      {visibleList < gathering.length ? (
-        <MoreBtn onClick={handleClickMorePage}>더보기</MoreBtn>
+      {hasMoreData ? (
+        <MoreBtn onClick={handleClickMorePage} disabled={moreLoading}>
+          더보기
+        </MoreBtn>
       ) : (
         <MoreMsg>마지막 페이지입니다.</MoreMsg>
       )}

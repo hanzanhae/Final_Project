@@ -1,45 +1,35 @@
 import { CloudFilled, RetweetOutlined, SunFilled } from '@ant-design/icons';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { airConditionData } from '../../api/api';
+import useUserLocation from '../../hooks/useUserLocation';
+import { setTheme, toggleTheme } from '../../redux/actions/themeActions';
 
 const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
   const dispatch = useDispatch();
+  const { location, errorMsg } = useUserLocation();
   const [airState, setAirState] = useState('');
 
-  useEffect(() => {
-    getUserLocation();
-  }, []);
-
   const getUserLocation = () => {
-    const success = (position) => {
-      // console.log("위치정보: ", position);
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-
-      getAirData(latitude, longitude);
-    };
-    const error = (error) => {
-      const defaultLat = 37.5665;
-      const defaultLon = 126.978;
-      getAirData(defaultLat, defaultLon);
-    };
-    navigator.geolocation.getCurrentPosition(success, error);
+    if (location) {
+      const lat = location.latitude;
+      const lon = location.longitude;
+      getAirData(lat, lon);
+    } else {
+      console.log(errorMsg);
+    }
   };
 
   const getAirData = async (lat, lon) => {
-    const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
-    try {
-      const response = await axios.get(
-        `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=kr`
-      );
-      const air = response.data.list[0].components;
-      airCondition(air.pm2_5);
-    } catch (e) {
-      console.log('대기질정보를 가져오는데 실패했습니다: ', e.message);
-    }
+    const data = await airConditionData({ lat, lon });
+    // console.log(data);
+    airCondition(data.pm2_5);
   };
+
+  useEffect(() => {
+    getUserLocation();
+  }, [location]);
 
   // 대기질 표시
   const airCondition = (pm2_5) => {
@@ -58,11 +48,11 @@ const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
       newTheme = 'dark';
     }
 
-    dispatch({ type: 'SET_THEME', payload: newTheme });
+    dispatch(setTheme(newTheme));
   };
 
   const handleToggleWeather = () => {
-    dispatch({ type: 'TOGGLE_THEME' });
+    dispatch(toggleTheme());
   };
 
   return (

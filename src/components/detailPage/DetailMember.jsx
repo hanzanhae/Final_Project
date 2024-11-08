@@ -1,95 +1,135 @@
 import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 import { UniBtn } from '../button/UniBtn';
 import styled from 'styled-components';
 import MembersBox from './MembersBox';
+import {
+  gatheringParticipation,
+  gatheringParticipationCancle
+} from '../../api/api';
 
 const DetailMember = ({ meet }) => {
   if (!meet) {
     return <div>모임 정보가 없습니다.</div>;
   }
+  // console.log(meet.id);
+  // if (!members) {
+  //   return <div>모임구성원 정보가 없습니다.</div>;
+  // }
+
+  const memberRef = useRef(null);
+
   // 🚂...임시
+  const gatheringId = meet.id;
   const members = meet.member_profile_urls;
   const maxMember = meet.max_number;
 
-  // const memberRef = useRef(null);
+  const [enteredMembers, setEnteredMembers] = useState([]);
+  const [activeMember, setActiveMember] = useState(null);
+  // 참가 및 취소오류 알림메세지
+  const [errorMsg, setErrorMsg] = useState('');
+  // 참가여부 알림메세지
+  const [isEntered, setIsEntered] = useState(false);
 
-  // const [activeMember, setActiveMember] = useState(null);
-  // const [enterMembers, setEnterMembers] = useState([]);
-  // const [errorMsg, setErrorMsg] = useState('');
+  useEffect(() => {
+    if (members.length > 0) {
+      setEnteredMembers([...members]);
+    }
+  }, [members]);
 
-  // const handleShowMemberMenu = (index) => {
-  //   setActiveMember(activeMember === index ? null : index);
-  // };
+  const handleShowMemberMenu = (index) => {
+    setActiveMember(activeMember === index ? null : index);
+  };
 
-  // const handleClickOutside = (e) => {
-  //   if (memberRef.current && !memberRef.current.contains(e.target)) {
-  //     setActiveMember(null);
-  //   }
-  // };
+  const handleClickOutside = (e) => {
+    if (memberRef.current && !memberRef.current.contains(e.target)) {
+      setActiveMember(null);
+    }
+  };
 
-  // useEffect(() => {
-  //   const enteredMembers = Array.from({ length: meet.capacity }, (_, idx) => {
-  //     return `이름${idx + 1}`;
-  //   });
-  //   setEnterMembers(enteredMembers);
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [setActiveMember]);
 
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, [setActiveMember]);
-
-  // const handleEnterMeeting = () => {
-  //   if (enterMembers.length < 10) {
-  //     const newMember = `이름${enterMembers.length + 1}`;
-  //     setEnterMembers((prev) => [...prev, newMember]);
-  //   } else {
-  //     setErrorMsg(
-  //       '최대인원을 초과하였습니다. 모임에 참가하고 싶은 경우, 모임장에게 직접 연락하시길 바랍니다.'
-  //     );
-  //   }
-  // };
+  // 모임참가 작성중...🚂
+  const handleEnterMeeting = async () => {
+    if (enteredMembers.length < maxMember) {
+      const response = await gatheringParticipation(gatheringId);
+      if (response) {
+        // console.log(response);
+        const newMember = `뉴${enteredMembers.length + 1}`;
+        setEnteredMembers((prev) => [...prev, newMember]);
+        setIsEntered(true);
+        setErrorMsg('모임참가신청이 완료되었습니다.');
+      }
+    } else {
+      setErrorMsg(
+        '최대인원을 초과하였습니다. 모임에 참가하고 싶은 경우, 모임장에게 직접 연락하시길 바랍니다.'
+      );
+    }
+  };
+  // 모임참가취소 작성중...🚂
+  const handleCancleMeeting = async () => {
+    const response = await gatheringParticipationCancle(gatheringId);
+    if (response) {
+      // console.log(response);
+      setEnteredMembers((prev) =>
+        prev.filter((_, idx) => idx !== enteredMembers.length - 1)
+      );
+      setIsEntered(false);
+      setErrorMsg('모임참가신청이 취소되었습니다.');
+    } else {
+      setErrorMsg('모임 참가취소에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
 
   return (
     <MemberContainer>
       <UniBtn
-        // onClick={handleEnterMeeting}
-        $margin="0 0 2rem 0"
+        onClick={handleEnterMeeting}
         $padding="0.5rem 1rem"
+        $margin="0 0 0.5rem 0"
       >
         모임참가하기
       </UniBtn>
+      <UniBtn
+        onClick={handleCancleMeeting}
+        $padding="0.5rem 1rem"
+        $margin="0 0 2rem 0"
+      >
+        모임참가취소하기
+      </UniBtn>
+      {/* {isEntered ? (
+        <UniBtn onClick={handleCancleMeeting} $padding="0.5rem 1rem">
+          모임참가취소하기
+        </UniBtn>
+      ) : (
+        <UniBtn onClick={handleEnterMeeting} $padding="0.5rem 1rem">
+          모임참가하기
+        </UniBtn>
+      )} */}
+      {/* <IsEnteredNotice>
+        {isEntered
+          ? '현재 모임에 참가하였습니다.'
+          : '현재 모임에 참가하지 않았습니다.'}
+      </IsEnteredNotice> */}
       <MemberTitleBox>
         <Title>참여하는 사람들</Title>
-        <MemberNumber>{`${members.length}/${maxMember}`}</MemberNumber>
+        <MemberNumber>{`${enteredMembers.length}/${maxMember}`}</MemberNumber>
       </MemberTitleBox>
       <MembersBox
-        // enterMembers={enterMembers}
-        members={members.slice(0, 2)}
-        //
-        // handleShowMemberMenu={handleShowMemberMenu}
-        // memberRef={memberRef}
-        // activeMember={activeMember}
-        // setActiveMember={setActiveMember}
+        enteredMembers={enteredMembers}
+        handleShowMemberMenu={handleShowMemberMenu}
+        memberRef={memberRef}
+        activeMember={activeMember}
+        setActiveMember={setActiveMember}
       />
-      {/* <Msg>{errorMsg}</Msg> */}
+      <Msg>{errorMsg}</Msg>
     </MemberContainer>
   );
 };
-
-// DetailMember.propTypes = {
-//   meet: PropTypes.shape({
-//     member_profile_urls: PropTypes.arrayOf(PropTypes.string).isRequired,
-//     max_number: PropTypes.number.isRequired
-//   })
-// };
-// DetailMember.defaultProps = {
-//   meet: {
-//     member_profile_urls: [],
-//     max_number: 10
-//   }
-// };
 
 export default DetailMember;
 
@@ -100,6 +140,12 @@ const MemberContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+`;
+const IsEnteredNotice = styled.div`
+  margin: 0.5rem 0 2rem 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.pointColor};
 `;
 const MemberTitleBox = styled.div`
   width: 100%;

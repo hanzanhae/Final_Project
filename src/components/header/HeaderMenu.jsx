@@ -9,7 +9,6 @@ const HeaderMenu = ({ loginPath, $color }) => {
   const handleLocalLogout = async () => {
     const response = await logout();
     if (response) {
-      document.cookie = 'refresh=; path=/;';
       localStorage.removeItem('accessToken');
       navigate('/');
     } else {

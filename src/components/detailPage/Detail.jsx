@@ -3,96 +3,75 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import DetailInfo from './DetailInfo';
 import DetailMember from './DetailMember';
-import ThumbNailImg from '../../images/detailThumbNail.jpg';
 import {
-  gatheringData,
   gatheringDetailData,
   gatheringDetailImagesData,
   gatheringDetailMembersData
 } from '../../api/api';
 
+// 썸네일기본이미지
+import ThumbNailImg from '../../images/detailThumbNail.jpg';
+
 const Detail = () => {
   const { id } = useParams();
-  // 모임데이터상태관리🚂...임시
-  const [meet, setMeet] = useState(null);
 
-  // 모임목록데이터get🚂...임시
-  const fetchGathering = async () => {
-    const data = await gatheringData();
+  const [gatheringDetail, setGatheringDetail] = useState(null);
+  const [gatheringDetailImages, setGetheringDetailImages] = useState(null);
+  const [gatheringDetailMembers, setGetheringDetailMembers] = useState([]);
+
+  const fetchGatheringDetail = async () => {
+    const data = await gatheringDetailData(id);
     if (data) {
-      const gatheringResponse = data.gathering_responses.content;
-      const foundMeet = gatheringResponse.find((m) => m.id === parseInt(id));
-      setMeet(foundMeet);
+      setGatheringDetail(data);
     } else {
-      console.log('모임목록데이터가 존재하지 않습니다.');
+      console.log('모임상세데이터가 존재하지 않습니다.');
+    }
+  };
+  const fetchGatheringImages = async () => {
+    const data = await gatheringDetailImagesData(id);
+    console.log(data);
+    if (data) {
+      const gatheringImgUrl = data.contentImageUrls[0]?.image_url;
+      setGetheringDetailImages(gatheringImgUrl);
+    } else {
+      console.log('모임상세이미지데이터가 존재하지 않습니다.');
+    }
+  };
+  const fetchGatheringMembers = async () => {
+    const data = await gatheringDetailMembersData(id);
+    if (data) {
+      const gatheringMembers = data.content;
+      setGetheringDetailMembers(gatheringMembers);
+    } else {
+      console.log('모임상세구성원데이터가 존재하지 않습니다.');
     }
   };
   useEffect(() => {
-    fetchGathering();
+    fetchGatheringDetail();
+    fetchGatheringImages();
+    fetchGatheringMembers();
   }, []);
-
-  // // ...보류
-  // const [gatheringDetail, setGetheringDetail] = useState({});
-  // const [gatheringDetailImages, setGetheringDetailImages] = useState(null);
-  // const [gatheringDetailMembers, setGetheringDetailMembers] = useState([]);
-
-  // // 모임데이터🚂...보류
-  // const fetchGatheringDetail = async () => {
-  //   const data = await gatheringDetailData();
-  //   console.log(data);
-  //   if (data) {
-  //     setGetheringDetail(data);
-  //   } else {
-  //     console.log('모임상세데이터가 존재하지 않습니다.');
-  //   }
-  // };
-  // const fetchGatheringImages = async () => {
-  //   const data = await gatheringDetailImagesData();
-  //   console.log(data);
-  //   if (data && data.contentImageUrls.length > 0) {
-  //     const gatheringImgUrl = data.contentImageUrls[0].image_url;
-  //     setGetheringDetailImages(gatheringImgUrl);
-  //   } else {
-  //     console.log('모임상세이미지데이터가 존재하지 않습니다.');
-  //     setGetheringDetailImages(ThumbNailImg);
-  //   }
-  // };
-  // const fetchGatheringMembers = async () => {
-  //   const data = await gatheringDetailMembersData();
-  //   console.log(data);
-  //   if (data) {
-  //     const gatheringMembers = data.content;
-  //     setGetheringDetailMembers(gatheringMembers);
-  //   } else {
-  //     console.log('모임상세구성원데이터가 존재하지 않습니다.');
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchGatheringDetail();
-  //   fetchGatheringImages();
-  //   fetchGatheringMembers();
-  // }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [id]);
 
   return (
     <Wrapper>
       <ThumbNailBox>
-        <ImgBox src={ThumbNailImg} alt="thumbNailimg" loading="lazy" />
-      </ThumbNailBox>
-      <DetailContainer>
-        <DetailInfo meet={meet} />
-        <DetailMember meet={meet} />
-      </DetailContainer>
-      {/* <ThumbNailBox>
-        <ImgBox src={gatheringDetailImages} alt="thumbNailimg" loading="lazy" />
+        <ImgBox
+          src={gatheringDetailImages || ThumbNailImg}
+          alt="thumbNailimg"
+          $gatheringDetailImages={gatheringDetailImages}
+        />
       </ThumbNailBox>
       <DetailContainer>
         <DetailInfo meet={gatheringDetail} />
-        <DetailMember members={gatheringDetailMembers} />
-      </DetailContainer> */}
+        <DetailMember
+          meet={gatheringDetail}
+          membersList={gatheringDetailMembers}
+        />
+      </DetailContainer>
     </Wrapper>
   );
 };
@@ -124,7 +103,8 @@ const ImgBox = styled.img`
   left: 0;
   bottom: 0;
   object-fit: cover;
-  object-position: bottom;
+  object-position: ${({ $gatheringDetailImages }) =>
+    $gatheringDetailImages ? 'center' : 'bottom'};
 `;
 const DetailContainer = styled.div`
   width: 70%;

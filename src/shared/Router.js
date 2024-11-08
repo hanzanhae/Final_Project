@@ -22,14 +22,10 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/addMeet" element={<AddMeeting />} />
-        <Route path="/detail" element={<DetailMeeting />} />
+        <Route path="/gatherings/:id" element={<DetailMeeting />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/addMeet" element={<AddMeeting />} />
-        <Route path="/detail/:id" element={<DetailMeeting />} />
         <Route path="/chat" element={<ChatPage />} />
-
         <Route path="/admin/*" element={<Admin />}>
           <Route index element={<Navigate to="home" />} />
           {/* pages에 있는 admin.jsx를 간결하게 유지하기 위해 adminHome을 따로 작성하여 관리 */}

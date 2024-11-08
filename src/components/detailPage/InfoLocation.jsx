@@ -8,6 +8,7 @@ const InfoLocation = ({ meet }) => {
   const detailAddress = content.address_full_name;
   const lon = content.coordinates.x;
   const lat = content.coordinates.y;
+  const location = { lon, lat };
 
   return (
     <LocationWrapper>
@@ -17,11 +18,10 @@ const InfoLocation = ({ meet }) => {
           <Icon>
             <PushpinOutlined />
           </Icon>
-          {/* <Location>{`${location}, ${location2}, ${location3}`}</Location> */}
           <Location>{detailAddress}</Location>
         </LocationText>
         {/* 카카오지도연결 */}
-        <KakaoLocation />
+        <KakaoLocation location={location} />
       </LocationBox>
     </LocationWrapper>
   );

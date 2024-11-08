@@ -29,7 +29,6 @@ const Detail = () => {
   };
   const fetchGatheringImages = async () => {
     const data = await gatheringDetailImagesData(id);
-    console.log(data);
     if (data) {
       const gatheringImgUrl = data.contentImageUrls[0]?.image_url;
       setGetheringDetailImages(gatheringImgUrl);

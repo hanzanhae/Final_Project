@@ -99,7 +99,7 @@ const MeetingList = () => {
       <ListUl>
         {filteredGathering.map((list) => {
           return (
-            <Link to={`/detail/${list.id}`} key={list.id}>
+            <Link to={`/gatherings/${list.id}`} key={list.id}>
               <MeetingListBox list={list} />
             </Link>
           );

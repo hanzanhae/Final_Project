@@ -9,7 +9,7 @@ import {
   runningDistance
 } from '../../../data/gatheringKeyword';
 
-const MeetingList = () => {
+const MeetingList = ({ gatheringIn10km }) => {
   const { selectedOption, selectedDistance, selectedCategory } = useSelector(
     (state) => state.filter
   );
@@ -43,13 +43,18 @@ const MeetingList = () => {
     }
     setMoreLoading(false);
   };
+
   useEffect(() => {
-    fetchGathering();
-  }, [pageNumber]);
+    if (gatheringIn10km.length === 0) {
+      fetchGathering();
+    } else {
+      setGathering(gatheringIn10km);
+    }
+  }, [gatheringIn10km, pageNumber]);
 
   const handlefilteredGathering = () => {
     const filteredList = gathering.filter((list) => {
-      const memberNum = list.member_profile_urls.length;
+      const memberNum = list.member_profile_urls?.length;
       const deadlineDate = list.deadline;
       const currentDate = new Date();
 
@@ -86,7 +91,13 @@ const MeetingList = () => {
 
   useEffect(() => {
     handlefilteredGathering();
-  }, [gathering, selectedOption, selectedDistance, selectedCategory]);
+  }, [
+    gathering,
+    gatheringIn10km,
+    selectedOption,
+    selectedDistance,
+    selectedCategory
+  ]);
 
   const handleClickMorePage = () => {
     if (hasMoreData && !moreLoading) {
@@ -97,7 +108,7 @@ const MeetingList = () => {
   return (
     <Container>
       <ListUl>
-        {filteredGathering.map((list) => {
+        {filteredGathering?.map((list) => {
           return (
             <Link to={`/gatherings/${list.id}`} key={list.id}>
               <MeetingListBox list={list} />

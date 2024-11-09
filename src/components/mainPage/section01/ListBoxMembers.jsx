@@ -9,7 +9,7 @@ const ListBoxMembers = ({ list }) => {
   return (
     <MemberBox>
       <Members>
-        {members.map((member, idx) => (
+        {members?.map((member, idx) => (
           <Member key={idx} $index={idx}>
             {member?.slice(0, 2) || '유저'}
           </Member>
@@ -19,7 +19,7 @@ const ListBoxMembers = ({ list }) => {
         <UserIcon>
           <TeamOutlined />
         </UserIcon>
-        {`${members.length}/${maxMember}`}
+        {`${members?.length}/${maxMember}`}
       </Capacity>
     </MemberBox>
   );

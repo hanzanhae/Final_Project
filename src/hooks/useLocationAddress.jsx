@@ -23,17 +23,17 @@ const useLocationAddress = () => {
       });
 
       const documents = response.data.documents;
-      if (documents.length > 0) {
+      if (documents?.length > 0) {
         const address = documents[0].address;
         const fullAddress = `${address.region_1depth_name} ${address.region_2depth_name} ${address.region_3depth_name}`;
         const detailAddress = documents[0].address.address_name;
 
         setAddressInfo({
-          detailAddress: detailAddress,
+          detailAddress: detailAddress, // 현주소
           region1Depth: address.region_1depth_name,
           region2Depth: address.region_2depth_name,
           region3Depth: address.region_3depth_name,
-          fullAddress: fullAddress
+          fullAddress: fullAddress // 조각모음주소
         });
       }
     } catch (error) {

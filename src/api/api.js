@@ -128,6 +128,20 @@ export const gatheringParticipationCancle = async (gathering_id) => {
     console.log('모임참가취소신청 중 연결오류발생:', error.message);
   }
 };
+// 위치기준필터링✅성공
+export const gatheringForLacation = async (lat, lon) => {
+  try {
+    const response = await instance.get(
+      `/gatherings/map?radius_distance=10&x=${lon}&y=${lat}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(
+      '위치기반 모임목록을 가져오는 중 연결오류발생: ',
+      error.message
+    );
+  }
+};
 
 export const getChatRoomList = async (roomType, pageNum = 0) => {
   try {

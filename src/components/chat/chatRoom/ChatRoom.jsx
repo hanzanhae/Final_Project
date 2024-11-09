@@ -1,64 +1,78 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import SockJS from 'sockjs-client';
+import { Client } from '@stomp/stompjs';
+import { DoubleLeftOutlined } from '@ant-design/icons';
 
-const ChatRoom = ({ client, selectedRoom }) => {
+const ChatRoom = ({ selectedRoom, roomType, setSelectedRoom }) => {
   const [receivedMessages, setReceivedMessages] = useState([]);
   const [messages, setMessages] = useState([
     { id: 1, text: '안녕하세요!', isMine: false },
     { id: 2, text: '안녕하세요! 반갑습니다.', isMine: true }
   ]);
   const [input, setInput] = useState('');
-
-  const sendMessage = () => {
-    if (input.trim() === '') return;
-    setMessages([...messages, { id: Date.now(), text: input, isMine: true }]);
-    setInput('');
-  };
+  const [stompClient, setStompClient] = useState(null);
 
   useEffect(() => {
-    if (!client || !selectedRoom) return;
+    const token = localStorage.getItem('accessToken');
+    console.log('Retrieved token:', token);
+    const socket = new SockJS('https://myspringserver.store/ws');
+    const stomp = new Client({
+      webSocketFactory: () => socket,
+      connectHeaders: {
+        Authorization: `Bearer ${token}`
+      },
+      reconnectDelay: 5000,
+      debug: (str) => console.log('STOMP Debug: ', str),
+      onConnect: () => {
+        const topicPath = `/topic/${roomType}/${selectedRoom.id}`;
+        console.log(topicPath);
 
-    let subscribeDestination;
-
-    if (selectedRoom.type === 'direct') {
-      subscribeDestination = `/topic/direct/${selectedRoom.id}`; // 1:1 채팅방 구독
-    } else if (selectedRoom.type === 'group') {
-      subscribeDestination = `/topic/group/${selectedRoom.id}`; // 그룹 채팅방 구독
-    }
-
-    // WebSocket 구독
-    const subscription = client.subscribe(subscribeDestination, (message) => {
-      setReceivedMessages((prevMessages) => [
-        ...prevMessages,
-        JSON.parse(message.body)
-      ]);
+        stomp.subscribe(topicPath, (message) => {
+          try {
+            const receivedMessage = JSON.parse(message.body);
+            console.log('Received Message:', receivedMessage); // 수신 메시지 로그 확인
+            setMessages((prevMessages) => [
+              ...prevMessages,
+              { id: Date.now(), text: receivedMessage.content, isMine: false }
+            ]);
+          } catch (error) {
+            console.error('Failed to parse message body:', error);
+            console.log('Raw message body:', message.body);
+          }
+        });
+      },
+      onStompError: (frame) => {
+        console.error('Broker reported error: ' + frame.headers['message']);
+        console.error('Additional details: ' + frame.body);
+      }
     });
 
+    stomp.activate();
+    setStompClient(stomp);
+
+    // 컴포넌트가 언마운트될 때 연결 해제
     return () => {
-      subscription.unsubscribe(); // 구독 해제
+      stomp.deactivate();
+      setStompClient(null);
     };
-  }, [client, selectedRoom]);
+  }, [roomType, selectedRoom.id]);
 
-  // const sendMessage = () => {
-  //   if (client && client.connected) {
-  //     let destination;
-  //     if (selectedRoom.type === 'direct') {
-  //       destination = `/app/send/direct`;
-  //     } else if (selectedRoom.type === 'group') {
-  //       destination = `/app/send/group`;
-  //     }
-
-  //     client.publish({
-  //       destination: destination,
-  //       body: JSON.stringify({ roomId: selectedRoom.id, message: message })
-  //     });
-  //     setMessage('');
-  //   }
-  // };
+  const sendMessage = () => {
+    if (stompClient && stompClient.connected && input.trim()) {
+      stompClient.publish({
+        destination: `/app/send/${selectedRoom}`, // 방 타입에 맞는 경로
+        body: JSON.stringify({ roomId: selectedRoom.id, content: input })
+      });
+      setInput('');
+      setMessages([...messages, { id: Date.now(), text: input, isMine: true }]);
+    }
+  };
 
   return (
     <ChatRoomContainer>
-      <Header>채팅방</Header>
+      <DoubleLeftOutlined onClick={setSelectedRoom} />
+      <Header>채팅방: {selectedRoom.name}</Header>
       <MessageList>
         {messages.map((message) => (
           <Message key={message.id} isMine={message.isMine}>
@@ -87,7 +101,7 @@ export default ChatRoom;
 const ChatRoomContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 92vh;
+  height: 85%;
   max-width: 600px;
   margin: 0 auto;
   border: 1px solid #ddd;

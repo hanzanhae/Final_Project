@@ -33,18 +33,14 @@ const Section01 = () => {
 
   useEffect(() => {
     setShowAddress(addressInfo.fullAddress);
-    // console.log('x:', lon, 'y:', lat); // 확인완료
   }, [addressInfo]);
-
-  useEffect(() => {
-    // console.log(gatheringIn10km); // 확인완료
-  }, [gatheringIn10km]);
 
   return (
     <Wrapper>
       <FilterMenu
         showAddress={showAddress}
         handleClickUserLocation={handleClickUserLocation}
+        setGatheringIn10km={setGatheringIn10km}
       />
       <MeetingList gatheringIn10km={gatheringIn10km} />
     </Wrapper>

@@ -11,7 +11,7 @@ import {
 const DetailMember = ({ meet, membersList }) => {
   if (!meet) {
     return <div>모임 정보가 없습니다.</div>;
-  } else if (!membersList) {
+  } else if (!membersList || membersList.length === 0) {
     return <div>모임구성원 정보가 없습니다.</div>;
   }
   // console.log(membersList);
@@ -28,9 +28,9 @@ const DetailMember = ({ meet, membersList }) => {
 
   useEffect(() => {
     if (membersList.length > 0) {
-      setEnteredMembers([...membersList]);
+      setEnteredMembers(membersList);
     }
-  }, [membersList]);
+  }, []);
 
   const handleShowMemberMenu = (index) => {
     setActiveMember(activeMember === index ? null : index);
@@ -66,10 +66,9 @@ const DetailMember = ({ meet, membersList }) => {
   const handleOutMeeting = async (idToDel) => {
     const response = await gatheringParticipationCancle(gatheringId);
     if (response) {
-      const newMembers = enteredMembers.filter(
-        (member) => member.member_id !== idToDel
+      setEnteredMembers((prevMembers) =>
+        prevMembers.filter((member) => member.member_id !== idToDel)
       );
-      setEnteredMembers(newMembers);
       setErrorMsg('모임참가신청이 취소되었습니다.');
     } else {
       setErrorMsg('모임 참가취소에 실패했습니다. 다시 시도해주세요.');

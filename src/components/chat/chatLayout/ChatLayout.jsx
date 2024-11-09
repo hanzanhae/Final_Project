@@ -5,15 +5,11 @@ import RoomImg from '../../../images/room.png';
 import PersonImg from '../../../images/person.png';
 
 const ChatLayout = ({ onRoomSelect }) => {
-  const handleRoomClick = (roomType) => {
-    onRoomSelect(roomType);
-  };
-
   return (
     <ChatLayoutContainer>
-      <Profile $type={UserImg} onClick={() => handleRoomClick('profile')} />
-      <Room $type={RoomImg} onClick={() => handleRoomClick('group')} />
-      <DieDie $type={PersonImg} onClick={() => handleRoomClick('direct')} />
+      <Profile $type={UserImg} onClick={() => onRoomSelect('profile')} />
+      <Room $type={RoomImg} onClick={() => onRoomSelect('group')} />
+      <DieDie $type={PersonImg} onClick={() => onRoomSelect('direct')} />
     </ChatLayoutContainer>
   );
 };

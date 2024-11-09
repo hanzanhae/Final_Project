@@ -82,70 +82,60 @@ const SendButton = styled.button`
 `;
 
 const ExampleChat = ({ client, selectedRoom }) => {
-  // const [messages, setMessages] = useState([]);
-  // const [input, setInput] = useState('');
-  // const [stompClient, setStompClient] = useState(null);
-
-  // useEffect(() => {
-  //   if (selectedRoom) {
-  //     const socket = new SockJS('https://myspringserver.store/ws');
-  //     const stomp = new Client({
-  //       webSocketFactory: () => socket,
-  //       reconnectDelay: 5000,
-  //       debug: (str) => console.log('STOMP Debug: ', str),
-  //       onConnect: () => {
-  //         console.log(
-  //           'Connected to WebSocket server for room:',
-  //           selectedRoom.id
-  //         );
-  //         stomp.subscribe(
-  //           `/topic/${selectedRoom.type}/${selectedRoom.id}`,
-  //           (message) => {
-  //             setMessages((prevMessages) => [
-  //               ...prevMessages,
-  //               JSON.parse(message.body)
-  //             ]);
-  //           }
-  //         );
-  //       },
-  //       onStompError: (frame) => {
-  //         console.error('Broker reported error: ' + frame.headers['message']);
-  //         console.error('Additional details: ' + frame.body);
-  //       }
-  //     });
-
-  //     stomp.activate();
-  //     setStompClient(stomp);
-
-  //     // 컴포넌트가 언마운트될 때 연결 해제
-  //     return () => {
-  //       stomp.deactivate();
-  //       setStompClient(null);
-  //     };
-  //   }
-  // }, [selectedRoom]);
-
-  // const sendMessage = () => {
-  //   if (stompClient && stompClient.connected && input.trim()) {
-  //     stompClient.publish({
-  //       destination: `/app/send/${selectedRoom.type}`, // 방 타입에 맞는 경로
-  //       body: JSON.stringify({ roomId: selectedRoom.id, message: input })
-  //     });
-  //     setInput('');
-  //     setMessages([...messages, { id: Date.now(), text: input, isMine: true }]);
-  //   }
-  // };
   const [messages, setMessages] = useState([
     { id: 1, text: '안녕하세요!', isMine: false },
     { id: 2, text: '안녕하세요! 반갑습니다.', isMine: true }
   ]);
   const [input, setInput] = useState('');
+  const [stompClient, setStompClient] = useState(null);
+
+  useEffect(() => {
+    const socket = new SockJS('https://myspringserver.store/ws');
+    const stomp = new Client({
+      webSocketFactory: () => socket,
+      reconnectDelay: 5000,
+      debug: (str) => console.log('STOMP Debug: ', str),
+      onConnect: () => {
+        console.log('Connected to WebSocket server for room:', selectedRoom.id);
+        stomp.subscribe(`/topic/${selectedRoom}/${selectedRoom}`, (message) => {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            JSON.parse(message.body)
+          ]);
+        });
+      },
+      onStompError: (frame) => {
+        console.error('Broker reported error: ' + frame.headers['message']);
+        console.error('Additional details: ' + frame.body);
+      }
+    });
+
+    stomp.activate();
+    setStompClient(stomp);
+
+    // 컴포넌트가 언마운트될 때 연결 해제
+    return () => {
+      stomp.deactivate();
+      setStompClient(null);
+    };
+  }, [selectedRoom]);
 
   const sendMessage = () => {
-    if (input.trim() === '') return;
-    setMessages([...messages, { id: Date.now(), text: input, isMine: true }]);
-    setInput('');
+    if (stompClient && stompClient.connected && input.trim()) {
+      stompClient.publish({
+        destination: `/app/send/${selectedRoom}`, // 방 타입에 맞는 경로
+        body: JSON.stringify({ roomId: selectedRoom.id, message: input })
+      });
+      setInput('');
+      setMessages([...messages, { id: Date.now(), text: input, isMine: true }]);
+    }
   };
+
+  // const sendMessage = () => {
+  //   if (input.trim() === '') return;
+  //   setMessages([...messages, { id: Date.now(), text: input, isMine: true }]);
+  //   setInput('');
+  // };
 
   return (
     <ChatRoomContainer>

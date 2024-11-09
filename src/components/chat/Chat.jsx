@@ -21,10 +21,7 @@ const Chat = () => {
       <ChatBox $isOpen={isOpen}>
         {isOpen && (
           <>
-            <ChatContainer
-              selectedRoom={selectedRoom}
-              setSelectedRoom={setSelectedRoom}
-            />
+            <ChatContainer />
           </>
         )}
       </ChatBox>

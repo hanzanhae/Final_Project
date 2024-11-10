@@ -1,9 +1,8 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { Card } from 'antd';
 
 const EventsChart = ({ data }) => {
-  const eventsChartData = {
+  const chartData = {
     labels: data.map((item) => item.month),
     datasets: [
       {
@@ -16,15 +15,7 @@ const EventsChart = ({ data }) => {
     ]
   };
 
-  return (
-    <Card title="🆕 월별 이벤트 개설 수">
-      <Line
-        data={eventsChartData}
-        options={{ responsive: true }}
-        height={250}
-      />
-    </Card>
-  );
+  return <Line data={chartData} options={{ responsive: true }} />;
 };
 
 export default EventsChart;

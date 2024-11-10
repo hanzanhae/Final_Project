@@ -7,24 +7,17 @@ import { runningConcept, runningDistance } from '../../data/gatheringKeyword';
 import UserImg from '../../images/person.jpg';
 
 const InfoScript = ({ meet }) => {
-  // const content = meet.content;
+  const content = meet.content;
+  // console.log(meet);
 
-  // const listConcept = content.concept;
-  // const concept = runningConcept(listConcept);
-
-  // const listDistance = content.goal_distance;
-  // const distance = runningDistance(listDistance);
-
-  // const newDate = format(content.deadline, 'yyyy/MM/dd');
-
-  // 임시
-  const listConcept = meet.concept;
+  const listConcept = content?.concept;
   const concept = runningConcept(listConcept);
 
-  const listDistance = meet.goal_distance;
+  const listDistance = content?.goal_distance;
   const distance = runningDistance(listDistance);
 
-  const newDate = format(meet.deadline, 'yyyy/MM/dd');
+  const listDeadline = new Date(content?.deadline);
+  const newDate = format(listDeadline, 'yyyy/MM/dd');
 
   return (
     <Infomation>
@@ -39,8 +32,7 @@ const InfoScript = ({ meet }) => {
         {/* <Name>{meet.organizer_nicknam}</Name> */}
       </ProfileBox>
       <InfoTextBox>
-        <Title>{meet.title}</Title>
-        {/* <Title>{content.title}</Title> */}
+        <Title>{content?.title}</Title>
         <DescriptionBox>
           <KeywordBox>
             <Keywords>
@@ -49,8 +41,7 @@ const InfoScript = ({ meet }) => {
             </Keywords>
             <Deadline>모집기한 : ~{newDate}</Deadline>
           </KeywordBox>
-          <Description>{meet.title}</Description>
-          {/* <Description>{content.description}</Description> */}
+          <Description>{content?.description}</Description>
         </DescriptionBox>
       </InfoTextBox>
     </Infomation>

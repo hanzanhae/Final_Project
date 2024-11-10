@@ -3,49 +3,43 @@ import { UniBtn } from '../button/UniBtn';
 import styled from 'styled-components';
 import MembersBox from './MembersBox';
 import {
+  gatheringDetailMembersData,
   gatheringParticipation,
   gatheringParticipationCancle
 } from '../../api/api';
 
-const DetailMember = ({ meet }) => {
+const DetailMember = ({ meet, membersList }) => {
   if (!meet) {
     return <div>모임 정보가 없습니다.</div>;
+  } else if (!membersList || membersList.length === 0) {
+    return <div>모임구성원 정보가 없습니다.</div>;
   }
-  // console.log(meet.id);
-  // if (!members) {
-  //   return <div>모임구성원 정보가 없습니다.</div>;
-  // }
-
+  // console.log(membersList);
   const memberRef = useRef(null);
-
-  // 🚂...임시
-  const gatheringId = meet.id;
-  const members = meet.member_profile_urls;
-  const maxMember = meet.max_number;
+  const gatheringId = meet.content.id;
+  const maxMember = meet.content.max_number;
 
   const [enteredMembers, setEnteredMembers] = useState([]);
   const [activeMember, setActiveMember] = useState(null);
   // 참가 및 취소오류 알림메세지
   const [errorMsg, setErrorMsg] = useState('');
   // 참가여부 알림메세지
-  const [isEntered, setIsEntered] = useState(false);
+  // const [isEntered, setIsEntered] = useState(false);
 
   useEffect(() => {
-    if (members.length > 0) {
-      setEnteredMembers([...members]);
+    if (membersList.length > 0) {
+      setEnteredMembers(membersList);
     }
-  }, [members]);
+  }, []);
 
   const handleShowMemberMenu = (index) => {
     setActiveMember(activeMember === index ? null : index);
   };
-
   const handleClickOutside = (e) => {
     if (memberRef.current && !memberRef.current.contains(e.target)) {
       setActiveMember(null);
     }
   };
-
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -58,10 +52,8 @@ const DetailMember = ({ meet }) => {
     if (enteredMembers.length < maxMember) {
       const response = await gatheringParticipation(gatheringId);
       if (response) {
-        // console.log(response);
-        const newMember = `뉴${enteredMembers.length + 1}`;
-        setEnteredMembers((prev) => [...prev, newMember]);
-        setIsEntered(true);
+        const newMembers = await gatheringDetailMembersData(gatheringId);
+        setEnteredMembers(newMembers.content);
         setErrorMsg('모임참가신청이 완료되었습니다.');
       }
     } else {
@@ -71,14 +63,12 @@ const DetailMember = ({ meet }) => {
     }
   };
   // 모임참가취소 작성중...🚂
-  const handleCancleMeeting = async () => {
+  const handleOutMeeting = async (idToDel) => {
     const response = await gatheringParticipationCancle(gatheringId);
     if (response) {
-      // console.log(response);
-      setEnteredMembers((prev) =>
-        prev.filter((_, idx) => idx !== enteredMembers.length - 1)
+      setEnteredMembers((prevMembers) =>
+        prevMembers.filter((member) => member.member_id !== idToDel)
       );
-      setIsEntered(false);
       setErrorMsg('모임참가신청이 취소되었습니다.');
     } else {
       setErrorMsg('모임 참가취소에 실패했습니다. 다시 시도해주세요.');
@@ -90,31 +80,10 @@ const DetailMember = ({ meet }) => {
       <UniBtn
         onClick={handleEnterMeeting}
         $padding="0.5rem 1rem"
-        $margin="0 0 0.5rem 0"
+        $margin="0 0 2rem 0"
       >
         모임참가하기
       </UniBtn>
-      <UniBtn
-        onClick={handleCancleMeeting}
-        $padding="0.5rem 1rem"
-        $margin="0 0 2rem 0"
-      >
-        모임참가취소하기
-      </UniBtn>
-      {/* {isEntered ? (
-        <UniBtn onClick={handleCancleMeeting} $padding="0.5rem 1rem">
-          모임참가취소하기
-        </UniBtn>
-      ) : (
-        <UniBtn onClick={handleEnterMeeting} $padding="0.5rem 1rem">
-          모임참가하기
-        </UniBtn>
-      )} */}
-      {/* <IsEnteredNotice>
-        {isEntered
-          ? '현재 모임에 참가하였습니다.'
-          : '현재 모임에 참가하지 않았습니다.'}
-      </IsEnteredNotice> */}
       <MemberTitleBox>
         <Title>참여하는 사람들</Title>
         <MemberNumber>{`${enteredMembers.length}/${maxMember}`}</MemberNumber>
@@ -125,6 +94,7 @@ const DetailMember = ({ meet }) => {
         memberRef={memberRef}
         activeMember={activeMember}
         setActiveMember={setActiveMember}
+        handleOutMeeting={handleOutMeeting}
       />
       <Msg>{errorMsg}</Msg>
     </MemberContainer>

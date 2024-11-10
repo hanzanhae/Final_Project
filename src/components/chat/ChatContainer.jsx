@@ -1,14 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ChatLayout from './chatLayout/ChatLayout';
 import ChatRoomListLayout from './chatLayout/ChatRoomListLayout';
 import ChatRoom from './chatRoom/ChatRoom';
 
-const ChatContainer = ({ client, selectedRoom, setSelectedRoom }) => {
+const ChatContainer = () => {
+  const [selectedRoom, setSelectedRoom] = useState({ type: null, room: null });
+  const handleRoomSelect = (roomType) => {
+    setSelectedRoom({ type: roomType, room: null });
+  };
+
+  const handleRoomClick = (room) => {
+    setSelectedRoom((prev) => ({ ...prev, room }));
+  };
+
+  const handleBackToRoomList = () => {
+    setSelectedRoom({ type: selectedRoom.type, room: null });
+  };
+
   return (
     <>
-      <ChatRoomListLayout setSelectedRoom={setSelectedRoom} />
-      <ChatLayout onRoomSelect={setSelectedRoom} />
-      {selectedRoom && <ChatRoom client={client} selectedRoom={selectedRoom} />}
+      {!selectedRoom.room ? (
+        <>
+          <ChatRoomListLayout
+            setSelectedRoom={handleRoomClick}
+            selectedRoomType={selectedRoom.type}
+          />
+          <ChatLayout onRoomSelect={handleRoomSelect} />
+        </>
+      ) : (
+        <>
+          <ChatRoom
+            selectedRoom={selectedRoom.room}
+            roomType={selectedRoom.type}
+            roomId={selectedRoom}
+            setSelectedRoom={handleBackToRoomList}
+          />
+          <ChatLayout onRoomSelect={handleRoomSelect} />
+        </>
+      )}
     </>
   );
 };

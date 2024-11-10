@@ -1,34 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { UniBtn } from '../../button/UniBtn';
 import styled from 'styled-components';
-import useLocationAddress from '../../../hooks/useLocationAddress';
 
-const FilterMyLocation = ({ location }) => {
-  const { addressInfo, getAddressText } = useLocationAddress();
-  const [showAddress, setShowAddress] = useState('');
-
-  const getUserDetailAddress = () => {
-    if (location) {
-      const lat = location.latitude;
-      const lon = location.longitude;
-
-      getAddressText(lat, lon);
-      // console.log(showAddress);
-      // setShowAddress(addressInfo.fullAddress);
-    }
-  };
-
-  useEffect(() => {
-    setShowAddress(addressInfo.fullAddress);
-  }, [addressInfo]);
-
+const FilterMyLocation = ({ showAddress, handleClickUserLocation }) => {
   return (
     <AddressBox>
       <Address>{showAddress}</Address>
       <UniBtn
         $bordorradius="2rem"
         $padding="0.4rem 1rem"
-        onClick={getUserDetailAddress}
+        onClick={handleClickUserLocation}
       >
         내주변모임
       </UniBtn>

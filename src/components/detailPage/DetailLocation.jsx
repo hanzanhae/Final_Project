@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import useUserLocation from '../../hooks/useUserLocation';
 import useKakaoMap from '../../hooks/useKakaoMap';
 
-const KakaoLocation = () => {
-  const { location, errorMsg } = useUserLocation();
-  const lat = location?.latitude;
-  const lon = location?.longitude;
+const KakaoLocation = ({ location }) => {
+  const lat = location.lat;
+  const lon = location.lon;
 
+  const { errorMsg } = useUserLocation();
   const { mapContainerRef } = useKakaoMap(lat, lon);
 
   return (

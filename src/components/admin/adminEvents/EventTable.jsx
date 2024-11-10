@@ -1,12 +1,41 @@
 import React from 'react';
-import { Table, Button, Card } from 'antd';
+import { Table, Button, Tag, Pagination } from 'antd';
 
-const EventTable = ({ data, loading, onAction }) => {
+const EventsTable = ({
+  events,
+  loading,
+  currentPage,
+  totalEvents,
+  onPageChange,
+  onAction
+}) => {
   const columns = [
-    { title: '이벤트명', dataIndex: 'name', key: 'name' },
-    { title: '날짜', dataIndex: 'date', key: 'date' },
-    { title: '장소', dataIndex: 'location', key: 'location' },
-    { title: '인원', dataIndex: 'participants', key: 'participants' },
+    { title: '이벤트명', dataIndex: 'title', key: 'title' },
+    {
+      title: '날짜',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: (date) => date.split('T')[0]
+    },
+    { title: '장소', dataIndex: 'address_name', key: 'address_name' },
+    {
+      title: '상태',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => (
+        <Tag
+          color={
+            status === 'APPROVED'
+              ? 'green'
+              : status === 'PENDING'
+                ? 'orange'
+                : 'red'
+          }
+        >
+          {status}
+        </Tag>
+      )
+    },
     {
       title: '액션',
       key: 'action',
@@ -14,13 +43,22 @@ const EventTable = ({ data, loading, onAction }) => {
         <span>
           <Button
             type="primary"
-            onClick={() => onAction(record.id, 'approve')}
-            style={{ marginRight: '8px' }}
+            onClick={() =>
+              onAction(record.event_gathering_id, 'approve', record.email)
+            }
+            disabled={record.status === 'APPROVED'}
+            style={{ marginRight: 8 }}
           >
             승인
           </Button>
-          <Button type="danger" onClick={() => onAction(record.id, 'reject')}>
-            거부
+          <Button
+            type="danger"
+            onClick={() =>
+              onAction(record.event_gathering_id, 'reject', record.email)
+            }
+            disabled={record.status === 'REJECTED'}
+          >
+            거절
           </Button>
         </span>
       )
@@ -28,16 +66,23 @@ const EventTable = ({ data, loading, onAction }) => {
   ];
 
   return (
-    <Card title="📋 이벤트 목록">
+    <>
       <Table
         columns={columns}
-        dataSource={data}
-        rowKey="id"
+        dataSource={events}
+        rowKey="event_gathering_id"
         loading={loading}
         pagination={false}
       />
-    </Card>
+      <Pagination
+        current={currentPage}
+        total={totalEvents}
+        pageSize={5}
+        onChange={onPageChange}
+        style={{ marginTop: 20, textAlign: 'center' }}
+      />
+    </>
   );
 };
 
-export default EventTable;
+export default EventsTable;

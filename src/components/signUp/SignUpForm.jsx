@@ -5,11 +5,6 @@ import {
   isValidPassword,
   containSlang
 } from '../../utils/validation';
-import Dragon from '../../images/dragon.png';
-import Wolf from '../../images/wolf.png';
-import Deer from '../../images/deer.png';
-import Dog from '../../images/dog.png';
-// import { useNavigate } from 'react-router-dom';
 import { formSubmit } from '../../api/api';
 
 const SignUpForm = () => {
@@ -30,8 +25,6 @@ const SignUpForm = () => {
     personalInfo: false,
     marketing: false
   });
-
-  // const navigate = useNavigate();
 
   useEffect(() => {
     const formFieldsFilled = Object.values(formData).every(

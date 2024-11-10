@@ -17,6 +17,7 @@ export const logout = async () => {
   } catch (error) {
     console.error('로그아웃 중 오류 발생:', error);
     return null;
+    // localStorage.removeItem('refreshToken');
   }
 };
 
@@ -52,10 +53,10 @@ export const airConditionData = async ({ lat, lon }) => {
 };
 
 // 일반모임목록 ✅완료
-export const gatheringData = async () => {
+export const gatheringData = async (pageNumber, pageSize) => {
   try {
     const response = await instance.get(
-      '/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=ASC'
+      `/gatherings?gathering_type=GENERAL&order_by=CREATED_AT&sort_direction=DESC&page=${pageNumber}&size=${pageSize}`
     );
     return response.data;
   } catch (error) {
@@ -63,7 +64,7 @@ export const gatheringData = async () => {
   }
 };
 
-// 모임상세페이지🚂...보류
+// 모임상세페이지✅성공
 export const gatheringDetailData = async (gathering_id) => {
   try {
     const response = await instance.get(`/gatherings/${gathering_id}`);
@@ -72,7 +73,7 @@ export const gatheringDetailData = async (gathering_id) => {
     console.error('상세페이지 데이터를 가져오는 중 오류발생:', error.message);
   }
 };
-// 모임상세이미지🚂...보류
+// 모임상세이미지✅성공
 export const gatheringDetailImagesData = async (gathering_id) => {
   try {
     const response = await instance.get(`/images?gathering_id=${gathering_id}`);
@@ -81,7 +82,7 @@ export const gatheringDetailImagesData = async (gathering_id) => {
     console.error('모임이미지 데이터를 가져오는 중 오류발생:', error.message);
   }
 };
-// 모임상세구성원목록🚂...보류
+// 모임상세구성원목록✅성공
 export const gatheringDetailMembersData = async (gathering_id) => {
   try {
     const response = await instance.get(`/gatherings/${gathering_id}/members`);
@@ -93,7 +94,7 @@ export const gatheringDetailMembersData = async (gathering_id) => {
     );
   }
 };
-// 모임참가신청 ✅완료
+// 모임참가신청 🚂...보류
 export const gatheringParticipation = async (gathering_id) => {
   try {
     const response = await instance.post(
@@ -112,7 +113,7 @@ export const gatheringParticipation = async (gathering_id) => {
     }
   }
 };
-// 모임참가취소 ✅완료
+// 모임참가취소 🚂...보류
 export const gatheringParticipationCancle = async (gathering_id) => {
   try {
     const response = await instance.delete(
@@ -127,10 +128,26 @@ export const gatheringParticipationCancle = async (gathering_id) => {
     console.log('모임참가취소신청 중 연결오류발생:', error.message);
   }
 };
-
-export const getChatRoomList = async () => {
+// 위치기준필터링✅성공
+export const gatheringForLacation = async (lat, lon) => {
   try {
-    const response = await instance.get('/chat/group/list');
+    const response = await instance.get(
+      `/gatherings/map?radius_distance=10&x=${lon}&y=${lat}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(
+      '위치기반 모임목록을 가져오는 중 연결오류발생: ',
+      error.message
+    );
+  }
+};
+
+export const getChatRoomList = async (roomType, pageNum = 0) => {
+  try {
+    const endpoint =
+      roomType === 'group' ? '/chat/group/list' : '/chat/direct/list';
+    const response = await instance.get(`${endpoint}?page_num=${pageNum}`);
     return response.data;
   } catch (error) {
     console.log(error);

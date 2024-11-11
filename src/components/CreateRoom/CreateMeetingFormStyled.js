@@ -85,6 +85,7 @@ export const StyledInputDe = styled.input`
   }
 `;
 export const StyledInputTt = styled.input`
+ width: 50%;
   border: 1px solid #ccc;
   font-size: 13px; 
   border-radius: 5px;

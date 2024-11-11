@@ -10,11 +10,12 @@ const Section01 = () => {
   const { addressInfo, getAddressText } = useLocationAddress();
   const { location } = useUserLocation();
 
-  const lat = location?.latitude;
-  const lon = location?.longitude;
-
   const [gatheringIn10km, setGatheringIn10km] = useState([]);
   const [showAddress, setShowAddress] = useState('');
+  const [searchText, setSearchText] = useState('');
+
+  const lat = location?.latitude;
+  const lon = location?.longitude;
 
   const getGatheringListForLocation = async () => {
     const res = await gatheringForLacation(lat, lon);
@@ -39,10 +40,13 @@ const Section01 = () => {
     <Wrapper>
       <FilterMenu
         showAddress={showAddress}
+        setShowAddress={setShowAddress}
         handleClickUserLocation={handleClickUserLocation}
         setGatheringIn10km={setGatheringIn10km}
+        searchText={searchText}
+        setSearchText={setSearchText}
       />
-      <MeetingList gatheringIn10km={gatheringIn10km} />
+      <MeetingList gatheringIn10km={gatheringIn10km} searchText={searchText} />
     </Wrapper>
   );
 };

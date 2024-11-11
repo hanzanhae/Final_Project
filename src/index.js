@@ -12,7 +12,7 @@ const Root = () => {
   useEffect(() => {
     const handleLoad = () => {
       const loadingElement = document.getElementById('loading');
-      loadingElement.style.zIndex = '-1';
+      loadingElement.style.display = 'none';
     };
     window.addEventListener('load', handleLoad);
 

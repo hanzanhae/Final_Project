@@ -4,6 +4,7 @@ import MyMeetings from '../components/mypage/MyMeetings';
 import MyProfile from '../components/mypage/MyProfile';
 import MyEvents from '../components/mypage/MyEvents';
 import Calendar from '../components/calendar/Calendar';
+import { Link } from 'react-router-dom';
 
 const Mypage = () => {
   const [activeMenu, setActiveMenu] = useState('profile');
@@ -35,6 +36,9 @@ const Mypage = () => {
         >
           런닝 달력
         </MenuItem>
+        <Link to="/admin">
+          <AdminBtn>관리자</AdminBtn>
+        </Link>
       </Sidebar>
 
       <Content>
@@ -50,7 +54,7 @@ const Mypage = () => {
 //스타일
 const Container = styled.div`
   display: flex;
-  margin-top: 10vh;
+  margin-top: 8vh;
 `;
 
 const Sidebar = styled.div`
@@ -58,6 +62,7 @@ const Sidebar = styled.div`
   background-color: #f4f4f4;
   height: 100vh;
   padding: 20px;
+  position: relative;
 `;
 
 const Content = styled.div`
@@ -80,6 +85,19 @@ const MenuItem = styled.div`
 
   &:hover {
     background-color: #f0f2f5;
+  }
+`;
+
+const AdminBtn = styled.button`
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #808080;
+  font-weight: 600;
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
   }
 `;
 

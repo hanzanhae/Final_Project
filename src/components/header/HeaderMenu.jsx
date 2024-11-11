@@ -56,6 +56,7 @@ const MenuWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  font-size: 0;
 `;
 const MenuBtn = styled.button`
   color: ${({ theme, $color }) => $color || theme.textColor};

@@ -6,18 +6,25 @@ import FilterMyLocation from './FilterMyLocation';
 
 const FilterMenu = ({
   showAddress,
+  setShowAddress,
   handleClickUserLocation,
-  setGatheringIn10km
+  setGatheringIn10km,
+  searchText,
+  setSearchText
 }) => {
   return (
     <FilterMenuWrapper>
-      <FilterKeyword setGatheringIn10km={setGatheringIn10km} />
+      <FilterKeyword
+        setGatheringIn10km={setGatheringIn10km}
+        setShowAddress={setShowAddress}
+        setSearchText={setSearchText}
+      />
       <Box>
         <FilterMyLocation
           showAddress={showAddress}
           handleClickUserLocation={handleClickUserLocation}
         />
-        <FilterSearch />
+        <FilterSearch searchText={searchText} setSearchText={setSearchText} />
       </Box>
     </FilterMenuWrapper>
   );

@@ -9,7 +9,7 @@ import {
   runningDistance
 } from '../../../data/gatheringKeyword';
 
-const MeetingList = ({ gatheringIn10km }) => {
+const MeetingList = ({ gatheringIn10km, searchText }) => {
   const { selectedOption, selectedDistance, selectedCategory } = useSelector(
     (state) => state.filter
   );
@@ -45,6 +45,7 @@ const MeetingList = ({ gatheringIn10km }) => {
   };
 
   useEffect(() => {
+    // 내위치필터링
     if (gatheringIn10km.length === 0) {
       fetchGathering();
     } else {
@@ -54,6 +55,7 @@ const MeetingList = ({ gatheringIn10km }) => {
 
   const handlefilteredGathering = () => {
     const filteredList = gathering.filter((list) => {
+      // console.log(list);
       const memberNum = list.member_profile_urls?.length;
       const deadlineDate = list.deadline;
       const currentDate = new Date();
@@ -75,16 +77,23 @@ const MeetingList = ({ gatheringIn10km }) => {
       } else if (selectedOption === '전체') {
         optionMatch = true;
       }
-
+      // 거리키워드필터링
       const distanceMatch =
         !selectedDistance ||
         runningDistance(list.goal_distance) === selectedDistance;
-
+      // 컨셉키워드필터링
       const categoryMatch =
         selectedCategory.length === 0 ||
         selectedCategory.includes(runningConcept(list.concept));
+      // 검색필터링
+      const searchTextMatch =
+        !searchText ||
+        list.title.toLowerCase().includes(searchText.toLowerCase()) ||
+        list.location.address_names.address_name
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
 
-      return optionMatch && distanceMatch && categoryMatch;
+      return optionMatch && distanceMatch && categoryMatch && searchTextMatch;
     });
     setFilteredGathering(filteredList);
   };
@@ -96,7 +105,8 @@ const MeetingList = ({ gatheringIn10km }) => {
     gatheringIn10km,
     selectedOption,
     selectedDistance,
-    selectedCategory
+    selectedCategory,
+    searchText
   ]);
 
   const handleClickMorePage = () => {

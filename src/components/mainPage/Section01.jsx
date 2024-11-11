@@ -15,6 +15,7 @@ const Section01 = () => {
 
   const [gatheringIn10km, setGatheringIn10km] = useState([]);
   const [showAddress, setShowAddress] = useState('');
+  const [searchText, setSearchText] = useState('');
 
   const getGatheringListForLocation = async () => {
     const res = await gatheringForLacation(lat, lon);

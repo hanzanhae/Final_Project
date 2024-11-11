@@ -140,46 +140,49 @@ function CreateMeetingForm() {
       return;
     }
 
-    try {
-      const payload = {
-        title,
-        appointed_at: selectedDate.toISOString(),
-        deadline: deadline ? deadline.toISOString() : null,
-        location: {
-          address_names: {
-            address_name: selectedLocation.location.address_names.address_name,
-            region_1depth_name:
-              selectedLocation.location.address_names.region_1depth_name,
-            region_2depth_name:
-              selectedLocation.location.address_names.region_2depth_name,
-            region_3depth_name:
-              selectedLocation.location.address_names.region_3depth_name
-          },
-          coordinates: {
-            x: selectedLocation.location.coordinates.x,
-            y: selectedLocation.location.coordinates.y
-          },
-          region_code: {
-            code_h: selectedLocation.location.region_code.code_h,
-            code_b: selectedLocation.location.region_code.code_b
-          }
+    const payload = {
+      title,
+      appointed_at: selectedDate.toISOString(),
+      deadline: deadline ? deadline.toISOString() : null,
+      location: {
+        address_names: {
+          address_name: selectedLocation.location.address_names.address_name,
+          region_1depth_name:
+            selectedLocation.location.address_names.region_1depth_name,
+          region_2depth_name:
+            selectedLocation.location.address_names.region_2depth_name,
+          region_3depth_name:
+            selectedLocation.location.address_names.region_3depth_name
         },
-        max_number: parseInt(capacity, 10),
-        description,
-        goal_distance: distance,
-        concept: category.toUpperCase(),
-        image_register_response: {
-          representative_image_index: 0,
-          content_image_urls: [
-            {
-              image_url: representativeImageUrl,
-              order: 0
-            }
-          ],
-          representative_image_url: representativeImageUrl
+        coordinates: {
+          x: selectedLocation.location.coordinates.x,
+          y: selectedLocation.location.coordinates.y
+        },
+        region_code: {
+          code_h: selectedLocation.location.region_code.code_h,
+          code_b: selectedLocation.location.region_code.code_b
         }
+      },
+      max_number: parseInt(capacity, 10),
+      description,
+      goal_distance: distance,
+      concept: category.toUpperCase()
+    };
+
+    if (representativeImageUrl) {
+      payload.image_register_response = {
+        representative_image_index: 0,
+        content_image_urls: [
+          {
+            image_url: representativeImageUrl,
+            order: 0
+          }
+        ],
+        representative_image_url: representativeImageUrl
       };
-      console.log('Payload:', payload);
+    }
+
+    try {
       const response = await instance.post('/gatherings', payload);
 
       console.log('모임 등록 성공:', response.data);

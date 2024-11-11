@@ -19,7 +19,6 @@ const EventRequestForm = () => {
       region_code: { code_h: '', code_b: '' }
     },
     max_number: '',
-    description: '',
     goal_distance: '',
     concept: ''
   });
@@ -54,7 +53,7 @@ const EventRequestForm = () => {
     imageData.append('file', imageFile);
 
     try {
-      const response = await fetch('/api/upload', {
+      const response = await fetch('/gatherings/events', {
         method: 'POST',
         body: imageData
       });
@@ -75,7 +74,6 @@ const EventRequestForm = () => {
   const handleAddressSearch = () => {
     new window.daum.Postcode({
       oncomplete: async (data) => {
-        // Here, you can use additional API calls to get coordinates based on `data.address`
         const coordinates = await fetchCoordinates(data.address);
 
         setFormData((prevData) => ({
@@ -93,7 +91,7 @@ const EventRequestForm = () => {
               y: coordinates.y
             },
             region_code: {
-              code_h: data.sigunguCode || '', // Adjust based on API response
+              code_h: data.sigunguCode || '',
               code_b: data.bcode || ''
             }
           }
@@ -135,6 +133,24 @@ const EventRequestForm = () => {
     }));
   };
 
+  const distanceOptions = {
+    FREE: 0.0,
+    THREE_KM: 3.0,
+    FIVE_KM: 5.0,
+    FIFTEEN_KM: 15.0,
+    HALF_MARATHON: 21.0975,
+    FULL_MARATHON: 42.195
+  };
+
+  const conceptOptions = {
+    RUNLINI: '런린이',
+    GOINMUL: '고인물',
+    MARATHON: '마라톤',
+    MORNING_RUNNING: '모닝런닝',
+    EVENING_RUNNING: '퇴근런닝',
+    HEALTH: '건강'
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -144,9 +160,10 @@ const EventRequestForm = () => {
       if (uploadedImages.length === 0) return;
       setImageUrls(uploadedImages);
     }
-
     const data = {
       ...formData,
+      goal_distance: distanceOptions[formData.goal_distance] || 0.0, // `goal_distance`를 실제 숫자로 변환
+      concept: conceptOptions[formData.concept] || 'RUNLINI', // `concept`을 실제 값으로 변환
       image_register_response: {
         representative_image_index: 0,
         content_image_urls: uploadedImages
@@ -233,6 +250,9 @@ const EventRequestForm = () => {
         <option value="HEALTH">건강</option>
       </Select>
 
+      <Label htmlFor="max_number">인원</Label>
+      <Input id="max_number" type="text" onChange={handleInputChange} />
+
       <Label htmlFor="eventImage">이미지 업로드</Label>
       <FileInput
         id="eventImage"
@@ -258,7 +278,6 @@ const EventRequestForm = () => {
 // 스타일
 const FormContainer = styled.form`
   width: 300px;
-  height: 100vh;
   background-color: #f8f9fa;
   padding: 20px;
   border-radius: 8px;
@@ -270,14 +289,13 @@ const FormContainer = styled.form`
 const Label = styled.label`
   font-size: 0.9rem;
   color: #555;
-  margin-bottom: 5px;
   display: block;
 `;
 
 const Input = styled.input`
   width: 100%;
   padding: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 0.9rem;

@@ -1,26 +1,32 @@
+import { getProfile } from '../../api/api';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const MyProfile = () => {
   const [profile, setProfile] = useState({
-    email: 'user@example.com',
+    email: '',
     nickname: '',
     phone: '',
     address: '',
     profileImage: ''
   });
 
-  //회원가입 데이터 가져오기
   useEffect(() => {
-    fetch('/api/', { method: 'GET' })
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchProfile = async () => {
+      try {
+        const data = await getProfile();
         setProfile({
           email: data.email,
-          profileImage: data.profileImage
+          nickname: data.nickname,
+          profileImage: data.profile_url || '',
+          phone: '',
+          address: ''
         });
-      })
-      .catch((error) => console.error('Error fetching data:', error));
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+      }
+    };
+    fetchProfile();
   }, []);
 
   const handleChange = (e) => {

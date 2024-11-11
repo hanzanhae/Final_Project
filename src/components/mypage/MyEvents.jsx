@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import EventRequestForm from './EventRequestForm';
 import EventCard from './EventCard';
+import { fetchEvents } from '../../api/api';
 
 const MyEvents = () => {
   const [events, setEvents] = useState([]);
@@ -10,14 +11,10 @@ const MyEvents = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const loadEvents = async () => {
       setLoading(true);
       try {
-        const response = await fetch(
-          `/users/gatherings/events?page=${currentPage}`
-        );
-        const data = await response.json();
-
+        const data = await fetchEvents(currentPage);
         setEvents(data.events);
         setTotalPages(data.totalPages);
       } catch (error) {
@@ -27,7 +24,7 @@ const MyEvents = () => {
       }
     };
 
-    fetchEvents();
+    loadEvents();
   }, [currentPage]);
 
   const handlePreviousPage = () => {

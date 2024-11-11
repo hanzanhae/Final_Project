@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import {
+  uploadEventImage,
+  fetchCoordinates,
+  submitEventRequest
+} from '../../api/api';
 
 const EventRequestForm = () => {
   const [imageFile, setImageFile] = useState(null);
@@ -48,29 +53,6 @@ const EventRequestForm = () => {
     setImageUrls([]);
   };
 
-  const uploadImage = async () => {
-    const imageData = new FormData();
-    imageData.append('file', imageFile);
-
-    try {
-      const response = await fetch('/gatherings/events', {
-        method: 'POST',
-        body: imageData
-      });
-
-      if (!response.ok) {
-        throw new Error('이미지 업로드 중 오류가 발생했습니다.');
-      }
-
-      const result = await response.json();
-      return result.content_image_urls;
-    } catch (error) {
-      console.error(error);
-      alert('이미지 업로드에 실패했습니다.');
-      return [];
-    }
-  };
-
   const handleAddressSearch = () => {
     new window.daum.Postcode({
       oncomplete: async (data) => {
@@ -98,24 +80,6 @@ const EventRequestForm = () => {
         }));
       }
     }).open();
-  };
-  const fetchCoordinates = async (address) => {
-    try {
-      const response = await fetch(
-        `https://dapi.kakao.com/v2/local/search/address.json?query=${address}`,
-        {
-          headers: {
-            Authorization: `KakaoAK YOUR_REST_API_KEY`
-          }
-        }
-      );
-      const result = await response.json();
-      const location = result.documents[0];
-      return { x: location.x, y: location.y };
-    } catch (error) {
-      console.error('Error fetching coordinates:', error);
-      return { x: 0, y: 0 };
-    }
   };
 
   const handleAddressDetailChange = (e) => {
@@ -156,14 +120,15 @@ const EventRequestForm = () => {
 
     let uploadedImages = [];
     if (imageFile) {
-      uploadedImages = await uploadImage();
+      uploadedImages = await uploadEventImage(imageFile);
       if (uploadedImages.length === 0) return;
       setImageUrls(uploadedImages);
     }
+
     const data = {
       ...formData,
-      goal_distance: distanceOptions[formData.goal_distance] || 0.0, // `goal_distance`를 실제 숫자로 변환
-      concept: conceptOptions[formData.concept] || 'RUNLINI', // `concept`을 실제 값으로 변환
+      goal_distance: distanceOptions[formData.goal_distance] || 0.0,
+      concept: conceptOptions[formData.concept] || 'RUNLINI',
       image_register_response: {
         representative_image_index: 0,
         content_image_urls: uploadedImages
@@ -171,19 +136,7 @@ const EventRequestForm = () => {
     };
 
     try {
-      const response = await fetch('/gatherings/events', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-
-      if (!response.ok) {
-        throw new Error('서버 통신 중 오류가 발생했습니다.');
-      }
-
-      const result = await response.json();
+      const result = await submitEventRequest(data);
       alert('이벤트가 성공적으로 신청되었습니다!');
       console.log(result);
     } catch (error) {

@@ -4,7 +4,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ListBoxTime = ({ list }) => {
-  const location = list.location.address_names.address_name;
+  const location1 = list.location.address_names.region_1depth_name;
+  const location2 = list.location.address_names.region_2depth_name;
+  const location3 = list.location.address_names.region_3depth_name;
+
   const newDate = format(list.appointed_at, 'MM/dd');
   const newTime = format(list.appointed_at, 'HH시 mm분');
 
@@ -13,7 +16,9 @@ const ListBoxTime = ({ list }) => {
       <PinIcon>
         <PushpinOutlined />
       </PinIcon>
-      <InnerText>{location}</InnerText>
+      <InnerText>
+        {location1} {location2} {location3}
+      </InnerText>
       <InnerDot />
       <InnerText>{newDate}</InnerText>
       <InnerDot />

@@ -1,87 +1,87 @@
 import React from 'react';
-import { Table, Button, Tag, Pagination } from 'antd';
+import { Table, Button } from 'antd';
 
-const EventsTable = ({
-  events,
-  loading,
-  currentPage,
-  totalEvents,
-  onPageChange,
-  onAction
-}) => {
+const EventsTable = ({ data, loading, onApprove, onReject }) => {
+  const reportReasons = {
+    ILLEGAL_CONTENT: '불법정보게시',
+    HARASSMENT: '욕설/인신공격',
+    OBSCENE_CONTENT: '음란성/선정성',
+    REPEATED_POSTING: '같은내용 반복게시',
+    NO_SHOW: '잦은노쇼'
+  };
+
+  const statusMap = {
+    PENDING: '대기 중',
+    REJECTED: '승인 거부',
+    APPROVED: '승인됨'
+  };
+
   const columns = [
-    { title: '이벤트명', dataIndex: 'title', key: 'title' },
+    {
+      title: '이벤트명',
+      dataIndex: 'title',
+      key: 'title',
+      align: 'center'
+    },
     {
       title: '날짜',
       dataIndex: 'created_at',
       key: 'created_at',
+      align: 'center',
       render: (date) => date.split('T')[0]
     },
-    { title: '장소', dataIndex: 'address_name', key: 'address_name' },
+    {
+      title: '장소',
+      dataIndex: 'address_name',
+      key: 'address_name',
+      align: 'center'
+    },
+    {
+      title: '신고 사유',
+      dataIndex: 'report_reason',
+      key: 'report_reason',
+      align: 'center',
+      render: (reason) => reportReasons[reason] || '사유 없음'
+    },
     {
       title: '상태',
       dataIndex: 'status',
       key: 'status',
-      render: (status) => (
-        <Tag
-          color={
-            status === 'APPROVED'
-              ? 'green'
-              : status === 'PENDING'
-                ? 'orange'
-                : 'red'
-          }
-        >
-          {status}
-        </Tag>
-      )
+      align: 'center',
+      render: (status) => statusMap[status] || '알 수 없음'
     },
     {
       title: '액션',
       key: 'action',
+      align: 'center',
       render: (_, record) => (
-        <span>
+        <>
           <Button
             type="primary"
-            onClick={() =>
-              onAction(record.event_gathering_id, 'approve', record.email)
-            }
-            disabled={record.status === 'APPROVED'}
-            style={{ marginRight: 8 }}
+            onClick={() => onApprove(record.event_gathering_id, record.email)}
           >
             승인
           </Button>
           <Button
             type="danger"
-            onClick={() =>
-              onAction(record.event_gathering_id, 'reject', record.email)
-            }
-            disabled={record.status === 'REJECTED'}
+            onClick={() => onReject(record.event_gathering_id, record.email)}
+            style={{ marginLeft: 8 }}
           >
             거절
           </Button>
-        </span>
+        </>
       )
     }
   ];
 
   return (
-    <>
-      <Table
-        columns={columns}
-        dataSource={events}
-        rowKey="event_gathering_id"
-        loading={loading}
-        pagination={false}
-      />
-      <Pagination
-        current={currentPage}
-        total={totalEvents}
-        pageSize={5}
-        onChange={onPageChange}
-        style={{ marginTop: 20, textAlign: 'center' }}
-      />
-    </>
+    <Table
+      columns={columns}
+      dataSource={data}
+      rowKey="event_gathering_id"
+      loading={loading}
+      pagination={false}
+    />
   );
 };
 

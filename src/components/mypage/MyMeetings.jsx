@@ -2,37 +2,39 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import MeetingCard from './MeetingCard';
 import CompleteModal from './CompleteModal';
-import { createdMeetingsData, participatingMeetingsData } from './meetingData';
+import { fetchMeetings } from '../../api/api';
 
 const MyMeetings = () => {
-  const [activeTab, setActiveTab] = useState('created'); // "created" or "participating"
+  const [activeTab, setActiveTab] = useState('created');
   const [createdMeetings, setCreatedMeetings] = useState([]);
   const [participatingMeetings, setParticipatingMeetings] = useState([]);
   const [selectedMeeting, setSelectedMeeting] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const params = {
+    memberRole: 'organizer',
+    gatheringTimeStatus: 'NORMAL',
+    orderBy: 'appointed_at',
+    sortDirection: 'ASC',
+    gatheringType: 'HEALTH'
+  };
+
   useEffect(() => {
-    const fetchMeetings = async () => {
-      // try {
+    const loadMeetings = async () => {
+      const data = await fetchMeetings(params);
 
-      //   const response = await fetch('api 주소');
-
-      //   if (!response.ok) throw new Error('데이터 가져오기 실패했습니다');
-      //   const data = await response.json();
-
-      //   setCreatedMeetings(data.createdMeetings || createdMeetingsData);
-      //   setParticipatingMeetings(
-      //     data.participatingMeetings || participatingMeetingsData
-      //   );
-      // } catch (error) {
-      //   console.error('Error fetching meetings:', error);
-
-      setCreatedMeetings(createdMeetingsData);
-      setParticipatingMeetings(participatingMeetingsData);
+      if (data) {
+        setCreatedMeetings(
+          data.filter((meeting) => meeting.organizer_id === 1)
+        );
+        setParticipatingMeetings(
+          data.filter((meeting) => meeting.current_number > 0)
+        );
+      }
     };
 
-    fetchMeetings();
-  }, []);
+    loadMeetings();
+  }, [params]);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -52,13 +54,13 @@ const MyMeetings = () => {
     <Container>
       <Tabs>
         <Tab
-          isActive={activeTab === 'created'}
+          $isActive={activeTab === 'created'}
           onClick={() => handleTabClick('created')}
         >
           내가 만든 모임
         </Tab>
         <Tab
-          isActive={activeTab === 'participating'}
+          $isActive={activeTab === 'participating'}
           onClick={() => handleTabClick('participating')}
         >
           참여 중인 모임
@@ -102,10 +104,10 @@ const Tab = styled.button`
   padding: 15px 25px;
   font-size: 18px;
   font-weight: bold;
-  background-color: ${({ isActive }) =>
-    isActive ? ({ theme }) => theme.pointColorLight : '#eee'};
-  color: ${({ isActive }) =>
-    isActive ? ({ theme }) => theme.pointColor : '#c2c2c2'};
+  background-color: ${({ $isActive, theme }) =>
+    $isActive ? theme.pointColorLight : '#eee'};
+  color: ${({ $isActive, theme }) =>
+    $isActive ? theme.pointColor : '#c2c2c2'};
   border: none;
   cursor: pointer;
 `;

@@ -61,6 +61,7 @@ export const ImageContainer = styled.div`
   height: 92vh;
   position: relative;
   align-items: center;
+  filter: ${({ theme }) => theme.filter};
 
   /* @media (max-width: 1440px) {
     height: 90vh;

@@ -24,11 +24,11 @@ const AdminHomePage = () => {
           newMembersRes,
           disabledRes
         ] = await Promise.all([
-          axios.get('/admin/user/statsCount?statsCount=TOTAL'),
-          axios.get('/admin/user/statsCount?statsCount=REPORTED'),
-          axios.get('/admin/user/statsCount?statsCount=BLACKLIST'),
-          axios.get('/admin/user/monthly-status?status=ACTIVE'),
-          axios.get('/admin/user/monthly-status?status=DISABLED')
+          axios.get('/admin/users/statsCount?statsCount=TOTAL'),
+          axios.get('/admin/users/statsCount?statsCount=REPORTED'),
+          axios.get('/admin/users/statsCount?statsCount=BLACKLIST'),
+          axios.get('/admin/users/monthly-status?status=ACTIVE'),
+          axios.get('/admin/users/monthly-status?status=DISABLED')
         ]);
 
         const processMonthlyData = (responseData) => {

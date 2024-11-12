@@ -49,8 +49,7 @@ const AdminSider = ({ collapsed, setCollapsed }) => {
 export default AdminSider;
 
 const SiderWrapper = styled.div`
-  width: ${({ $collapsed }) =>
-    $collapsed ? '80px' : '200px'}; /* $collapsed 사용 */
+  width: ${({ $collapsed }) => ($collapsed ? '80px' : '200px')};
   position: fixed;
   top: 8vh;
   left: 0;

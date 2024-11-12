@@ -39,16 +39,18 @@ const HeaderMenu = ({ loginPath, $color }) => {
   return (
     <MenuWrapper>
       <Link to="/login">
-        <LoginBtn $isLogin={loginPath} $color={$color}>
+        <MenuBtn $isLogin={loginPath} $color={$color}>
           login
-        </LoginBtn>
+        </MenuBtn>
       </Link>
+      <MenuBtn $color={$color} onClick={handleLogout}>
+        Logout
+      </MenuBtn>
       <Link to="/mypage">
-        <UserBtn $isLogin={loginPath} $color={$color}>
+        <MenuBtn $isLogin={loginPath} $color={$color}>
           mypage
-        </UserBtn>
+        </MenuBtn>
       </Link>
-      <button onClick={handleLogout}>로그아웃</button>
     </MenuWrapper>
   );
 };
@@ -60,17 +62,9 @@ const MenuWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  font-size: 0;
 `;
-const LoginBtn = styled.button`
-  color: ${({ theme, $color }) => $color || theme.textColor};
-  font-weight: 600;
-  text-transform: uppercase;
-  opacity: 0.8;
-  &:hover {
-    opacity: 1;
-  }
-`;
-const UserBtn = styled.button`
+const MenuBtn = styled.button`
   color: ${({ theme, $color }) => $color || theme.textColor};
   font-weight: 600;
   text-transform: uppercase;

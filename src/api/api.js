@@ -154,6 +154,17 @@ export const getChatRoomList = async (roomType, pageNum = 0) => {
   }
 };
 
+export const getChattingLog = async (roomType, roomId, pageNum) => {
+  try {
+    const response = await instance.get(
+      `/chat/${roomType}/${roomId}?page=${pageNum}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getGroupMapPoint = async (radius_distance, Xpoint, Ypoint) => {
   try {
     const response = await instance.get(

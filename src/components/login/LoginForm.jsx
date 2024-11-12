@@ -67,6 +67,7 @@ const LoginForm = () => {
       const response = await login(email, password);
       const accessToken = response.headers['authorization'].split(' ')[1];
       localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('userNickName', response.data.nickname);
       localStorage.setItem('loginType', 'local');
       const userData = response.data.nickname;
       dispatch(setUser(userData));

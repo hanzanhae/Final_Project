@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Banner from '../components/mainPage/Banner';
 import Section01 from '../components/mainPage/Section01';
 import MainMap from '../components/mainPage/MainMap';
@@ -6,6 +6,10 @@ import Chat from '../components/chat/Chat';
 import axios from 'axios';
 
 const Home = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleChat = () => {
+    setIsOpen(!isOpen);
+  };
   const getCookie = (name) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -27,7 +31,7 @@ const Home = () => {
       <Banner />
       <Section01 />
       <MainMap />
-      <Chat />
+      <Chat isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
 };

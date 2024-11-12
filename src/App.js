@@ -31,7 +31,6 @@ function App() {
           window.Kakao.init(process.env.REACT_APP_KAKAOLOGIN_APP_KEY);
         }
       };
-
       document.head.appendChild(kakaoScript);
     }
   }, []);

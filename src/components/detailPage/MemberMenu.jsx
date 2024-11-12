@@ -1,20 +1,37 @@
 import React, { useState } from 'react';
 import ReportModal from './ReportModal';
 import styled from 'styled-components';
-
-const MemberMenu = ({ setActiveMember, handleOutMeeting }) => {
+import { getDirectChat } from '../../api/api';
+const MemberMenu = ({
+  setActiveMember,
+  handleOutMeeting,
+  openDirectChat,
+  memberNickName,
+  memberId
+}) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => {
     setShowModal(true);
   };
-
+  const myNickName = localStorage.getItem('userNickName');
+  const directChat = async () => {
+    try {
+      const response = await getDirectChat(memberId, 0);
+      const chatRoomId = response.data.roomId;
+      if (chatRoomId) {
+        openDirectChat(chatRoomId, memberNickName);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <MenuBox onClick={(e) => e.stopPropagation()}>
         <MenuUl>
           <MenuLi onClick={handleOutMeeting}>모임나가기</MenuLi>
-          <MenuLi>채팅하기</MenuLi>
+          <MenuLi onClick={directChat}>채팅하기</MenuLi>
           <MenuLi onClick={handleShowModal}>신고하기</MenuLi>
         </MenuUl>
       </MenuBox>

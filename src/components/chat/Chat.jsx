@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ChatContainer from './ChatContainer';
 import styled from 'styled-components';
 import Run from '../../images/running.png';
 import { CloseOutlined } from '@ant-design/icons';
-const Chat = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedRoom, setSelectedRoom] = useState(null);
+const Chat = ({
+  isOpen,
+  setIsOpen,
+  whatIsSelectedRoom,
+  setWhatIsSelectedRoom
+}) => {
+  const [selectedRoom, setSelectedRoom] = useState(whatIsSelectedRoom);
+
+  useEffect(() => {
+    console.log(whatIsSelectedRoom);
+    setSelectedRoom(whatIsSelectedRoom);
+  }, [whatIsSelectedRoom]);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
@@ -21,7 +30,7 @@ const Chat = () => {
       <ChatBox $isOpen={isOpen}>
         {isOpen && (
           <>
-            <ChatContainer />
+            <ChatContainer selectedRoom={selectedRoom} />
           </>
         )}
       </ChatBox>

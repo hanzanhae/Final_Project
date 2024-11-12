@@ -1,38 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ChatLayout from './chatLayout/ChatLayout';
 import ChatRoomListLayout from './chatLayout/ChatRoomListLayout';
 import ChatRoom from './chatRoom/ChatRoom';
 
-const ChatContainer = () => {
-  const [selectedRoom, setSelectedRoom] = useState({ type: null, room: null });
+const ChatContainer = ({ selectedRoom }) => {
+  const [currentRoom, setCurrentRoom] = useState({
+    type: selectedRoom?.type || 'group',
+    id: selectedRoom?.id || null,
+    name: selectedRoom?.nickName || ''
+  });
+  useEffect(() => {
+    if (selectedRoom) {
+      setCurrentRoom({
+        type: selectedRoom.type,
+        id: selectedRoom.id,
+        name: selectedRoom.nickName
+      });
+    } else {
+      setCurrentRoom({
+        type: 'group',
+        id: null,
+        name: ''
+      });
+    }
+  }, [selectedRoom]);
+
   const handleRoomSelect = (roomType) => {
-    setSelectedRoom({ type: roomType, room: null });
+    setCurrentRoom({ type: roomType, id: null, nickName: '' });
   };
 
   const handleRoomClick = (room) => {
-    setSelectedRoom((prev) => ({ ...prev, room }));
+    setCurrentRoom({
+      type: room.type,
+      id: room.id,
+      name: room.name
+    });
   };
 
   const handleBackToRoomList = () => {
-    setSelectedRoom({ type: selectedRoom.type, room: null });
+    setCurrentRoom((prev) => ({
+      ...prev,
+      id: null
+    }));
   };
 
   return (
     <>
-      {!selectedRoom.room ? (
+      {!currentRoom.id ? (
         <>
           <ChatRoomListLayout
             setSelectedRoom={handleRoomClick}
-            selectedRoomType={selectedRoom.type}
+            selectedRoom={currentRoom}
+            selectedRoomType={currentRoom.type}
+            selectedRoomName={currentRoom.name}
           />
           <ChatLayout onRoomSelect={handleRoomSelect} />
         </>
       ) : (
         <>
           <ChatRoom
-            selectedRoom={selectedRoom.room}
-            roomType={selectedRoom.type}
-            roomId={selectedRoom}
+            selectedRoom={currentRoom}
             setSelectedRoom={handleBackToRoomList}
           />
           <ChatLayout onRoomSelect={handleRoomSelect} />

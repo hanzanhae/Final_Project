@@ -176,18 +176,21 @@ export const GenderLabel = styled.label`
 `;
 
 export const TermsContainer = styled.div`
-  margin-top: 10px;
-  padding: 2rem;
+  padding: 0 3rem 10px 3rem;
   font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const TermsHeader = styled.div`
-  font-size: 0.6vw;
+  font-size: 0.8vw;
   margin-bottom: 10px;
+  line-height: 1.4;
 `;
 
 export const TermsWrapper = styled.div`
-  font-size: 1rem;
+  font-size: 0.7vw;
   margin-bottom: 5px;
 `;
 
@@ -205,10 +208,10 @@ export const Btn = styled.button`
   width: 222px;
   border-radius: 4px;
   height: 40px;
-  font-size: 20px;
+  font-size: 1vw;
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 20px;
+  margin-bottom: 1vw;
   transition: all 200ms linear;
   padding: 0 30px;
   letter-spacing: 1px;

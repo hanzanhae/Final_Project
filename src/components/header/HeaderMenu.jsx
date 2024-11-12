@@ -10,24 +10,30 @@ const HeaderMenu = ({ loginPath, $color }) => {
     const response = await logout();
     if (response) {
       localStorage.removeItem('accessToken');
-      navigate('/');
+      localStorage.removeItem('loginType');
+      navigate('/login');
     } else {
       console.error('로그아웃에 실패했습니다.');
     }
   };
   const handleKakaoLogout = () => {
-    if (window.Kakao && window.Kakao.Auth) {
+    if (window.Kakao && window.Kakao.isInitialized() && window.Kakao.Auth) {
       window.Kakao.Auth.logout(() => {
         console.log('카카오 로그아웃 성공');
-        navigate('/');
+        localStorage.removeItem('loginType');
+        navigate('/login');
       });
     } else {
       console.error('카카오 SDK가 로드되지 않았습니다.');
     }
   };
   const handleLogout = () => {
-    handleKakaoLogout();
-    handleLocalLogout();
+    const loginType = localStorage.getItem('loginType'); // 로그인 타입 확인
+    if (loginType === 'kakao') {
+      handleKakaoLogout();
+    } else {
+      handleLocalLogout();
+    }
   };
 
   return (

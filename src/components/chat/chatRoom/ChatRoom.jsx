@@ -4,170 +4,9 @@ import SockJS from 'sockjs-client';
 import { Client, Stomp } from '@stomp/stompjs';
 import { DoubleLeftOutlined } from '@ant-design/icons';
 import { getChattingLog } from '../../../api/api';
-import { v4 as uuidv4 } from 'uuid';
+import { useDispatch } from 'react-redux';
+import { addUnreadMessage } from '../../../redux/reducers/unreadMessagesReducer';
 
-// const ChatRoom = ({ selectedRoom, roomType, setSelectedRoom }) => {
-//   const userId = localStorage.getItem('userNickName');
-//   const [pageNum, setPageNum] = useState(0);
-//   const [hasMoreMessages, setHasMoreMessages] = useState(true);
-//   const messageListRef = useRef(null);
-//   const [messages, setMessages] = useState([]);
-//   const [input, setInput] = useState('');
-//   const [stompClient, setStompClient] = useState(null);
-//   useEffect(() => {
-//     const fetchChatLogs = async () => {
-//       try {
-//         const response = await getChattingLog(
-//           roomType,
-//           selectedRoom.id,
-//           pageNum
-//         );
-
-//         if (response && response.messages) {
-//           const loadedMessages = response.messages.content.map((msg) => ({
-//             id: msg.timestamp,
-//             text: msg.content,
-//             isMine: msg.senderName === userId
-//           }));
-//           console.log(response);
-//           //시간복잡도 O(n) 개선  어렵넹;
-//           setMessages((prevMessages) => {
-//             const messageIds = new Set(prevMessages.map((msg) => msg.id));
-//             const uniqueMessages = loadedMessages.filter(
-//               (msg) => !messageIds.has(msg.id)
-//             );
-//             return [...prevMessages, ...uniqueMessages];
-//           });
-
-//           if (response.messages.last) {
-//             setHasMoreMessages(false);
-//           } else {
-//             setPageNum((prevPage) => prevPage + 1);
-//           }
-//         }
-//       } catch (error) {
-//         console.error('Failed to load chat logs:', error);
-//       }
-//     };
-
-//     if (hasMoreMessages) {
-//       fetchChatLogs();
-//     }
-//   }, [pageNum, roomType, selectedRoom.id]);
-
-//   useEffect(() => {
-//     const token = localStorage.getItem('accessToken');
-//     const socket = new SockJS('https://myspringserver.store/ws');
-//     const stomp = new Client({
-//       webSocketFactory: () => socket,
-//       connectHeaders: {
-//         Authorization: `Bearer ${token}`
-//       },
-//       reconnectDelay: 1000000,
-//       debug: (str) => console.log('STOMP Debug: ', str),
-//       onConnect: () => {
-//         const topicPath = `/topic/${roomType}/${selectedRoom.id}`;
-//         console.log(topicPath);
-
-//         stomp.subscribe(topicPath, (message) => {
-//           try {
-//             const receivedMessage = JSON.parse(message.body);
-//             const isMine = receivedMessage.senderName === userId;
-//             console.log('Received Message:', receivedMessage);
-//             setMessages((prevMessages) => [
-//               ...prevMessages,
-//               { id: Date.now(), text: receivedMessage.content, isMine }
-//             ]);
-//           } catch (error) {
-//             console.error('Failed to parse message body:', error);
-//             console.log('Raw message body:', message.body);
-//           }
-//         });
-//       },
-//       onStompError: (frame) => {
-//         console.error('Broker reported error: ' + frame.headers['message']);
-//         console.error('Additional details: ' + frame.body);
-//       }
-//     });
-
-//     stomp.activate();
-//     setStompClient(stomp);
-
-//     return () => {
-//       stomp.deactivate();
-//       setStompClient(null);
-//     };
-//   }, [roomType, selectedRoom.id, userId]);
-
-//   useEffect(() => {
-//     if (messageListRef.current) {
-//       messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
-//     }
-//   }, [messages]);
-
-//   const sendMessage = () => {
-//     if (stompClient && stompClient.connected && input.trim()) {
-//       stompClient.publish({
-//         destination: `/app/send/${roomType}`,
-//         body: JSON.stringify({
-//           roomId: selectedRoom.id,
-//           content: input,
-//           senderName: userId
-//         })
-//       });
-//       setInput('');
-//     }
-//   };
-
-//   const formatTime = (timestamp) => {
-//     const date = new Date(timestamp);
-//     date.setHours(date.getHours() + 9);
-//     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-//   };
-
-//   const shouldDisplayTime = (currentMessage, index) => {
-//     if (index === 0) return true;
-//     const previousMessage = messages[index - 1];
-//     const currentSeconds = new Date(currentMessage.timestamp).getSeconds();
-//     const previousSeconds = new Date(previousMessage.timestamp).getSeconds();
-
-//     return currentSeconds !== previousSeconds;
-//   };
-
-//   return (
-//     <ChatRoomContainer>
-//       <HeaderContainer>
-//         <CustomArrow onClick={setSelectedRoom} />
-//         <Header>채팅방: {selectedRoom.name}</Header>
-//       </HeaderContainer>
-
-//       <MessageList ref={messageListRef}>
-//         {messages.map((message, index) => (
-//           <Message key={message.id} $isMine={message.isMine}>
-//             <MessageBubble $isMine={message.isMine}>
-//               {message.text}
-//             </MessageBubble>
-//             {shouldDisplayTime(message, index) && (
-//               <MessageTimeStamp>{formatTime(message.id)}</MessageTimeStamp>
-//             )}
-//           </Message>
-//         ))}
-//       </MessageList>
-//       <InputContainer>
-//         <Input
-//           type="text"
-//           placeholder="메시지를 입력하세요"
-//           value={input}
-//           onChange={(e) => setInput(e.target.value)}
-//           onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-//         />
-//         <SendButton onClick={sendMessage}>전송</SendButton>
-//       </InputContainer>
-//     </ChatRoomContainer>
-//   );
-// };
-
-// export default ChatRoom;
 const ChatRoom = ({ selectedRoom, setSelectedRoom }) => {
   const userId = localStorage.getItem('userNickName');
   const [pageNum, setPageNum] = useState(0);
@@ -176,6 +15,8 @@ const ChatRoom = ({ selectedRoom, setSelectedRoom }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [stompClient, setStompClient] = useState(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchChatLogs = async () => {
@@ -212,6 +53,8 @@ const ChatRoom = ({ selectedRoom, setSelectedRoom }) => {
       ];
     });
   };
+  let retryCount = 0;
+  const MAX_RETRIES = 5;
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -222,6 +65,8 @@ const ChatRoom = ({ selectedRoom, setSelectedRoom }) => {
       reconnectDelay: 10000,
       debug: (str) => console.log('STOMP Debug:', str),
       onConnect: () => {
+        retryCount = 0;
+        setIsConnected(true);
         const topicPath = `/topic/${selectedRoom.type}/${selectedRoom.id}`;
         stomp.subscribe(topicPath, (message) => {
           const receivedMessage = JSON.parse(message.body);
@@ -229,7 +74,18 @@ const ChatRoom = ({ selectedRoom, setSelectedRoom }) => {
           addUniqueMessages([
             { id: Date.now(), text: receivedMessage.content, isMine }
           ]);
+          if (!isMine) dispatch(addUnreadMessage());
         });
+      },
+      onDisconnect: () => {
+        if (retryCount < MAX_RETRIES) {
+          retryCount++;
+        } else {
+          stomp.deactivate();
+          console.error('연결 실패: 재시도 횟수 초과');
+        }
+        setIsConnected(false);
+        console.log('Disconnected from WebSocket');
       },
       onStompError: (frame) => {
         console.error('Broker reported error: ' + frame.headers['message']);
@@ -288,20 +144,22 @@ const ChatRoom = ({ selectedRoom, setSelectedRoom }) => {
         />
         <Header>채팅방: {selectedRoom.name}</Header>
       </HeaderContainer>
-
-      <MessageList ref={messageListRef}>
-        {messages.map((message, index) => (
-          <Message key={message.id} $isMine={message.isMine}>
-            <MessageBubble $isMine={message.isMine}>
-              {message.text}
-            </MessageBubble>
-            {shouldDisplayTime(message, index) && (
-              <MessageTimeStamp>{formatTime(message.id)}</MessageTimeStamp>
-            )}
-          </Message>
-        ))}
-      </MessageList>
-
+      {isConnected ? (
+        <MessageList ref={messageListRef}>
+          {messages.map((message, index) => (
+            <Message key={message.id} $isMine={message.isMine}>
+              <MessageBubble $isMine={message.isMine}>
+                {message.text}
+              </MessageBubble>
+              {shouldDisplayTime(message, index) && (
+                <MessageTimeStamp>{formatTime(message.id)}</MessageTimeStamp>
+              )}
+            </Message>
+          ))}
+        </MessageList>
+      ) : (
+        <div>연결 중...</div>
+      )}
       <InputContainer>
         <Input
           type="text"
@@ -324,7 +182,8 @@ const ChatRoomContainer = styled.div`
   height: 85%;
   max-width: 600px;
   margin: 0 auto;
-  border: 1px solid #ddd;
+  border: 2px solid #6f9fee;
+  border-bottom: 0;
   background-color: #f7f7f7;
 `;
 const CustomArrow = styled(DoubleLeftOutlined)`

@@ -33,6 +33,7 @@ const ChatLayoutContainer = styled.div`
   align-items: center;
   gap: 1rem;
   color: white;
+  border: 2px solid #6f9fee;
 `;
 
 const Profile = styled.div`

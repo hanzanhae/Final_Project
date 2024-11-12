@@ -2,10 +2,14 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { logout, kakaoLogout } from '../../api/api';
+import { BellOutlined } from '@ant-design/icons';
+import { useSelector, useDispatch } from 'react-redux';
+import { resetUnreadMessages } from '../../redux/reducers/unreadMessagesReducer';
 
 const HeaderMenu = ({ loginPath, $color }) => {
+  const unreadCount = useSelector((state) => state.unreadMessages);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const handleLocalLogout = async () => {
     const response = await logout();
     if (response) {
@@ -38,14 +42,29 @@ const HeaderMenu = ({ loginPath, $color }) => {
       handleLocalLogout();
     }
   };
+  const handleNotificationClick = () => {
+    dispatch(resetUnreadMessages());
+  };
 
   return (
     <MenuWrapper>
-      <Link to="/login">
+      {localStorage.getItem('loginType') === 'local' ? (
         <MenuBtn $isLogin={loginPath} $color={$color}>
-          login
+          {localStorage.getItem('userNickName')} 님
         </MenuBtn>
-      </Link>
+      ) : localStorage.getItem('loginType') === 'kakao' ? (
+        <MenuBtn>카카오</MenuBtn>
+      ) : (
+        <Link to="/login">
+          <MenuBtn $isLogin={loginPath} $color={$color}>
+            login
+          </MenuBtn>
+        </Link>
+      )}
+      <MenuBtn onClick={handleNotificationClick}>
+        <StyleBellOutlined />
+        {unreadCount > 0 && <Notification>{unreadCount}</Notification>}
+      </MenuBtn>
       <MenuBtn $color={$color} onClick={handleLogout}>
         Logout
       </MenuBtn>
@@ -75,4 +94,18 @@ const MenuBtn = styled.button`
   &:hover {
     opacity: 1;
   }
+  position: relative;
+`;
+
+const StyleBellOutlined = styled(BellOutlined)``;
+
+const Notification = styled.div`
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
 `;

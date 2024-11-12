@@ -152,11 +152,11 @@ export const gatheringForLacation = async (lat, lon) => {
   }
 };
 
-export const getChatRoomList = async (roomType, pageNum = 0) => {
+export const getChatRoomList = async (roomType, pageNum) => {
   try {
     const endpoint =
       roomType === 'group' ? '/chat/group/list' : '/chat/direct/list';
-    const response = await instance.get(`${endpoint}?page_num=${pageNum}`);
+    const response = await instance.get(`${endpoint}?page=${pageNum}`);
     return response.data;
   } catch (error) {
     console.log(error);

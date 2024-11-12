@@ -36,12 +36,10 @@ function CreateMeetingForm() {
     setSelectedDate,
     description,
     setDescription,
-    category,
-    setCategory,
+
     capacity,
     setCapacity,
-    distance,
-    setDistance,
+
     showMapModal,
     setShowMapModal,
     selectedLocation,
@@ -50,6 +48,8 @@ function CreateMeetingForm() {
     setDeadline
   } = useCreateMeetingState();
   const navigate = useNavigate();
+  const [distance, setDistance] = useState('FREE');
+  const [category, setCategory] = useState('RUNLINI');
   const [thumbnail, setThumbnail] = useState(null);
   const fileRef = useRef(null);
   const [representativeImageUrl, setRepresentativeImageUrl] = useState(null);
@@ -135,51 +135,85 @@ function CreateMeetingForm() {
   };
 
   const handleSubmit = async () => {
+    if (thumbnail && !representativeImageUrl) {
+      alert('이미지를 등록해주세요.');
+      return;
+    }
     if (!selectedLocation) {
       alert('장소를 선택해주세요.');
       return;
     }
+    if (!deadline || !selectedDate) {
+      alert('모임 시간과 마감 기한을 설정해주세요.');
+      return;
+    }
+
+    if (deadline && selectedDate) {
+      const selectedDateObj = new Date(selectedDate);
+      const deadlineObj = new Date(deadline);
+
+      console.log('selectedDateObj:', selectedDateObj);
+      console.log('deadlineObj:', deadlineObj);
+
+      const selectedDateUTC = selectedDateObj.getTime();
+      const deadlineUTC = deadlineObj.getTime();
+
+      const differenceInHours =
+        (selectedDateUTC - deadlineUTC) / (1000 * 60 * 60);
+      if (selectedDateUTC <= deadlineUTC) {
+        alert('모임 시간은 마감 기한 이후에 설정되어야 합니다.');
+        return;
+      }
+      console.log('differenceInHours:', differenceInHours);
+
+      if (differenceInHours < 2) {
+        alert('약속 날짜와 마감 날짜는 최소 2시간의 차이가 있어야 합니다.');
+        return;
+      }
+    }
+    const payload = {
+      title,
+      appointed_at: selectedDate.toISOString(),
+      deadline: deadline ? deadline.toISOString() : null,
+      location: {
+        address_names: {
+          address_name: selectedLocation.location.address_names.address_name,
+          region_1depth_name:
+            selectedLocation.location.address_names.region_1depth_name,
+          region_2depth_name:
+            selectedLocation.location.address_names.region_2depth_name,
+          region_3depth_name:
+            selectedLocation.location.address_names.region_3depth_name
+        },
+        coordinates: {
+          x: selectedLocation.location.coordinates.x,
+          y: selectedLocation.location.coordinates.y
+        },
+        region_code: {
+          code_h: selectedLocation.location.region_code.code_h,
+          code_b: selectedLocation.location.region_code.code_b
+        }
+      },
+      max_number: parseInt(capacity, 10),
+      description,
+      goal_distance: distance,
+      concept: category.toUpperCase()
+    };
+
+    if (representativeImageUrl) {
+      payload.image_register_response = {
+        representative_image_index: 0,
+        content_image_urls: [
+          {
+            image_url: representativeImageUrl,
+            order: 0
+          }
+        ],
+        representative_image_url: representativeImageUrl
+      };
+    }
 
     try {
-      const payload = {
-        title,
-        appointed_at: selectedDate.toISOString(),
-        deadline: deadline ? deadline.toISOString() : null,
-        location: {
-          address_names: {
-            address_name: selectedLocation.location.address_names.address_name,
-            region_1depth_name:
-              selectedLocation.location.address_names.region_1depth_name,
-            region_2depth_name:
-              selectedLocation.location.address_names.region_2depth_name,
-            region_3depth_name:
-              selectedLocation.location.address_names.region_3depth_name
-          },
-          coordinates: {
-            x: selectedLocation.location.coordinates.x,
-            y: selectedLocation.location.coordinates.y
-          },
-          region_code: {
-            code_h: selectedLocation.location.region_code.code_h,
-            code_b: selectedLocation.location.region_code.code_b
-          }
-        },
-        max_number: parseInt(capacity, 10),
-        description,
-        goal_distance: distance,
-        concept: category.toUpperCase(),
-        image_register_response: {
-          representative_image_index: 0,
-          content_image_urls: [
-            {
-              image_url: representativeImageUrl,
-              order: 0
-            }
-          ],
-          representative_image_url: representativeImageUrl
-        }
-      };
-      console.log('Payload:', payload);
       const response = await instance.post('/gatherings', payload);
 
       console.log('모임 등록 성공:', response.data);
@@ -202,7 +236,7 @@ function CreateMeetingForm() {
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="방 이름을 입력하세요"
+                placeholder="제목은 5~20자 내로 입력해주세요."
               />
             </FormRow>
             <FormRow>
@@ -290,7 +324,6 @@ function CreateMeetingForm() {
                 ))}
               </div>
             </FormRow>
-
             <FormRow>
               <Label>카테고리</Label>
               <div>
@@ -315,9 +348,9 @@ function CreateMeetingForm() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows="5"
+                placeholder=" 본문 내용은 10~200 자 내로 입력해주세요."
               />
             </FormRow>
-
             <ButtonContainer>
               <StyledButton type="button" onClick={handleSubmit}>
                 모임 개설

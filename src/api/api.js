@@ -175,3 +175,92 @@ export const getGroupMapPoint = async (radius_distance, Xpoint, Ypoint) => {
     console.log(error);
   }
 };
+
+//내 프로필 데이터 받아오기
+export const getProfile = async (user_id) => {
+  try {
+    const response = await instance.get(`/users/${user_id}`); // Adjust endpoint as needed
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching profile data:', error);
+    throw error;
+  }
+};
+
+//내 모임 가져오기
+export const fetchMeetings = async (params) => {
+  try {
+    const response = await instance.get(`/gatherings?${params}`, { params });
+
+    if (response.status !== 200) {
+      throw new Error('데이터 가져오기 실패했습니다');
+    }
+
+    return response.data.user_gathering_responses.content;
+  } catch (error) {
+    console.error('모임 정보 가져오기 중 오류 발생:', error);
+    return null;
+  }
+};
+
+//이벤트 이미지 업로드
+export const uploadEventImage = async (imageFile) => {
+  const imageData = new FormData();
+  imageData.append('file', imageFile);
+
+  try {
+    const response = await instance.post('/gatherings/events', imageData);
+    if (response.status !== 200) {
+      throw new Error('이미지 업로드 중 오류가 발생했습니다.');
+    }
+    return response.data.content_image_urls;
+  } catch (error) {
+    console.error('이미지 업로드 실패:', error);
+    return [];
+  }
+};
+
+//이벤트 좌표 가져오기
+export const fetchCoordinates = async (address) => {
+  try {
+    const response = await fetch(
+      `https://dapi.kakao.com/v2/local/search/address.json?query=${address}`,
+      {
+        headers: {
+          Authorization: `api키`
+        }
+      }
+    );
+    const result = await response.json();
+    const location = result.documents[0];
+    return { x: location.x, y: location.y };
+  } catch (error) {
+    console.error('좌표 가져오기 중 오류:', error);
+    return { x: 0, y: 0 };
+  }
+};
+
+//이벤트 신청
+export const submitEventRequest = async (data) => {
+  try {
+    const response = await instance.post('/gatherings/events', data);
+    if (response.status !== 200) {
+      throw new Error('이벤트 신청 중 오류가 발생했습니다.');
+    }
+    return response.data;
+  } catch (error) {
+    console.error('이벤트 신청 실패:', error);
+    throw error;
+  }
+};
+
+//이벤트 가져오기
+export const fetchEvents = async (page) => {
+  try {
+    const response = await instance.get(`/gatherings/events?page=${page}`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch events:', error);
+    throw error;
+  }
+};

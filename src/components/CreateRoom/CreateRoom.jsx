@@ -31,13 +31,17 @@ const CreateRoom = ({ onSelectLocation }) => {
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
               (position) => {
-                const userLat = position.coords.latitude;
-                const userLng = position.coords.longitude;
+                let userLat = position.coords.latitude;
+                let userLng = position.coords.longitude;
+
+                userLat = userLat + 0.9 / 111;
+                userLng =
+                  userLng - 0.06 / (111 * Math.cos(userLat * (Math.PI / 180)));
+
                 const userLocation = new window.kakao.maps.LatLng(
                   userLat,
                   userLng
                 );
-
                 map.setCenter(userLocation);
 
                 const userMarker = new window.kakao.maps.Marker({

@@ -8,13 +8,15 @@ const MembersBox = ({
   memberRef,
   activeMember,
   setActiveMember,
-  handleOutMeeting
+  handleOutMeeting,
+  openDirectChat
 }) => {
   return (
     <MemberBox>
       {enteredMembers.map((member) => {
         const id = member?.member_id || null;
         const nickname = member?.nickname || '없음';
+        const accountId = member?.member_account_id || null;
         return (
           <Member key={id} onClick={() => handleShowMemberMenu(id)}>
             {nickname.slice(-4)}
@@ -22,6 +24,11 @@ const MembersBox = ({
               <MemberRef ref={memberRef}>
                 <MemberMenu
                   setActiveMember={setActiveMember}
+                  openDirectChat={(roomId, nickName) =>
+                    openDirectChat(roomId, nickname)
+                  }
+                  memberNickName={nickname}
+                  memberId={accountId}
                   handleOutMeeting={() => handleOutMeeting(id)}
                 />
               </MemberRef>

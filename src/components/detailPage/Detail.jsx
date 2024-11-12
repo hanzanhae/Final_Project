@@ -12,7 +12,7 @@ import {
 // 썸네일기본이미지
 import ThumbNailImg from '../../images/detailThumbNail.jpg';
 
-const Detail = () => {
+const Detail = ({ openDirectChat }) => {
   const { id } = useParams();
 
   const [gatheringDetail, setGatheringDetail] = useState(null);
@@ -69,6 +69,7 @@ const Detail = () => {
         <DetailMember
           meet={gatheringDetail}
           membersList={gatheringDetailMembers}
+          openDirectChat={openDirectChat}
         />
       </DetailContainer>
     </Wrapper>

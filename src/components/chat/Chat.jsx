@@ -10,27 +10,31 @@ const Chat = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
 
   useEffect(() => {
-    const socket = new SockJS('https://myspringserver.store/ws');
-    const stompClient = new Client({
-      webSocketFactory: () => socket,
-      reconnectDelay: 5000,
-      debug: (str) => console.log('STOMP Debug: ', str),
-      onConnect: () => {
-        console.log('Connected to WebSocket server');
-      },
-      onStompError: (frame) => {
-        console.error('Broker reported error: ' + frame.headers['message']);
-        console.error('Additional details: ' + frame.body);
-      }
-    });
+    // isOpen이 true일 때만 WebSocket을 연결
+    if (isOpen) {
+      const socket = new SockJS('https://myspringserver.store/ws');
+      const stompClient = new Client({
+        webSocketFactory: () => socket,
+        reconnectDelay: 5000,
+        debug: (str) => console.log('STOMP Debug: ', str),
+        onConnect: () => {
+          console.log('Connected to WebSocket server');
+        },
+        onStompError: (frame) => {
+          console.error('Broker reported error: ' + frame.headers['message']);
+          console.error('Additional details: ' + frame.body);
+        }
+      });
 
-    stompClient.activate();
-    setClient(stompClient);
+      stompClient.activate();
+      setClient(stompClient);
 
-    return () => {
-      stompClient.deactivate();
-    };
-  }, []);
+      return () => {
+        stompClient.deactivate();
+        setClient(null);
+      };
+    }
+  }, [isOpen]);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);

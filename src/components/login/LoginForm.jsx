@@ -6,7 +6,6 @@ import * as S from '../../styles/loginStyle/LoginFormStyle.js';
 import KakaoLoginImg from '../../images/카카오로그인.png';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/actions/userActions.js';
-// import axios from 'axios';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -54,8 +53,8 @@ const LoginForm = () => {
   };
 
   // 로그인 요청 함수
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
     setError('');
 
@@ -64,13 +63,12 @@ const LoginForm = () => {
       setIsLoading(false);
       return;
     }
-
     try {
       const response = await login(email, password);
       const accessToken = response.headers['authorization'].split(' ')[1];
-
       localStorage.setItem('accessToken', accessToken);
-
+      const userData = response.data.nickname;
+      dispatch(setUser(userData));
       navigate('/');
     } catch (error) {
       console.error('로그인 에러 발생:', error);
@@ -150,8 +148,8 @@ const LoginForm = () => {
         <S.ErrorWrapper>
           {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
         </S.ErrorWrapper>
-        <S.Btn $isLoading={isLoading} onClick={handleLoginSuccess}>
-          로그인
+        <S.Btn $isLoading={isLoading} disabled={isLoading}>
+          {isLoading ? '로그인 중...' : '로그인'}
         </S.Btn>
         <S.KakaoLoginBox onClick={loginWithKakao}>
           <img src={KakaoLoginImg} alt="카카오로그인" width="222" />

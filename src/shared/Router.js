@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Home from '../pages/Home';
-import MainHeader from '../components/MainHeader';
+import MainHeader from '../components/header/MainHeader';
 import AddMeeting from '../pages/AddMeeting';
 import DetailMeeting from '../pages/DetailMeeting';
 import Mypage from '../pages/Mypage';

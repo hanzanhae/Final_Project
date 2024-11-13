@@ -19,15 +19,16 @@ export const CreateMeetingFormWrapper = styled.form`
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  width: 50vw;
+  width: 60vw;
+  height: fit-content;
   max-width: 95%;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  height: 62vh;
+  /* height: 62vh; */
 
-  @media (max-width: 1900px) {
-    width: 90vw;
+  @media (max-width: 1440px) {
+    width: 70vw;
     height: auto;
   }
 `;
@@ -85,17 +86,16 @@ export const StyledInputDe = styled.input`
   }
 `;
 export const StyledInputTt = styled.input`
- width: 50%;
+  width: 50%;
   border: 1px solid #ccc;
-  font-size: 13px; 
+  font-size: 13px;
   border-radius: 5px;
-  padding: 2px 0px; 
-  text-align: center; 
-  line-height: 1.5; 
-  height: 25px; 
- &:focus {
-    outline: none; 
-  }
+  padding: 2px 0px;
+  text-align: center;
+  line-height: 1.5;
+  height: 25px;
+  &:focus {
+    outline: none;
   }
 `;
 export const CustomFileUpload = styled.label`
@@ -137,6 +137,14 @@ export const StyledTextarea = styled.textarea`
   &:focus {
     outline: none;
   }
+  @media (max-width: 1440px) {
+    font-size: 14px;
+  }
+`;
+export const LocationBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 `;
 export const StyledButton = styled.button`
   background-color: #87cefa;
@@ -154,6 +162,9 @@ export const StyledButton = styled.button`
   &:hover {
     background-color: #0056b3;
     transform: translateY(-2px);
+  }
+  @media (max-width: 1440px) {
+    font-size: 14px;
   }
 `;
 

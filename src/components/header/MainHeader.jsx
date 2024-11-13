@@ -34,10 +34,11 @@ const MainHeader = () => {
   let headerBgColor;
   let headerTextColor;
 
-  if (loginPath) {
-    // headerBgColor = darkTheme.bgColor;
-    // headerTextColor = darkTheme.textColor;
-  } else if (location.pathname === '/') {
+  if (location.pathname === '/addMeet') {
+    headerBgColor = isDarkMode
+      ? darkTheme.bgColorBitDark
+      : lightTheme.bgColorBitDark;
+  } else if (location.pathname === '/' || location.pathname === '/login') {
     if (isScrolled) {
       headerBgColor = isDarkMode
         ? darkTheme.bgColorDark
@@ -81,10 +82,13 @@ const Header = styled.header`
 `;
 const HeaderInner = styled.div`
   height: 100%;
-  padding: 0 8rem;
+  padding: 0 12rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media (max-width: 1920px) {
+    padding: 0 10rem;
+  }
   @media (max-width: 1440px) {
     padding: 0 5rem;
   }

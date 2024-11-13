@@ -112,12 +112,6 @@ const MemberContainer = styled.div`
   flex-direction: column;
   align-items: flex-end;
 `;
-const IsEnteredNotice = styled.div`
-  margin: 0.5rem 0 2rem 0;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.pointColor};
-`;
 const MemberTitleBox = styled.div`
   width: 100%;
   margin-bottom: 1rem;
@@ -127,13 +121,19 @@ const MemberTitleBox = styled.div`
 `;
 const Title = styled.h4`
   margin-bottom: 0.5rem;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   color: #333;
+  @media (max-width: 1440px) {
+    font-size: 1.1rem;
+  }
 `;
 const MemberNumber = styled.p`
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #666;
+  @media (max-width: 1440px) {
+    font-size: 0.9rem;
+  }
 `;
 const Msg = styled.div`
   margin-top: 2rem;

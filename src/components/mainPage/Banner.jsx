@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import BannerBg from '../../images/bannerImg.jpg';
-import { CaretRightOutlined } from '@ant-design/icons';
 
 const Banner = () => {
   return (
@@ -19,10 +18,7 @@ const Banner = () => {
       </BannerText>
       <Link to="/addMeet">
         <MakeBtn>
-          런닝모임 개설하기
-          <Icon>
-            <CaretRightOutlined />
-          </Icon>
+          <BtnText>런닝모임 개설하기</BtnText>
         </MakeBtn>
       </Link>
     </MainBanner>
@@ -35,8 +31,7 @@ export default Banner;
 const MainBanner = styled.div`
   width: 100%;
   height: 100vh;
-  position: relative;
-  overflow: hidden;
+  position: fixed;
   z-index: 1;
   filter: ${({ theme }) => theme.filter};
 `;
@@ -49,7 +44,7 @@ const BannerImg = styled.img`
   transform: translate(-50%, -50%);
   object-fit: cover;
   object-position: bottom;
-  z-index: -99999;
+  z-index: -999;
 `;
 const BannerText = styled.div`
   width: fit-content;
@@ -59,43 +54,57 @@ const BannerText = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
-const Title = styled.h2`
-  font-size: 4vw;
-  color: ${({ theme }) => theme.textColor};
-`;
-const Text = styled.p`
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.textColor};
-  @media (max-width: 1440px) {
-    font-size: 1rem;
+
+const slideUpBlind = keyframes`
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 `;
+
+const Title = styled.h2`
+  height: fit-content;
+  font-size: 4vw;
+  color: ${({ theme }) => theme.textColor};
+  opacity: 0;
+  transform: translateY(50px);
+  animation: ${slideUpBlind} 1s ease-out forwards;
+`;
+const Text = styled.p`
+  height: fit-content;
+  font-size: 1.2vw;
+  font-weight: 600;
+  color: ${({ theme }) => theme.textColor};
+  opacity: 0;
+  transform: translateY(50px);
+  animation: ${slideUpBlind} 1s ease-out 0.3s forwards;
+`;
+const BtnText = styled.p`
+  color: ${({ theme }) => theme.textColor};
+  font-size: 1.1vw;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: 0.5s;
+`;
 const MakeBtn = styled.button`
-  padding: 0.25rem 2rem 0.25rem 1rem;
+  padding: 1rem 2rem;
   display: flex;
   align-items: center;
   position: absolute;
-  right: 0;
-  bottom: 10rem;
-  border-start-start-radius: 2rem;
-  border-bottom-left-radius: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 3rem;
   background-color: ${({ theme }) => theme.bgColorBitDark};
-  color: ${({ theme }) => theme.textColor};
-  font-size: 1vw;
-  font-weight: 600;
-  letter-spacing: 1px;
-  transition: opacity 0.5s;
-  @media (max-width: 1440px) {
-    bottom: 7rem;
-  }
-`;
-const Icon = styled.div`
-  display: flex;
-  align-items: center;
-  transition: transform 0.5s;
+  border-radius: 2rem;
 
-  ${MakeBtn}:hover & {
-    transform: translateX(1rem);
+  &:hover {
+    ${BtnText} {
+      transform: translateY(-5px);
+      transition: 0.5s;
+    }
   }
 `;

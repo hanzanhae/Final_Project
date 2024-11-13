@@ -28,7 +28,10 @@ const InfoScript = ({ meet }) => {
         ) : (
           <ProfileImg src={UserImg} alt="user-image" />
         )} */}
-        <Name>{meet.organizer_id}</Name>
+        <Name>
+          <Span>모임장. </Span>
+          {meet.organizer_nickname.slice(0, 3)}님
+        </Name>
         {/* <Name>{meet.organizer_nicknam}</Name> */}
       </ProfileBox>
       <InfoTextBox>
@@ -62,16 +65,31 @@ const ProfileBox = styled.div`
   gap: 0.25rem;
 `;
 const ProfileImg = styled.img`
-  width: 100px;
+  width: 150px;
   aspect-ratio: 1/1;
   border-radius: 1.5rem;
-  border: 3px solid ${({ theme }) => theme.pointColorLight};
+  border: 5px solid ${({ theme }) => theme.pointColorLight};
+  @media (max-width: 1440px) {
+    width: 100px;
+    border-width: 3px;
+  }
 `;
 
-const Name = styled.p`
-  font-size: 0.8rem;
+const Span = styled.span`
+  font-size: 1rem;
   font-weight: 600;
   color: #666;
+  @media (max-width: 1440px) {
+    font-size: 0.8rem;
+  }
+`;
+const Name = styled.p`
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+  @media (max-width: 1440px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const InfoTextBox = styled.div`
@@ -81,8 +99,11 @@ const InfoTextBox = styled.div`
 `;
 const Title = styled.h4`
   margin-bottom: 0.5rem;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   color: #333;
+  @media (max-width: 1440px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const KeywordBox = styled.div`
@@ -98,25 +119,39 @@ const Keywords = styled.div`
 `;
 const Keyword = styled.p`
   padding: 0.25rem;
-  width: 80px;
+  width: 100px;
   background-color: ${({ theme }) => theme.pointColorLight};
   color: ${({ theme }) => theme.pointColor};
-  font-size: 0.7rem;
+  font-size: 1rem;
   font-weight: 700;
   text-align: center;
-  border-radius: 1rem;
+  border-radius: 2rem;
+  @media (max-width: 1440px) {
+    width: 80px;
+    font-size: 0.8rem;
+  }
 `;
 const Deadline = styled.p`
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #666;
+  @media (max-width: 1440px) {
+    font-size: 0.8rem;
+  }
 `;
 const DescriptionBox = styled.div`
   padding: 1rem;
-  border: 1px solid ${({ theme }) => theme.borderColor};
+  border: 2px solid ${({ theme }) => theme.borderColor};
   border-radius: 0.5rem;
+  @media (max-width: 1440px) {
+    border-width: 1.5px;
+  }
 `;
 const Description = styled.p`
+  font-size: 1.2rem;
   letter-spacing: 1px;
   line-height: 1.8;
+  @media (max-width: 1440px) {
+    font-size: 1rem;
+  }
 `;

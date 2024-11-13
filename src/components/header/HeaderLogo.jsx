@@ -16,5 +16,6 @@ export default HeaderLogo;
 
 // style
 const Logo = styled.h1`
+  font-size: 2vw;
   color: ${({ theme, $color }) => $color || theme.textColor};
 `;

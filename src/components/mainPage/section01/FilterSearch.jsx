@@ -43,9 +43,14 @@ const SearchBox = styled.form`
   gap: 0.5rem;
 `;
 const SearchInput = styled.input`
-  padding: 0.25rem 0.5rem;
+  width: 250px;
+  padding: 0.5rem 0.5rem;
   border: 1.2px solid #ccc;
   border-radius: 0.25rem;
+  @media (max-width: 1440px) {
+    width: 180px;
+    padding: 0.25rem 0.5rem;
+  }
 `;
 const SearchBtn = styled.button`
   color: #666;

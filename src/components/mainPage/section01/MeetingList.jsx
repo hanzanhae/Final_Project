@@ -145,10 +145,14 @@ const Container = styled.div`
   padding-bottom: 3rem;
 `;
 const ListUl = styled.ul`
-  padding: 3rem 5rem;
+  padding: 3rem 8rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  gap: 3rem;
+  @media (max-width: 1440px) {
+    padding: 3rem 5rem;
+    gap: 2rem;
+  }
 `;
 const MoreBtn = styled.button`
   display: block;

@@ -36,6 +36,10 @@ const TimeBox = styled.div`
 `;
 const InnerText = styled.p`
   color: #666;
+  font-size: 1.1rem;
+  @media (max-width: 1440px) {
+    font-size: 1rem;
+  }
 `;
 const InnerDot = styled.span`
   margin: 0 0.5rem;

@@ -37,19 +37,27 @@ const FilterReset = styled.button`
   }
 `;
 const FilterTitle = styled.h3`
-  font-size: 1rem;
+  font-size: 1.2rem;
   line-height: 28px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
+  @media (max-width: 1440px) {
+    font-size: 0.9rem;
+    gap: 0.5rem;
+  }
 `;
 const SeletedFilter = styled.span`
   width: 80px;
-  height: 28px;
+  height: 30px;
+  line-height: 30px;
   text-align: center;
   background-color: ${({ theme }) => theme.pointColorLight};
   font-weight: 600;
-  font-size: 0.8rem;
-  border-radius: 1rem;
+  font-size: 1rem;
+  border-radius: 2rem;
+  @media (max-width: 1440px) {
+    font-size: 0.8rem;
+  }
 `;

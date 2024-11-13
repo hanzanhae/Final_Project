@@ -40,15 +40,22 @@ const KeywordText = styled.div`
 `;
 const Keyword = styled.p`
   padding: 0.25rem;
-  width: 80px;
+  width: 100px;
   background-color: ${({ theme }) => theme.pointColorLight};
   color: ${({ theme }) => theme.pointColor};
-  font-size: 0.7rem;
+  font-size: 1rem;
   font-weight: 700;
   text-align: center;
-  border-radius: 1rem;
+  border-radius: 2rem;
+  @media (max-width: 1440px) {
+    font-size: 0.7rem;
+    width: 80px;
+  }
 `;
 const KeywordDate = styled.p`
   color: #666;
-  font-size: 0.8rem;
+  font-size: 1rem;
+  @media (max-width: 1440px) {
+    font-size: 0.8rem;
+  }
 `;

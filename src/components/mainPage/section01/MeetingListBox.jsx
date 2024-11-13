@@ -58,7 +58,7 @@ export default MeetingListBox;
 // style
 const DeadlineNotice = styled.div`
   width: 100%;
-  height: 220px;
+  height: 300px;
   background-color: rgba(255, 255, 255, 0.7);
   position: absolute;
   top: 0;
@@ -75,7 +75,7 @@ const DeadlineNotice = styled.div`
 `;
 const ListLi = styled.li`
   width: 100%;
-  height: 220px;
+  height: 250px;
   padding: 2rem;
   background-color: #fff;
   border-radius: 0.5rem;
@@ -103,7 +103,11 @@ const InfoBox = styled.div`
   justify-content: space-between;
 `;
 const Title = styled.p`
-  font-size: 1.1rem;
+  margin: 1rem 0;
+  font-size: 1.3rem;
   font-weight: 500;
   color: #333;
+  @media (max-width: 1440px) {
+    font-size: 1.1rem;
+  }
 `;

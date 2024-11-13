@@ -37,7 +37,7 @@ const Button = styled.button`
   border-radius: ${(props) => props.$bordorradius || '0.5rem'};
   background-color: ${(props) => props.$bgcolor || props.theme.pointColor};
   color: ${(props) => props.color || 'white'};
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 500;
   padding: ${(props) => props.$padding || '0.25rem 0.5rem'};
   opacity: 0.9;
@@ -46,5 +46,8 @@ const Button = styled.button`
   &:hover {
     opacity: 1;
     transform: translateY(-2px);
+  }
+  @media (max-width: 1440px) {
+    font-size: 0.8rem;
   }
 `;

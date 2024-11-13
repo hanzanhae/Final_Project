@@ -43,7 +43,7 @@ const UlContainer = styled.div`
   margin-top: 0.5rem;
   background-color: #fff;
   border-radius: 0.5rem;
-  padding: 1.2rem;
+  padding: 1.5rem;
   border: 1px solid ${({ theme }) => theme.pointColorLight};
   position: absolute;
   top: 1.8rem;

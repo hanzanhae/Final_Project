@@ -81,10 +81,13 @@ const Header = styled.header`
 `;
 const HeaderInner = styled.div`
   height: 100%;
-  padding: 0 5rem;
+  padding: 0 8rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media (max-width: 1440px) {
+    padding: 0 5rem;
+  }
 `;
 const BtnBox = styled.div`
   display: flex;

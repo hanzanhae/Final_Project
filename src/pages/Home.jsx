@@ -16,7 +16,21 @@ const Home = () => {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
   };
+  function getAuthTokenFromCookies() {
+    const cookies = document.cookie.split('; ');
+    console.log(cookies);
+    const authCookie = cookies.find((cookie) =>
+      cookie.startsWith('Authorization=')
+    );
 
+    if (authCookie) {
+      return authCookie.split('=')[1]; // Token value after 'Authorization='
+    }
+    return null; // Token not found
+  }
+
+  const token = getAuthTokenFromCookies();
+  console.log('Authorization Token:', token);
   useEffect(() => {
     console.log(document.cookie);
     const accessToken = getCookie('Authorization'); // 백엔드에서 쿠키에 담아준 accessToken 이름에 맞게 수정

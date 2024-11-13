@@ -15,7 +15,7 @@ export const Form = styled.form`
   align-items: center;
 `;
 export const Title = styled.div`
-  font-size: 30px;
+  font-size: 1.5vw;
   font-weight: 900;
   position: relative;
   &::before {
@@ -32,7 +32,7 @@ export const Title = styled.div`
 `;
 export const Input = styled.input`
   padding: 13px 20px;
-  padding-left: 55px;
+  padding-left: 1.5rem;
   height: 48px;
   width: 100%;
   font-weight: 500;
@@ -57,10 +57,19 @@ export const Input = styled.input`
     outline: none;
     box-shadow: 0 4px 8px 0 rgba(21, 21, 21, 0.2);
   }
-  &:placeholder {
+  &::placeholder {
     color: #c4c3ca;
     opacity: 0.7;
     transition: all 200ms linear;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 1440px) {
+    padding: 0.5rem 1rem;
+    height: 32px;
+    &::placeholder {
+      font-size: 0.8rem;
+    }
   }
 `;
 export const ProfileContainer = styled.div`
@@ -102,7 +111,7 @@ export const ProfileImg1 = styled.div`
 
 export const InputContainer = styled.div`
   position: relative;
-  width: 20rem;
+  width: 90%;
 `;
 
 export const InputWrapper = styled.div`

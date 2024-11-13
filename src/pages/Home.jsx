@@ -4,6 +4,7 @@ import Section01 from '../components/mainPage/Section01';
 import MainMap from '../components/mainPage/MainMap';
 import Chat from '../components/chat/Chat';
 import axios from 'axios';
+import styled from 'styled-components';
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,11 +30,24 @@ const Home = () => {
   return (
     <>
       <Banner />
-      <Section01 />
-      <MainMap />
+      <SectionBox>
+        <Section01 />
+        <MainMap />
+      </SectionBox>
       <Chat isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
 };
 
 export default Home;
+
+const SectionBox = styled.div`
+  width: 100%;
+  height: fit-content;
+  border-top-right-radius: 50px;
+  border-top-left-radius: 50px;
+  overflow: hidden;
+  position: absolute;
+  top: 100vh;
+  z-index: 9;
+`;

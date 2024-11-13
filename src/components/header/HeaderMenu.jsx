@@ -88,7 +88,7 @@ const MenuWrapper = styled.div`
 `;
 const MenuBtn = styled.button`
   color: ${({ theme, $color }) => $color || theme.textColor};
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   text-transform: uppercase;
   opacity: 0.8;

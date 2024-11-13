@@ -15,9 +15,7 @@ const InfoLocation = ({ meet }) => {
       <Title>모임장소</Title>
       <LocationBox>
         <LocationText>
-          <Icon>
-            <PushpinOutlined />
-          </Icon>
+          <Icon />
           <Location>{detailAddress}</Location>
         </LocationText>
         {/* 카카오지도연결 */}
@@ -33,22 +31,35 @@ export default InfoLocation;
 const LocationWrapper = styled.div``;
 const Title = styled.h4`
   margin-bottom: 0.5rem;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   color: #333;
+  @media (max-width: 1440px) {
+    font-size: 1.2rem;
+  }
 `;
 const LocationBox = styled.div`
-  border: 1px solid ${({ theme }) => theme.borderColor};
+  border: 2px solid ${({ theme }) => theme.borderColor};
   border-radius: 0.5rem;
   overflow: hidden;
+  @media (max-width: 1440px) {
+    border-width: 1.5px;
+  }
 `;
 const LocationText = styled.div`
-  padding: 0.5rem;
+  font-size: 1.2rem;
+  padding: 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  @media (max-width: 1440px) {
+    font-size: 1rem;
+  }
 `;
-export const Icon = styled.div`
-  width: 1rem;
-  color: #ccc;
+export const Icon = styled(PushpinOutlined)`
+  color: ${({ theme }) => theme.pointColor};
+  font-size: 1.5rem;
+  @media (max-width: 1440px) {
+    font-size: 1rem;
+  }
 `;
 const Location = styled.p``;

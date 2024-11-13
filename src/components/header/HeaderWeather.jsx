@@ -91,7 +91,7 @@ const WeatherBox = styled.div`
 `;
 const WeatherIcon = styled.div``;
 const WeatherText = styled.p`
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   @media (max-width: 1440px) {
     font-size: 0.8rem;

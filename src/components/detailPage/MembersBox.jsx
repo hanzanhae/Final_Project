@@ -19,7 +19,7 @@ const MembersBox = ({
         const accountId = member?.member_account_id || null;
         return (
           <Member key={id} onClick={() => handleShowMemberMenu(id)}>
-            {nickname.slice(0, 4)}
+            {nickname.slice(0, 3)}
             {activeMember === id && (
               <MemberRef ref={memberRef}>
                 <MemberMenu

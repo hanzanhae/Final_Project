@@ -4,13 +4,27 @@ import FilterSearch from './FilterSearch';
 import styled from 'styled-components';
 import FilterMyLocation from './FilterMyLocation';
 
-const FilterMenu = ({ location }) => {
+const FilterMenu = ({
+  showAddress,
+  setShowAddress,
+  handleClickUserLocation,
+  setGatheringIn10km,
+  searchText,
+  setSearchText
+}) => {
   return (
     <FilterMenuWrapper>
-      <FilterKeyword />
+      <FilterKeyword
+        setGatheringIn10km={setGatheringIn10km}
+        setShowAddress={setShowAddress}
+        setSearchText={setSearchText}
+      />
       <Box>
-        <FilterMyLocation location={location} />
-        <FilterSearch />
+        <FilterMyLocation
+          showAddress={showAddress}
+          handleClickUserLocation={handleClickUserLocation}
+        />
+        <FilterSearch searchText={searchText} setSearchText={setSearchText} />
       </Box>
     </FilterMenuWrapper>
   );

@@ -31,6 +31,15 @@ const AdminHomePage = () => {
           axios.get('/admin/users/monthly-status?status=DISABLED')
         ]);
 
+        const processMonthlyData = (responseData) => {
+          const monthlyData = Array(12).fill(0);
+          responseData.forEach(({ month, user_count }) => {
+            const monthIndex = new Date(month).getMonth();
+            monthlyData[monthIndex] = user_count;
+          });
+          return monthlyData;
+        };
+
         setData({
           totalMembers: totalRes.data.user_count || 0,
           reportedMembers: reportedRes.data.user_count || 0,
@@ -46,15 +55,6 @@ const AdminHomePage = () => {
     fetchData();
   }, []);
 
-  const processMonthlyData = (responseData) => {
-    const monthlyData = Array(12).fill(0);
-    responseData.forEach(({ month, user_count }) => {
-      const monthIndex = new Date(month).getMonth();
-      monthlyData[monthIndex] = user_count;
-    });
-    return monthlyData;
-  };
-
   return (
     <Container>
       <h1>회원 통계</h1>
@@ -62,7 +62,6 @@ const AdminHomePage = () => {
         newMembers={data.newMembers}
         disabledMembers={data.disabledMembers}
       />
-
       <Row gutter={16} style={{ marginTop: '40px' }}>
         <Col span={8}>
           <StatsCard

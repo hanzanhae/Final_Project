@@ -4,12 +4,14 @@ import styled from 'styled-components';
 
 const ListBoxMembers = ({ list }) => {
   const members = list.member_profile_urls;
+  const maxMember = list.max_number;
+
   return (
     <MemberBox>
       <Members>
-        {members.map((member, idx) => (
+        {members?.map((member, idx) => (
           <Member key={idx} $index={idx}>
-            {member.slice(0, 2)}
+            {member?.slice(0, 2) || '유저'}
           </Member>
         ))}
       </Members>
@@ -17,7 +19,7 @@ const ListBoxMembers = ({ list }) => {
         <UserIcon>
           <TeamOutlined />
         </UserIcon>
-        {`${members.length}/10`}
+        {`${members?.length}/${maxMember}`}
       </Capacity>
     </MemberBox>
   );

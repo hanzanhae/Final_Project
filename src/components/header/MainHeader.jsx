@@ -35,8 +35,8 @@ const MainHeader = () => {
   let headerTextColor;
 
   if (loginPath) {
-    headerBgColor = darkTheme.bgColor;
-    headerTextColor = darkTheme.textColor;
+    // headerBgColor = darkTheme.bgColor;
+    // headerTextColor = darkTheme.textColor;
   } else if (location.pathname === '/') {
     if (isScrolled) {
       headerBgColor = isDarkMode

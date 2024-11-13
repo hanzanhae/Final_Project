@@ -37,7 +37,7 @@ const MainBanner = styled.div`
   height: 100vh;
   position: relative;
   overflow: hidden;
-  z-index: 1001;
+  z-index: 1;
   filter: ${({ theme }) => theme.filter};
 `;
 const BannerImg = styled.img`
@@ -49,6 +49,7 @@ const BannerImg = styled.img`
   transform: translate(-50%, -50%);
   object-fit: cover;
   object-position: bottom;
+  z-index: -99999;
 `;
 const BannerText = styled.div`
   width: fit-content;

@@ -4,29 +4,44 @@ import ListBoxKeyword from './ListBoxKeyword';
 import ListBoxTime from './ListBoxTime';
 import ListBoxMembers from './ListBoxMembers';
 import { format } from 'date-fns';
+import { gatheringDetailImagesData } from '../../../api/api';
 
-// 임시썸네일이미지
+// 기본썸네일이미지
 import ThumbImage from '../../../images/thumbnail.jpg';
 
 const MeetingListBox = ({ list }) => {
-  const [isNotice, setIsNotice] = useState(false);
+  const [isOver, setIsOver] = useState(false);
+  const [registeredImg, setRegisteredImg] = useState(null);
+
+  const fetchRegisteredImg = async () => {
+    const gatheringID = list.id;
+    const data = await gatheringDetailImagesData(gatheringID);
+    if (data) {
+      setRegisteredImg(data.contentImageUrls[0]?.image_url);
+    }
+  };
 
   const handleDeadlineMeeting = () => {
     const deadlineDate = format(new Date(list.deadline), 'yyyy-MM-dd');
     const currentDate = format(new Date(), 'yyyy-MM-dd');
     if (deadlineDate < currentDate) {
-      setIsNotice(true);
+      setIsOver(true);
     }
   };
   useEffect(() => {
     handleDeadlineMeeting();
+    fetchRegisteredImg();
   }, []);
 
   return (
     <>
-      <ListLi $isNotice={isNotice}>
+      <ListLi $isOver={isOver}>
         <DeadlineNotice>마감된 모임입니다.</DeadlineNotice>
-        <ThumbNailImg src={ThumbImage} alt="thumbnail" />
+        {registeredImg ? (
+          <ThumbNailImg src={registeredImg} alt="registered-thumbnail" />
+        ) : (
+          <ThumbNailImg src={ThumbImage} alt="thumbnail" />
+        )}
         <InfoBox>
           <ListBoxKeyword list={list} />
           <Title>{list.title}</Title>
@@ -71,7 +86,7 @@ const ListLi = styled.li`
   &:hover {
     box-shadow: 0 0 10px 1px ${({ theme }) => theme.pointColorLight};
     ${DeadlineNotice} {
-      opacity: ${({ $isNotice }) => ($isNotice ? '1' : '0')};
+      opacity: ${({ $isOver }) => ($isOver ? '1' : '0')};
     }
   }
 `;

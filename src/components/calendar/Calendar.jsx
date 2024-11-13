@@ -211,6 +211,7 @@ export default Calendar;
 
 const Box = styled.div`
   margin-top: 40px;
+  overflow: hidden;
 `;
 
 const Container = styled.div`

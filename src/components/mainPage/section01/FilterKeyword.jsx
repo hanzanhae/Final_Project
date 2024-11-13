@@ -4,7 +4,11 @@ import styled from 'styled-components';
 import FilterKeywordSelect from './FilterKeywordSelect';
 import FilterKeywordMenu from './FilterKeywordMenu';
 
-const FilterKeyword = () => {
+const FilterKeyword = ({
+  setGatheringIn10km,
+  setShowAddress,
+  setSearchText
+}) => {
   const dispatch = useDispatch();
   const { selectedOption, selectedDistance, selectedCategory } = useSelector(
     (state) => state.filter
@@ -51,6 +55,9 @@ const FilterKeyword = () => {
     setTempOption(null);
     setTempDistance(null);
     setTempCategory([]);
+    setGatheringIn10km([]);
+    setShowAddress('');
+    setSearchText('');
   };
 
   return (

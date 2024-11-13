@@ -58,20 +58,60 @@ export const Label = styled.label`
   display: block;
 `;
 
-export const StyledInputFile = styled.input.attrs({ type: 'file' })`
-  display: none;
+// export const StyledInputFile = styled.input.attrs({ type: 'file' })`
+//   display: none;
+// `;
+export const StyledInput = styled.input`
+  width: 84%;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 2px 0px;
+  border-radius: 5px;
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
 `;
 
+export const StyledInputDe = styled.input`
+  width: 95%;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 2px 0px;
+  border-radius: 5px;
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+export const StyledInputTt = styled.input`
+ width: 50%;
+  border: 1px solid #ccc;
+  font-size: 13px; 
+  border-radius: 5px;
+  padding: 2px 0px; 
+  text-align: center; 
+  line-height: 1.5; 
+  height: 25px; 
+ &:focus {
+    outline: none; 
+  }
+  }
+`;
 export const CustomFileUpload = styled.label`
-  display: inline-block;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 5px;
   border-radius: 5px;
   background-color: #f7f7f7;
   text-align: center;
   transition: background-color 0.3s;
-
+  margin-bottom: 10px;
   &:hover {
     background-color: #eaeaea;
   }
@@ -83,17 +123,23 @@ export const ThumbnailPreview = styled.img`
   object-fit: cover;
   border: 1px solid #ddd;
   border-radius: 5px;
-  margin-top: 10px;
 `;
 
 export const StyledTextarea = styled.textarea`
   resize: vertical;
   width: 90%;
   height: 20vh;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 15px;
+  resize: none;
+  &:focus {
+    outline: none;
+  }
 `;
-
 export const StyledButton = styled.button`
-  background-color: #94c0da;
+  background-color: #87cefa;
   color: white;
   border: none;
   border-radius: 6px;
@@ -158,8 +204,8 @@ export const CapacitySlider = styled.input.attrs({ type: 'range' })`
   height: 8px;
   background: linear-gradient(
     to right,
-    #4caf50 0%,
-    #4caf50 var(--value),
+    #87cefa 0%,
+    #87cefa var(--value),
     #ddd var(--value),
     #ddd 100%
   );
@@ -172,7 +218,7 @@ export const CapacitySlider = styled.input.attrs({ type: 'range' })`
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #4caf50;
+    background: #87cefa;
     cursor: pointer;
   }
 
@@ -195,3 +241,4 @@ export const StyledRadioInput = styled.input.attrs({ type: 'radio' })`
   accent-color: #4e5052;
   margin-left: 6px;
 `;
+//라디오 추후

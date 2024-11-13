@@ -8,10 +8,7 @@ import axios from 'axios';
 const Home = () => {
   const getCookie = (name) => {
     const value = `; ${document.cookie}`;
-    console.log(value);
     const parts = value.split(`; ${name}=`);
-    console.log(value);
-
     if (parts.length === 2) return parts.pop().split(';').shift();
   };
 

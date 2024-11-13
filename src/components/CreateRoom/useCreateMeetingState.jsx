@@ -9,10 +9,10 @@ export const useCreateMeetingState = () => {
   const [capacity, setCapacity] = useState('2');
   const [distance, setDistance] = useState('free');
   const [showMapModal, setShowMapModal] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const [deadline, setDeadline] = useState(null);
   const [thumbnail, setThumbnail] = useState(
-    'https://img.freepik.com/premium-photo/poster-marathon-with-woman-running-background_1130573-186323.jpg?semt=ais_hybrid'
+    'https://runto-project.s3.ap-northeast-2.amazonaws.com/temp/4150e355-5853-48b5-83da-13b7159394e3.webp'
   );
   const [thumbnailFile, setThumbnailFile] = useState(null);
 
@@ -51,8 +51,6 @@ export const useCreateMeetingState = () => {
     setDeadline,
     thumbnail,
     setThumbnail,
-    handleImageChange,
-    thumbnailFile,
-    setThumbnailFile
+    handleImageChange
   };
 };

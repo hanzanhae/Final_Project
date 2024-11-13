@@ -11,6 +11,7 @@ import AdminHomePage from '../components/admin/adminHome/AdminHomePage';
 import AdminUsersPage from '../components/admin/adminUsers/AdminUsersPage';
 import AdminMeetingsPage from '../components/admin/adminMeetings/AdminMeetingsPage';
 import AdminEventsPage from '../components/admin/adminEvents/AdminEventsPage';
+import ChatPage from '../pages/ChatChat';
 //import Calendar from '../components/calendar/Calendar';
 //import AdminReports from '../components/admin/AdminReports';
 
@@ -21,13 +22,10 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/addMeet" element={<AddMeeting />} />
-        <Route path="/detail" element={<DetailMeeting />} />
+        <Route path="/gatherings/:id" element={<DetailMeeting />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/addMeet" element={<AddMeeting />} />
-        <Route path="/detail/:id" element={<DetailMeeting />} />
-
+        <Route path="/chat" element={<ChatPage />} />
         <Route path="/admin/*" element={<Admin />}>
           <Route index element={<Navigate to="home" />} />
           {/* pages에 있는 admin.jsx를 간결하게 유지하기 위해 adminHome을 따로 작성하여 관리 */}

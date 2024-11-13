@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaCheckCircle, FaCalendarAlt, FaBell } from 'react-icons/fa';
+import {
+  FaCheckCircle,
+  FaCalendarAlt,
+  FaTimesCircle,
+  FaBell
+} from 'react-icons/fa';
 
 const Days = ({
   day,
@@ -23,16 +28,29 @@ const Days = ({
   const renderEventIcon = () => {
     return gatherings.map((gathering, index) => {
       const appointedDate = new Date(gathering.appointed_at);
-      const isPast = appointedDate < today;
-      const isEvent = gathering.gathering_type === 'EVENT';
+      const isFutureDate = appointedDate > today;
+      const isPastDate = appointedDate < today;
 
-      if (isEvent) {
-        return <FaBellIcon key={index} />;
-      } else if (isPast) {
-        return <FaCheckCircleIcon key={index} />;
-      } else {
-        return <FaCalendarAltIcon key={index} />;
+      if (
+        isFutureDate &&
+        gathering.attendance_status === 'PENDING' &&
+        gathering.role === 'PARTICIPANT'
+      ) {
+        return <FaCalendarAlt key={index} />;
+      } else if (
+        isPastDate &&
+        gathering.role === 'PARTICIPANT' &&
+        gathering.attendance_status === 'ATTENDING'
+      ) {
+        return <FaCheckCircle key={index} />;
+      } else if (
+        isPastDate &&
+        gathering.role === 'PARTICIPANT' &&
+        gathering.attendance_status === 'NOT_ATTENDING'
+      ) {
+        return <FaTimesCircle key={index} />;
       }
+      return null;
     });
   };
 

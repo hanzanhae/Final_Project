@@ -5,11 +5,14 @@ const CreateRoom = ({ onSelectLocation }) => {
   const mapRef = useRef(null);
   const markerRef = useRef(null);
   const [addressInfo, setAddressInfo] = useState({
-    dong: '',
-    city: '',
+    region1Depth: '', // 시도
+    region2Depth: '', // 구
+    region3Depth: '', // 동
     fullAddress: '',
     jibunAddress: '',
-    roadAddress: ''
+    roadAddress: '',
+    latitude: null,
+    longitude: null
   });
   const [error, setError] = useState('');
 
@@ -28,8 +31,13 @@ const CreateRoom = ({ onSelectLocation }) => {
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
               (position) => {
-                const userLat = position.coords.latitude;
-                const userLng = position.coords.longitude;
+                let userLat = position.coords.latitude;
+                let userLng = position.coords.longitude;
+
+                userLat = userLat + 0.9 / 111;
+                userLng =
+                  userLng - 0.06 / (111 * Math.cos(userLat * (Math.PI / 180)));
+
                 const userLocation = new window.kakao.maps.LatLng(
                   userLat,
                   userLng
@@ -46,7 +54,7 @@ const CreateRoom = ({ onSelectLocation }) => {
               (error) => {
                 console.error('Error getting user location:', error);
                 setError(
-                  '사용자 위치를 가져오는 데 실패했습니다 위치 정보가 필요합니다'
+                  '사용자 위치를 가져오는 데 실패했습니다. 위치 정보가 필요합니다.'
                 );
               }
             );
@@ -74,8 +82,8 @@ const CreateRoom = ({ onSelectLocation }) => {
           );
         });
       } else {
-        console.error('kakao apu not loaded');
-        setError('지도 로드에 실패했습니다');
+        console.error('Kakao API not loaded');
+        setError('지도 로드에 실패했습니다.');
       }
     };
 
@@ -93,46 +101,83 @@ const CreateRoom = ({ onSelectLocation }) => {
         }
       });
 
+      console.log('API Response:', response.data);
+
       const documents = response.data.documents;
 
       if (documents.length > 0) {
         const address = documents[0].address;
         const fullAddress = `${address.region_1depth_name} ${address.region_2depth_name} ${address.region_3depth_name}`;
-
         const roadAddress = documents[0].road_address
           ? documents[0].road_address.address_name
           : '';
         const jibunAddress = address.address_name || '';
 
         setAddressInfo({
-          dong: address.region_3depth_name,
-          city: address.region_2depth_name,
+          region1Depth: address.region_1depth_name,
+          region2Depth: address.region_2depth_name,
+          region3Depth: address.region_3depth_name,
           fullAddress: fullAddress,
           jibunAddress: jibunAddress,
-          roadAddress: roadAddress
+          roadAddress: roadAddress,
+          latitude: latitude,
+          longitude: longitude
         });
 
         setError('');
       } else {
-        setError('주소를 찾을 수 없습니');
+        setError('주소를 찾을 수 없습니다.');
       }
     } catch (err) {
       console.error('주소를 가져오는 데 실패했습니다:', err);
-      setError('주소를 가져오는 데 실패했습니다. 다시 시도해 주세요');
+      setError('주소를 가져오는 데 실패했습니다. 다시 시도해 주세요.');
       setAddressInfo({
-        dong: '',
-        city: '',
+        region1Depth: '',
+        region2Depth: '',
+        region3Depth: '',
         fullAddress: '',
         jibunAddress: '',
-        roadAddress: ''
+        roadAddress: '',
+        latitude: null,
+        longitude: null
       });
     }
   };
 
   const handleSaveLocation = () => {
-    if (addressInfo.dong) {
-      const { fullAddress } = addressInfo;
-      onSelectLocation(fullAddress);
+    if (addressInfo.region3Depth) {
+      const {
+        latitude,
+        longitude,
+        region1Depth,
+        region2Depth,
+        region3Depth,
+        roadAddress,
+        jibunAddress
+      } = addressInfo;
+      const address_name = roadAddress ? roadAddress : jibunAddress;
+      const locationData = {
+        location: {
+          address_names: {
+            address_name: address_name,
+            region_1depth_name: region1Depth,
+            region_2depth_name: region2Depth,
+            region_3depth_name: region3Depth
+          },
+          coordinates: {
+            x: longitude,
+            y: latitude
+          },
+          region_code: {
+            code_h: '123',
+            code_b: '456'
+          }
+        }
+      };
+
+      onSelectLocation(locationData);
+
+      console.log('Selected Location Data:', locationData);
     } else {
       alert('위치를 선택해주세요.');
     }
@@ -142,10 +187,11 @@ const CreateRoom = ({ onSelectLocation }) => {
     <div>
       <h2>위치 선택</h2>
       <div id="map" style={{ width: '100%', height: '300px' }}></div>
-      {addressInfo.dong && (
+      {addressInfo.region3Depth && (
         <div>
           <h3>
-            {addressInfo.city}, {addressInfo.dong}
+            {addressInfo.region1Depth} {addressInfo.region2Depth}{' '}
+            {addressInfo.region3Depth}
           </h3>
           <h4>
             {addressInfo.roadAddress

@@ -92,7 +92,9 @@ const LoginForm = () => {
       console.error('Kakao SDK가 로드되지 않았습니다.');
     }
     localStorage.setItem('loginType', 'kakao');
+    localStorage.setItem('userNickName', 'kakao');
   };
+
   const handleLoginSuccess = (userData) => {
     dispatch(setUser(userData));
   };

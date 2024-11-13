@@ -7,7 +7,6 @@ import PersonImg from '../../../images/person.png';
 const ChatLayout = ({ onRoomSelect }) => {
   return (
     <ChatLayoutContainer>
-      <Profile $type={UserImg} onClick={() => onRoomSelect('profile')} />
       <Room $type={RoomImg} onClick={() => onRoomSelect('group')} />
       <DieDie $type={PersonImg} onClick={() => onRoomSelect('direct')} />
     </ChatLayoutContainer>

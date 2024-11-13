@@ -8,18 +8,23 @@ const ChatRoomListLayout = ({
   setSelectedRoom
 }) => {
   const [roomList, setRoomList] = useState([]);
-  const [pageNum, setPageNum] = useState(0); // 현재 페이지 번호
+  const [pageNum, setPageNum] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log(selectedRoom.type);
+    setRoomList([]);
+    setPageNum(0);
+  }, [selectedRoomType]);
+
+  useEffect(() => {
     const fetchRoomList = async () => {
+      setLoading(true);
       try {
-        const data = await getChatRoomList(selectedRoom.type, pageNum);
-        console.log(data.content);
-        if (data.content.length === 0) {
-          setRoomList(data.content);
-        } else {
-          setRoomList((prevRoomList) => [...prevRoomList, ...data.content]);
+        const data = await getChatRoomList(selectedRoomType, pageNum);
+        if (data.content.length > 0) {
+          setRoomList((prevRoomList) =>
+            pageNum === 0 ? data.content : [...prevRoomList, ...data.content]
+          );
         }
         if (data.content.length >= 7) {
           setPageNum((prevPageNum) => prevPageNum + 1);
@@ -27,19 +32,21 @@ const ChatRoomListLayout = ({
       } catch (error) {
         console.error('Failed to fetch chat rooms:', error);
       }
+      setLoading(false);
     };
 
-    if (selectedRoom.type) {
+    if (selectedRoomType && !loading) {
       fetchRoomList();
     }
-  }, [pageNum, selectedRoom.type]);
+  }, [pageNum, selectedRoomType]);
 
   const handleRoomClick = (room) => {
     setSelectedRoom({
-      type: selectedRoom.type,
+      type: selectedRoomType,
       id: room.roomId,
       name: room.name
     });
+    setPageNum(0);
   };
 
   return (

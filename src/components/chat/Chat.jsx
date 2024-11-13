@@ -12,7 +12,6 @@ const Chat = ({
   const [selectedRoom, setSelectedRoom] = useState(whatIsSelectedRoom);
 
   useEffect(() => {
-    console.log(whatIsSelectedRoom);
     setSelectedRoom(whatIsSelectedRoom);
   }, [whatIsSelectedRoom]);
 

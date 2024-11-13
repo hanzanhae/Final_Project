@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { gatheringForLacation } from '../../api/api';
-import { Container, Controls, MapContainer } from './MainMapStyled';
+import { Container, Controls, MapContainer, MapWrapper } from './MainMapStyled';
 import { useNavigate } from 'react-router-dom';
+import KakaoMapSearch from './KakaoMapSearch';
 
 const MainMap = () => {
   const [map, setMap] = useState(null);
   const [userPosition, setUserPosition] = useState(null);
   const [gatheringMarkers, setGatheringMarkers] = useState([]);
   const navigate = useNavigate();
-
+  const [gatheringResponses, setGatheringResponses] = useState([]);
   useEffect(() => {
     const script = document.createElement('script');
     script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=e8b68cee6e1c3b846aeee23216a1ab59&autoload=false`;
@@ -61,6 +62,7 @@ const MainMap = () => {
 
   const fetchMeetings = async (map, latitude, longitude) => {
     const res = await gatheringForLacation(latitude, longitude);
+    setGatheringResponses(res?.gatheringResponses || []);
     console.log('API Response:', res);
 
     if (res) {
@@ -166,7 +168,16 @@ const MainMap = () => {
           현재 위치로 이동
         </button>
       </Controls>
-      <MapContainer id="map"></MapContainer>
+      <MapWrapper>
+        <MapContainer id="map"></MapContainer>
+        {map && (
+          <KakaoMapSearch
+            map={map}
+            gatherings={gatheringResponses}
+            clearMarkers={clearMarkers}
+          />
+        )}
+      </MapWrapper>
     </Container>
   );
 };

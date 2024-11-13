@@ -48,10 +48,16 @@ export const Controls = styled.div`
 `;
 
 export const MapContainer = styled.div`
-  width: 150vh;
-  height: 70vh;
+  width: 60vw;
+  height: 60vh;
 
   border-radius: 15px;
   box-shadow: 0 0 10px 1px #ececec;
   overflow: hidden;
+`;
+
+export const MapWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0.5vw;
 `;

@@ -51,7 +51,7 @@ const EventsTable = ({ data, loading, onApprove, onReject }) => {
       render: (status) => statusMap[status] || '알 수 없음'
     },
     {
-      title: '액션',
+      title: '승인 여부',
       key: 'action',
       align: 'center',
       render: (_, record) => (

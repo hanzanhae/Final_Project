@@ -23,11 +23,11 @@ const MainHeader = () => {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+    if (!location.pathname.startsWith('/admin')) {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, [location]);
 
   // 페이지별 헤더테마색상
   let loginPath = location.pathname === '/login';
@@ -50,7 +50,10 @@ const MainHeader = () => {
   }
 
   return (
-    <Header $bgcolor={headerBgColor}>
+    <Header
+      $bgcolor={headerBgColor}
+      $isFixed={location.pathname.startsWith('/admin')}
+    >
       <HeaderInner>
         <HeaderLogo loginPath={loginPath} $color={headerTextColor} />
         <BtnBox>

@@ -21,15 +21,12 @@ export const CreateMeetingFormWrapper = styled.form`
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   width: 60vw;
   height: fit-content;
-  max-width: 95%;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  /* height: 62vh; */
 
   @media (max-width: 1440px) {
     width: 70vw;
-    height: auto;
   }
 `;
 
@@ -38,6 +35,7 @@ export const FormContainer = styled.div`
   justify-content: space-between;
   gap: 20px;
   flex-grow: 1;
+  position: relative;
 `;
 
 export const Column = styled.div`
@@ -49,53 +47,81 @@ export const Column = styled.div`
 `;
 
 export const FormRow = styled.div`
-  margin-bottom: 15px;
+  margin-bottom: 2rem;
+  @media (max-width: 1440px) {
+    margin-bottom: 1.5rem;
+  }
+`;
+export const FormRowInner = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 `;
 
 export const Label = styled.label`
+  font-size: 1.2rem;
   font-weight: 700;
-  margin-bottom: 5px;
   color: #333;
   display: block;
+  @media (max-width: 1440px) {
+    font-size: 1rem;
+  }
+`;
+export const LabelMargin = styled(Label)`
+  margin-bottom: 0.5rem;
 `;
 
 // export const StyledInputFile = styled.input.attrs({ type: 'file' })`
 //   display: none;
 // `;
 export const StyledInput = styled.input`
-  width: 84%;
+  padding: 0.25rem 0.5rem;
   text-align: center;
   border: 1px solid #ccc;
-  padding: 2px 0px;
   border-radius: 5px;
+  font-size: 1.2rem;
   &:focus {
     border-color: #007bff;
     outline: none;
+  }
+  @media (max-width: 1440px) {
+    font-size: 0.9rem;
   }
 `;
 
 export const StyledInputDe = styled.input`
-  width: 95%;
+  padding: 0.25rem 0.5rem;
   text-align: center;
   border: 1px solid #ccc;
-  padding: 2px 0px;
   border-radius: 5px;
+  font-size: 1.2rem;
   &:focus {
     border-color: #007bff;
     outline: none;
   }
+  @media (max-width: 1440px) {
+    font-size: 0.9rem;
+  }
 `;
 export const StyledInputTt = styled.input`
-  width: 50%;
+  width: 70%;
+  padding: 1rem;
   border: 1px solid #ccc;
   font-size: 13px;
   border-radius: 5px;
-  padding: 2px 0px;
   text-align: center;
   line-height: 1.5;
   height: 25px;
   &:focus {
     outline: none;
+  }
+  &::placeholder {
+    font-size: 1rem;
+  }
+  @media (max-width: 1440px) {
+    &::placeholder {
+      font-size: 0.8rem;
+    }
   }
 `;
 export const CustomFileUpload = styled.label`
@@ -153,7 +179,7 @@ export const StyledButton = styled.button`
   border-radius: 6px;
   padding: 10px 20px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   transition:
     background-color 0.3s,
@@ -166,6 +192,11 @@ export const StyledButton = styled.button`
   @media (max-width: 1440px) {
     font-size: 14px;
   }
+`;
+export const AddBtn = styled(StyledButton)`
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
 `;
 
 export const ButtonContainer = styled.div`

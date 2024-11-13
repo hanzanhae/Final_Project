@@ -21,7 +21,10 @@ import {
   StyledInput,
   StyledInputDe,
   StyledInputTt,
-  LocationBox
+  LocationBox,
+  FormRowInner,
+  LabelMargin,
+  AddBtn
 } from './CreateMeetingFormStyled';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -241,7 +244,7 @@ function CreateMeetingForm() {
               />
             </FormRow>
             <FormRow>
-              <Label>모임 사진 추가하기</Label>
+              <LabelMargin>모임사진 추가하기(선택)</LabelMargin>
               <CustomFileUpload htmlFor="thumbnail-upload">
                 {thumbnail ? (
                   <ThumbnailPreview src={thumbnail} alt="미리보기" />
@@ -262,18 +265,20 @@ function CreateMeetingForm() {
               </StyledButton>
             </FormRow>
             <FormRow>
-              <Label>모일 시간</Label>
-              <DatePicker
-                selected={selectedDate}
-                onChange={(date) => setSelectedDate(date)}
-                showTimeSelect
-                dateFormat="Pp"
-                customInput={<StyledInput />}
-              />
+              <FormRowInner>
+                <Label>만날 시간</Label>
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={(date) => setSelectedDate(date)}
+                  showTimeSelect
+                  dateFormat="Pp"
+                  customInput={<StyledInput />}
+                />
+              </FormRowInner>
             </FormRow>
 
             <FormRow>
-              <Label>장소 선택</Label>
+              <LabelMargin>만날 장소</LabelMargin>
               <LocationBox>
                 <StyledButton
                   type="button"
@@ -304,14 +309,16 @@ function CreateMeetingForm() {
 
           <Column className="right">
             <FormRow>
-              <Label>마감 기한</Label>
-              <DatePicker
-                selected={deadline}
-                onChange={(date) => setDeadline(date)}
-                dateFormat="yyyy/MM/dd"
-                placeholderText="마감 기한을 선택하세요"
-                customInput={<StyledInputDe />}
-              />
+              <FormRowInner>
+                <Label>마감 기한</Label>
+                <DatePicker
+                  selected={deadline}
+                  onChange={(date) => setDeadline(date)}
+                  dateFormat="yyyy/MM/dd"
+                  placeholderText="마감 날짜를 선택하세요"
+                  customInput={<StyledInputDe />}
+                />
+              </FormRowInner>
             </FormRow>
             <FormRow>
               <Label>목표 키로수</Label>
@@ -349,7 +356,7 @@ function CreateMeetingForm() {
             </FormRow>
 
             <FormRow>
-              <Label>모임에 대한 설명</Label>
+              <LabelMargin>모임에 대한 설명</LabelMargin>
               <StyledTextarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -357,12 +364,10 @@ function CreateMeetingForm() {
                 placeholder=" 본문 내용은 10~200 자 내로 입력해주세요."
               />
             </FormRow>
-            <ButtonContainer>
-              <StyledButton type="button" onClick={handleSubmit}>
-                모임 개설
-              </StyledButton>
-            </ButtonContainer>
           </Column>
+          <AddBtn type="button" onClick={handleSubmit}>
+            모임 개설
+          </AddBtn>
         </FormContainer>
 
         {showMapModal && (

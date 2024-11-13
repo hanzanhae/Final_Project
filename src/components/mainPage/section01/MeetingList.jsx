@@ -51,6 +51,7 @@ const MeetingList = ({ gatheringIn10km, searchText }) => {
     } else {
       setGathering(gatheringIn10km);
     }
+    // console.log(gatheringIn10km);
   }, [gatheringIn10km, pageNumber]);
 
   const handlefilteredGathering = () => {

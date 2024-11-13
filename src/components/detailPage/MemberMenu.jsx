@@ -14,7 +14,6 @@ const MemberMenu = ({
   const handleShowModal = () => {
     setShowModal(true);
   };
-  const myNickName = localStorage.getItem('userNickName');
   const directChat = async () => {
     try {
       const response = await getDirectChat(memberId, 0);
@@ -47,7 +46,6 @@ const MemberMenu = ({
 
 export default MemberMenu;
 
-// style
 const MenuBox = styled.div`
   width: 100px;
   height: fit-content;

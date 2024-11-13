@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getChatRoomList } from '../../../api/api';
 import styled from 'styled-components';
-
+import profileImg from '../../../images/user.png';
 const ChatRoomListLayout = ({
   selectedRoom,
   selectedRoomType,
@@ -55,7 +55,11 @@ const ChatRoomListLayout = ({
         {roomList?.map((room) => (
           <li key={room.id}>
             <ChatRoomListsBox onClick={() => handleRoomClick(room)}>
-              <ChatRoomListsImg src={room.profileImage} />
+              {room.profileImage !== null ? (
+                <ChatRoomListsImg src={room.profileImage} />
+              ) : (
+                <ChatRoomListsImg src={profileImg} />
+              )}
               <ChatRoomListTitle>{room.name}</ChatRoomListTitle>
             </ChatRoomListsBox>
           </li>

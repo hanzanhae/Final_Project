@@ -16,8 +16,6 @@ const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
       const lat = location.latitude;
       const lon = location.longitude;
       getAirData(lat, lon);
-    } else {
-      console.log(errorMsg);
     }
   };
 

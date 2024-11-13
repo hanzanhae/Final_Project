@@ -23,7 +23,6 @@ const DetailMember = ({ meet, membersList, openDirectChat }) => {
   const { id } = useParams();
   const [enteredMembers, setEnteredMembers] = useState([]);
   const [activeMember, setActiveMember] = useState(null);
-  // 참가 및 취소오류 알림메세지
   const [errorMsg, setErrorMsg] = useState('');
   // 참가여부 알림메세지
   // const [isEntered, setIsEntered] = useState(false);
@@ -82,7 +81,7 @@ const DetailMember = ({ meet, membersList, openDirectChat }) => {
           // 3. 멤버 업데이트가 완료된 후 500ms 대기한 뒤 채팅방 참여 요청
           setTimeout(async () => {
             await joinChatRoom();
-          }, 5000); // 500ms 대기 시간
+          }, 500); // 500ms 대기 시간
         } else {
           setErrorMsg('모임 참가 신청에 실패했습니다.');
         }

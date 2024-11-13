@@ -29,6 +29,9 @@ import { useCreateMeetingState } from './useCreateMeetingState';
 import instance from '../../api/instance';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import { postGroupChatRoomId, postImgData } from '../../api/api';
+
 function CreateMeetingForm() {
   const {
     title,
@@ -53,6 +56,7 @@ function CreateMeetingForm() {
   const [category, setCategory] = useState('RUNLINI');
   const [thumbnail, setThumbnail] = useState(null);
   const fileRef = useRef(null);
+  const uniqueId = uuidv4();
   const [representativeImageUrl, setRepresentativeImageUrl] = useState(null);
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -88,15 +92,7 @@ function CreateMeetingForm() {
     }
 
     try {
-      const response = await axios.post(
-        'https://myspringserver.store/images/gatherings',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-      );
+      const response = await postImgData(formData);
 
       console.log('업로드 성공:', response.data);
       alert('이미지 업로드 성공!');
@@ -216,8 +212,9 @@ function CreateMeetingForm() {
 
     try {
       const response = await instance.post('/gatherings', payload);
-
-      console.log('모임 등록 성공:', response.data);
+      const response2 = await postGroupChatRoomId(response.data.gathering_id);
+      console.log('모임 등록 성공:', response.data.gathering_id);
+      console.log(response2);
       alert('모임이 성공적으로 등록되었습니다.');
 
       navigate('/');

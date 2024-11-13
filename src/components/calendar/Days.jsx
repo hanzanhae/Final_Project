@@ -17,7 +17,8 @@ const Days = ({
   onDayClick,
   hasEvent,
   events,
-  gatherings
+  gatherings,
+  currentDay
 }) => {
   const today = new Date();
   const isToday =
@@ -26,7 +27,7 @@ const Days = ({
     fullDate.getFullYear() === today.getFullYear();
 
   const renderEventIcon = () => {
-    return gatherings.map((gathering, index) => {
+    return currentDay?.map((gathering, index) => {
       const appointedDate = new Date(gathering.appointed_at);
       const isFutureDate = appointedDate > today;
       const isPastDate = appointedDate < today;

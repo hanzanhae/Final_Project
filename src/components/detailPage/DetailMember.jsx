@@ -5,8 +5,10 @@ import MembersBox from './MembersBox';
 import {
   gatheringDetailMembersData,
   gatheringParticipation,
-  gatheringParticipationCancle
+  gatheringParticipationCancle,
+  postGroupChatJoin
 } from '../../api/api';
+import { useParams } from 'react-router-dom';
 
 const DetailMember = ({ meet, membersList, openDirectChat }) => {
   if (!meet) {
@@ -18,7 +20,7 @@ const DetailMember = ({ meet, membersList, openDirectChat }) => {
   const memberRef = useRef(null);
   const gatheringId = meet.content.id;
   const maxMember = meet.content.max_number;
-
+  const { id } = useParams();
   const [enteredMembers, setEnteredMembers] = useState([]);
   const [activeMember, setActiveMember] = useState(null);
   // 참가 및 취소오류 알림메세지
@@ -47,14 +49,46 @@ const DetailMember = ({ meet, membersList, openDirectChat }) => {
     };
   }, [setActiveMember]);
 
+  // 채팅방 참여 요청 함수
+  const joinChatRoom = async () => {
+    try {
+      const response = await postGroupChatJoin(id);
+      console.log(id);
+      console.log(response);
+
+      if (response) {
+        setErrorMsg('모임참가신청이 완료되었습니다.');
+      } else {
+        setErrorMsg('채팅방 참여에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('채팅방 참여 처리 중 오류 발생:', error);
+      setErrorMsg('채팅방 참여 중 오류가 발생했습니다.');
+    }
+  };
+
   // 모임참가 작성중...🚂
   const handleEnterMeeting = async () => {
     if (enteredMembers.length < maxMember) {
-      const response = await gatheringParticipation(gatheringId);
-      if (response) {
-        const newMembers = await gatheringDetailMembersData(gatheringId);
-        setEnteredMembers(newMembers.content);
-        setErrorMsg('모임참가신청이 완료되었습니다.');
+      try {
+        // 1. 모임 참가 요청
+        const response = await gatheringParticipation(gatheringId);
+
+        if (response) {
+          // 2. 모임 참가가 성공한 후 멤버 업데이트
+          const newMembers = await gatheringDetailMembersData(gatheringId);
+          setEnteredMembers(newMembers.content);
+
+          // 3. 멤버 업데이트가 완료된 후 500ms 대기한 뒤 채팅방 참여 요청
+          setTimeout(async () => {
+            await joinChatRoom();
+          }, 5000); // 500ms 대기 시간
+        } else {
+          setErrorMsg('모임 참가 신청에 실패했습니다.');
+        }
+      } catch (error) {
+        console.error('참가 처리 중 오류 발생:', error);
+        setErrorMsg('참가 처리 중 오류가 발생했습니다.');
       }
     } else {
       setErrorMsg(

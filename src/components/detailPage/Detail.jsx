@@ -4,8 +4,6 @@ import { useParams } from 'react-router-dom';
 import DetailInfo from './DetailInfo';
 import DetailMember from './DetailMember';
 
-import ThumbNailImg from '../../images/detailThumbnail.jpg';
-
 import {
   gatheringDetailData,
   gatheringDetailImagesData,

@@ -20,7 +20,8 @@ import {
   StyledRadioInput,
   StyledInput,
   StyledInputDe,
-  StyledInputTt
+  StyledInputTt,
+  LocationBox
 } from './CreateMeetingFormStyled';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -273,14 +274,19 @@ function CreateMeetingForm() {
 
             <FormRow>
               <Label>장소 선택</Label>
-              <StyledButton type="button" onClick={() => setShowMapModal(true)}>
-                장소 선택하기
-              </StyledButton>
-              {selectedLocation ? (
-                <p>{`${selectedLocation.location.address_names.region_2depth_name} ${selectedLocation.location.address_names.region_3depth_name}`}</p>
-              ) : (
-                <p className="default-text">장소를 선택하세요</p>
-              )}
+              <LocationBox>
+                <StyledButton
+                  type="button"
+                  onClick={() => setShowMapModal(true)}
+                >
+                  장소 선택하기
+                </StyledButton>
+                {selectedLocation ? (
+                  <p>{`${selectedLocation.location.address_names.region_2depth_name} ${selectedLocation.location.address_names.region_3depth_name}`}</p>
+                ) : (
+                  <p className="default-text">장소를 선택하세요</p>
+                )}
+              </LocationBox>
             </FormRow>
 
             <FormRow>

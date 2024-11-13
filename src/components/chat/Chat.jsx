@@ -76,7 +76,8 @@ const ChatIcon = styled.div`
 const ChatBox = styled.div`
   display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
   width: 400px;
-  height: 50rem;
+  /* height: 50rem; */
+  height: 80vh;
   background-color: white;
   border-radius: 10px;
   padding: 10px;

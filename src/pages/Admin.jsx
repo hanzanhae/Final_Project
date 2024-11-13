@@ -23,6 +23,7 @@ export default Admin;
 const AdminLayout = styled.div`
   display: flex;
   min-height: 100vh;
+  /* padding-top: 8vh; */
 `;
 
 const ContentLayout = styled.div`

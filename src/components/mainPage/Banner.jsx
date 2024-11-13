@@ -64,9 +64,12 @@ const Title = styled.h2`
   color: ${({ theme }) => theme.textColor};
 `;
 const Text = styled.p`
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: ${({ theme }) => theme.textColor};
+  @media (max-width: 1440px) {
+    font-size: 1rem;
+  }
 `;
 const MakeBtn = styled.button`
   padding: 0.25rem 2rem 0.25rem 1rem;
@@ -74,15 +77,18 @@ const MakeBtn = styled.button`
   align-items: center;
   position: absolute;
   right: 0;
-  bottom: 2rem;
-  border-start-start-radius: 1rem;
-  border-bottom-left-radius: 1rem;
+  bottom: 10rem;
+  border-start-start-radius: 2rem;
+  border-bottom-left-radius: 2rem;
   background-color: ${({ theme }) => theme.bgColorBitDark};
   color: ${({ theme }) => theme.textColor};
-  font-size: 1.1rem;
+  font-size: 1vw;
   font-weight: 600;
   letter-spacing: 1px;
   transition: opacity 0.5s;
+  @media (max-width: 1440px) {
+    bottom: 7rem;
+  }
 `;
 const Icon = styled.div`
   display: flex;

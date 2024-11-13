@@ -29,17 +29,21 @@ const DateModal = ({ isOpen, onClose, date, events = [], onUpdateEvents }) => {
     onUpdateEvents(date.toDateString(), updatedEvents);
   };
 
-  const handleToggleForm = () => setShowForm(!showForm);
+  const handleToggleForm = () => {
+    setShowForm(!showForm);
+  };
 
   return (
     <ModalOverlay>
       <ModalContent>
-        <ModalEvent>
-          <ModalEventList>날짜 : {date.toDateString()} </ModalEventList>
-          <ModalEventList>장소 : </ModalEventList>
-          <ModalEventList>인원 : </ModalEventList>
-          <ModalEventList>시간 : </ModalEventList>
-        </ModalEvent>
+        {events.length > 0 && (
+          <ModalEvent>
+            <ModalEventList>날짜 : {date.toDateString()} </ModalEventList>
+            <ModalEventList>장소 : </ModalEventList>
+            <ModalEventList>인원 : </ModalEventList>
+            <ModalEventList>시간 : </ModalEventList>
+          </ModalEvent>
+        )}
         <ModalToDoList>
           {events.map((event, index) => (
             <ModalList key={index}>

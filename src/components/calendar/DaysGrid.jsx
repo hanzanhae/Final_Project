@@ -3,7 +3,7 @@ import Days from '../calendar/Days';
 import styled from 'styled-components';
 import DateModal from '../calendar/DateModal';
 
-const DaysGrid = ({ daysArray, currentMonth, holidays }) => {
+const DaysGrid = ({ daysArray, currentMonth, holidays, gatheringData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [eventsByDate, setEventsByDate] = useState({});
@@ -24,8 +24,6 @@ const DaysGrid = ({ daysArray, currentMonth, holidays }) => {
     <>
       <DaysContainer>
         {daysArray.map((dayObj, index) => {
-          const isHoliday = holidays.includes(dayObj.day);
-
           const dateToCheck = new Date(
             currentMonth.getFullYear(),
             currentMonth.getMonth(),
@@ -36,6 +34,8 @@ const DaysGrid = ({ daysArray, currentMonth, holidays }) => {
             dateToCheck.getFullYear() === currentMonth.getFullYear() &&
             dateToCheck.getMonth() === currentMonth.getMonth();
 
+          const isHoliday = isCurrentMonthDate && holidays.includes(dayObj.day);
+
           const fullDate = new Date(
             currentMonth.getFullYear(),
             currentMonth.getMonth() +
@@ -44,6 +44,13 @@ const DaysGrid = ({ daysArray, currentMonth, holidays }) => {
           );
 
           const hasEvent = eventsByDate[fullDate.toDateString()]?.length > 0;
+
+          const dateKey = fullDate.toDateString();
+          const eventsForDay = eventsByDate[dateKey] || [];
+
+          const gatheringsForDay = gatheringData.filter((gathering) =>
+            gathering.appointed_at.startsWith(dateKey)
+          );
 
           return (
             <Days
@@ -56,6 +63,8 @@ const DaysGrid = ({ daysArray, currentMonth, holidays }) => {
               isNextMonth={dayObj.isNextMonth}
               onDayClick={handleDayClick}
               hasEvent={hasEvent}
+              events={eventsForDay}
+              gatherings={gatheringsForDay}
             />
           );
         })}

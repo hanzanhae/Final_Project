@@ -1,8 +1,8 @@
+// Admin.jsx
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom'; // Outlet을 사용하여 하위 페이지 렌더링
+import { Outlet } from 'react-router-dom';
 import AdminSider from '../components/admin/AdminSider';
-
-import { AdminLayout, ContentLayout } from '../styles/adminStyle'; // 스타일 import
+import styled from 'styled-components';
 
 const Admin = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -10,11 +10,27 @@ const Admin = () => {
   return (
     <AdminLayout>
       <AdminSider collapsed={collapsed} setCollapsed={setCollapsed} />
-      <ContentLayout collapsed={collapsed}>
-        <Outlet /> {/* 하위 페이지가 이곳에 렌더링됩니다 */}
+      <ContentLayout $collapsed={collapsed}>
+        <Outlet />
       </ContentLayout>
     </AdminLayout>
   );
 };
 
 export default Admin;
+
+// 스타일 컴포넌트
+const AdminLayout = styled.div`
+  display: flex;
+  min-height: 100vh;
+  /* padding-top: 8vh; */
+`;
+
+const ContentLayout = styled.div`
+  margin-left: ${({ $collapsed }) => ($collapsed ? '80px' : '200px')};
+  transition: margin-left 0.2s ease;
+  padding: 20px;
+  width: 100%;
+  background-color: #f0f2f5;
+  min-height: 100vh;
+`;

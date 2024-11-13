@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import * as S from '../../styles/signUpStyle/SignupStyle';
-import { isValidEmail, isValidPassword, containSlang } from '../../utils/validation';
-import Dragon from '../../images/dragon.png';
-import Wolf from '../../images/wolf.png';
-import Deer from '../../images/deer.png';
-import Dog from '../../images/dog.png';
-import { useNavigate } from 'react-router-dom';
-import { checkEmail, formSubmit } from '../../api/api';
+import {
+  isValidEmail,
+  isValidPassword,
+  containSlang
+} from '../../utils/validation';
+import { formSubmit } from '../../api/api';
 
 const SignUpForm = () => {
-  const [email, setEmail] = useState('');
-  const [emailMessage, setEmailMessage] = useState('');
-  const [emailStatus, setEmailStatus] = useState(null);
+  // const [email, setEmail] = useState('');
+  // const [emailMessage, setEmailMessage] = useState('');
+  // const [emailStatus, setEmailStatus] = useState(null);
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
   const [formData, setFormData] = useState({
@@ -27,10 +26,10 @@ const SignUpForm = () => {
     marketing: false
   });
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    const formFieldsFilled = Object.values(formData).every((value) => value !== '');
+    const formFieldsFilled = Object.values(formData).every(
+      (value) => value !== ''
+    );
     const noErrors = Object.keys(errors).length === 0;
     const termsAccepted = terms.service && terms.personalInfo;
 
@@ -78,38 +77,40 @@ const SignUpForm = () => {
   };
 
   // 이메일 중복 체크
-  const handleEmailCheck = async () => {
-    try {
-      const response = await checkEmail(email);
+  // const handleEmailCheck = async () => {
+  //   try {
+  //     const response = await checkEmail(email);
 
-      if (response.status === 200) {
-        setEmailMessage('사용 가능한 이메일입니다.');
-        setEmailStatus(true);
-      }
-    } catch (error) {
-      if (error.response) {
-        const { status, data } = error.response;
+  //     if (response.status === 200) {
+  //       setEmailMessage('사용 가능한 이메일입니다.');
+  //       setEmailStatus(true);
+  //     }
+  //   } catch (error) {
+  //     if (error.response) {
+  //       const { status, data } = error.response;
 
-        if (status === 409) {
-          setEmailMessage(data.message);
-          setEmailStatus(false);
-        }
+  //       if (status === 409) {
+  //         setEmailMessage(data.message);
+  //         setEmailStatus(false);
+  //       }
 
-        if (status === 400 && data.field_errors) {
-          const emailError = data.field_errors.find((error) => error.field === 'email');
+  //       if (status === 400 && data.field_errors) {
+  //         const emailError = data.field_errors.find(
+  //           (error) => error.field === 'email'
+  //         );
 
-          if (emailError) {
-            setEmailMessage(emailError.message);
-          }
-          setEmailStatus(false); // 이메일 사용 불가능 상태 설정
-        }
-      } else {
-        console.error('이메일 체크 중 알 수 없는 오류 발생:', error);
-        setEmailMessage('이메일 확인 중 오류가 발생했습니다.');
-        setEmailStatus(false);
-      }
-    }
-  };
+  //         if (emailError) {
+  //           setEmailMessage(emailError.message);
+  //         }
+  //         setEmailStatus(false); // 이메일 사용 불가능 상태 설정
+  //       }
+  //     } else {
+  //       console.error('이메일 체크 중 알 수 없는 오류 발생:', error);
+  //       setEmailMessage('이메일 확인 중 오류가 발생했습니다.');
+  //       setEmailStatus(false);
+  //     }
+  //   }
+  // };
 
   // 입력 필드 변경 처리
   const handleChange = (e) => {
@@ -131,7 +132,9 @@ const SignUpForm = () => {
 
       if (
         name !== 'allAgree' &&
-        (!updatedTerms.service || !updatedTerms.personalInfo || !updatedTerms.marketing)
+        (!updatedTerms.service ||
+          !updatedTerms.personalInfo ||
+          !updatedTerms.marketing)
       ) {
         updatedTerms.allAgree = false;
       }
@@ -142,7 +145,11 @@ const SignUpForm = () => {
         updatedTerms.marketing = checked;
       }
 
-      if (updatedTerms.service && updatedTerms.personalInfo && updatedTerms.marketing) {
+      if (
+        updatedTerms.service &&
+        updatedTerms.personalInfo &&
+        updatedTerms.marketing
+      ) {
         updatedTerms.allAgree = true;
       }
 
@@ -152,91 +159,24 @@ const SignUpForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log('Submit button clicked');
     // eslint-disable-next-line no-unused-vars
     const formDataToSend = new FormData();
     formDataToSend.append('email', formData.email);
     formDataToSend.append('password', formData.password);
     formDataToSend.append('nickname', formData.nickname);
 
-    if (selectedFile) {
-      formDataToSend.append('profileImage', selectedFile); // 파일이 있으면 선택한 파일을 전송
-    } else {
-      formDataToSend.append('profileImage', selectedProfileImg); // 기본 이미지 전송
-    }
     try {
       const response = await formSubmit(formDataToSend);
-      if (response.message === 'success signup') {
-        navigate('/');
-        alert('회원가입 성공');
-      }
     } catch (error) {
-      console.error('회원가입 중 오류 발생:', error);
+      console.error('회원가입 중 오류 발생:', error.message); // 에러 메시지 출력
     }
-  };
-
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const [selectedProfileImg, setSelectedProfileImg] = useState(null);
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setPreview(URL.createObjectURL(file)); // 프리뷰로 표시할 URL 생성
-    }
-  };
-  const handleProfileImgClick = (img) => {
-    setSelectedProfileImg(img);
-    setSelectedFile(null); // 기본 이미지를 선택하면 파일을 초기화
-    setPreview(null); // 프리뷰도 초기화
   };
 
   return (
     <S.FormContainer>
       <S.Title>회원가입</S.Title>
       <S.Form onSubmit={handleSubmit}>
-        <S.ProfileContainer>
-          <S.AddProfileImg onClick={() => document.getElementById('profileImageInput').click()}>
-            {preview ? (
-              <img
-                src={preview}
-                alt="프리뷰"
-                style={{ width: '60px', height: '60px', borderRadius: '50%' }}
-              />
-            ) : (
-              '+'
-            )}
-          </S.AddProfileImg>
-          <input
-            type="file"
-            id="profileImageInput"
-            style={{ display: 'none' }}
-            accept="image/*"
-            onChange={handleFileChange}
-          />
-          <S.ProfileImg1
-            $isselected={selectedProfileImg === Dragon}
-            backgroundimage={Dragon}
-            onClick={() => handleProfileImgClick(Dragon)}
-          ></S.ProfileImg1>
-          <S.ProfileImg1
-            $isselected={selectedProfileImg === Wolf}
-            backgroundimage={Wolf}
-            onClick={() => handleProfileImgClick(Wolf)}
-          ></S.ProfileImg1>
-          <S.ProfileImg1
-            $isselected={selectedProfileImg === Deer}
-            backgroundimage={Deer}
-            onClick={() => handleProfileImgClick(Deer)}
-          ></S.ProfileImg1>
-          <S.ProfileImg1
-            $isselected={selectedProfileImg === Dog}
-            backgroundimage={Dog}
-            onClick={() => handleProfileImgClick(Dog)}
-          ></S.ProfileImg1>
-        </S.ProfileContainer>
-
         <S.InputContainer>
           <S.Input
             type="text"
@@ -257,21 +197,21 @@ const SignUpForm = () => {
               value={formData.email}
               onChange={(e) => {
                 handleChange(e);
-                setEmail(e.target.value); // 이메일 상태 업데이트
+                // setEmail(e.target.value); // 이메일 상태 업데이트
               }}
               onBlur={handleBlur}
             />
-            <S.SmallButton type="button" onClick={handleEmailCheck}>
-              중복 확인
-            </S.SmallButton>
+            <S.SmallButton type="button">중복 확인</S.SmallButton>
           </S.InputWrapper>
         </S.InputContainer>
-        <S.ErrorWrapper>
+        {/* <S.ErrorWrapper>
           {errors.email && <S.ErrorMsg>{errors.email}</S.ErrorMsg>}
           {emailMessage && (
-            <S.EmailStatusMessage success={emailStatus}>{emailMessage}</S.EmailStatusMessage>
+            <S.EmailStatusMessage success={emailStatus}>
+              {emailMessage}
+            </S.EmailStatusMessage>
           )}
-        </S.ErrorWrapper>
+        </S.ErrorWrapper> */}
         <S.InputContainer>
           <S.Input
             type="password"
@@ -295,12 +235,14 @@ const SignUpForm = () => {
           />
         </S.InputContainer>
         <S.ErrorWrapper>
-          {errors.confirmPassword && <S.ErrorMsg>{errors.confirmPassword}</S.ErrorMsg>}
+          {errors.confirmPassword && (
+            <S.ErrorMsg>{errors.confirmPassword}</S.ErrorMsg>
+          )}
         </S.ErrorWrapper>
         <S.TermsContainer>
           <S.TermsHeader>
-            서비스 이용 약관과 개인정보 수집 및 이용을 확인하시고, 만 14세 이상임에 동의하신 후 미리
-            보기 화면으로 이동하시기 바랍니다.
+            서비스 이용 약관과 개인정보 수집 및 이용을 확인하시고, 만 14세
+            이상임에 동의하신 후 미리 보기 화면으로 이동하시기 바랍니다.
           </S.TermsHeader>
           <S.TermsWrapper>
             <S.Checkbox

@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../api/api';
+import { login, getAccessTokenFromBackend } from '../../api/api';
 import { isValidEmail, isValidPassword } from '../../utils/validation.js';
 import * as S from '../../styles/loginStyle/LoginFormStyle.js';
 import KakaoLoginImg from '../../images/카카오로그인.png';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/actions/userActions.js';
-// import axios from 'axios';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -45,15 +44,17 @@ const LoginForm = () => {
 
   const handlePasswordBlur = () => {
     if (!isValidPassword(password)) {
-      setPasswordError('비밀번호는 영문자와 숫자를 포함하여 8자 이상 20자 이하로 입력해야 합니다.');
+      setPasswordError(
+        '비밀번호는 영문자와 숫자를 포함하여 8자 이상 20자 이하로 입력해야 합니다.'
+      );
     } else {
       setPasswordError('');
     }
   };
 
   // 로그인 요청 함수
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
     setError('');
 
@@ -62,13 +63,14 @@ const LoginForm = () => {
       setIsLoading(false);
       return;
     }
-
     try {
       const response = await login(email, password);
       const accessToken = response.headers['authorization'].split(' ')[1];
-
       localStorage.setItem('accessToken', accessToken);
-
+      localStorage.setItem('userNickName', response.data.nickname);
+      localStorage.setItem('loginType', 'local');
+      const userData = response.data.nickname;
+      dispatch(setUser(userData));
       navigate('/');
     } catch (error) {
       console.error('로그인 에러 발생:', error);
@@ -80,45 +82,21 @@ const LoginForm = () => {
 
   const loginWithKakao = async () => {
     if (window.Kakao) {
+      if (!window.Kakao.isInitialized()) {
+        window.Kakao.init(process.env.REACT_APP_KAKAOLOGIN_APP_KEY);
+      }
       window.Kakao.Auth.authorize({
-        redirectUri: 'https://myspringserver.store/oauth2/authorization/kakao'
+        redirectUri: process.env.REACT_APP_KAKAOLOGIN_REDIRECT_URI
       });
+    } else {
+      console.error('Kakao SDK가 로드되지 않았습니다.');
     }
-    // try {
-    //   const response = await axios.get('https://myspringserver.store/api/user/token'); // 백엔드가 Access Token을 전달해주는 API
-    //   const { accessToken } = response.data;
-    //   localStorage.setItem('accessToken', accessToken);
-    //   axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    //   navigate('/');
-    // } catch (error) {
-    //   console.error('Access Token 요청 중 오류 발생:', error);
-    // }
+    localStorage.setItem('loginType', 'kakao');
   };
-
   const handleLoginSuccess = (userData) => {
     dispatch(setUser(userData));
   };
 
-  useEffect(() => {
-    // Kakao SDK 스크립트 로드
-    const kakaoScript = document.createElement('script');
-    kakaoScript.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js';
-    kakaoScript.integrity =
-      'sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4';
-    kakaoScript.crossOrigin = 'anonymous';
-
-    kakaoScript.onload = () => {
-      if (window.Kakao) {
-        window.Kakao.init('c9ae47ba431b9b064755d4472cdb5ed9');
-      }
-    };
-
-    document.head.appendChild(kakaoScript);
-
-    return () => {
-      document.head.removeChild(kakaoScript);
-    };
-  }, []);
   return (
     <S.FormContainer>
       <S.Title>로그인</S.Title>
@@ -135,7 +113,9 @@ const LoginForm = () => {
           <S.CustomIcon2 />
         </S.InputContainer>
         <S.ErrorWrapper>
-          {emailError && <S.ErrorMessage>유효한 이메일 주소를 입력해 주세요.</S.ErrorMessage>}
+          {emailError && (
+            <S.ErrorMessage>유효한 이메일 주소를 입력해 주세요.</S.ErrorMessage>
+          )}
         </S.ErrorWrapper>
         <S.InputContainer>
           <S.Input
@@ -152,9 +132,11 @@ const LoginForm = () => {
         <S.ErrorWrapper>
           {passwordError && <S.ErrorMessage>{passwordError}</S.ErrorMessage>}
         </S.ErrorWrapper>
-        <S.ErrorWrapper>{error && <S.ErrorMessage>{error}</S.ErrorMessage>}</S.ErrorWrapper>
-        <S.Btn $isLoading={isLoading} onClick={handleLoginSuccess}>
-          로그인
+        <S.ErrorWrapper>
+          {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
+        </S.ErrorWrapper>
+        <S.Btn $isLoading={isLoading} disabled={isLoading}>
+          {isLoading ? '로그인 중...' : '로그인'}
         </S.Btn>
         <S.KakaoLoginBox onClick={loginWithKakao}>
           <img src={KakaoLoginImg} alt="카카오로그인" width="222" />

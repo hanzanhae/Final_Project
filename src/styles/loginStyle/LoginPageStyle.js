@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import styled, { css } from 'styled-components';
 
 export const ImageContainer = styled.div`
@@ -11,6 +12,18 @@ export const ImageContainer = styled.div`
   height: 100vh;
   position: relative;
   align-items: center;
+
+  @media (max-width: 1440px) {
+    height: 90vh;
+  }
+
+  @media (max-width: 1024px) {
+    height: 80vh;
+  }
+
+  @media (max-width: 768px) {
+    height: 60vh;
+  }
 `;
 
 export const Container = styled.div`
@@ -24,8 +37,18 @@ export const Container = styled.div`
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
+  width: 90%;
   transition: transform 0.6s ease-in-out;
+
+  @media (max-width: 1024px) {
+    width: 80%;
+    height: 85%;
+  }
+
+  @media (max-width: 768px) {
+    width: 95%;
+    height: 90%;
+  }
 `;
 
 export const FormContainer = styled.div`
@@ -40,6 +63,10 @@ export const FormContainer = styled.div`
   left: 0;
   transform: ${({ $isRightPanelActive }) =>
     $isRightPanelActive ? 'translateX(0)' : 'translateX(100%)'};
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
 `;
 
 export const Button = styled.button`
@@ -55,6 +82,15 @@ export const Button = styled.button`
   padding: 0.9rem 4rem;
   text-transform: uppercase;
   transition: transform 80ms ease-in;
+
+  @media (max-width: 1024px) {
+    padding: 0.7rem 3rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.7rem;
+    padding: 0.5rem 2.5rem;
+  }
 `;
 
 export const OverlayContainer = styled.div`
@@ -68,6 +104,13 @@ export const OverlayContainer = styled.div`
   z-index: 100;
   transform: ${({ $isRightPanelActive }) =>
     $isRightPanelActive ? 'translateX(-100%)' : 'translateX(0)'};
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    left: 0;
+    transform: ${({ $isRightPanelActive }) =>
+      $isRightPanelActive ? 'translateX(-100%)' : 'translateX(0)'};
+  }
 `;
 
 export const Overlay = styled.div`
@@ -84,6 +127,12 @@ export const Overlay = styled.div`
   width: 200%;
   transform: ${({ $isRightPanelActive }) =>
     $isRightPanelActive ? ' translateX(50%)' : 'translateX(0)'};
+
+  @media (max-width: 1024px) {
+    width: 150%;
+    transform: ${({ $isRightPanelActive }) =>
+      $isRightPanelActive ? 'translateX(25%)' : 'translateX(0)'};
+  }
 `;
 
 export const OverlayPanel = styled.div`
@@ -97,7 +146,6 @@ export const OverlayPanel = styled.div`
   width: 50%;
   text-align: center;
   transition: transform 0.6s ease-out-in;
-
   ${({ $isLeft }) =>
     $isLeft
       ? css`
@@ -109,10 +157,16 @@ export const OverlayPanel = styled.div`
       : css`
           left: 0;
           transform: translateX(
-            ${({ $isRightPanelActive }) => ($isRightPanelActive ? '0' : '-100%')}
+            ${({ $isRightPanelActive }) =>
+              $isRightPanelActive ? '0' : '-100%'}
           );
         `}
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
 `;
+
 export const OverlayPanel2 = styled.div`
   display: flex;
   align-items: center;
@@ -124,7 +178,6 @@ export const OverlayPanel2 = styled.div`
   width: 50%;
   text-align: center;
   transition: transform 0.6s ease-out-in;
-
   ${({ $isLeft }) =>
     $isLeft
       ? css`
@@ -136,7 +189,12 @@ export const OverlayPanel2 = styled.div`
       : css`
           left: 0;
           transform: translateX(
-            ${({ $isRightPanelActive }) => ($isRightPanelActive ? '0' : '-100%')}
+            ${({ $isRightPanelActive }) =>
+              $isRightPanelActive ? '0' : '-100%'}
           );
         `}
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
 `;

@@ -5,27 +5,44 @@ import DaysGrid from '../calendar/DaysGrid';
 import JoinCount from '../calendar/JoinCount';
 import CumulationCount from '../calendar/CumulationCount';
 import axios from 'axios';
-import { mockMeetings } from '../../data/mockMeetings';
 import peopleImage from '../../images/people.jpg';
 import personImage from '../../images/person.jpg';
+import { getCalendarData } from '../../api/api';
 
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [holidays, setHolidays] = useState([]);
-  const [attendedCount, setAttendedCount] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [isSidebarMoving, setIsSidebarMoving] = useState(false);
+  const [gatheringData, setGatheringData] = useState([]);
 
-  const API_KEY = process.env.REACT_APP_API_KEY;
+  const fetchGathering = async () => {
+    const currentYear = currentMonth.getFullYear();
+    const currentMonthIndex = currentMonth.getMonth() + 1;
+
+    const data = await getCalendarData(currentYear, currentMonthIndex);
+    console.log('API로부터 받은 데이터:', data);
+
+    if (data && data.gatherings) {
+      setGatheringData(data.gatherings || []);
+    } else {
+      console.log('달력 모임 데이터가 없습니다.');
+    }
+  };
+
+  useEffect(() => {
+    fetchGathering();
+  }, [currentMonth]);
+
+  const API_KEY = encodeURIComponent(process.env.REACT_APP_HOLIDAY_API_KEY);
 
   useEffect(() => {
     const fetchHolidays = async () => {
       try {
         const response = await axios.get(
-          `https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo`,
+          `https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo?serviceKey=${API_KEY}`,
           {
             params: {
-              serviceKey: API_KEY,
               solYear: currentMonth.getFullYear(),
               solMonth: (currentMonth.getMonth() + 1)
                 .toString()
@@ -34,33 +51,26 @@ const Calendar = () => {
             }
           }
         );
-        console.log(response.data);
-        const items = response.data.response.body.items.item;
-        setHolidays(items || []);
+        if (
+          response.data &&
+          response.data.response &&
+          response.data.response.body &&
+          response.data.response.body.items
+        ) {
+          const items = response.data.response.body.items.item;
+          setHolidays(items || []);
+        } else {
+          console.error('Unexpected API response structure:', response.data);
+          setHolidays([]);
+        }
       } catch (error) {
         console.error('Error fetching holidays:', error);
+        setHolidays([]);
       }
     };
 
     fetchHolidays();
   }, [currentMonth, API_KEY]);
-
-  useEffect(() => {
-    const fetchMeetings = () => {
-      const count = mockMeetings.filter((meeting) => {
-        const meetingDate = new Date(meeting.date);
-        return (
-          meeting.type === 'attended' &&
-          meetingDate.getMonth() === currentMonth.getMonth() &&
-          meetingDate.getFullYear() === currentMonth.getFullYear()
-        );
-      }).length;
-
-      setAttendedCount(count);
-    };
-
-    fetchMeetings();
-  }, [currentMonth]);
 
   const getDaysInMonth = (month, year) => {
     return new Date(year, month + 1, 0).getDate();
@@ -151,7 +161,18 @@ const Calendar = () => {
               daysArray={daysArray}
               daysInMonth={daysInMonth}
               currentMonth={currentMonth}
-              holidays={holidays.map((holiday) => holiday.locdate % 100)}
+              holidays={
+                Array.isArray(holidays)
+                  ? holidays
+                    . filter(
+                      (holiday) =>
+                        parseInt(holiday.locdate.toString().slice(4, 6)) ===
+                        currentMonth.getMonth() + 1
+                    )
+                    .map((holiday) => holiday.locdate % 100)
+                : []
+            }
+              gatheringData={gatheringData}
             />
           </CalendarContainer>
         </Left>
@@ -176,8 +197,10 @@ const Calendar = () => {
         <PostOne></PostOne>
         <PostTwo></PostTwo>
         <Right>
-          <JoinCount attendedCount={attendedCount} />
-          <CumulationCount />
+          <JoinCount attendedCount={gatheringData.attendance_count} />
+          <CumulationCount
+            cumulatedDistance={gatheringData.total_real_distance}
+          />
         </Right>
       </Container>
     </Box>
@@ -188,6 +211,7 @@ export default Calendar;
 
 const Box = styled.div`
   margin-top: 40px;
+  overflow: hidden;
 `;
 
 const Container = styled.div`

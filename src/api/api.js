@@ -195,6 +195,20 @@ export const getGroupMapPoint = async (radius_distance, Xpoint, Ypoint) => {
   }
 };
 
+export const getCalendarData = async (year, month) => {
+  try {
+    //console.log(`요청 URL: /users/calender?year=${year}&month=${month}`);
+    const response = await instance.get(
+      `/users/calender?year=${year}&month=${month}`
+    );
+    //console.log('API 응답 데이터:', response.data);
+    return response.data;
+  } catch (error) {
+    console.log('API 요청 에러:', error);
+    return null;
+  }
+};
+
 //내 프로필 데이터 받아오기
 export const getProfile = async (user_id) => {
   try {

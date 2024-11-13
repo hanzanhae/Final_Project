@@ -2,19 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import {
   FaCheckCircle,
+  FaCalendarAlt,
   FaTimesCircle,
-  FaBell,
-  FaCalendarAlt
+  FaBell
 } from 'react-icons/fa';
-import { mockMeetings } from '../../data/mockMeetings';
-
-const renderMeetingIcon = (meetingType) => {
-  if (meetingType === 'attended') return <FaCheckCircleIcon />;
-  if (meetingType === 'missed') return <FaTimesCircleIcon />;
-  if (meetingType === 'upcoming') return <FaBellIcon />;
-  if (meetingType === 'event') return <FaCalendarAltIcon />;
-  return null;
-};
 
 const Days = ({
   day,
@@ -24,32 +15,49 @@ const Days = ({
   isPreviousMonth,
   isNextMonth,
   onDayClick,
-  hasEvent
+  hasEvent,
+  events,
+  gatherings
 }) => {
-  const getMeetingTypeForDay = (fullDate) => {
-    const meeting = mockMeetings.find((meeting) => {
-      const meetingDate = new Date(meeting.date);
-      return (
-        meetingDate.getDate() === fullDate.getDate() &&
-        meetingDate.getMonth() === fullDate.getMonth() &&
-        meetingDate.getFullYear() === fullDate.getFullYear()
-      );
-    });
-    return meeting ? meeting.type : null;
-  };
-
   const today = new Date();
   const isToday =
     fullDate.getDate() === today.getDate() &&
     fullDate.getMonth() === today.getMonth() &&
     fullDate.getFullYear() === today.getFullYear();
 
-  const meetingType = getMeetingTypeForDay(fullDate);
+  const renderEventIcon = () => {
+    return gatherings.map((gathering, index) => {
+      const appointedDate = new Date(gathering.appointed_at);
+      const isFutureDate = appointedDate > today;
+      const isPastDate = appointedDate < today;
+
+      if (
+        isFutureDate &&
+        gathering.attendance_status === 'PENDING' &&
+        gathering.role === 'PARTICIPANT'
+      ) {
+        return <FaCalendarAlt key={index} />;
+      } else if (
+        isPastDate &&
+        gathering.role === 'PARTICIPANT' &&
+        gathering.attendance_status === 'ATTENDING'
+      ) {
+        return <FaCheckCircle key={index} />;
+      } else if (
+        isPastDate &&
+        gathering.role === 'PARTICIPANT' &&
+        gathering.attendance_status === 'NOT_ATTENDING'
+      ) {
+        return <FaTimesCircle key={index} />;
+      }
+      return null;
+    });
+  };
 
   return (
     <DaysContainer onClick={() => onDayClick(fullDate)}>
       {isToday ? (
-        meetingType ? (
+        events.length > 0 ? (
           <TodayEventDate>{day}</TodayEventDate>
         ) : (
           <TodayDate>{day}</TodayDate>
@@ -65,7 +73,7 @@ const Days = ({
       ) : (
         <OtherMonthDate>{day}</OtherMonthDate>
       )}
-      <IconContainer>{renderMeetingIcon(meetingType)}</IconContainer>
+      <IconContainer>{renderEventIcon()}</IconContainer>
       {hasEvent && <EventBar />}
     </DaysContainer>
   );
@@ -155,20 +163,14 @@ const FaCheckCircleIcon = styled(FaCheckCircle)`
   margin-top: 5px;
 `;
 
-const FaTimesCircleIcon = styled(FaTimesCircle)`
-  color: #ff0054;
+const FaCalendarAltIcon = styled(FaCalendarAlt)`
+  color: #83c5;
   font-size: 20px;
   margin-top: 5px;
 `;
 
 const FaBellIcon = styled(FaBell)`
   color: #ffbe0b;
-  font-size: 20px;
-  margin-top: 5px;
-`;
-
-const FaCalendarAltIcon = styled(FaCalendarAlt)`
-  color: #83c5;
   font-size: 20px;
   margin-top: 5px;
 `;

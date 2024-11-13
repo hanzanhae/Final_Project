@@ -53,7 +53,7 @@ const Mypage = () => {
 
 //스타일
 const Container = styled.div`
-  display: flex;
+  width: 100%;
   margin-top: 8vh;
 `;
 
@@ -62,12 +62,15 @@ const Sidebar = styled.div`
   background-color: #f4f4f4;
   height: 100vh;
   padding: 20px;
-  position: relative;
+  position: fixed;
 `;
 
 const Content = styled.div`
+  float: right;
   flex: 1;
   padding: 20px;
+  width: calc(100% - 200px);
+  height: fit-content;
 `;
 
 const MenuItem = styled.div`

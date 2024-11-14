@@ -7,10 +7,18 @@ const DaysGrid = ({ daysArray, currentMonth, holidays, gatheringData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [eventsByDate, setEventsByDate] = useState({});
+  const [currentDay, setCurrentDay] = useState();
 
   const handleDayClick = (date) => {
     setSelectedDate(date);
     setIsModalOpen(true);
+
+    const dateKey = date.toLocaleDateString('en-CA');
+    const gatheringsForDay = gatheringData.filter((gathering) =>
+      gathering.appointed_at.startsWith(dateKey)
+    );
+    setCurrentDay(gatheringsForDay);
+    console.log(gatheringsForDay);
   };
 
   const handleUpdateEvents = (date, updatedEvents) => {
@@ -61,6 +69,7 @@ const DaysGrid = ({ daysArray, currentMonth, holidays, gatheringData }) => {
 
           return (
             <Days
+              currentDay={currentDay}
               key={index}
               day={dayObj.day}
               fullDate={fullDate}
@@ -80,6 +89,7 @@ const DaysGrid = ({ daysArray, currentMonth, holidays, gatheringData }) => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         date={selectedDate}
+        currentDay={currentDay}
         onUpdateEvents={handleUpdateEvents}
         events={eventsByDate[selectedDate?.toDateString()] || []}
       />

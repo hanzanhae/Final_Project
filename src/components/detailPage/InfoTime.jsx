@@ -12,9 +12,7 @@ const InfoTime = ({ meet }) => {
     <TimeWrapper>
       <Title>모임시간</Title>
       <TimeBox>
-        <Icon>
-          <CalendarOutlined />
-        </Icon>
+        <Icon />
         <Date>{newDate}</Date>
         <Time>{newTime}</Time>
       </TimeBox>
@@ -30,20 +28,39 @@ const TimeWrapper = styled.div`
 `;
 const Title = styled.h4`
   margin-bottom: 0.5rem;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   color: #333;
+  @media (max-width: 1440px) {
+    font-size: 1.2rem;
+  }
 `;
 const TimeBox = styled.div`
-  padding: 0.5rem;
-  border: 1px solid ${({ theme }) => theme.borderColor};
+  padding: 1rem;
+  border: 2px solid ${({ theme }) => theme.borderColor};
   border-radius: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  @media (max-width: 1440px) {
+    border-width: 1.5px;
+  }
 `;
-const Date = styled.p``;
-const Time = styled.p``;
-const Icon = styled.div`
-  width: 1rem;
-  color: #ccc;
+const Date = styled.p`
+  font-size: 1.2rem;
+  @media (max-width: 1440px) {
+    font-size: 1rem;
+  }
+`;
+const Time = styled.p`
+  font-size: 1.2rem;
+  @media (max-width: 1440px) {
+    font-size: 1rem;
+  }
+`;
+const Icon = styled(CalendarOutlined)`
+  color: ${({ theme }) => theme.pointColor};
+  font-size: 1.5rem;
+  @media (max-width: 1440px) {
+    font-size: 1rem;
+  }
 `;

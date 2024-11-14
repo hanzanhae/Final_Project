@@ -17,7 +17,8 @@ const Days = ({
   onDayClick,
   hasEvent,
   events,
-  gatherings
+  gatherings,
+  currentDay
 }) => {
   const today = new Date();
   const isToday =
@@ -28,38 +29,42 @@ const Days = ({
   const [eventIcon, setEventIcon] = useState(null);
 
   useEffect(() => {
-    gatherings.forEach((gathering) => {
+    const icon = gatherings.reduce((acc, gathering) => {
       const appointedDate = new Date(gathering.appointed_at);
-      const isFutureDate = appointedDate > today;
-      const isPastDate = appointedDate < today;
-
-      let icon = null;
 
       if (
-        isFutureDate &&
-        gathering.attendance_status === 'PENDING' &&
-        gathering.role === 'PARTICIPANT'
+        appointedDate.getFullYear() === fullDate.getFullYear() &&
+        appointedDate.getMonth() === fullDate.getMonth() &&
+        appointedDate.getDate() === fullDate.getDate()
       ) {
-        icon = <FaCalendarAltIcon />;
-      } else if (
-        isPastDate &&
-        gathering.role === 'PARTICIPANT' &&
-        gathering.attendance_status === 'ATTENDING'
-      ) {
-        icon = <FaCheckCircleIcon />;
-      } else if (
-        isPastDate &&
-        gathering.role === 'PARTICIPANT' &&
-        gathering.attendance_status === 'NOT_ATTENDING'
-      ) {
-        icon = <FaTimesCircleIcon />;
-      }
+        const isFutureDate = appointedDate > today;
+        const isPastDate = appointedDate < today;
 
-      if (icon) {
-        setEventIcon(icon);
+        if (
+          isFutureDate &&
+          gathering.attendance_status === 'PENDING' &&
+          gathering.role === 'PARTICIPANT'
+        ) {
+          return <FaCalendarAltIcon />;
+        } else if (
+          isPastDate &&
+          gathering.attendance_status === 'ATTENDING' &&
+          gathering.role === 'PARTICIPANT'
+        ) {
+          return <FaCheckCircleIcon />;
+        } else if (
+          isPastDate &&
+          gathering.attendance_status === 'NOT_ATTENDING' &&
+          gathering.role === 'PARTICIPANT'
+        ) {
+          return <FaTimesCircleIcon />;
+        }
       }
-    });
-  }, [gatherings, today]);
+      return acc;
+    }, null);
+
+    setEventIcon(icon);
+  }, [gatherings, fullDate, today]);
 
   return (
     <DaysContainer onClick={() => onDayClick(fullDate)}>

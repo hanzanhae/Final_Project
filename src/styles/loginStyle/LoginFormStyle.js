@@ -18,7 +18,7 @@ export const Form = styled.form`
   align-items: center;
 `;
 export const Title = styled.div`
-  font-size: 30px;
+  font-size: 1.5vw;
   font-weight: 900;
   position: relative;
   &::before {

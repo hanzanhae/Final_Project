@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ControlMonth from '../calendar/ControlMonth';
@@ -164,12 +165,12 @@ const Calendar = () => {
               holidays={
                 Array.isArray(holidays)
                   ? holidays
-                    .filter(
-                      (holiday) =>
-                        new Date(holiday.locdate).getMonth() + 1 === 
+                      .filter(
+                        (holiday) =>
+                          parseInt(holiday.locdate.toString().slice(4, 6)) ===
                           currentMonth.getMonth() + 1
-                    )
-                    .map((holiday) => new Date(holiday.locdate).getDate())
+                      )
+                      .map((holiday) => holiday.locdate % 100)
                   : []
               }
               gatheringData={gatheringData}

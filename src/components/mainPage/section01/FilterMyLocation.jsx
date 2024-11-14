@@ -26,7 +26,10 @@ const AddressBox = styled.div`
   gap: 0.5rem;
 `;
 const Address = styled.p`
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   font-weight: 500;
   color: ${({ theme }) => theme.pointColor};
+  @media (max-width: 1440px) {
+    font-size: 0.9rem;
+  }
 `;

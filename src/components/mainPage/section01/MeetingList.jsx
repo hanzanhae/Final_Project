@@ -51,6 +51,7 @@ const MeetingList = ({ gatheringIn10km, searchText }) => {
     } else {
       setGathering(gatheringIn10km);
     }
+    // console.log(gatheringIn10km);
   }, [gatheringIn10km, pageNumber]);
 
   const handlefilteredGathering = () => {
@@ -145,10 +146,16 @@ const Container = styled.div`
   padding-bottom: 3rem;
 `;
 const ListUl = styled.ul`
-  padding: 3rem 5rem;
+  padding: 3rem 12rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
+  @media (max-width: 1920px) {
+    padding: 3rem 10rem;
+  }
+  @media (max-width: 1440px) {
+    padding: 3rem 5rem;
+  }
 `;
 const MoreBtn = styled.button`
   display: block;

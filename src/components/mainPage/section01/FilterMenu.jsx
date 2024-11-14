@@ -36,11 +36,17 @@ export default FilterMenu;
 const FilterMenuWrapper = styled.div`
   width: 100%;
   height: 8vh;
-  padding: 0 5rem;
+  padding: 0 12rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid ${({ theme }) => theme.borderColor};
+  @media (max-width: 1920px) {
+    padding: 0 10rem;
+  }
+  @media (max-width: 1440px) {
+    padding: 0 5rem;
+  }
 `;
 const Box = styled.div`
   display: flex;

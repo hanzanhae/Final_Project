@@ -90,11 +90,14 @@ const Wrapper = styled.div`
 `;
 const ThumbNailBox = styled.div`
   margin-top: 10vh;
-  width: 70%;
+  width: 60%;
   height: 40vh;
   border-radius: 1rem;
   overflow: hidden;
   position: relative;
+  @media (max-width: 1440px) {
+    width: 70%;
+  }
 `;
 const ImgBox = styled.img`
   width: 100%;
@@ -107,8 +110,11 @@ const ImgBox = styled.img`
     $gatheringDetailImages ? 'center' : 'bottom'};
 `;
 const DetailContainer = styled.div`
-  width: 70%;
+  width: 60%;
   padding: 0 1rem;
   display: flex;
   justify-content: space-between;
+  @media (max-width: 1440px) {
+    width: 70%;
+  }
 `;

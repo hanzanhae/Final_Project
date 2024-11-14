@@ -19,7 +19,7 @@ const MembersBox = ({
         const accountId = member?.member_account_id || null;
         return (
           <Member key={id} onClick={() => handleShowMemberMenu(id)}>
-            {nickname.slice(-4)}
+            {nickname.slice(0, 3)}
             {activeMember === id && (
               <MemberRef ref={memberRef}>
                 <MemberMenu
@@ -45,24 +45,35 @@ export default MembersBox;
 // style
 const MemberBox = styled.div`
   width: fit-content;
-  padding: 0.5rem;
-  border: 1px solid ${({ theme }) => theme.borderColor};
+  padding: 1rem;
+  border: 2px solid ${({ theme }) => theme.borderColor};
   border-radius: 0.5rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+
+  @media (max-width: 1440px) {
+    border-width: 1.5px;
+    padding: 0.5rem;
+  }
 `;
 const Member = styled.button`
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 100%;
   background-color: #ececec;
-  line-height: 44px;
+  line-height: 54px;
   text-align: center;
   position: relative;
   border: 3px solid #fff;
   &:hover {
     border-color: ${({ theme }) => theme.pointColorLight};
+  }
+
+  @media (max-width: 1440px) {
+    width: 50px;
+    height: 50px;
+    line-height: 44px;
   }
 `;
 const MemberRef = styled.div``;

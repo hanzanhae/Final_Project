@@ -184,6 +184,38 @@ export const getDirectChat = async (otherId, pageNum = 0) => {
     console.log(error);
   }
 };
+
+export const postGroupChatRoomId = async (id) => {
+  try {
+    const response = await instance.post(`/chat/group?id=${id}`);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const postGroupChatJoin = async (id) => {
+  try {
+    const response = await instance.post(`/chat/group/join?id=${id}`);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const postImgData = async (formData) => {
+  try {
+    const response = await instance.post('/images/gatherings', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getGroupMapPoint = async (radius_distance, Xpoint, Ypoint) => {
   try {
     const response = await instance.get(

@@ -13,11 +13,9 @@ const ListBoxTime = ({ list }) => {
 
   return (
     <TimeBox>
-      <PinIcon>
-        <PushpinOutlined />
-      </PinIcon>
+      <PinIcon />
       <InnerText>
-        {location1} {location2} {location3}
+        {location1.slice(0, 6)} {location2.slice(0, 6)} {location3.slice(0, 6)}
       </InnerText>
       <InnerDot />
       <InnerText>{newDate}</InnerText>
@@ -36,6 +34,10 @@ const TimeBox = styled.div`
 `;
 const InnerText = styled.p`
   color: #666;
+  font-size: 1.1rem;
+  @media (max-width: 1440px) {
+    font-size: 1rem;
+  }
 `;
 const InnerDot = styled.span`
   margin: 0 0.5rem;
@@ -44,8 +46,12 @@ const InnerDot = styled.span`
   background-color: #ececec;
   border-radius: 1rem;
 `;
-const PinIcon = styled.div`
-  margin-right: 0.2rem;
-  width: 1rem;
+const PinIcon = styled(PushpinOutlined)`
+  margin-right: 0.5rem;
   color: #ccc;
+  font-size: 1.2rem;
+  @media (max-width: 1440px) {
+    margin-right: 0.3rem;
+    font-size: 1rem;
+  }
 `;

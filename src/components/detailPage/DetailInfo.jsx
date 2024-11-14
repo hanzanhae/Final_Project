@@ -6,7 +6,7 @@ import InfoTime from './InfoTime';
 
 const DetailInfo = ({ meet }) => {
   if (!meet) {
-    return <div>모임 정보가 없습니다.</div>;
+    return <div>로그인이 필요한 페이지입니다.</div>;
   }
   return (
     <InfoContaier>

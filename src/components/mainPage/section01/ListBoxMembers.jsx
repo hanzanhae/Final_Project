@@ -16,9 +16,7 @@ const ListBoxMembers = ({ list }) => {
         ))}
       </Members>
       <Capacity>
-        <UserIcon>
-          <TeamOutlined />
-        </UserIcon>
+        <UserIcon />
         {`${members?.length}/${maxMember}`}
       </Capacity>
     </MemberBox>
@@ -39,24 +37,38 @@ const Members = styled.div`
   position: relative;
 `;
 const Member = styled.p`
-  width: 36px;
-  height: 36px;
-  font-size: 0.6rem;
+  width: 50px;
+  height: 50px;
+  font-size: 0.9rem;
   border: 3px solid #fff;
   border-radius: 100%;
   background-color: #ececec;
   text-align: center;
-  line-height: 30px;
+  line-height: 46px;
   position: absolute;
-  left: ${(props) => props.$index * 30}px;
+  left: ${(props) => props.$index * 40}px;
+  @media (max-width: 1440px) {
+    width: 36px;
+    height: 36px;
+    line-height: 30px;
+    font-size: 0.6rem;
+    left: ${(props) => props.$index * 30}px;
+  }
 `;
 const Capacity = styled.div`
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   color: #666;
   display: flex;
   align-items: center;
   gap: 0.3rem;
+  @media (max-width: 1440px) {
+    font-size: 0.8rem;
+  }
 `;
-const UserIcon = styled.div`
+const UserIcon = styled(TeamOutlined)`
   color: #ccc;
+  font-size: 1.2rem;
+  @media (max-width: 1440px) {
+    font-size: 1rem;
+  }
 `;

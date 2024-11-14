@@ -20,7 +20,11 @@ import {
   StyledRadioInput,
   StyledInput,
   StyledInputDe,
-  StyledInputTt
+  StyledInputTt,
+  LocationBox,
+  FormRowInner,
+  LabelMargin,
+  AddBtn
 } from './CreateMeetingFormStyled';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -28,6 +32,9 @@ import { useCreateMeetingState } from './useCreateMeetingState';
 import instance from '../../api/instance';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import { postGroupChatRoomId, postImgData } from '../../api/api';
+
 function CreateMeetingForm() {
   const {
     title,
@@ -52,6 +59,7 @@ function CreateMeetingForm() {
   const [category, setCategory] = useState('RUNLINI');
   const [thumbnail, setThumbnail] = useState(null);
   const fileRef = useRef(null);
+  const uniqueId = uuidv4();
   const [representativeImageUrl, setRepresentativeImageUrl] = useState(null);
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -87,15 +95,7 @@ function CreateMeetingForm() {
     }
 
     try {
-      const response = await axios.post(
-        'https://myspringserver.store/images/gatherings',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-      );
+      const response = await postImgData(formData);
 
       console.log('업로드 성공:', response.data);
       alert('이미지 업로드 성공!');
@@ -215,8 +215,9 @@ function CreateMeetingForm() {
 
     try {
       const response = await instance.post('/gatherings', payload);
-
-      console.log('모임 등록 성공:', response.data);
+      const response2 = await postGroupChatRoomId(response.data.gathering_id);
+      console.log('모임 등록 성공:', response.data.gathering_id);
+      console.log(response2);
       alert('모임이 성공적으로 등록되었습니다.');
 
       navigate('/');
@@ -240,7 +241,7 @@ function CreateMeetingForm() {
               />
             </FormRow>
             <FormRow>
-              <Label>모임 사진 추가하기</Label>
+              <LabelMargin>모임사진 추가하기(선택)</LabelMargin>
               <CustomFileUpload htmlFor="thumbnail-upload">
                 {thumbnail ? (
                   <ThumbnailPreview src={thumbnail} alt="미리보기" />
@@ -261,26 +262,33 @@ function CreateMeetingForm() {
               </StyledButton>
             </FormRow>
             <FormRow>
-              <Label>모일 시간</Label>
-              <DatePicker
-                selected={selectedDate}
-                onChange={(date) => setSelectedDate(date)}
-                showTimeSelect
-                dateFormat="Pp"
-                customInput={<StyledInput />}
-              />
+              <FormRowInner>
+                <Label>만날 시간</Label>
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={(date) => setSelectedDate(date)}
+                  showTimeSelect
+                  dateFormat="Pp"
+                  customInput={<StyledInput />}
+                />
+              </FormRowInner>
             </FormRow>
 
             <FormRow>
-              <Label>장소 선택</Label>
-              <StyledButton type="button" onClick={() => setShowMapModal(true)}>
-                장소 선택하기
-              </StyledButton>
-              {selectedLocation ? (
-                <p>{`${selectedLocation.location.address_names.region_2depth_name} ${selectedLocation.location.address_names.region_3depth_name}`}</p>
-              ) : (
-                <p className="default-text">장소를 선택하세요</p>
-              )}
+              <LabelMargin>만날 장소</LabelMargin>
+              <LocationBox>
+                <StyledButton
+                  type="button"
+                  onClick={() => setShowMapModal(true)}
+                >
+                  장소 선택하기
+                </StyledButton>
+                {selectedLocation ? (
+                  <p>{`${selectedLocation.location.address_names.region_2depth_name} ${selectedLocation.location.address_names.region_3depth_name}`}</p>
+                ) : (
+                  <p className="default-text">장소를 선택하세요</p>
+                )}
+              </LocationBox>
             </FormRow>
 
             <FormRow>
@@ -298,14 +306,16 @@ function CreateMeetingForm() {
 
           <Column className="right">
             <FormRow>
-              <Label>마감 기한</Label>
-              <DatePicker
-                selected={deadline}
-                onChange={(date) => setDeadline(date)}
-                dateFormat="yyyy/MM/dd"
-                placeholderText="마감 기한을 선택하세요"
-                customInput={<StyledInputDe />}
-              />
+              <FormRowInner>
+                <Label>마감 기한</Label>
+                <DatePicker
+                  selected={deadline}
+                  onChange={(date) => setDeadline(date)}
+                  dateFormat="yyyy/MM/dd"
+                  placeholderText="마감 날짜를 선택하세요"
+                  customInput={<StyledInputDe />}
+                />
+              </FormRowInner>
             </FormRow>
             <FormRow>
               <Label>목표 키로수</Label>
@@ -343,7 +353,7 @@ function CreateMeetingForm() {
             </FormRow>
 
             <FormRow>
-              <Label>모임에 대한 설명</Label>
+              <LabelMargin>모임에 대한 설명</LabelMargin>
               <StyledTextarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -351,12 +361,10 @@ function CreateMeetingForm() {
                 placeholder=" 본문 내용은 10~200 자 내로 입력해주세요."
               />
             </FormRow>
-            <ButtonContainer>
-              <StyledButton type="button" onClick={handleSubmit}>
-                모임 개설
-              </StyledButton>
-            </ButtonContainer>
           </Column>
+          <AddBtn type="button" onClick={handleSubmit}>
+            모임 개설
+          </AddBtn>
         </FormContainer>
 
         {showMapModal && (

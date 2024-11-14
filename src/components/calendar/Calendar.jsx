@@ -22,8 +22,6 @@ const Calendar = () => {
     const currentMonthIndex = currentMonth.getMonth() + 1;
 
     const data = await getCalendarData(currentYear, currentMonthIndex);
-    console.log('API로부터 받은 데이터:', data);
-
     if (data && data.gatherings) {
       setGatheringData(data.gatherings || []);
     } else {
@@ -142,7 +140,15 @@ const Calendar = () => {
     month: 'long',
     year: 'numeric'
   });
+  const attendedCount = gatheringData.reduce((count, item) => {
+    return item.attendance_status === 'ATTENDING' ? count + 1 : count;
+  }, 0);
 
+  const totalDistance = gatheringData.reduce((sum, item) => {
+    return item.attendance_status === 'ATTENDING'
+      ? sum + item.real_distance
+      : sum;
+  }, 0);
   return (
     <Box>
       <Container expanded={expanded}>
@@ -198,10 +204,8 @@ const Calendar = () => {
         <PostOne></PostOne>
         <PostTwo></PostTwo>
         <Right>
-          <JoinCount attendedCount={gatheringData.attendance_count} />
-          <CumulationCount
-            cumulatedDistance={gatheringData.total_real_distance}
-          />
+          <JoinCount attendedCount={attendedCount} />
+          <CumulationCount cumulatedDistance={totalDistance} />
         </Right>
       </Container>
     </Box>

@@ -24,7 +24,14 @@ import {
   LocationBox,
   FormRowInner,
   LabelMargin,
-  AddBtn
+  AddBtn,
+  ImgBox,
+  NotiText,
+  FormRowImg,
+  SpanText,
+  RadioLabel,
+  RadioBox,
+  Title
 } from './CreateMeetingFormStyled';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -118,8 +125,8 @@ function CreateMeetingForm() {
     THREE_KM: { label: '3km' },
     FIVE_KM: { label: '5km' },
     FIFTEEN_KM: { label: '15km' },
-    HALF_MARATHON: { label: '21.0975km' },
-    FULL_MARATHON: { label: '42.195km' }
+    HALF_MARATHON: { label: '하프' },
+    FULL_MARATHON: { label: '풀' }
   };
   const categoryOptions = {
     RUNLINI: { label: '런린이' },
@@ -229,19 +236,10 @@ function CreateMeetingForm() {
   return (
     <BodyWrapper>
       <CreateMeetingFormWrapper>
+        <Title>모임개설하기🏃‍♂️</Title>
         <FormContainer>
           <Column>
-            <FormRow>
-              <Label>방 이름</Label>
-              <StyledInputTt
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="제목은 5~20자 내로 입력해주세요."
-              />
-            </FormRow>
-            <FormRow>
-              <LabelMargin>모임사진 추가하기(선택)</LabelMargin>
+            <FormRowImg>
               <CustomFileUpload htmlFor="thumbnail-upload">
                 {thumbnail ? (
                   <ThumbnailPreview src={thumbnail} alt="미리보기" />
@@ -257,9 +255,24 @@ function CreateMeetingForm() {
                 ref={fileRef}
                 style={{ display: 'none' }}
               />
-              <StyledButton type="button" onClick={handleImageUpload}>
-                이미지 등록
-              </StyledButton>
+              <ImgBox>
+                <LabelMargin>
+                  모임사진 추가하기<SpanText>(선택사항)</SpanText>
+                </LabelMargin>
+                <StyledButton type="button" onClick={handleImageUpload}>
+                  이미지 업로드
+                </StyledButton>
+                <NotiText>이미지 등록을 위해 업로드를 진행해주세요</NotiText>
+              </ImgBox>
+            </FormRowImg>
+            <FormRow>
+              <Label>방 이름</Label>
+              <StyledInputTt
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="방이름은 5~20자 내로 입력해주세요."
+              />
             </FormRow>
             <FormRow>
               <FormRowInner>
@@ -273,7 +286,18 @@ function CreateMeetingForm() {
                 />
               </FormRowInner>
             </FormRow>
-
+            <FormRow>
+              <FormRowInner>
+                <Label>마감 기한</Label>
+                <DatePicker
+                  selected={deadline}
+                  onChange={(date) => setDeadline(date)}
+                  dateFormat="yyyy/MM/dd"
+                  placeholderText="마감 날짜를 선택하세요"
+                  customInput={<StyledInputDe />}
+                />
+              </FormRowInner>
+            </FormRow>
             <FormRow>
               <LabelMargin>만날 장소</LabelMargin>
               <LocationBox>
@@ -284,13 +308,12 @@ function CreateMeetingForm() {
                   장소 선택하기
                 </StyledButton>
                 {selectedLocation ? (
-                  <p>{`${selectedLocation.location.address_names.region_2depth_name} ${selectedLocation.location.address_names.region_3depth_name}`}</p>
+                  <p>{`${selectedLocation.location.address_names.address_name}`}</p>
                 ) : (
                   <p className="default-text">장소를 선택하세요</p>
                 )}
               </LocationBox>
             </FormRow>
-
             <FormRow>
               <Label>정원</Label>
               <CapacitySlider
@@ -306,22 +329,15 @@ function CreateMeetingForm() {
 
           <Column className="right">
             <FormRow>
-              <FormRowInner>
-                <Label>마감 기한</Label>
-                <DatePicker
-                  selected={deadline}
-                  onChange={(date) => setDeadline(date)}
-                  dateFormat="yyyy/MM/dd"
-                  placeholderText="마감 날짜를 선택하세요"
-                  customInput={<StyledInputDe />}
-                />
-              </FormRowInner>
-            </FormRow>
-            <FormRow>
-              <Label>목표 키로수</Label>
-              <div>
+              <LabelMargin>
+                목표 키로수<SpanText>(택1)</SpanText>
+              </LabelMargin>
+              <RadioBox>
                 {Object.keys(distanceOptions).map((key) => (
-                  <label key={key}>
+                  <RadioLabel
+                    key={key}
+                    className={distance === key ? 'active' : ''}
+                  >
                     <StyledRadioInput
                       type="radio"
                       name="distance"
@@ -330,15 +346,20 @@ function CreateMeetingForm() {
                       onChange={handleDistanceChange}
                     />
                     {distanceOptions[key].label}
-                  </label>
+                  </RadioLabel>
                 ))}
-              </div>
+              </RadioBox>
             </FormRow>
             <FormRow>
-              <Label>카테고리</Label>
-              <div>
+              <LabelMargin>
+                카테고리<SpanText>(택1)</SpanText>
+              </LabelMargin>
+              <RadioBox>
                 {Object.keys(categoryOptions).map((key) => (
-                  <label key={key}>
+                  <RadioLabel
+                    key={key}
+                    className={category === key ? 'active' : ''}
+                  >
                     <StyledRadioInput
                       type="radio"
                       name="category"
@@ -347,26 +368,24 @@ function CreateMeetingForm() {
                       onChange={(e) => setCategory(e.target.value)}
                     />
                     {categoryOptions[key].label}
-                  </label>
+                  </RadioLabel>
                 ))}
-              </div>
+              </RadioBox>
             </FormRow>
-
             <FormRow>
               <LabelMargin>모임에 대한 설명</LabelMargin>
               <StyledTextarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows="5"
-                placeholder=" 본문 내용은 10~200 자 내로 입력해주세요."
+                placeholder=" 본문 내용은 10~200자 내로 입력해주세요."
               />
             </FormRow>
           </Column>
-          <AddBtn type="button" onClick={handleSubmit}>
-            모임 개설
-          </AddBtn>
         </FormContainer>
-
+        <AddBtn type="button" onClick={handleSubmit}>
+          모임 개설
+        </AddBtn>
         {showMapModal && (
           <Modal>
             <ModalContent>

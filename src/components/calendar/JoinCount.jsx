@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const JoinCount = ({ attendedCount }) => (
+const JoinCount = ({ attendedCount = 0 }) => (
   <JoinCountWrapper>
     <JoinTitle>참여횟수</JoinTitle>
     <Number>: {attendedCount} 회</Number>

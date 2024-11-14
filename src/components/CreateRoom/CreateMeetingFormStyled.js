@@ -24,9 +24,37 @@ export const CreateMeetingFormWrapper = styled.form`
   padding: 20px;
   display: flex;
   flex-direction: column;
+  position: relative;
 
-  @media (max-width: 1440px) {
+  @media (max-width: 1920px) {
     width: 70vw;
+  }
+  @media (max-width: 1600px) {
+    width: 75vw;
+  }
+  @media (max-width: 1440px) {
+    padding: 0.5rem 1rem;
+  }
+`;
+export const Title = styled.h1`
+  color: #333;
+  font-size: 1.3vw;
+  position: absolute;
+  right: 3%;
+  /* left: 50%; */
+  /* transform: translateX(-50%); */
+  top: -1.5rem;
+  text-shadow:
+    2px 2px 0px rgba(255, 255, 255, 0.9),
+    -2px -2px 0px rgba(255, 255, 255, 0.9),
+    2px -2px 0px rgba(255, 255, 255, 0.9),
+    -2px 2px 0px rgba(255, 255, 255, 0.9);
+
+  @media (max-width: 1600px) {
+    top: -1.2rem;
+  }
+  @media (max-width: 1440px) {
+    top: -1rem;
   }
 `;
 
@@ -47,11 +75,13 @@ export const Column = styled.div`
 `;
 
 export const FormRow = styled.div`
-  margin-bottom: 2rem;
-  @media (max-width: 1440px) {
-    margin-bottom: 1.5rem;
-  }
+  margin-bottom: 1.5rem;
 `;
+export const FormRowImg = styled(FormRow)`
+  display: flex;
+  gap: 1rem;
+`;
+
 export const FormRowInner = styled.div`
   display: flex;
   align-items: center;
@@ -67,8 +97,34 @@ export const Label = styled.label`
     font-size: 1rem;
   }
 `;
+export const ImgBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  @media (max-width: 1440px) {
+    justify-content: center;
+  }
+`;
+export const NotiText = styled.div`
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #666;
+  @media (max-width: 1440px) {
+    font-size: 0.8rem;
+  }
+`;
 export const LabelMargin = styled(Label)`
   margin-bottom: 0.5rem;
+`;
+export const SpanText = styled.span`
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #666;
+  @media (max-width: 1440px) {
+    margin-left: 0.3rem;
+    font-size: 0.8rem;
+  }
 `;
 
 // export const StyledInputFile = styled.input.attrs({ type: 'file' })`
@@ -79,7 +135,7 @@ export const StyledInput = styled.input`
   text-align: center;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   &:focus {
     border-color: #007bff;
     outline: none;
@@ -94,7 +150,7 @@ export const StyledInputDe = styled.input`
   text-align: center;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   &:focus {
     border-color: #007bff;
     outline: none;
@@ -105,13 +161,12 @@ export const StyledInputDe = styled.input`
 `;
 export const StyledInputTt = styled.input`
   width: 70%;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   border: 1px solid #ccc;
   font-size: 13px;
   border-radius: 5px;
   text-align: center;
   line-height: 1.5;
-  height: 25px;
   &:focus {
     outline: none;
   }
@@ -153,18 +208,24 @@ export const ThumbnailPreview = styled.img`
 
 export const StyledTextarea = styled.textarea`
   resize: vertical;
-  width: 90%;
+  padding: 0.5rem;
+  width: 100%;
   height: 20vh;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin-bottom: 15px;
-  font-size: 15px;
+  font-size: 1rem;
   resize: none;
   &:focus {
     outline: none;
   }
+  &::placeholder {
+    font-size: 1rem;
+  }
   @media (max-width: 1440px) {
-    font-size: 14px;
+    height: 25vh;
+    &::placeholder {
+      font-size: 0.8rem;
+    }
   }
 `;
 export const LocationBox = styled.div`
@@ -194,9 +255,14 @@ export const StyledButton = styled.button`
   }
 `;
 export const AddBtn = styled(StyledButton)`
-  position: absolute;
-  right: 1rem;
-  bottom: 1rem;
+  width: fit-content;
+  margin: auto;
+  font-size: 1.1rem;
+  position: relative;
+  bottom: 0.5rem;
+  @media (max-width: 1440px) {
+    font-size: 0.9rem;
+  }
 `;
 
 export const ButtonContainer = styled.div`
@@ -242,7 +308,7 @@ export const CloseButton = styled.button`
 export const CapacitySlider = styled.input.attrs({ type: 'range' })`
   -webkit-appearance: none;
   appearance: none;
-  width: 100%;
+  width: 70%;
   height: 8px;
   background: linear-gradient(
     to right,
@@ -279,8 +345,39 @@ export const CapacityDisplay = styled.span`
   margin-left: 10px;
 `;
 
-export const StyledRadioInput = styled.input.attrs({ type: 'radio' })`
-  accent-color: #4e5052;
-  margin-left: 6px;
+export const RadioBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+export const RadioLabel = styled.label`
+  width: fit-content;
+  padding: 0.25rem 1rem;
+  border: 2px solid #fff;
+  border-radius: 2rem;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  background-color: #efefef;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.pointColorLight};
+  }
+  &.active {
+    background-color: ${({ theme }) => theme.pointColorLight};
+    color: ${({ theme }) => theme.pointColor};
+  }
+
+  @media (max-width: 1440px) {
+    padding: 0.25rem 1rem;
+    font-size: 0.8rem;
+  }
+`;
+export const StyledRadioInput = styled.input`
+  display: none;
 `;
 //라디오 추후

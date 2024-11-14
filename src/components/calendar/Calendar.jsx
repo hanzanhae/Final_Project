@@ -271,7 +271,7 @@ const SidebarText = styled.div`
     expanded ? 'translateX(0)' : 'translateX(-100%)'};
   transition:
     width 0.2s ease,
-    opacity 0.3s ease,
+    opacity 0.3s ease 0.5s,
     transform 0.8s ease;
   overflow: hidden;
 `;

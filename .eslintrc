@@ -24,7 +24,8 @@
         "singleQuote": true,
         "printWidth": 80,
         "tabWidth": 2,
-        "ignoredNodes": ["TemplateLiteral"]
+        "ignoredNodes": ["TemplateLiteral"],
+        "useTabs": false
       }
     ],
     "eqeqeq": "error",

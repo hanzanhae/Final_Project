@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login, getAccessTokenFromBackend } from '../../api/api';
+import { login } from '../../api/api';
 import { isValidEmail, isValidPassword } from '../../utils/validation.js';
 import * as S from '../../styles/loginStyle/LoginFormStyle.js';
 import KakaoLoginImg from '../../images/카카오로그인.png';
@@ -92,7 +92,6 @@ const LoginForm = () => {
       console.error('Kakao SDK가 로드되지 않았습니다.');
     }
     localStorage.setItem('loginType', 'kakao');
-    localStorage.setItem('userNickName', 'kakao');
   };
 
   const handleLoginSuccess = (userData) => {

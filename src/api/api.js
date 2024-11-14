@@ -73,6 +73,16 @@ export const gatheringData = async (pageNumber, pageSize) => {
   }
 };
 
+export const getCookie = async () => {
+  try {
+    const response = await instance.get('/users/cookie');
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // 모임상세페이지✅성공
 export const gatheringDetailData = async (gathering_id) => {
   try {

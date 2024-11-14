@@ -58,10 +58,17 @@ const ChatRoom = ({ selectedRoom, setSelectedRoom }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
+    const kakaoToken = localStorage.getItem('KaKaoAccessToken');
+    const loginType = localStorage.getItem('loginType');
+    const connectHeaders =
+      loginType === 'kakao'
+        ? { Authorization: `Bearer ${kakaoToken}` }
+        : { Authorization: `Bearer ${token}` };
     const socket = new SockJS('https://myspringserver.store/ws');
+    socket.withCredentials = true;
     const stomp = new Client({
       webSocketFactory: () => socket,
-      connectHeaders: { Authorization: `Bearer ${token}` },
+      connectHeaders,
       reconnectDelay: 10000,
       debug: (str) => console.log('STOMP Debug:', str),
       onConnect: () => {
@@ -124,7 +131,6 @@ const ChatRoom = ({ selectedRoom, setSelectedRoom }) => {
 
   const formatTime = (timestamp) => {
     const date = new Date(timestamp);
-    date.setHours(date.getHours() + 9);
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 

@@ -1,3 +1,4 @@
+// MyProfile.jsx
 import { getProfile } from '../../api/api';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
@@ -6,74 +7,83 @@ const MyProfile = () => {
   const [profile, setProfile] = useState({
     email: '',
     nickname: '',
-    phone: '',
-    address: '',
+    gender: '',
+    status: '',
+    signupAt: '',
     profileImage: ''
   });
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const data = await getProfile();
-        setProfile({
-          email: data.email,
-          nickname: data.nickname,
-          profileImage: data.profile_url || '',
-          phone: '',
-          address: ''
-        });
-      } catch (error) {
-        console.error('Error fetching profile:', error);
-      }
-    };
-    fetchProfile();
-  }, []);
+  // useEffect(() => {
+  //   const fetchProfile = async () => {
+  //     const user_id = localStorage.getItem('user_id');
+  //     const accessToken = localStorage.getItem('accessToken');
+  //     if (!user_id) {
+  //       console.error('User ID is missing');
+  //       return;
+  //     }
+  //     try {
+  //       const data = await getProfile(user_id, accessToken);
+  //       console.log(data);
+  //       // setProfile({
+  //       //   email: data.email,
+  //       //   nickname: data.nikname,
+  //       //   gender: data.gender,
+  //       //   status: data.status,
+  //       //   signupAt: data.singup_at,
+  //       //   profileImage: data.profile_url || ''
+  //       // });
+  //     } catch (error) {
+  //       console.error('Error fetching profile:', error);
+  //     }
+  //   };
+  //   fetchProfile();
+  // }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProfile({ ...profile, [name]: value });
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setProfile({ ...profile, [name]: value });
+  // };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfile({ ...profile, profileImage: reader.result });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleImageUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setProfile({ ...profile, profileImage: reader.result });
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    try {
-      const response = await fetch('/api/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(profile)
-      });
+  //   try {
+  //     const response = await fetch('/api/', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify(profile)
+  //     });
 
-      if (!response.ok) {
-        throw new Error(
-          '프로필 업데이트가 완료되지 않았습니다. 다시 시도해주세요'
-        );
-      }
+  //     if (!response.ok) {
+  //       throw new Error(
+  //         '프로필 업데이트가 완료되지 않았습니다. 다시 시도해주세요'
+  //       );
+  //     }
 
-      await response.json();
-      alert('프로필이 업데이트 되었습니다');
-    } catch (error) {
-      alert(`Error updating profile: ${error.message}`);
-      console.error('Error updating profile:', error);
-    }
-  };
+  //     await response.json();
+  //     alert('프로필이 업데이트 되었습니다');
+  //   } catch (error) {
+  //     alert(`Error updating profile: ${error.message}`);
+  //     console.error('Error updating profile:', error);
+  //   }
+  // };
 
   return (
     <ProfileContainer>
-      <Title>내 프로필</Title>
+      {/* <Title>내 프로필</Title>
       <ProfileImage src={profile.profileImage}>
         <UploadButton htmlFor="imageUpload">📷</UploadButton>
         <HiddenInput
@@ -96,28 +106,19 @@ const MyProfile = () => {
           placeholder="닉네임을 입력하세요"
         />
 
-        <Label>전화번호</Label>
-        <Input
-          type="text"
-          name="phone"
-          value={profile.phone}
-          onChange={handleChange}
-          placeholder="전화번호를 입력하세요"
-        />
+        <Label>성별</Label>
+        <Input type="text" value={profile.gender} disabled />
 
-        <Label>주소</Label>
-        <Input
-          type="text"
-          name="address"
-          value={profile.address}
-          onChange={handleChange}
-          placeholder="주소를 입력하세요"
-        />
+        <Label>상태</Label>
+        <Input type="text" value={profile.status} disabled />
+
+        <Label>가입일</Label>
+        <Input type="text" value={profile.signupAt} disabled />
 
         <ButtonContainer>
           <SubmitButton type="submit">프로필 업데이트</SubmitButton>
         </ButtonContainer>
-      </ProfileForm>
+      </ProfileForm> */}
     </ProfileContainer>
   );
 };

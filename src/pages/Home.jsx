@@ -13,7 +13,7 @@ const Home = () => {
     const fetchAccessToken = async () => {
       if (localStorage.getItem('loginType') === 'kakao') {
         const response = await getCookie();
-        console.log(response);
+        // console.log(response);
         localStorage.setItem('KaKaoAccessToken', response.data.token);
         localStorage.setItem('userNickName', response.data.name);
       } else {

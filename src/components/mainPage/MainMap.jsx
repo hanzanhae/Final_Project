@@ -71,7 +71,7 @@ const MainMap = () => {
   const fetchMeetings = async (map, latitude, longitude) => {
     const res = await gatheringForLacation(latitude, longitude);
     setGatheringResponses(res?.gatheringResponses || []);
-    console.log('API Response:', res);
+    // console.log('API Response:', res);
 
     if (res) {
       const meetings = res.gatheringResponses;

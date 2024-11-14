@@ -40,22 +40,13 @@ const Days = ({
         const isFutureDate = appointedDate > today;
         const isPastDate = appointedDate < today;
 
-        if (
-          isFutureDate &&
-          gathering.attendance_status === 'PENDING' &&
-          gathering.role === 'PARTICIPANT'
-        ) {
+        if (isFutureDate && gathering.attendance_status === 'PENDING') {
           return <FaCalendarAltIcon />;
-        } else if (
-          isPastDate &&
-          gathering.attendance_status === 'ATTENDING' &&
-          gathering.role === 'PARTICIPANT'
-        ) {
+        } else if (isPastDate && gathering.attendance_status === 'ATTENDING') {
           return <FaCheckCircleIcon />;
         } else if (
           isPastDate &&
-          gathering.attendance_status === 'NOT_ATTENDING' &&
-          gathering.role === 'PARTICIPANT'
+          gathering.attendance_status === 'NOT_ATTENDING'
         ) {
           return <FaTimesCircleIcon />;
         }
@@ -64,7 +55,7 @@ const Days = ({
     }, null);
 
     setEventIcon(icon);
-  }, [gatherings, fullDate, today]);
+  }, [gatherings, fullDate]);
 
   return (
     <DaysContainer onClick={() => onDayClick(fullDate)}>

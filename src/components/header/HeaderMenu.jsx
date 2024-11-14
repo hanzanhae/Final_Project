@@ -28,6 +28,7 @@ const HeaderMenu = ({ loginPath, $color }) => {
         console.log('카카오 로그아웃 성공');
         localStorage.removeItem('loginType');
         localStorage.removeItem('userNickName');
+        localStorage.removeItem('KaKaoAccessToken');
         navigate('/login');
       }
     } catch (error) {
@@ -53,7 +54,7 @@ const HeaderMenu = ({ loginPath, $color }) => {
           {localStorage.getItem('userNickName')} 님
         </MenuBtn>
       ) : localStorage.getItem('loginType') === 'kakao' ? (
-        <MenuBtn>카카오</MenuBtn>
+        <MenuBtn>{localStorage.getItem('userNickName')} 님</MenuBtn>
       ) : (
         <Link to="/login">
           <MenuBtn $isLogin={loginPath} $color={$color}>
@@ -88,7 +89,7 @@ const MenuWrapper = styled.div`
 `;
 const MenuBtn = styled.button`
   color: ${({ theme, $color }) => $color || theme.textColor};
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
   opacity: 0.8;

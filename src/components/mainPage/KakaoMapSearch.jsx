@@ -7,7 +7,7 @@ const KakaoMapSearch = ({ map, gatherings, clearMarkers }) => {
   const [filteredGatherings, setFilteredGatherings] = useState(gatherings); // 초기에는 전체 모임 목록을 표시
   const [markers, setMarkers] = useState([]);
   const navigate = useNavigate();
-  console.log(gatherings);
+  // console.log(gatherings);
   useEffect(() => {
     setFilteredGatherings(gatherings);
   }, [gatherings]);

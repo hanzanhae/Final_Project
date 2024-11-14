@@ -1,34 +1,19 @@
+import { fetchMyMeetingMembers, attendanceCheck } from '../../api/api';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const CompleteModal = ({ gathering_id, closeModal }) => {
+const CompleteModal = ({ gatheringId, closeModal }) => {
   const [membersData, setMembersData] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchMembersData = async () => {
-      try {
-        const response = await fetch(
-          `/gatherings/${gathering_id}/members/attendance`
-        );
-        if (!response.ok) {
-          throw new Error('크루 데이터를 불러오지 못했습니다.');
-        }
-        const data = await response.json();
-        setMembersData(
-          data.members.map((member) => ({
-            member_id: member.id,
-            name: member.name,
-            status: '',
-            real_distance: ''
-          }))
-        );
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
+      const data = await fetchMyMeetingMembers(gatheringId);
+      // console.log(data.content);
+      setMembersData(data.content);
     };
     fetchMembersData();
-  }, [gathering_id]);
+  }, [gatheringId]);
 
   const updateMemberData = (memberId, field, value) => {
     setMembersData((prevData) =>
@@ -39,24 +24,20 @@ const CompleteModal = ({ gathering_id, closeModal }) => {
   };
 
   const handleComplete = async () => {
+    console.log(membersData);
+    const formattedMembersData = membersData.map((member) => ({
+      member_id: member.member_id,
+      member_account_id: member.member_account_id,
+      status: member.attendance_status,
+      real_distance: member.real_distance || 0
+    }));
+
     try {
-      const response = await fetch(
-        `/gatherings/${gathering_id}/members/attendance`,
-        {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ members: membersData })
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || '출석체크 실패');
-      }
-
+      await attendanceCheck(gatheringId, formattedMembersData);
       closeModal();
     } catch (error) {
-      setErrorMessage(error.message);
+      setErrorMessage('출석 체크 실패. 다시 시도해 주세요.');
+      console.error(error);
     }
   };
 
@@ -67,11 +48,15 @@ const CompleteModal = ({ gathering_id, closeModal }) => {
         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         {membersData.map((member) => (
           <Member key={member.member_id}>
-            <MemberName>{member.name}</MemberName>
+            <MemberName>{member.nickname.slice(0, 3)}님</MemberName>
             <Select
-              value={member.status}
+              value={member.attendance_status}
               onChange={(e) =>
-                updateMemberData(member.member_id, 'status', e.target.value)
+                updateMemberData(
+                  member.member_id,
+                  'attendance_status',
+                  e.target.value
+                )
               }
             >
               <option value="">선택</option>
@@ -86,7 +71,7 @@ const CompleteModal = ({ gathering_id, closeModal }) => {
                 updateMemberData(
                   member.member_id,
                   'real_distance',
-                  parseFloat(e.target.value) || ''
+                  parseFloat(e.target.value) || 0
                 )
               }
             />
@@ -103,12 +88,13 @@ const CompleteModal = ({ gathering_id, closeModal }) => {
 
 // 스타일
 const ModalOverlay = styled.div`
+  width: 100vw;
+  height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -119,7 +105,7 @@ const ModalContent = styled.div`
   padding: 24px;
   border-radius: 12px;
   width: 350px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 `;
 
 const ModalHeader = styled.h3`

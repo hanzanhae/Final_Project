@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   FaCheckCircle,
@@ -26,34 +26,45 @@ const Days = ({
     fullDate.getMonth() === today.getMonth() &&
     fullDate.getFullYear() === today.getFullYear();
 
-  const renderEventIcon = () => {
-    return currentDay?.map((gathering, index) => {
+  const [eventIcon, setEventIcon] = useState(null);
+
+  useEffect(() => {
+    const icon = gatherings.reduce((acc, gathering) => {
       const appointedDate = new Date(gathering.appointed_at);
-      const isFutureDate = appointedDate > today;
-      const isPastDate = appointedDate < today;
 
       if (
-        isFutureDate &&
-        gathering.attendance_status === 'PENDING' &&
-        gathering.role === 'PARTICIPANT'
+        appointedDate.getFullYear() === fullDate.getFullYear() &&
+        appointedDate.getMonth() === fullDate.getMonth() &&
+        appointedDate.getDate() === fullDate.getDate()
       ) {
-        return <FaCalendarAlt key={index} />;
-      } else if (
-        isPastDate &&
-        gathering.role === 'PARTICIPANT' &&
-        gathering.attendance_status === 'ATTENDING'
-      ) {
-        return <FaCheckCircle key={index} />;
-      } else if (
-        isPastDate &&
-        gathering.role === 'PARTICIPANT' &&
-        gathering.attendance_status === 'NOT_ATTENDING'
-      ) {
-        return <FaTimesCircle key={index} />;
+        const isFutureDate = appointedDate > today;
+        const isPastDate = appointedDate < today;
+
+        if (
+          isFutureDate &&
+          gathering.attendance_status === 'PENDING' &&
+          gathering.role === 'PARTICIPANT'
+        ) {
+          return <FaCalendarAltIcon />;
+        } else if (
+          isPastDate &&
+          gathering.attendance_status === 'ATTENDING' &&
+          gathering.role === 'PARTICIPANT'
+        ) {
+          return <FaCheckCircleIcon />;
+        } else if (
+          isPastDate &&
+          gathering.attendance_status === 'NOT_ATTENDING' &&
+          gathering.role === 'PARTICIPANT'
+        ) {
+          return <FaTimesCircleIcon />;
+        }
       }
-      return null;
-    });
-  };
+      return acc;
+    }, null);
+
+    setEventIcon(icon);
+  }, [gatherings, fullDate, today]);
 
   return (
     <DaysContainer onClick={() => onDayClick(fullDate)}>
@@ -74,7 +85,7 @@ const Days = ({
       ) : (
         <OtherMonthDate>{day}</OtherMonthDate>
       )}
-      <IconContainer>{renderEventIcon()}</IconContainer>
+      <IconContainer>{eventIcon}</IconContainer>
       {hasEvent && <EventBar />}
     </DaysContainer>
   );
@@ -172,6 +183,12 @@ const FaCalendarAltIcon = styled(FaCalendarAlt)`
 
 const FaBellIcon = styled(FaBell)`
   color: #ffbe0b;
+  font-size: 20px;
+  margin-top: 5px;
+`;
+
+const FaTimesCircleIcon = styled(FaTimesCircle)`
+  color: #ff0054;
   font-size: 20px;
   margin-top: 5px;
 `;

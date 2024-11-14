@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const CumulationCount = ({ cumulatedDistance }) => (
+const CumulationCount = ({ cumulatedDistance = 0 }) => (
   <CumulationCountWrapper>
     <CumulationTitle>총누적거리</CumulationTitle>
-    <Number>: {cumulatedDistance}km</Number>
+    <Number>: {cumulatedDistance} km</Number>
   </CumulationCountWrapper>
 );
 

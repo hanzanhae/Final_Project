@@ -1,4 +1,4 @@
-import { fetchMyMeetingMembers } from '../../api/api';
+import { fetchMyMeetingMembers, attendanceCheck } from '../../api/api';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -33,25 +33,10 @@ const CompleteModal = ({ gatheringId, closeModal }) => {
     }));
 
     try {
-      const response = await fetch(
-        `https://myspringserver.store/gatherings/${gatheringId}/members/attendance`,
-        {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ members: formattedMembersData })
-        }
-      );
-
-      const res = await response.json();
-      console.log('서버응답:', res);
-
-      if (!response.ok) {
-        throw new Error(res.message || '출석체크 실패');
-      }
-
+      await attendanceCheck(gatheringId, formattedMembersData);
       closeModal();
     } catch (error) {
-      setErrorMessage(error.message);
+      setErrorMessage('출석 체크 실패. 다시 시도해 주세요.');
       console.error(error);
     }
   };

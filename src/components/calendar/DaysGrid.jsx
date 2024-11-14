@@ -8,7 +8,7 @@ const DaysGrid = ({ daysArray, currentMonth, holidays, gatheringData }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [eventsByDate, setEventsByDate] = useState({});
   const [currentDay, setCurrentDay] = useState();
-
+  const [getGatheringIds, setGetGatheringIds] = useState([]);
   const handleDayClick = (date) => {
     setSelectedDate(date);
     setIsModalOpen(true);
@@ -17,7 +17,9 @@ const DaysGrid = ({ daysArray, currentMonth, holidays, gatheringData }) => {
     const gatheringsForDay = gatheringData.filter((gathering) =>
       gathering.appointed_at.startsWith(dateKey)
     );
+    const idsArray = gatheringsForDay.map((gathering) => gathering.id);
     setCurrentDay(gatheringsForDay);
+    setGetGatheringIds(idsArray);
     console.log(gatheringsForDay);
   };
 
@@ -92,6 +94,7 @@ const DaysGrid = ({ daysArray, currentMonth, holidays, gatheringData }) => {
         currentDay={currentDay}
         onUpdateEvents={handleUpdateEvents}
         events={eventsByDate[selectedDate?.toDateString()] || []}
+        getGatheringIds={getGatheringIds}
       />
     </>
   );

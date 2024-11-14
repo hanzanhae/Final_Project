@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import MeetingCard from './MeetingCard';
@@ -27,17 +28,17 @@ const MyMeetings = () => {
 
   useEffect(() => {
     const loadMeetings = async () => {
-      const creatData = await fetchMeetings(creatParams);
+      const createData = await fetchMeetings(creatParams);
       const partData = await fetchMeetings(partParams);
 
-      if (creatData) {
-        // console.log(creatData.user_gathering_responses.content);
-        const data = creatData.user_gathering_responses.content;
+      if (createData) {
+        const data = createData.user_gathering_responses.content;
         setCreatedMeetings(data);
       }
       if (partData) {
-        // console.log(partData.user_gathering_responses.content);
+        console.log(partData);
         const data = partData.user_gathering_responses.content;
+        console.log(data);
         setParticipatingMeetings(data);
       }
     };

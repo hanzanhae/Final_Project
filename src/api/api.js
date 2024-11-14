@@ -4,7 +4,6 @@ import instance from './instance';
 export const login = async (email, password) => {
   try {
     const response = await instance.post('/users/login', { email, password });
-    console.log(response);
     return response;
   } catch (error) {
     console.error('로그인 중 오류 발생:', error);
@@ -76,7 +75,6 @@ export const gatheringData = async (pageNumber, pageSize) => {
 export const getCookie = async () => {
   try {
     const response = await instance.get('/users/cookie');
-    // console.log(response);
     return response;
   } catch (error) {
     console.log(error);
@@ -122,7 +120,6 @@ export const gatheringParticipation = async (gathering_id) => {
     if (response.status === 200) {
       console.log('모임참가신청이 완료되었습니다');
     }
-    // console.log(response); // 200확인
     return response;
   } catch (error) {
     if (error.status === 409) {
@@ -141,7 +138,6 @@ export const gatheringParticipationCancle = async (gathering_id) => {
     if (response.status === 200) {
       console.log('모임참가신청이 취소되었습니다');
     }
-    // console.log(response.status); // 200확인
     return response;
   } catch (error) {
     console.log('모임참가취소신청 중 연결오류발생:', error.message);
@@ -356,5 +352,17 @@ export const fetchEvents = async () => {
   } catch (error) {
     console.error('Failed to fetch events:', error);
     throw error;
+  }
+};
+
+//일반모임 출석체크
+export const attendanceCheck = async (gathering_id, data) => {
+  try {
+    const response = await instance.patch(
+      `/gatherings/${gathering_id}/members/attendance`,
+      data
+    );
+  } catch (error) {
+    console.error('Failed to fetch events:', error);
   }
 };

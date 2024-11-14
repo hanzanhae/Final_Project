@@ -1,10 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
-const DateModal = ({ isOpen, onClose, date, events = [], onUpdateEvents }) => {
+import { gatheringDetailData } from '../../api/api';
+const DateModal = ({
+  isOpen,
+  onClose,
+  date,
+  events = [],
+  onUpdateEvents,
+  getGatheringIds
+}) => {
   const [showForm, setShowForm] = useState(false);
   const [eventName, setEventName] = useState('');
   const [eventContent, setEventContent] = useState('');
+  const [runCalendar, setRunCalendar] = useState('');
+  const fetchGatheringData = async (getGatheringIds) => {
+    try {
+      const requests = getGatheringIds.map((id) => gatheringDetailData(id));
+      const responses = await Promise.all(requests);
+      const data = responses.map((response) => response.content);
+      setRunCalendar(data);
+    } catch (error) {
+      console.error('Error fetching gathering data:', error);
+      return [];
+    }
+  };
+  useEffect(() => {
+    fetchGatheringData(getGatheringIds);
+  }, [getGatheringIds]);
 
   if (!isOpen) return null;
 
@@ -36,14 +58,23 @@ const DateModal = ({ isOpen, onClose, date, events = [], onUpdateEvents }) => {
   return (
     <ModalOverlay>
       <ModalContent>
-        {events.length > 0 && (
+        {/* {events.length > 0 && (
           <ModalEvent>
             <ModalEventList>날짜 : {date.toDateString()} </ModalEventList>
             <ModalEventList>장소 : </ModalEventList>
             <ModalEventList>인원 : </ModalEventList>
             <ModalEventList>시간 : </ModalEventList>
           </ModalEvent>
-        )}
+        )} */}
+        {runCalendar.map((runCrew, index) => (
+          <ModalEvent key={index}>
+            <ModalEventList>모임명 : {runCrew.title} </ModalEventList>
+            <ModalEventList>날짜 : {runCrew.appointed_at} </ModalEventList>
+            <ModalEventList>장소 : {runCrew.address_full_name}</ModalEventList>
+            <ModalEventList>인원 : {runCrew.current_number}</ModalEventList>
+            <ModalEventList>시간 : {runCrew.appointed_at}</ModalEventList>
+          </ModalEvent>
+        ))}
         <ModalToDoList>
           {events.map((event, index) => (
             <ModalList key={index}>

@@ -7,17 +7,17 @@ import Calendar from '../components/calendar/Calendar';
 import { Link } from 'react-router-dom';
 
 const Mypage = () => {
-  const [activeMenu, setActiveMenu] = useState('profile');
+  const [activeMenu, setActiveMenu] = useState('meetings');
 
   return (
     <Container>
       <Sidebar>
-        <MenuItem
+        {/* <MenuItem
           active={activeMenu === 'profile'}
           onClick={() => setActiveMenu('profile')}
         >
           내 프로필
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem
           active={activeMenu === 'meetings'}
           onClick={() => setActiveMenu('meetings')}
@@ -42,7 +42,7 @@ const Mypage = () => {
       </Sidebar>
 
       <Content>
-        {activeMenu === 'profile' && <MyProfile />}
+        {/* {activeMenu === 'profile' && <MyProfile />} */}
         {activeMenu === 'meetings' && <MyMeetings />}
         {activeMenu === 'events' && <MyEvents />}
         {activeMenu === 'calendar' && <Calendar />}

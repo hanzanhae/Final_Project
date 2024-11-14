@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import DetailInfo from './DetailInfo';
 import DetailMember from './DetailMember';
+
 import {
   gatheringDetailData,
   gatheringDetailImagesData,
@@ -10,7 +11,7 @@ import {
 } from '../../api/api';
 
 // 썸네일기본이미지
-import ThumbNailImg from '../../images/detailThumbNail.jpg';
+import ThumbNailImg from '../../images/detailThumbnail.jpg';
 
 const Detail = ({ openDirectChat }) => {
   const { id } = useParams();
@@ -62,6 +63,8 @@ const Detail = ({ openDirectChat }) => {
           src={gatheringDetailImages || ThumbNailImg}
           alt="thumbNailimg"
           $gatheringDetailImages={gatheringDetailImages}
+          loading="lazy"
+          decoding="async"
         />
       </ThumbNailBox>
       <DetailContainer>

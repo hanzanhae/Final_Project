@@ -16,7 +16,7 @@ const EventCard = ({
     <EventImage src={imageUrl} alt={`${name} 이미지`} />
     <EventDetails>날짜: {date}</EventDetails>
     <EventDetails>장소: {location}</EventDetails>
-    <EventDetails>인원: {participantCount}</EventDetails>
+    <EventDetails>현재신청인원: {participantCount}명</EventDetails>
     <EventDetails>등록 마감 날짜: {signupDeadline}</EventDetails>
   </Card>
 );

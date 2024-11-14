@@ -4,6 +4,7 @@ import Section01 from '../components/mainPage/Section01';
 import MainMap from '../components/mainPage/MainMap';
 import Chat from '../components/chat/Chat';
 import { getCookie, login } from '../api/api';
+import styled from 'styled-components';
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +13,7 @@ const Home = () => {
     const fetchAccessToken = async () => {
       if (localStorage.getItem('loginType') === 'kakao') {
         const response = await getCookie();
-        console.log(response);
+        // console.log(response);
         localStorage.setItem('KaKaoAccessToken', response.data.token);
         localStorage.setItem('userNickName', response.data.name);
       } else {

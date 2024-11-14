@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import MeetingCard from './MeetingCard';
 import CompleteModal from './CompleteModal';
 import { fetchMeetings } from '../../api/api';
+import { Link } from 'react-router-dom';
 
 const MyMeetings = () => {
   const [activeTab, setActiveTab] = useState('created');
@@ -11,30 +12,38 @@ const MyMeetings = () => {
   const [selectedMeeting, setSelectedMeeting] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const params = {
-    memberRole: 'organizer',
-    gatheringTimeStatus: 'NORMAL',
-    orderBy: 'appointed_at',
-    sortDirection: 'ASC',
-    gatheringType: 'HEALTH'
+  const creatParams = {
+    gathering_type: 'GENERAL',
+    member_role: 'ORGANIZER',
+    order_by: 'CREATED_AT',
+    sort_direction: 'DESC'
+  };
+  const partParams = {
+    gathering_type: 'GENERAL',
+    member_role: 'PARTICIPANT',
+    order_by: 'CREATED_AT',
+    sort_direction: 'DESC'
   };
 
   useEffect(() => {
     const loadMeetings = async () => {
-      const data = await fetchMeetings(params);
+      const creatData = await fetchMeetings(creatParams);
+      const partData = await fetchMeetings(partParams);
 
-      if (data) {
-        setCreatedMeetings(
-          data.filter((meeting) => meeting.organizer_id === 1)
-        );
-        setParticipatingMeetings(
-          data.filter((meeting) => meeting.current_number > 0)
-        );
+      if (creatData) {
+        // console.log(creatData.user_gathering_responses.content);
+        const data = creatData.user_gathering_responses.content;
+        setCreatedMeetings(data);
+      }
+      if (partData) {
+        // console.log(partData.user_gathering_responses.content);
+        const data = partData.user_gathering_responses.content;
+        setParticipatingMeetings(data);
       }
     };
 
     loadMeetings();
-  }, [params]);
+  }, []);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -68,21 +77,30 @@ const MyMeetings = () => {
       </Tabs>
 
       <MeetingList>
-        {(activeTab === 'created'
-          ? createdMeetings
-          : participatingMeetings
-        ).map((meeting) => (
-          <MeetingCard
-            key={meeting.id}
-            meeting={meeting}
-            onCompleteClick={() => handleCompleteClick(meeting)}
-          />
-        ))}
+        {activeTab === 'created'
+          ? createdMeetings.map((meeting) => {
+              return (
+                <div key={meeting.id}>
+                  <MeetingCard
+                    key={meeting.id}
+                    meeting={meeting}
+                    onCompleteClick={() => handleCompleteClick(meeting)}
+                  />
+                  {isModalOpen && selectedMeeting?.id === meeting.id && (
+                    <CompleteModal
+                      gatheringId={meeting.id}
+                      closeModal={closeModal}
+                    />
+                  )}
+                </div>
+              );
+            })
+          : participatingMeetings.map((meeting) => (
+              <Link to={`/gatherings/${meeting.id}`} key={meeting.id}>
+                <MeetingCard meeting={meeting} />
+              </Link>
+            ))}
       </MeetingList>
-
-      {isModalOpen && selectedMeeting && (
-        <CompleteModal meeting={selectedMeeting} closeModal={closeModal} />
-      )}
     </Container>
   );
 };

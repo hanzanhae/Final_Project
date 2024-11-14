@@ -3,37 +3,35 @@ import styled from 'styled-components';
 import EventRequestForm from './EventRequestForm';
 import EventCard from './EventCard';
 import { fetchEvents } from '../../api/api';
+import { format } from 'date-fns';
 
 const MyEvents = () => {
   const [events, setEvents] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [totalPages, setTotalPages] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [loading, setLoading] = useState(true);
+  // const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const loadEvents = async () => {
-      setLoading(true);
       try {
-        const data = await fetchEvents(currentPage);
-        setEvents(data.events);
-        setTotalPages(data.totalPages);
+        const data = await fetchEvents();
+        // console.log(data.gathering_responses.content);
+        setEvents(data.gathering_responses.content);
       } catch (error) {
-        console.error('Failed to fetch events:', error);
-      } finally {
-        setLoading(false);
+        console.error('이벤트가 존재하지 않습니다.', error);
       }
     };
 
     loadEvents();
-  }, [currentPage]);
+  }, []);
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
+  // const handlePreviousPage = () => {
+  //   if (currentPage > 1) setCurrentPage(currentPage - 1);
+  // };
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
+  // const handleNextPage = () => {
+  //   if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  // };
 
   return (
     <PageContainer>
@@ -46,16 +44,16 @@ const MyEvents = () => {
             {events.map((event) => (
               <EventCard
                 key={event.id}
-                name={event.name}
-                date={event.date}
-                location={event.location}
-                participantCount={event.participantCount}
-                signupDeadline={event.signupDeadline}
+                name={event.title}
+                date={format(event.appointed_at, 'yyyy-MM-dd')}
+                location={event.location.address_names.address_name}
+                participantCount={event.current_number}
+                signupDeadline={format(event.deadline, 'yyyy-MM-dd')}
                 status={event.status}
-                imageUrl={event.imageUrl}
+                imageUrl={event.thumbnail_url}
               />
             ))}
-            <Pagination>
+            {/* <Pagination>
               <button onClick={handlePreviousPage} disabled={currentPage === 1}>
                 Previous
               </button>
@@ -66,7 +64,7 @@ const MyEvents = () => {
               >
                 Next
               </button>
-            </Pagination>
+            </Pagination> */}
           </>
         )}
       </Content>

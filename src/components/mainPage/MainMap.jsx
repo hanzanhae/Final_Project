@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { gatheringForLacation } from '../../api/api';
-import { Container, Controls, MapContainer, MapWrapper } from './MainMapStyled';
+import {
+  Container,
+  Controls,
+  MapContainer,
+  MapWrapper,
+  TitleBox,
+  MapTitle,
+  Wrapper
+} from './MainMapStyled';
 import { useNavigate } from 'react-router-dom';
 import KakaoMapSearch from './KakaoMapSearch';
 
@@ -63,7 +71,7 @@ const MainMap = () => {
   const fetchMeetings = async (map, latitude, longitude) => {
     const res = await gatheringForLacation(latitude, longitude);
     setGatheringResponses(res?.gatheringResponses || []);
-    console.log('API Response:', res);
+    // console.log('API Response:', res);
 
     if (res) {
       const meetings = res.gatheringResponses;
@@ -150,35 +158,39 @@ const MainMap = () => {
   }, [map]);
 
   return (
-    <Container>
-      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>
-        진행중인 모임들
-      </h1>
-      <Controls>
-        <button
-          onClick={() =>
-            map.setCenter(
-              new window.kakao.maps.LatLng(
-                userPosition.latitude,
-                userPosition.longitude
-              )
-            )
-          }
-        >
-          현재 위치로 이동
-        </button>
-      </Controls>
-      <MapWrapper>
-        <MapContainer id="map"></MapContainer>
-        {map && (
-          <KakaoMapSearch
-            map={map}
-            gatherings={gatheringResponses}
-            clearMarkers={clearMarkers}
-          />
-        )}
-      </MapWrapper>
-    </Container>
+    <Wrapper>
+      <Container>
+        <TitleBox>
+          <MapTitle style={{ textAlign: 'center', marginBottom: '20px' }}>
+            진행중인 모임들
+          </MapTitle>
+          <Controls>
+            <button
+              onClick={() =>
+                map.setCenter(
+                  new window.kakao.maps.LatLng(
+                    userPosition.latitude,
+                    userPosition.longitude
+                  )
+                )
+              }
+            >
+              현재 위치로 이동
+            </button>
+          </Controls>
+        </TitleBox>
+        <MapWrapper>
+          <MapContainer id="map"></MapContainer>
+          {map && (
+            <KakaoMapSearch
+              map={map}
+              gatherings={gatheringResponses}
+              clearMarkers={clearMarkers}
+            />
+          )}
+        </MapWrapper>
+      </Container>
+    </Wrapper>
   );
 };
 

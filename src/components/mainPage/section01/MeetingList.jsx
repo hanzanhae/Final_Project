@@ -37,10 +37,16 @@ const MeetingList = ({ gatheringIn10km, searchText }) => {
 
       setPageNumber(pageNumberRes + 1);
       setPageSize(pageSizeRes);
-      setHasMoreData(!data.gathering_responses.last);
+
+      if (gatheringRes.length < pageSizeRes) {
+        setHasMoreData(false);
+      } else {
+        setHasMoreData(true);
+      }
     } else {
       console.log('모임목록데이터가 존재하지 않습니다.');
     }
+
     setMoreLoading(false);
   };
 
@@ -57,24 +63,28 @@ const MeetingList = ({ gatheringIn10km, searchText }) => {
   const handlefilteredGathering = () => {
     const filteredList = gathering.filter((list) => {
       // console.log(list);
-      const memberNum = list.member_profile_urls?.length;
-      const deadlineDate = list.deadline;
+      const memberNum = list.current_number;
+      const deadlineDate = new Date(list.deadline);
       const currentDate = new Date();
+      // console.log(deadlineDate, ',', currentDate);
+
+      currentDate.setHours(0, 0, 0, 0);
+      deadlineDate.setHours(0, 0, 0, 0);
 
       let optionMatch = true;
 
       if (selectedOption === '참여가능') {
-        optionMatch = memberNum < 10 && deadlineDate > currentDate;
+        optionMatch = memberNum < 10 && deadlineDate >= currentDate;
       } else if (selectedOption === '마감임박') {
         const oneDayBefore = new Date(currentDate);
         oneDayBefore.setDate(currentDate.getDate() + 1);
+        oneDayBefore.setHours(0, 0, 0, 0);
+
         optionMatch =
-          memberNum >= 8 &&
-          memberNum < 10 &&
-          deadlineDate > currentDate &&
-          deadlineDate <= oneDayBefore;
+          (memberNum >= 8 && memberNum < 10) ||
+          (deadlineDate >= currentDate && deadlineDate <= oneDayBefore);
       } else if (selectedOption === '참여불가') {
-        optionMatch = deadlineDate <= currentDate || memberNum === 10;
+        optionMatch = deadlineDate < currentDate || memberNum === 10;
       } else if (selectedOption === '전체') {
         optionMatch = true;
       }

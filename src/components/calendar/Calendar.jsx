@@ -164,14 +164,14 @@ const Calendar = () => {
               holidays={
                 Array.isArray(holidays)
                   ? holidays
-                    . filter(
+                    .filter(
                       (holiday) =>
-                        parseInt(holiday.locdate.toString().slice(4, 6)) ===
-                        currentMonth.getMonth() + 1
+                        new Date(holiday.locdate).getMonth() + 1 === 
+                          currentMonth.getMonth() + 1
                     )
-                    .map((holiday) => holiday.locdate % 100)
-                : []
-            }
+                    .map((holiday) => new Date(holiday.locdate).getDate())
+                  : []
+              }
               gatheringData={gatheringData}
             />
           </CalendarContainer>
@@ -270,7 +270,7 @@ const SidebarText = styled.div`
     expanded ? 'translateX(0)' : 'translateX(-100%)'};
   transition:
     width 0.2s ease,
-    opacity 0.3s ease,
+    opacity 0.3s ease 0.5s,
     transform 0.8s ease;
   overflow: hidden;
 `;

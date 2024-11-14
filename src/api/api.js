@@ -4,6 +4,7 @@ import instance from './instance';
 export const login = async (email, password) => {
   try {
     const response = await instance.post('/users/login', { email, password });
+    console.log(response);
     return response;
   } catch (error) {
     console.error('로그인 중 오류 발생:', error);
@@ -20,7 +21,15 @@ export const logout = async () => {
     // localStorage.removeItem('refreshToken');
   }
 };
-
+export const kakaoLogout = async () => {
+  try {
+    const response = await instance.post('users/oauth2/logout');
+    return response;
+  } catch (error) {
+    console.error('Failed to get access token from backend:', error);
+    return null;
+  }
+};
 // export const checkEmail = async (email) => {
 //   const response = await instance.post('/users/check-email', email);
 //   return response.data;
@@ -143,17 +152,38 @@ export const gatheringForLacation = async (lat, lon) => {
   }
 };
 
-export const getChatRoomList = async (roomType, pageNum = 0) => {
+export const getChatRoomList = async (roomType, pageNum) => {
   try {
     const endpoint =
       roomType === 'group' ? '/chat/group/list' : '/chat/direct/list';
-    const response = await instance.get(`${endpoint}?page_num=${pageNum}`);
+    const response = await instance.get(`${endpoint}?page=${pageNum}`);
     return response.data;
   } catch (error) {
     console.log(error);
   }
 };
 
+export const getChattingLog = async (roomType, roomId, pageNum) => {
+  try {
+    const response = await instance.get(
+      `/chat/${roomType}/${roomId}?page=${pageNum}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getDirectChat = async (otherId, pageNum = 0) => {
+  try {
+    const response = await instance.get(
+      `/chat/direct?other_id=${otherId}&page=${pageNum}`
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const getGroupMapPoint = async (radius_distance, Xpoint, Ypoint) => {
   try {
     const response = await instance.get(

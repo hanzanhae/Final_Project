@@ -1,42 +1,70 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { logout } from '../../api/api';
+import { logout, kakaoLogout } from '../../api/api';
+import { BellOutlined } from '@ant-design/icons';
+import { useSelector, useDispatch } from 'react-redux';
+import { resetUnreadMessages } from '../../redux/reducers/unreadMessagesReducer';
 
 const HeaderMenu = ({ loginPath, $color }) => {
+  const unreadCount = useSelector((state) => state.unreadMessages);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const handleLocalLogout = async () => {
     const response = await logout();
     if (response) {
       localStorage.removeItem('accessToken');
-      navigate('/');
+      localStorage.removeItem('loginType');
+      localStorage.removeItem('userNickName');
+      navigate('/login');
     } else {
       console.error('로그아웃에 실패했습니다.');
     }
   };
-  const handleKakaoLogout = () => {
-    if (window.Kakao && window.Kakao.Auth) {
-      window.Kakao.Auth.logout(() => {
+  const handleKakaoLogout = async () => {
+    try {
+      const response = await kakaoLogout();
+      if (response) {
         console.log('카카오 로그아웃 성공');
-        navigate('/');
-      });
-    } else {
-      console.error('카카오 SDK가 로드되지 않았습니다.');
+        localStorage.removeItem('loginType');
+        localStorage.removeItem('userNickName');
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('카카오 로그아웃에 실패했습니다.', error);
     }
   };
   const handleLogout = () => {
-    handleKakaoLogout();
-    handleLocalLogout();
+    const loginType = localStorage.getItem('loginType'); // 로그인 타입 확인
+    if (loginType === 'kakao') {
+      handleKakaoLogout();
+    } else {
+      handleLocalLogout();
+    }
+  };
+  const handleNotificationClick = () => {
+    dispatch(resetUnreadMessages());
   };
 
   return (
     <MenuWrapper>
-      <Link to="/login">
+      {localStorage.getItem('loginType') === 'local' ? (
         <MenuBtn $isLogin={loginPath} $color={$color}>
-          login
+          {localStorage.getItem('userNickName')} 님
         </MenuBtn>
-      </Link>
+      ) : localStorage.getItem('loginType') === 'kakao' ? (
+        <MenuBtn>카카오</MenuBtn>
+      ) : (
+        <Link to="/login">
+          <MenuBtn $isLogin={loginPath} $color={$color}>
+            login
+          </MenuBtn>
+        </Link>
+      )}
+      <MenuBtn onClick={handleNotificationClick}>
+        <StyleBellOutlined />
+        {unreadCount > 0 && <Notification>{unreadCount}</Notification>}
+      </MenuBtn>
       <MenuBtn $color={$color} onClick={handleLogout}>
         Logout
       </MenuBtn>
@@ -66,4 +94,18 @@ const MenuBtn = styled.button`
   &:hover {
     opacity: 1;
   }
+  position: relative;
+`;
+
+const StyleBellOutlined = styled(BellOutlined)``;
+
+const Notification = styled.div`
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
 `;

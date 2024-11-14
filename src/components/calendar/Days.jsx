@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   FaCheckCircle,
@@ -25,34 +25,41 @@ const Days = ({
     fullDate.getMonth() === today.getMonth() &&
     fullDate.getFullYear() === today.getFullYear();
 
-  const renderEventIcon = () => {
-    return gatherings.map((gathering, index) => {
+  const [eventIcon, setEventIcon] = useState(null);
+
+  useEffect(() => {
+    gatherings.forEach((gathering) => {
       const appointedDate = new Date(gathering.appointed_at);
       const isFutureDate = appointedDate > today;
       const isPastDate = appointedDate < today;
+
+      let icon = null;
 
       if (
         isFutureDate &&
         gathering.attendance_status === 'PENDING' &&
         gathering.role === 'PARTICIPANT'
       ) {
-        return <FaCalendarAlt key={index} />;
+        icon = <FaCalendarAltIcon />;
       } else if (
         isPastDate &&
         gathering.role === 'PARTICIPANT' &&
         gathering.attendance_status === 'ATTENDING'
       ) {
-        return <FaCheckCircle key={index} />;
+        icon = <FaCheckCircleIcon />;
       } else if (
         isPastDate &&
         gathering.role === 'PARTICIPANT' &&
         gathering.attendance_status === 'NOT_ATTENDING'
       ) {
-        return <FaTimesCircle key={index} />;
+        icon = <FaTimesCircleIcon />;
       }
-      return null;
+
+      if (icon) {
+        setEventIcon(icon);
+      }
     });
-  };
+  }, [gatherings, today]);
 
   return (
     <DaysContainer onClick={() => onDayClick(fullDate)}>
@@ -73,7 +80,7 @@ const Days = ({
       ) : (
         <OtherMonthDate>{day}</OtherMonthDate>
       )}
-      <IconContainer>{renderEventIcon()}</IconContainer>
+      <IconContainer>{eventIcon}</IconContainer>
       {hasEvent && <EventBar />}
     </DaysContainer>
   );
@@ -171,6 +178,12 @@ const FaCalendarAltIcon = styled(FaCalendarAlt)`
 
 const FaBellIcon = styled(FaBell)`
   color: #ffbe0b;
+  font-size: 20px;
+  margin-top: 5px;
+`;
+
+const FaTimesCircleIcon = styled(FaTimesCircle)`
+  color: #ff0054;
   font-size: 20px;
   margin-top: 5px;
 `;

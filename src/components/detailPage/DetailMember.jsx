@@ -8,7 +8,7 @@ import {
   gatheringParticipationCancle
 } from '../../api/api';
 
-const DetailMember = ({ meet, membersList }) => {
+const DetailMember = ({ meet, membersList, openDirectChat }) => {
   if (!meet) {
     return <div>모임 정보가 없습니다.</div>;
   } else if (!membersList || membersList.length === 0) {
@@ -95,6 +95,7 @@ const DetailMember = ({ meet, membersList }) => {
         activeMember={activeMember}
         setActiveMember={setActiveMember}
         handleOutMeeting={handleOutMeeting}
+        openDirectChat={openDirectChat}
       />
       <Msg>{errorMsg}</Msg>
     </MemberContainer>

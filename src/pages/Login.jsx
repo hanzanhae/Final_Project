@@ -58,7 +58,7 @@ export const ImageContainer = styled.div`
   background-size: cover;
   display: flex;
   width: 100vw;
-  height: 100vh;
+  height: 92vh;
   position: relative;
   align-items: center;
   filter: ${({ theme }) => theme.filter};
@@ -90,13 +90,13 @@ export const Container = styled.div`
   transition: transform 0.6s ease-in-out;
 
   @media (max-width: 1920px) {
-    height: 60vh;
-    width: 45vw;
+    height: 80vh;
+    width: 50vw;
   }
 
   @media (max-width: 1600px) {
-    height: 50vh;
-    width: 40vw;
+    height: 90vh;
+    width: 50vw;
   }
 `;
 

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../api/api';
+import { login, getAccessTokenFromBackend } from '../../api/api';
 import { isValidEmail, isValidPassword } from '../../utils/validation.js';
 import * as S from '../../styles/loginStyle/LoginFormStyle.js';
 import KakaoLoginImg from '../../images/카카오로그인.png';
@@ -67,6 +67,8 @@ const LoginForm = () => {
       const response = await login(email, password);
       const accessToken = response.headers['authorization'].split(' ')[1];
       localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('userNickName', response.data.nickname);
+      localStorage.setItem('loginType', 'local');
       const userData = response.data.nickname;
       dispatch(setUser(userData));
       navigate('/');
@@ -80,36 +82,21 @@ const LoginForm = () => {
 
   const loginWithKakao = async () => {
     if (window.Kakao) {
+      if (!window.Kakao.isInitialized()) {
+        window.Kakao.init(process.env.REACT_APP_KAKAOLOGIN_APP_KEY);
+      }
       window.Kakao.Auth.authorize({
-        redirectUri: 'https://myspringserver.store/oauth2/authorization/kakao'
+        redirectUri: process.env.REACT_APP_KAKAOLOGIN_REDIRECT_URI
       });
+    } else {
+      console.error('Kakao SDK가 로드되지 않았습니다.');
     }
+    localStorage.setItem('loginType', 'kakao');
   };
-
   const handleLoginSuccess = (userData) => {
     dispatch(setUser(userData));
   };
 
-  useEffect(() => {
-    // Kakao SDK 스크립트 로드
-    const kakaoScript = document.createElement('script');
-    kakaoScript.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js';
-    kakaoScript.integrity =
-      'sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4';
-    kakaoScript.crossOrigin = 'anonymous';
-
-    kakaoScript.onload = () => {
-      if (window.Kakao) {
-        window.Kakao.init('c9ae47ba431b9b064755d4472cdb5ed9');
-      }
-    };
-
-    document.head.appendChild(kakaoScript);
-
-    return () => {
-      document.head.removeChild(kakaoScript);
-    };
-  }, []);
   return (
     <S.FormContainer>
       <S.Title>로그인</S.Title>

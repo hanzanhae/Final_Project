@@ -20,6 +20,15 @@ const DaysGrid = ({ daysArray, currentMonth, holidays, gatheringData }) => {
     }));
   };
 
+  const gatheringsByDate = gatheringData.reduce((acc, gathering) => {
+    const appointedDate = new Date(gathering.appointed_at).toDateString();
+    if (!acc[appointedDate]) {
+      acc[appointedDate] = [];
+    }
+    acc[appointedDate].push(gathering);
+    return acc;
+  }, {});
+
   return (
     <>
       <DaysContainer>
@@ -48,9 +57,7 @@ const DaysGrid = ({ daysArray, currentMonth, holidays, gatheringData }) => {
           const dateKey = fullDate.toDateString();
           const eventsForDay = eventsByDate[dateKey] || [];
 
-          const gatheringsForDay = gatheringData.filter((gathering) =>
-            gathering.appointed_at.startsWith(dateKey)
-          );
+          const gatheringsForDay = gatheringsByDate[dateKey] || [];
 
           return (
             <Days

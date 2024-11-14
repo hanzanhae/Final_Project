@@ -261,7 +261,7 @@ export const fetchMeetings = async (params) => {
       throw new Error('데이터 가져오기 실패했습니다');
     }
 
-    return response.data.user_gathering_responses.content;
+    return response.data;
   } catch (error) {
     console.error('모임 정보 가져오기 중 오류 발생:', error);
     return null;
@@ -288,11 +288,12 @@ export const uploadEventImage = async (imageFile) => {
 //이벤트 좌표 가져오기
 export const fetchCoordinates = async (address) => {
   try {
+    const apiKey = process.env.REACT_APP_DETAIL_KAKAO_API_KEY;
     const response = await fetch(
       `https://dapi.kakao.com/v2/local/search/address.json?query=${address}`,
       {
         headers: {
-          Authorization: `api키`
+          Authorization: apiKey
         }
       }
     );

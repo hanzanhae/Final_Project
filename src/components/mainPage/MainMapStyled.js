@@ -12,6 +12,7 @@ export const Wrapper = styled.div`
 `;
 export const Container = styled.div`
   width: fit-content;
+  height: fit-content;
 `;
 
 export const TitleBox = styled.div`
@@ -66,17 +67,16 @@ export const Controls = styled.div`
   }
 `;
 
-export const MapContainer = styled.div`
-  width: 60vw;
-  height: 60vh;
-
-  border-radius: 15px;
-  box-shadow: 0 0 10px 1px #ececec;
-  overflow: hidden;
-`;
-
 export const MapWrapper = styled.div`
+  height: 60vh;
   display: flex;
   flex-direction: row;
   gap: 0.5vw;
+`;
+export const MapContainer = styled.div`
+  width: 60vw;
+  height: 100%;
+  border-radius: 15px;
+  box-shadow: 0 0 10px 1px #ececec;
+  overflow: hidden;
 `;

@@ -38,7 +38,11 @@ const MeetingListBox = ({ list }) => {
       <ListLi $isOver={isOver}>
         <DeadlineNotice>마감된 모임입니다.</DeadlineNotice>
         {registeredImg ? (
-          <ThumbNailImg src={registeredImg} alt="registered-thumbnail" />
+          <ThumbNailImg
+            src={registeredImg}
+            alt="registered-thumbnail"
+            onError={(e) => (e.target.src = ThumbImage)}
+          />
         ) : (
           <ThumbNailImg src={ThumbImage} alt="thumbnail" />
         )}

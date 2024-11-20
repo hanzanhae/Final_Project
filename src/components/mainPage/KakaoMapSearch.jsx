@@ -128,7 +128,7 @@ const ResultList = styled.ul`
   list-style: none;
   padding: 0;
   width: 100%;
-  max-height: 92%;
+  height: 60vh;
   overflow-y: auto;
 `;
 

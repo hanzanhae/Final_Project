@@ -65,6 +65,7 @@ const Detail = ({ openDirectChat }) => {
           $gatheringDetailImages={gatheringDetailImages}
           loading="lazy"
           decoding="async"
+          onError={(e) => (e.target.src = ThumbNailImg)}
         />
       </ThumbNailBox>
       <DetailContainer>

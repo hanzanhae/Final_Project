@@ -4,10 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 const KakaoMapSearch = ({ map, gatherings, clearMarkers }) => {
   const [keyword, setKeyword] = useState('');
-  const [filteredGatherings, setFilteredGatherings] = useState(gatherings); // 초기에는 전체 모임 목록을 표시
+  const [filteredGatherings, setFilteredGatherings] = useState(gatherings);
   const [markers, setMarkers] = useState([]);
   const navigate = useNavigate();
-  // console.log(gatherings);
   useEffect(() => {
     setFilteredGatherings(gatherings);
   }, [gatherings]);
@@ -21,8 +20,8 @@ const KakaoMapSearch = ({ map, gatherings, clearMarkers }) => {
     const results = gatherings.filter((gathering) =>
       gathering.title.includes(keyword)
     );
-    setFilteredGatherings(results); // 필터링된 모임을 상태로 업데이트
-    displayMarkers(results); // 지도에 필터링된 마커 표시
+    setFilteredGatherings(results);
+    displayMarkers(results);
   };
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {

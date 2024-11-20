@@ -51,22 +51,18 @@ const MeetingList = ({ gatheringIn10km, searchText }) => {
   };
 
   useEffect(() => {
-    // 내위치필터링
     if (gatheringIn10km.length === 0) {
       fetchGathering();
     } else {
       setGathering(gatheringIn10km);
     }
-    // console.log(gatheringIn10km);
   }, [gatheringIn10km, pageNumber]);
 
   const handlefilteredGathering = () => {
     const filteredList = gathering.filter((list) => {
-      // console.log(list);
       const memberNum = list.current_number;
       const deadlineDate = new Date(list.deadline);
       const currentDate = new Date();
-      // console.log(deadlineDate, ',', currentDate);
 
       currentDate.setHours(0, 0, 0, 0);
       deadlineDate.setHours(0, 0, 0, 0);
@@ -88,15 +84,15 @@ const MeetingList = ({ gatheringIn10km, searchText }) => {
       } else if (selectedOption === '전체') {
         optionMatch = true;
       }
-      // 거리키워드필터링
+
       const distanceMatch =
         !selectedDistance ||
         runningDistance(list.goal_distance) === selectedDistance;
-      // 컨셉키워드필터링
+
       const categoryMatch =
         selectedCategory.length === 0 ||
         selectedCategory.includes(runningConcept(list.concept));
-      // 검색필터링
+
       const searchTextMatch =
         !searchText ||
         list.title.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -137,7 +133,6 @@ const MeetingList = ({ gatheringIn10km, searchText }) => {
           );
         })}
       </ListUl>
-      {/* 페이지네이션 */}
       {hasMoreData ? (
         <MoreBtn onClick={handleClickMorePage} disabled={moreLoading}>
           더보기

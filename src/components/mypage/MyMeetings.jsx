@@ -36,9 +36,9 @@ const MyMeetings = () => {
         setCreatedMeetings(data);
       }
       if (partData) {
-        console.log(partData);
+        // console.log(partData);
         const data = partData.user_gathering_responses.content;
-        console.log(data);
+        // console.log(data);
         setParticipatingMeetings(data);
       }
     };

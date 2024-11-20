@@ -6,7 +6,7 @@ import { BellOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { resetUnreadMessages } from '../../redux/reducers/unreadMessagesReducer';
 
-const HeaderMenu = ({ loginPath, $color }) => {
+const HeaderMenu = ({ $color }) => {
   const unreadCount = useSelector((state) => state.unreadMessages);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ const HeaderMenu = ({ loginPath, $color }) => {
     }
   };
   const handleLogout = () => {
-    const loginType = localStorage.getItem('loginType'); // 로그인 타입 확인
+    const loginType = localStorage.getItem('loginType');
     if (loginType === 'kakao') {
       handleKakaoLogout();
     } else {
@@ -49,31 +49,27 @@ const HeaderMenu = ({ loginPath, $color }) => {
 
   return (
     <MenuWrapper>
-      {localStorage.getItem('loginType') === 'local' ? (
-        <MenuBtn $isLogin={loginPath} $color={$color}>
-          {localStorage.getItem('userNickName')} 님
-        </MenuBtn>
-      ) : localStorage.getItem('loginType') === 'kakao' ? (
-        <MenuBtn>{localStorage.getItem('userNickName')} 님</MenuBtn>
+      {localStorage.getItem('loginType') ? (
+        <>
+          <MenuBtn $color={$color}>
+            {localStorage.getItem('userNickName')} 님
+          </MenuBtn>
+          <MenuBtn onClick={handleNotificationClick}>
+            <StyleBellOutlined />
+            {unreadCount > 0 && <Notification>{unreadCount}</Notification>}
+          </MenuBtn>
+          <MenuBtn $color={$color} onClick={handleLogout}>
+            Logout
+          </MenuBtn>
+          <Link to="/mypage">
+            <MenuBtn $color={$color}>mypage</MenuBtn>
+          </Link>
+        </>
       ) : (
         <Link to="/login">
-          <MenuBtn $isLogin={loginPath} $color={$color}>
-            login
-          </MenuBtn>
+          <MenuBtn $color={$color}>login</MenuBtn>
         </Link>
       )}
-      <MenuBtn onClick={handleNotificationClick}>
-        <StyleBellOutlined />
-        {unreadCount > 0 && <Notification>{unreadCount}</Notification>}
-      </MenuBtn>
-      <MenuBtn $color={$color} onClick={handleLogout}>
-        Logout
-      </MenuBtn>
-      <Link to="/mypage">
-        <MenuBtn $isLogin={loginPath} $color={$color}>
-          mypage
-        </MenuBtn>
-      </Link>
     </MenuWrapper>
   );
 };

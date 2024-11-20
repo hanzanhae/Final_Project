@@ -17,21 +17,18 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // 이메일 입력 핸들러
   const handleEmailChange = (event) => {
     const value = event.target.value;
     setEmail(value);
     setEmailError(!value || !isValidEmail(value));
   };
 
-  // 이메일 유효성 확인
   const handleEmailBlur = () => {
     if (!isValidEmail(email)) {
       setEmailError(true);
     }
   };
 
-  // 비밀번호 입력 핸들러
   const handlePasswordChange = (event) => {
     const value = event.target.value;
     setPassword(value);
@@ -52,7 +49,6 @@ const LoginForm = () => {
     }
   };
 
-  // 로그인 요청 함수
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);

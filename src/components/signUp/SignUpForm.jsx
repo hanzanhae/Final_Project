@@ -112,7 +112,6 @@ const SignUpForm = () => {
   //   }
   // };
 
-  // 입력 필드 변경 처리
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -169,7 +168,7 @@ const SignUpForm = () => {
     try {
       const response = await formSubmit(formDataToSend);
     } catch (error) {
-      console.error('회원가입 중 오류 발생:', error.message); // 에러 메시지 출력
+      console.error('회원가입 중 오류 발생:', error.message);
     }
   };
 

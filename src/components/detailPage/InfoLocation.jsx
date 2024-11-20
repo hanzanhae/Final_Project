@@ -18,7 +18,6 @@ const InfoLocation = ({ meet }) => {
           <Icon />
           <Location>{detailAddress}</Location>
         </LocationText>
-        {/* 카카오지도연결 */}
         <KakaoLocation location={location} />
       </LocationBox>
     </LocationWrapper>

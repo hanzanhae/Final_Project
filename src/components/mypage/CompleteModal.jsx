@@ -9,7 +9,6 @@ const CompleteModal = ({ gatheringId, closeModal }) => {
   useEffect(() => {
     const fetchMembersData = async () => {
       const data = await fetchMyMeetingMembers(gatheringId);
-      // console.log(data.content);
       setMembersData(data.content);
     };
     fetchMembersData();
@@ -105,7 +104,6 @@ const ModalContent = styled.div`
   padding: 24px;
   border-radius: 12px;
   width: 350px;
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 `;
 
 const ModalHeader = styled.h3`

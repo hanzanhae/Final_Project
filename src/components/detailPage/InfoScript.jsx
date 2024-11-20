@@ -3,12 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { runningConcept, runningDistance } from '../../data/gatheringKeyword';
 
-// 임시유저이미지
 import UserImg from '../../images/person.jpg';
 
 const InfoScript = ({ meet }) => {
   const content = meet.content;
-  // console.log(meet);
 
   const listConcept = content?.concept;
   const concept = runningConcept(listConcept);
@@ -23,16 +21,10 @@ const InfoScript = ({ meet }) => {
     <Infomation>
       <ProfileBox>
         <ProfileImg src={UserImg} alt="user-image" />
-        {/* {meet.organizer_profile_url ? (
-          <ProfileImg src={meet.organizer_profile_url}/>
-        ) : (
-          <ProfileImg src={UserImg} alt="user-image" />
-        )} */}
         <Name>
           <Span>모임장. </Span>
           {meet.organizer_nickname.slice(0, 3)}님
         </Name>
-        {/* <Name>{meet.organizer_nicknam}</Name> */}
       </ProfileBox>
       <InfoTextBox>
         <Title>{content?.title}</Title>

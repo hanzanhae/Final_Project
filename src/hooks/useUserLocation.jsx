@@ -8,7 +8,6 @@ const useUserLocation = () => {
     const success = (position) => {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
-
       setLocation({ latitude, longitude });
     };
 

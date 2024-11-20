@@ -17,8 +17,7 @@ const Days = ({
   onDayClick,
   hasEvent,
   events,
-  gatherings,
-  currentDay
+  gatherings
 }) => {
   const today = new Date();
   const isToday =

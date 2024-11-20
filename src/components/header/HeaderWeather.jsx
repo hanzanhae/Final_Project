@@ -6,9 +6,13 @@ import { airConditionData } from '../../api/api';
 import useUserLocation from '../../hooks/useUserLocation';
 import { setTheme, toggleTheme } from '../../redux/actions/themeActions';
 
-const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
+const 대기질좋음 = 15;
+const 대기질보통 = 25;
+const 대기질나쁨 = 50;
+
+const HeaderWeather = ({ isDarkMode, $color }) => {
   const dispatch = useDispatch();
-  const { location, errorMsg } = useUserLocation();
+  const { location } = useUserLocation();
   const [airState, setAirState] = useState('');
 
   const getUserLocation = () => {
@@ -21,7 +25,6 @@ const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
 
   const getAirData = async (lat, lon) => {
     const data = await airConditionData({ lat, lon });
-    // console.log(data);
     airCondition(data.pm2_5);
   };
 
@@ -32,13 +35,13 @@ const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
   // 대기질 표시
   const airCondition = (pm2_5) => {
     let newTheme;
-    if (pm2_5 <= 15) {
+    if (pm2_5 <= 대기질좋음) {
       setAirState('좋음');
       newTheme = 'light';
-    } else if (pm2_5 <= 25) {
+    } else if (pm2_5 <= 대기질보통) {
       setAirState('보통');
       newTheme = 'light';
-    } else if (pm2_5 <= 50) {
+    } else if (pm2_5 <= 대기질나쁨) {
       setAirState('나쁨');
       newTheme = 'dark';
     } else {
@@ -59,7 +62,7 @@ const HeaderWeather = ({ isDarkMode, loginPath, $color }) => {
         <WeatherIcon>
           {isDarkMode ? <CloudFilled /> : <SunFilled />}
         </WeatherIcon>
-        <WeatherText $isLogin={loginPath}>
+        <WeatherText>
           현재 대기질은 {airState},{' '}
           {isDarkMode ? '외출을 자제해 주세요' : '뛰기 좋은 날입니다'}
         </WeatherText>

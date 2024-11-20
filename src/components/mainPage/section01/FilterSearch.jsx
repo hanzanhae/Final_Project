@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
-const FilterSearch = ({ searchText, setSearchText }) => {
+const FilterSearch = ({ setSearchText }) => {
   const [inputValue, setInputValue] = useState('');
 
   const handleChangeInputValue = (e) => {
@@ -13,11 +13,7 @@ const FilterSearch = ({ searchText, setSearchText }) => {
     e.preventDefault();
     setSearchText(inputValue);
     setInputValue('');
-    // console.log(inputValue);
   };
-  // useEffect(() => {
-  //   console.log(searchText);
-  // }, [searchText]);
 
   return (
     <SearchBox onSubmit={handleSubmitSearchWord}>

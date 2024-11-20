@@ -41,8 +41,6 @@ export const Title = styled.h1`
   font-size: 1.3vw;
   position: absolute;
   right: 3%;
-  /* left: 50%; */
-  /* transform: translateX(-50%); */
   top: -1.5rem;
   text-shadow:
     2px 2px 0px rgba(255, 255, 255, 0.9),
@@ -127,9 +125,6 @@ export const SpanText = styled.span`
   }
 `;
 
-// export const StyledInputFile = styled.input.attrs({ type: 'file' })`
-//   display: none;
-// `;
 export const StyledInput = styled.input`
   padding: 0.25rem 0.5rem;
   text-align: center;

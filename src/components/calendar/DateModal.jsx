@@ -58,14 +58,6 @@ const DateModal = ({
   return (
     <ModalOverlay>
       <ModalContent>
-        {/* {events.length > 0 && (
-          <ModalEvent>
-            <ModalEventList>날짜 : {date.toDateString()} </ModalEventList>
-            <ModalEventList>장소 : </ModalEventList>
-            <ModalEventList>인원 : </ModalEventList>
-            <ModalEventList>시간 : </ModalEventList>
-          </ModalEvent>
-        )} */}
         {runCalendar.map((runCrew, index) => (
           <ModalEvent key={index}>
             <ModalEventList>모임명 : {runCrew.title} </ModalEventList>

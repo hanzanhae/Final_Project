@@ -2,12 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const HeaderLogo = ({ loginPath, $color }) => {
+const HeaderLogo = ({ $color }) => {
   return (
     <Link to="/">
-      <Logo $isLogin={loginPath} $color={$color}>
-        RUNTO
-      </Logo>
+      <Logo $color={$color}>RUNTO</Logo>
     </Link>
   );
 };

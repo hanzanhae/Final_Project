@@ -30,7 +30,6 @@ const MainHeader = () => {
   }, []);
 
   // 페이지별 헤더테마색상
-  let loginPath = location.pathname === '/login';
   let headerBgColor;
   let headerTextColor;
 
@@ -53,14 +52,10 @@ const MainHeader = () => {
   return (
     <Header $bgcolor={headerBgColor}>
       <HeaderInner>
-        <HeaderLogo loginPath={loginPath} $color={headerTextColor} />
+        <HeaderLogo $color={headerTextColor} />
         <BtnBox>
-          <HeaderWeather
-            isDarkMode={isDarkMode}
-            loginPath={loginPath}
-            $color={headerTextColor}
-          />
-          <HeaderMenu loginPath={loginPath} $color={headerTextColor} />
+          <HeaderWeather isDarkMode={isDarkMode} $color={headerTextColor} />
+          <HeaderMenu $color={headerTextColor} />
         </BtnBox>
       </HeaderInner>
     </Header>

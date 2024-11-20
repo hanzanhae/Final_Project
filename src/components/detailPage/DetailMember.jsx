@@ -16,7 +16,7 @@ const DetailMember = ({ meet, membersList, openDirectChat }) => {
   } else if (!membersList || membersList.length === 0) {
     return <div>모임구성원 정보가 없습니다.</div>;
   }
-  // console.log(membersList);
+
   const memberRef = useRef(null);
   const gatheringId = meet.content.id;
   const maxMember = meet.content.max_number;
@@ -24,8 +24,6 @@ const DetailMember = ({ meet, membersList, openDirectChat }) => {
   const [enteredMembers, setEnteredMembers] = useState([]);
   const [activeMember, setActiveMember] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
-  // 참가여부 알림메세지
-  // const [isEntered, setIsEntered] = useState(false);
 
   useEffect(() => {
     if (membersList.length > 0) {
@@ -48,7 +46,6 @@ const DetailMember = ({ meet, membersList, openDirectChat }) => {
     };
   }, [setActiveMember]);
 
-  // 채팅방 참여 요청 함수
   const joinChatRoom = async () => {
     try {
       const response = await postGroupChatJoin(id);
@@ -66,7 +63,6 @@ const DetailMember = ({ meet, membersList, openDirectChat }) => {
     }
   };
 
-  // 모임참가 작성중...🚂
   const handleEnterMeeting = async () => {
     if (enteredMembers.length < maxMember) {
       try {
@@ -95,7 +91,7 @@ const DetailMember = ({ meet, membersList, openDirectChat }) => {
       );
     }
   };
-  // 모임참가취소 작성중...🚂
+
   const handleOutMeeting = async (idToDel) => {
     const response = await gatheringParticipationCancle(gatheringId);
     if (response) {

@@ -46,7 +46,6 @@ export const formSubmit = async (formData) => {
   }
 };
 
-// 사용자위치기반 대기질정보 ✅완료
 export const airConditionData = async ({ lat, lon }) => {
   const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
   try {
@@ -60,7 +59,6 @@ export const airConditionData = async ({ lat, lon }) => {
   }
 };
 
-// 일반모임목록 ✅완료
 export const gatheringData = async (pageNumber, pageSize) => {
   try {
     const response = await instance.get(
@@ -81,7 +79,6 @@ export const getCookie = async () => {
   }
 };
 
-// 모임상세페이지✅성공
 export const gatheringDetailData = async (gathering_id) => {
   try {
     const response = await instance.get(`/gatherings/${gathering_id}`);
@@ -90,7 +87,7 @@ export const gatheringDetailData = async (gathering_id) => {
     console.error('상세페이지 데이터를 가져오는 중 오류발생:', error.message);
   }
 };
-// 모임상세이미지✅성공
+
 export const gatheringDetailImagesData = async (gathering_id) => {
   try {
     const response = await instance.get(`/images?gathering_id=${gathering_id}`);
@@ -99,7 +96,7 @@ export const gatheringDetailImagesData = async (gathering_id) => {
     console.error('모임이미지 데이터를 가져오는 중 오류발생:', error.message);
   }
 };
-// 모임상세구성원목록✅성공
+
 export const gatheringDetailMembersData = async (gathering_id) => {
   try {
     const response = await instance.get(`/gatherings/${gathering_id}/members`);
@@ -111,7 +108,7 @@ export const gatheringDetailMembersData = async (gathering_id) => {
     );
   }
 };
-// 모임참가신청 🚂...보류
+
 export const gatheringParticipation = async (gathering_id) => {
   try {
     const response = await instance.post(
@@ -129,7 +126,7 @@ export const gatheringParticipation = async (gathering_id) => {
     }
   }
 };
-// 모임참가취소 🚂...보류
+
 export const gatheringParticipationCancle = async (gathering_id) => {
   try {
     const response = await instance.delete(
@@ -143,7 +140,7 @@ export const gatheringParticipationCancle = async (gathering_id) => {
     console.log('모임참가취소신청 중 연결오류발생:', error.message);
   }
 };
-// 위치기준필터링✅성공
+
 export const gatheringForLacation = async (lat, lon) => {
   try {
     const response = await instance.get(
@@ -235,11 +232,9 @@ export const getGroupMapPoint = async (radius_distance, Xpoint, Ypoint) => {
 
 export const getCalendarData = async (year, month) => {
   try {
-    //console.log(`요청 URL: /users/calender?year=${year}&month=${month}`);
     const response = await instance.get(
       `/users/calender?year=${year}&month=${month}`
     );
-    //console.log('API 응답 데이터:', response.data);
     return response.data;
   } catch (error) {
     console.log('API 요청 에러:', error);
@@ -258,7 +253,6 @@ export const getCalendarData = async (year, month) => {
 //   }
 // };
 
-//내가만든모임&참여중인모임 가져오기🐈
 export const fetchMeetings = async (params) => {
   try {
     const queryString = new URLSearchParams(params).toString();
@@ -274,7 +268,7 @@ export const fetchMeetings = async (params) => {
     return null;
   }
 };
-//내가만든모임구성원 가져오기🐈
+
 export const fetchMyMeetingMembers = async (id) => {
   try {
     const response = await instance.get(`/gatherings/${id}/members`);
@@ -290,7 +284,6 @@ export const fetchMyMeetingMembers = async (id) => {
   }
 };
 
-//이벤트 이미지 업로드
 export const uploadEventImage = async (imageFile) => {
   const imageData = new FormData();
   imageData.append('file', imageFile);
@@ -307,7 +300,6 @@ export const uploadEventImage = async (imageFile) => {
   }
 };
 
-//이벤트 좌표 가져오기
 export const fetchCoordinates = async (address) => {
   try {
     const apiKey = process.env.REACT_APP_DETAIL_KAKAO_API_KEY;
@@ -328,7 +320,6 @@ export const fetchCoordinates = async (address) => {
   }
 };
 
-//이벤트 신청
 export const submitEventRequest = async (data) => {
   try {
     const response = await instance.post('/gatherings/events', data);
@@ -342,7 +333,6 @@ export const submitEventRequest = async (data) => {
   }
 };
 
-//이벤트 가져오기🐈
 export const fetchEvents = async () => {
   try {
     const response = await instance.get(
@@ -355,7 +345,6 @@ export const fetchEvents = async () => {
   }
 };
 
-//일반모임 출석체크
 export const attendanceCheck = async (gathering_id, data) => {
   try {
     const response = await instance.patch(

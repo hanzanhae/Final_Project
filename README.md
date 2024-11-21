@@ -14,6 +14,7 @@
 <div>- 프로젝트 기간 : 2024.10.14 ~ 2024.11.15</div>
 <div>- 프로젝트 목적 : 백앤드와 협업을 통해 소통가능한 소셜사이트 구축</div>
 <br />
+
 [🔗 피그마 바로가기 Click !](https://www.figma.com/design/9UwOklzm7ltDNt0Nd5S0cQ/Untitled?node-id=3-2&node-type=canvas&t=Pg4XnEbW6gH0xKPQ-0) 👈  
 [🔗 깃허브 바로가기 Click !](https://github.com/hanzanhae/Final_Project/) 👈
 
@@ -23,15 +24,19 @@
 ## 목차
 
 [1. 웹 서비스 소개](#💁🏻‍♂-웹-서비스-소개)
+
 <br />
 
 [2. 기술 스택](#🛠-기술-스택)
+
 <br />
 
 [3. 사이트 기능](#🕹️-사이트-기능)
+
 <br />
 
 [4. 주요 페이지](#📄-페이지-소개)
+
 <br />
 <br />
 

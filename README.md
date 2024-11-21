@@ -1,9 +1,11 @@
 ![스크린샷 2024-11-20 225804](https://github.com/user-attachments/assets/96fdf5b2-2d24-4127-ade3-2b5e68a42e70)
 
 <div align="center">
-  <h1>![image](https://github.com/user-attachments/assets/fafcfba1-cc9c-4474-8d2e-6f3f135896f9)RUNTO_런토</h1>
-  <a href="https://runto.vercel.app/">
-  </a>
+  <h1>
+    <img src='https://github.com/user-attachments/assets/135ec91d-7ae0-4e60-90bf-0373135026bf' display='inline'/>
+    RUNTO_런토
+  </h1>
+  <a href="https://runto.vercel.app/" />
   <br />
 </div>
 
@@ -16,7 +18,7 @@
 [🔗 깃허브 바로가기 Click !](https://github.com/hanzanhae/Final_Project/) 👈
 
 </div>
-
+<br />
 
 ## 목차
 
@@ -31,15 +33,14 @@
 
 [4. 주요 페이지](#📄-페이지-소개)
 <br />
-
+<br />
 
 ## 💁🏻‍♂ 웹 서비스 소개
 &nbsp;&nbsp;런닝소모임을 개설하고 가입 및 참여할 수 있는 소셜사이트
-
 <br />
 [**🔗 배포된 웹 서비스로 바로가기 Click !**]([#](https://runto.vercel.app/)) 👈
 <br />
-
+<br />
 
 ## 🛠 기술 스택
 
@@ -61,7 +62,7 @@
   <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 </div>
 <br />
-
+<br />
 
 ## 🕹️ 사이트 기능
 - 카카오 Oauth를 사용하여 로그인/회원가입 처리
@@ -73,7 +74,7 @@
 - 모임참가 완료시 런닝달력에 기록 구현
 
 <br />
-
+<br />
 
 ## 📄 페이지 소개
 
@@ -123,7 +124,7 @@
     <img src='https://github.com/user-attachments/assets/353c9bca-4330-4102-8e15-b73fb28c9157' width='400px' display='inline'/>
     <img src='https://github.com/user-attachments/assets/3959d365-b153-46de-a2e2-598244f57ab6' width='400px' display='inline'/>
 </div>
-
+<br />
 
 <div align="right">
   

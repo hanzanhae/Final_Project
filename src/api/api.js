@@ -242,17 +242,6 @@ export const getCalendarData = async (year, month) => {
   }
 };
 
-//내 프로필 데이터 받아오기
-// export const getProfile = async (user_id) => {
-//   try {
-//     const response = await instance.get(`/users/${user_id}`);
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error fetching profile data:', error);
-//     throw error;
-//   }
-// };
-
 export const fetchMeetings = async (params) => {
   try {
     const queryString = new URLSearchParams(params).toString();

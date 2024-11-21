@@ -2,10 +2,9 @@
 
 <div align="center">
   <h1>
-    <img src='https://github.com/user-attachments/assets/135ec91d-7ae0-4e60-90bf-0373135026bf' display='inline'/>
+    <img src='https://github.com/user-attachments/assets/135ec91d-7ae0-4e60-90bf-0373135026bf' display='inline' width='32px'/>
     RUNTO_런토
   </h1>
-  <a href="https://runto.vercel.app/" />
   <br />
 </div>
 
@@ -35,7 +34,7 @@
 
 <br />
 
-[4. 주요 페이지](#📄-페이지-소개)
+[4. 페이지 소개](#📄-페이지-소개)
 
 <br />
 <br />

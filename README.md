@@ -2,7 +2,7 @@
 
 <div align="center">
   <h1>
-    <img src='https://github.com/user-attachments/assets/135ec91d-7ae0-4e60-90bf-0373135026bf' display='inline' width='32px'/>
+    <img src='https://github.com/user-attachments/assets/135ec91d-7ae0-4e60-90bf-0373135026bf' display='inline' width='24px'/>
     RUNTO_런토
   </h1>
   <br />
@@ -15,6 +15,7 @@
 <br />
 
 [🔗 피그마 바로가기 Click !](https://www.figma.com/design/9UwOklzm7ltDNt0Nd5S0cQ/Untitled?node-id=3-2&node-type=canvas&t=Pg4XnEbW6gH0xKPQ-0) 👈  
+[🔗 노션기획안 바로가기 Click !](https://arrow-blinker-2f2.notion.site/FE-11f38002d41680c0b0d3d8d47b657678?pvs=4) 👈  
 [🔗 깃허브 바로가기 Click !](https://github.com/hanzanhae/Final_Project/) 👈
 
 </div>

@@ -75,8 +75,8 @@
 - 런닝모임에 컨셉에 따라 필터링 기능 구현
 - 카카오맵을 사용해 실시간 사용자 위치파악 (사용자 위치기준 모임 DATA 렌더링, 필터, 검색 기능)
 - 웹소켓을 사용해 채팅기능 구현(모임 생성시 단체채팅이용가능, 상세페이지에서 1:1채팅가능)
-- 데이터를 분석한 관리자페이지 구현
 - 모임참가 완료시 런닝달력에 기록 구현
+- 모임데이터를 분석해 관리자페이지 구현
 
 <br />
 <br />
@@ -85,14 +85,14 @@
 
 <h3 align=center>📎메인페이지</h3>
 <div>
-  <h5>메인베너_날씨별테마적용</h5>
+  <h5>메인베너 : 날씨별테마적용</h5>
   <div>
     <img src='https://github.com/user-attachments/assets/c06214b0-9561-444c-866f-0fef0f42795f' width='400px' display='inline'/>
     <img src='https://github.com/user-attachments/assets/3538967e-9e03-4a75-bce4-e4166373fd41' width='400px' display='inline'/>
   </div>
 </div>
 <div>
-  <h5>메인섹션_모임목록&카카오지도연결</h5>
+  <h5>메인섹션 : 모임목록 & 카카오지도연결</h5>
   <div>
     <img src='https://github.com/user-attachments/assets/cb6c39f6-81d1-445c-986c-db00beaf5a57' width='400px' display='inline'/>
     <img src='https://github.com/user-attachments/assets/5c7591b4-6b63-457d-8668-c01b49794ee0' width='400px' display='inline'/>
@@ -101,6 +101,7 @@
 <hr/>
 
 <h3 align=center>📎로그인페이지</h3>
+<h5>카카로로그인 & 일반로그인</h5>
 <div>
   <img src='https://github.com/user-attachments/assets/6ed82f23-0c75-4db0-a54c-d1a82ca01284' width='400px' display='inline'/>
   <img src='https://github.com/user-attachments/assets/f7c2097e-5d75-45c9-8375-4029e1ae9b0c' width='400px' display='inline'/>
@@ -116,7 +117,7 @@
   </div>
 </div>
 <div>
-  <h5>모임상세</h5>
+  <h5>모임상세 : 모임참가 & 1:1채팅</h5>
   <div>
     <img src='https://github.com/user-attachments/assets/6f439452-b578-4780-9a51-921056165ef4' width='400px' display='inline'/>
   </div>
@@ -124,6 +125,7 @@
 <hr/>
 
 <h3 align=center>📎관리자페이지</h3>
+<h5>관리자 : 아이디(admin@runto.com) & 비밀번호(qweasdzxc123)</h5>
 <div>
     <img src='https://github.com/user-attachments/assets/afc85358-f53b-4eb6-ba0b-f08348889618' width='400px' display='inline'/>
     <img src='https://github.com/user-attachments/assets/353c9bca-4330-4102-8e15-b73fb28c9157' width='400px' display='inline'/>

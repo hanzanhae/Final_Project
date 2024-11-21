@@ -13,7 +13,7 @@
 <div>- 프로젝트 형태 : 팀 프로젝트</div>
 <div>- 프로젝트 기간 : 2024.10.14 ~ 2024.11.15</div>
 <div>- 프로젝트 목적 : 백앤드와 협업을 통해 소통가능한 소셜사이트 구축</div>
-
+<br />
 [🔗 피그마 바로가기 Click !](https://www.figma.com/design/9UwOklzm7ltDNt0Nd5S0cQ/Untitled?node-id=3-2&node-type=canvas&t=Pg4XnEbW6gH0xKPQ-0) 👈  
 [🔗 깃허브 바로가기 Click !](https://github.com/hanzanhae/Final_Project/) 👈
 
@@ -38,7 +38,7 @@
 ## 💁🏻‍♂ 웹 서비스 소개
 &nbsp;&nbsp;런닝소모임을 개설하고 가입 및 참여할 수 있는 소셜사이트
 <br />
-[**🔗 배포된 웹 서비스로 바로가기 Click !**]([#](https://runto.vercel.app/)) 👈
+[**🔗 배포된 웹 서비스로 바로가기 Click !**](https://runto.vercel.app/) 👈
 <br />
 <br />
 

@@ -1,4 +1,3 @@
-![런토](https://github.com/user-attachments/assets/43a07334-07f4-45e4-8b51-373f7dce123e)
 ![스크린샷 2024-11-20 225804](https://github.com/user-attachments/assets/96fdf5b2-2d24-4127-ade3-2b5e68a42e70)
 
 <div align="center">
@@ -105,7 +104,22 @@
 ## 📄 주요 페이지
 
 <h4 align="center">메인페이지</h4>
-<img src='https://github.com/user-attachments/assets/c06214b0-9561-444c-866f-0fef0f42795f' width='200px'/>
+<div>
+  <h5>메인베너_날씨별테마적용</h5>
+  <div>
+    <img src='https://github.com/user-attachments/assets/c06214b0-9561-444c-866f-0fef0f42795f' width='300px' display='inline'/>
+    <img src='https://github.com/user-attachments/assets/3538967e-9e03-4a75-bce4-e4166373fd41' width='300px' display='inline'/>
+  </div>
+</div>
+<div>
+  <h5>메인섹션_모임목록&카카오지도연결</h5>
+  <div>
+    <img src='https://github.com/user-attachments/assets/cb6c39f6-81d1-445c-986c-db00beaf5a57' width='300px' display='inline'/>
+    <img src='https://github.com/user-attachments/assets/5c7591b4-6b63-457d-8668-c01b49794ee0' width='300px' display='inline'/>
+  </div>
+</div>
+
+
 
 |                               메인 페이지                               |                               서브 페이지                               |
 | :---------------------------------------------------------------------: | :---------------------------------------------------------------------: |

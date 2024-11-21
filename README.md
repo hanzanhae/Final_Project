@@ -103,21 +103,43 @@
 
 ## 📄 주요 페이지
 
-<h4 align="center">메인페이지</h4>
+<h4>메인페이지</h4>
 <div>
   <h5>메인베너_날씨별테마적용</h5>
   <div>
-    <img src='https://github.com/user-attachments/assets/c06214b0-9561-444c-866f-0fef0f42795f' width='300px' display='inline'/>
-    <img src='https://github.com/user-attachments/assets/3538967e-9e03-4a75-bce4-e4166373fd41' width='300px' display='inline'/>
+    <img src='https://github.com/user-attachments/assets/c06214b0-9561-444c-866f-0fef0f42795f' width='400px' display='inline'/>
+    <img src='https://github.com/user-attachments/assets/3538967e-9e03-4a75-bce4-e4166373fd41' width='400px' display='inline'/>
   </div>
 </div>
 <div>
   <h5>메인섹션_모임목록&카카오지도연결</h5>
   <div>
-    <img src='https://github.com/user-attachments/assets/cb6c39f6-81d1-445c-986c-db00beaf5a57' width='300px' display='inline'/>
-    <img src='https://github.com/user-attachments/assets/5c7591b4-6b63-457d-8668-c01b49794ee0' width='300px' display='inline'/>
+    <img src='https://github.com/user-attachments/assets/cb6c39f6-81d1-445c-986c-db00beaf5a57' width='400px' display='inline'/>
+    <img src='https://github.com/user-attachments/assets/5c7591b4-6b63-457d-8668-c01b49794ee0' width='400px' display='inline'/>
   </div>
 </div>
+
+<h4>서브페이지</h4>
+<div>
+  <h5>모임개설</h5>
+  <div>
+    <img src='https://github.com/user-attachments/assets/4e584164-cd3c-49ff-846a-acabddcf5b64' width='400px' display='inline'/>
+  </div>
+</div>
+<div>
+  <h5>모임상세</h5>
+  <div>
+    <img src='https://github.com/user-attachments/assets/6f439452-b578-4780-9a51-921056165ef4' width='400px' display='inline'/>
+  </div>
+</div>
+
+<h4>관리자페이지</h4>
+<div>
+    <img src='https://github.com/user-attachments/assets/afc85358-f53b-4eb6-ba0b-f08348889618' width='350px' display='inline'/>
+    <img src='https://github.com/user-attachments/assets/353c9bca-4330-4102-8e15-b73fb28c9157' width='350px' display='inline'/>
+    <img src='https://github.com/user-attachments/assets/3959d365-b153-46de-a2e2-598244f57ab6' width='350px' display='inline'/>
+</div>
+
 
 
 
